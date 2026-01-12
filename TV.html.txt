@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TV — Промышленный репортёр</title>
+
+  <style>
+    :root{
+      --bg:#f4f5f6;
+      --paper:#ffffff;
+      --ink:#0b0b0c;
+      --muted:#5a5a61;
+      --muted2:#7a7a83;
+
+      --line:rgba(11,11,12,.12);
+      --line2:rgba(11,11,12,.08);
+      --soft:rgba(11,11,12,.05);
+
+      --red:#f02000;
+
+      --panel:#0b0b0c;
+      --panelText:#f7f7f8;
+      --panelMuted:rgba(247,247,248,.72);
+
+      --max:1160px;
+      --pad:22px;
+
+      --r:16px;
+      --r2:12px;
+
+      --shadow: 0 14px 26px rgba(11,11,12,.08);
+      --shadow2: 0 10px 18px rgba(11,11,12,.06);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing:.15px;
+      text-rendering: geometricPrecision;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
+
+    .grid{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.028) 1px, transparent 1px) 0 0/ 84px 84px,
+        linear-gradient(to bottom, rgba(0,0,0,.024) 1px, transparent 1px) 0 0/ 84px 84px;
+      mask-image: radial-gradient(ellipse at 50% 0%, black 32%, transparent 72%);
+      opacity:.45;
+    }
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:10;
+      background: rgba(244,245,246,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding: 14px 0;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; min-width: 260px; }
+    .brand img{ width:44px; height:44px; object-fit:contain; display:block; }
+    .brand .t{ display:flex; flex-direction:column; line-height:1.05; }
+    .brand .t strong{ text-transform:uppercase; font-size:13px; letter-spacing:1.7px; }
+    .brand .t span{ font-size:12px; color: var(--muted); }
+
+    nav{ display:flex; align-items:center; gap:18px; }
+    .navlink{
+      font-size:13px;
+      color: var(--muted);
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition:.14s ease;
+      white-space:nowrap;
+    }
+    .navlink:hover{ color: var(--ink); border-bottom-color: rgba(240,32,0,.28); }
+    .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
+
+    .actions{ display:flex; align-items:center; gap:10px; min-width: 240px; justify-content:flex-end; }
+    .search{
+      width:min(260px, 34vw);
+      border:1px solid var(--line2);
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline:none;
+      transition:.14s ease;
+    }
+    .search:focus{ border-color: rgba(240,32,0,.40); box-shadow: 0 0 0 4px rgba(240,32,0,.08); }
+
+    .btn{
+      border:1px solid var(--ink);
+      background: transparent;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor:pointer;
+      transition:.14s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{ border-color: var(--red); color: var(--red); font-weight:800; }
+
+    main{ position:relative; z-index:1; padding: 18px 0 56px; }
+
+    .kicker{
+      display:flex; align-items:center; gap:10px;
+      font-size:12px; letter-spacing:1.4px; text-transform:uppercase;
+      color: var(--muted);
+    }
+    .kicker .dot{
+      width:9px; height:9px; border-radius: 3px;
+      background: var(--red);
+    }
+
+    /* Section head */
+    .section{ margin-top: 18px; }
+    .section-head{
+      display:flex; justify-content:space-between; align-items:flex-end; gap:14px;
+      margin-bottom: 12px;
+    }
+    .section-head h2{ margin:0; font-size: 18px; letter-spacing:.2px; }
+    .section-head p{ margin:0; font-size: 13px; color: var(--muted); }
+    .more{
+      font-size: 13px;
+      color: var(--red);
+      font-weight: 900;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(240,32,0,.22);
+      background: rgba(240,32,0,.05);
+      transition:.14s ease;
+      white-space:nowrap;
+    }
+    .more:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
+
+    /* ===== Video of the day ===== */
+    .vod{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    .player{
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(560px 220px at 20% 15%, rgba(240,32,0,.14), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      aspect-ratio: 16/9;
+      display:grid; place-items:center;
+      box-shadow: var(--shadow2);
+      position:relative;
+      overflow:hidden;
+    }
+    .player .label{
+      position:absolute; top:12px; left:12px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(240,32,0,.22);
+      background: rgba(240,32,0,.06);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+    }
+    .player .label i{ width:7px; height:7px; border-radius:2px; background: var(--red); display:inline-block; }
+
+    .play{
+      width:74px; height:74px;
+      border-radius: 22px;
+      border: 1px solid rgba(240,32,0,.36);
+      background: rgba(240,32,0,.12);
+      cursor:pointer;
+      transition:.14s ease;
+      display:grid; place-items:center;
+    }
+    .play:hover{ transform: translateY(-2px) scale(1.02); }
+
+    .vinfo{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-width:0;
+    }
+    .vinfo b{ font-size: 16px; line-height:1.25; }
+    .vinfo p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
+    .meta{
+      margin-top: 6px;
+      display:flex; flex-wrap:wrap; gap:8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .tag{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--soft);
+      background: rgba(11,11,12,.02);
+      white-space:nowrap;
+    }
+    .tag.hot{
+      border-color: rgba(240,32,0,.22);
+      background: rgba(240,32,0,.05);
+      color: var(--ink);
+      font-weight:800;
+    }
+
+    /* ===== Shorts ===== */
+    .shorts-wrap{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .shorts-head{
+      padding: 12px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:14px;
+      border-bottom: 1px solid var(--line2);
+      background: linear-gradient(180deg, rgba(11,11,12,.018), transparent);
+    }
+    .shorts-head b{
+      font-size: 12px;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+    .shorts-row{
+      padding: 14px;
+      display:flex;
+      gap: 12px;
+      overflow:auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .shorts-row::-webkit-scrollbar{ height: 10px; }
+    .shorts-row::-webkit-scrollbar-thumb{
+      background: rgba(11,11,12,.14);
+      border-radius: 999px;
+      border: 3px solid rgba(0,0,0,0);
+      background-clip: padding-box;
+    }
+    .short{
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      width: 200px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .short-card{
+      position:relative;
+      border-radius: var(--r);
+      overflow:hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow2);
+      aspect-ratio: 9/16;
+      background:
+        radial-gradient(520px 220px at 20% 18%, rgba(240,32,0,.16), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.08), rgba(11,11,12,.02));
+      display:grid;
+      place-items:center;
+      transition:.14s ease;
+    }
+    .short-card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(240,32,0,.22);
+    }
+    .short-card img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      filter: contrast(1.02) saturate(.98);
+      transform: scale(1.01);
+    }
+    .short-card:before{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.32));
+      pointer-events:none;
+    }
+    .short-badge{
+      position:absolute;
+      top:10px; left:10px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      color: rgba(247,247,248,.92);
+      font-size: 11px;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      z-index:1;
+    }
+    .short-badge i{
+      width:7px; height:7px; border-radius:2px;
+      background: var(--red);
+      display:inline-block;
+    }
+    .short-play{
+      position:relative;
+      width:58px; height:58px;
+      border-radius: 18px;
+      border: 1px solid rgba(240,32,0,.36);
+      background: rgba(240,32,0,.12);
+      display:grid; place-items:center;
+      cursor:pointer;
+      transition:.14s ease;
+      color: var(--ink);
+      z-index:1;
+      backdrop-filter: blur(6px);
+    }
+    .short-name{
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--ink);
+      font-weight: 800;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+    .short-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* ===== Archive (filters above) ===== */
+    .panel{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .panel-head{
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line2);
+      background: linear-gradient(180deg, rgba(11,11,12,.018), transparent);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:14px;
+    }
+    .panel-head .left b{
+      display:block;
+      font-size: 12px;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      color: var(--muted);
+    }
+    .panel-head .left span{
+      display:block;
+      margin-top:6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .panel-body{ padding: 12px 14px 14px; }
+
+    .filters-top{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      margin-bottom: 12px;
+    }
+    .searchline{
+      flex: 1 1 320px;
+      min-width: 240px;
+      border:1px solid var(--line2);
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline:none;
+      transition:.14s ease;
+    }
+    .searchline:focus{ border-color: rgba(240,32,0,.40); box-shadow: 0 0 0 4px rgba(240,32,0,.08); }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:flex-end;
+    }
+    .chip{
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line2);
+      background: var(--paper);
+      color: var(--muted);
+      cursor:pointer;
+      transition:.14s ease;
+      user-select:none;
+      white-space:nowrap;
+    }
+    .chip:hover{ transform: translateY(-1px); }
+    .chip.active{
+      color: var(--ink);
+      font-weight:900;
+      border-color: rgba(240,32,0,.22);
+      background: rgba(240,32,0,.05);
+    }
+
+    .grid-videos{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .vcard{
+      grid-column: span 4;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      overflow:hidden;
+      box-shadow: var(--shadow2);
+      transition:.14s ease;
+      display:flex;
+      flex-direction:column;
+      min-height: 240px;
+    }
+    .vcard:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
+    .thumb{
+      aspect-ratio: 16/9;
+      background:
+        radial-gradient(560px 220px at 20% 15%, rgba(240,32,0,.14), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.06), rgba(11,11,12,.02));
+      border-bottom: 1px solid var(--line2);
+      position:relative;
+      display:grid; place-items:center;
+      overflow:hidden;
+    }
+    .thumb img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      filter: contrast(1.02) saturate(.98);
+    }
+    .thumb:before{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.28));
+      pointer-events:none;
+    }
+    .thumb .p{
+      position:relative;
+      width:54px; height:54px;
+      border-radius: 18px;
+      border: 1px solid rgba(240,32,0,.36);
+      background: rgba(240,32,0,.12);
+      display:grid; place-items:center;
+      z-index:1;
+    }
+    .vbody{
+      padding: 12px 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      min-width:0;
+      flex:1;
+    }
+    .vtop{
+      display:flex; justify-content:space-between; gap:10px;
+      font-size:12px; color: var(--muted);
+    }
+    .vrub{
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight:900; color: var(--ink);
+    }
+    .vrub:before{
+      content:""; width:8px; height:8px; border-radius:2px; background: var(--red);
+      display:inline-block;
+    }
+    .vtitle{
+      font-size: 14.5px;
+      font-weight: 900;
+      line-height: 1.25;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+    .vdesc{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.6;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+    .vmeta{
+      margin-top:auto;
+      display:flex; gap:8px; flex-wrap:wrap;
+      font-size: 12px; color: var(--muted);
+    }
+
+    footer{
+      margin-top: 34px;
+      border-top: 1px solid var(--line);
+      padding: 18px 0;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .actions .search{ display:none; }
+      .vod{ grid-template-columns: 1fr; }
+      .vcard{ grid-column: span 6; }
+      .short{ width: 176px; }
+      .filters-top{ align-items:stretch; }
+      .chips{ justify-content:flex-start; }
+    }
+    @media (max-width: 720px){
+      nav{ display:none; }
+      .brand{ min-width:auto; }
+      .actions{ min-width:auto; }
+      .vcard{ grid-column: span 12; }
+      .short{ width: 168px; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none !important; }
+      .btn:hover,.more:hover,.play:hover,.short-card:hover,.vcard:hover,.chip:hover{ transform:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grid" aria-hidden="true"></div>
+
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <a class="brand" href="index.html">
+          <img src="ПР_PNG.png" alt="Промышленный репортёр" />
+          <div class="t">
+            <strong>Промышленный репортёр</strong>
+            <span>индустрия · экономика · технологии</span>
+          </div>
+        </a>
+
+        <nav aria-label="Меню">
+          <a class="navlink" href="index.html">Главная</a>
+          <a class="navlink" href="news.html">Новости</a>
+          <a class="navlink active" href="tv.html">TV</a>
+          <a class="navlink" href="#">Продакшн</a>
+          <a class="navlink" href="#">Редакция</a>
+        </nav>
+
+        <div class="actions">
+          <input class="search" placeholder="Поиск…" />
+          <button class="btn">Войти</button>
+          <button class="btn primary">Подписка</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="kicker"><span class="dot"></span><span>TV</span></div>
+
+    <!-- Видео дня -->
+    <section class="section" aria-label="Видео дня">
+      <div class="section-head">
+        <div>
+          <h2>Видео дня</h2>
+          <p>Один главный ролик — и рядом контекст + действия.</p>
+        </div>
+      </div>
+
+      <div class="vod">
+        <div class="player" id="vodPlayer">
+          <div class="label"><i></i> В эфире</div>
+          <button class="play" id="vodPlay" type="button" aria-label="Смотреть видео дня">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="vinfo">
+          <div class="kicker"><span class="dot"></span><span id="vodDur">15 минут</span></div>
+          <b id="vodTitle">Экскурсия по цеху: «чистая сборка» без глянца</b>
+          <p id="vodDesc">Коротко и по делу: что смотреть, что вынести, куда кликнуть дальше.</p>
+          <div class="meta">
+            <span class="tag hot" id="vodRub">Тех</span>
+            <span class="tag" id="vodWhen">Сегодня</span>
+            <span class="tag" id="vodLen">15:02</span>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
+            <button class="btn primary" type="button" id="vodOpen">Смотреть</button>
+            <button class="btn" type="button">Открыть материал</button>
+            <button class="btn" type="button">Поделиться</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shorts -->
+    <section class="section" aria-label="Shorts">
+      <div class="shorts-wrap">
+        <div class="shorts-head">
+          <div>
+            <b>Shorts</b>
+            <div style="margin-top:6px; font-size:13px; color:var(--muted);">Короткие вертикальные видео — быстро в контекст.</div>
+          </div>
+          <a class="more" href="#">Все shorts →</a>
+        </div>
+
+        <div class="shorts-row" id="shortsRow">
+          <!-- injected -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Архив -->
+    <section class="section" aria-label="Архив видео">
+      <div class="section-head">
+        <div>
+          <h2>Все видео</h2>
+          <p>Поиск + рубрики. Никаких боковых “колонок”: всё по центру.</p>
+        </div>
+        <a class="more" href="#" id="loadMore">Показать ещё →</a>
+      </div>
+
+      <div class="panel" aria-label="Каталог видео">
+        <div class="panel-head">
+          <div class="left">
+            <b>Каталог</b>
+            <span>Фильтры применяются к сетке ниже.</span>
+          </div>
+          <span style="font-size:12px; color:var(--muted);" id="countLabel">0</span>
+        </div>
+
+        <div class="panel-body">
+          <div class="filters-top" aria-label="Фильтры">
+            <input id="vQ" class="searchline" placeholder="Поиск по видео…" />
+            <div class="chips" id="rubChips" aria-label="Рубрики">
+              <span class="chip active" data-rub="all">Все</span>
+              <span class="chip" data-rub="Тех">Тех</span>
+              <span class="chip" data-rub="Рынок">Рынок</span>
+              <span class="chip" data-rub="Люди">Люди</span>
+              <span class="chip" data-rub="Аналитика">Аналитика</span>
+              <span class="chip" data-rub="Продакшн">Продакшн</span>
+            </div>
+          </div>
+
+          <div class="grid-videos" id="gridVideos">
+            <!-- injected -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> Промышленный репортёр</div>
+      <div>Контакты · Реклама · Политика</div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // ===== Video of the day (demo) =====
+    const vod = {
+      title: "Экскурсия по цеху: «чистая сборка» без глянца",
+      desc: "15 минут практики: что реально важно на линии, где теряется качество, и какие метрики не должны врать.",
+      rubric: "Тех",
+      when: "Сегодня",
+      length: "15:02",
+      durLabel: "15 минут",
+      href: "#"
+    };
+
+    document.getElementById('vodTitle').textContent = vod.title;
+    document.getElementById('vodDesc').textContent = vod.desc;
+    document.getElementById('vodRub').textContent = vod.rubric;
+    document.getElementById('vodWhen').textContent = vod.when;
+    document.getElementById('vodLen').textContent = vod.length;
+    document.getElementById('vodDur').textContent = vod.durLabel;
+
+    function openVod(){ window.location.href = vod.href; }
+    document.getElementById('vodPlay').addEventListener('click', openVod);
+    document.getElementById('vodOpen').addEventListener('click', openVod);
+
+    // ===== Shorts (demo) =====
+    const shorts = [
+      { title:"60 секунд: контроль качества на линии", time:"1:00", badge:"Тех", href:"#", thumb:"" },
+      { title:"Нормирование без боли: одна привычка на смену", time:"0:45", badge:"Люди", href:"#", thumb:"" },
+      { title:"Три ошибки внедрения MES, которые повторяют все", time:"0:58", badge:"IT/OT", href:"#", thumb:"" },
+      { title:"Безопасность: микро-чеклист перед запуском", time:"0:35", badge:"ОТ", href:"#", thumb:"" },
+      { title:"Цепочки поставок: один график, который всё объясняет", time:"0:52", badge:"Рынок", href:"#", thumb:"" }
+    ];
+
+    const shortsRow = document.getElementById('shortsRow');
+    shortsRow.innerHTML = shorts.map((s)=>`
+      <a class="short" href="${s.href}" aria-label="${s.title}">
+        <div class="short-card">
+          ${s.thumb ? `<img src="${s.thumb}" alt="">` : ``}
+          <div class="short-badge"><i></i> ${s.badge}</div>
+          <div class="short-play" role="button" aria-label="Смотреть short">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+        <div class="short-name">${s.title}</div>
+        <div class="short-meta"><span>Short</span><span>${s.time}</span></div>
+      </a>
+    `).join('');
+
+    // ===== Archive (demo) =====
+    const archiveAll = [
+      { rubric:"Тех", title:"ОТК и машинное зрение: как снизили споры на смене", desc:"Пилот, данные, дисциплина фиксации дефектов.", when:"Сегодня", len:"12:40", views:12400, href:"#", thumb:"" },
+      { rubric:"Аналитика", title:"ROI автоматизации: где он честный, а где “для отчёта”", desc:"Три зоны эффекта и три анти-паттерна внедрения.", when:"Вчера", len:"18:05", views:9800, href:"#", thumb:"" },
+      { rubric:"Рынок", title:"Логистика 2026: новые правила поставок", desc:"Контракты, SLA, страховка рисков — без лишнего шума.", when:"2 дня", len:"14:22", views:7600, href:"#", thumb:"" },
+      { rubric:"Люди", title:"Кадры: грейды, наставники, смена", desc:"Как удержать специалистов и не утонуть в “мотивации”.", when:"Неделя", len:"16:10", views:15600, href:"#", thumb:"" },
+      { rubric:"Продакшн", title:"Как снимается заводской репортаж: свет, шум, безопасность", desc:"Закулисье съёмки: техника, план, ограничения.", when:"Месяц", len:"22:14", views:5100, href:"#", thumb:"" },
+      { rubric:"Тех", title:"MES с участка: как начать и не утонуть", desc:"Контур факта → контур причин → отчёты.", when:"3 дня", len:"19:33", views:8700, href:"#", thumb:"" },
+      { rubric:"Люди", title:"Команда смены: микропрактики, которые экономят нервы", desc:"Один ритуал, один протокол и одна доска.", when:"4 дня", len:"13:08", views:6400, href:"#", thumb:"" },
+      { rubric:"Рынок", title:"Цена риска: что реально закладывают в контракт", desc:"Как отличить страх от расчёта — в трёх правилах.", when:"5 дней", len:"11:56", views:9300, href:"#", thumb:"" },
+      { rubric:"Аналитика", title:"Инвестиции в модернизацию: где чаще всего ошибаются", desc:"CAPEX, эффект, скрытые издержки сопровождения.", when:"2 недели", len:"20:41", views:7200, href:"#", thumb:"" },
+    ];
+
+    let state = { q:"", rub:"all" };
+    let shown = 0;
+    const pageSize = 6;
+
+    const vQ = document.getElementById('vQ');
+    const grid = document.getElementById('gridVideos');
+    const loadMore = document.getElementById('loadMore');
+    const countLabel = document.getElementById('countLabel');
+
+    function formatViews(n){
+      if(n >= 1000000) return (n/1000000).toFixed(1).replace('.0','') + "M";
+      if(n >= 1000) return Math.round(n/1000) + "k";
+      return String(n);
+    }
+
+    function matches(v){
+      const q = state.q.trim().toLowerCase();
+      const okQ = !q || v.title.toLowerCase().includes(q) || v.desc.toLowerCase().includes(q) || v.rubric.toLowerCase().includes(q);
+      const okR = state.rub === "all" ? true : v.rubric === state.rub;
+      return okQ && okR;
+    }
+
+    function renderArchive(reset){
+      if(reset){ shown = 0; grid.innerHTML = ""; loadMore.style.display = ""; }
+
+      const filtered = archiveAll.filter(matches);
+      countLabel.textContent = `${filtered.length} материалов`;
+
+      const slice = filtered.slice(shown, shown + pageSize);
+      shown += slice.length;
+
+      grid.insertAdjacentHTML('beforeend', slice.map(v=>`
+        <a class="vcard" href="${v.href}" aria-label="${v.title}">
+          <div class="thumb">
+            ${v.thumb ? `<img src="${v.thumb}" alt="">` : ``}
+            <div class="p" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+          <div class="vbody">
+            <div class="vtop">
+              <span class="vrub">${v.rubric}</span>
+              <span>${formatViews(v.views)} просмотров</span>
+            </div>
+            <div class="vtitle">${v.title}</div>
+            <p class="vdesc">${v.desc}</p>
+            <div class="vmeta">
+              <span class="tag">${v.when}</span>
+              <span class="tag hot">${v.len}</span>
+            </div>
+          </div>
+        </a>
+      `).join(''));
+
+      if(shown >= filtered.length) loadMore.style.display = "none";
+      if(filtered.length === 0){
+        grid.innerHTML = `<div style="grid-column:1/-1; color:var(--muted); font-size:13px; padding:6px 2px;">
+          Ничего не найдено. Попробуй другую рубрику или запрос.
+        </div>`;
+        loadMore.style.display = "none";
+      }
+    }
+
+    // Rubric chips
+    document.getElementById('rubChips').addEventListener('click', (e)=>{
+      const chip = e.target.closest('.chip');
+      if(!chip) return;
+      document.querySelectorAll('#rubChips .chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      state.rub = chip.dataset.rub;
+      renderArchive(true);
+    });
+
+    vQ.addEventListener('input', ()=>{
+      state.q = vQ.value || "";
+      renderArchive(true);
+    });
+
+    loadMore.addEventListener('click', (e)=>{
+      e.preventDefault();
+      renderArchive(false);
+    });
+
+    renderArchive(true);
+  </script>
+</body>
+</html>

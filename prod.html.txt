@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Продакшн — Промышленный репортёр</title>
+
+  <style>
+    :root{
+      --bg:#f4f5f6;
+      --paper:#ffffff;
+      --ink:#0b0b0c;
+      --muted:#5a5a61;
+
+      --line:rgba(11,11,12,.12);
+      --line2:rgba(11,11,12,.08);
+
+      --red:#f02000;
+
+      --max:1160px;
+      --pad:22px;
+
+      --r:16px;
+      --r2:12px;
+
+      --shadow: 0 14px 26px rgba(11,11,12,.08);
+      --shadow2: 0 10px 18px rgba(11,11,12,.06);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing:.15px;
+      text-rendering: geometricPrecision;
+    }
+    a{ color:inherit; text-decoration:none; }
+    button, input, textarea{ font-family:inherit; }
+    .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
+
+    /* subtle grid */
+    .grid{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.028) 1px, transparent 1px) 0 0/ 84px 84px,
+        linear-gradient(to bottom, rgba(0,0,0,.024) 1px, transparent 1px) 0 0/ 84px 84px;
+      mask-image: radial-gradient(ellipse at 50% 0%, black 32%, transparent 72%);
+      opacity:.45;
+    }
+
+    /* header */
+    header{
+      position:sticky; top:0; z-index:10;
+      background: rgba(244,245,246,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding: 14px 0;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .brand img{ width:44px; height:44px; object-fit:contain; display:block; }
+    .brand .t{ display:flex; flex-direction:column; line-height:1.05; }
+    .brand .t strong{ text-transform:uppercase; font-size:13px; letter-spacing:1.7px; }
+    .brand .t span{ font-size:12px; color: var(--muted); }
+
+    nav{ display:flex; align-items:center; gap:18px; }
+    .navlink{
+      font-size:13px;
+      color: var(--muted);
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition:.14s ease;
+      white-space:nowrap;
+    }
+    .navlink:hover{ color: var(--ink); border-bottom-color: rgba(240,32,0,.28); }
+    .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
+
+    main{ position:relative; z-index:1; padding: 26px 0 56px; }
+
+    /* primitives */
+    .kicker{
+      display:flex; align-items:center; gap:10px;
+      font-size:12px; letter-spacing:1.4px; text-transform:uppercase;
+      color: var(--muted);
+    }
+    .kicker .dot{ width:9px; height:9px; border-radius:3px; background: var(--red); }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border:1px solid var(--ink);
+      background: transparent;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      cursor:pointer;
+      transition:.14s ease;
+      white-space:nowrap;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{
+      border-color: var(--red);
+      color: var(--red);
+      font-weight: 900;
+      background: rgba(240,32,0,.04);
+    }
+    .btn.ghost{
+      border-color: rgba(11,11,12,0);
+      background: rgba(11,11,12,.02);
+      color: var(--muted);
+    }
+
+    .card{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+    }
+
+    .section{ margin-top: 18px; }
+    .sectionTitle{
+      display:flex; justify-content:space-between; align-items:flex-end; gap:14px;
+      margin: 18px 2px 10px;
+      flex-wrap:wrap;
+    }
+    .sectionTitle h2{ margin:0; font-size:18px; letter-spacing:.2px; }
+    .sectionTitle p{ margin:0; font-size:13px; color: var(--muted); }
+
+    /* HERO (оставлено) */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+
+    .panel{
+      background: var(--ink);
+      color: #f7f7f8;
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .panel:before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(860px 320px at 18% 10%, rgba(240,32,0,.22), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.06), transparent 60%);
+      pointer-events:none;
+      opacity:.95;
+    }
+    .panel .inner{
+      position:relative;
+      padding: 18px;
+      min-height: 320px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    h1{
+      margin:0;
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1.04;
+      letter-spacing: .1px;
+    }
+    .lead{
+      margin:0;
+      color: rgba(247,247,248,.76);
+      font-size: 15px;
+      line-height: 1.7;
+      max-width: 86ch;
+    }
+    .meta{
+      margin-top:auto;
+      display:flex; flex-wrap:wrap; gap:10px;
+      font-size: 12px;
+      color: rgba(247,247,248,.82);
+    }
+    .meta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+    }
+
+    .poster{
+      border-radius: var(--r);
+      overflow:hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow2);
+      background: var(--paper);
+      position:relative;
+      min-height: 320px;
+    }
+    .poster .frame{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(760px 320px at 16% 0%, rgba(240,32,0,.10), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.04), rgba(11,11,12,.01));
+      display:grid;
+      place-items:center;
+      padding: 16px;
+      text-align:center;
+    }
+    .play{
+      width: 74px; height: 74px;
+      border-radius: 24px;
+      border: 1px solid rgba(11,11,12,.16);
+      background: rgba(255,255,255,.72);
+      display:grid;
+      place-items:center;
+      box-shadow: 0 12px 24px rgba(11,11,12,.12);
+      transition:.14s ease;
+    }
+    .poster:hover .play{ transform: translateY(-1px); }
+    .play svg{ width:26px; height:26px; }
+    .poster p{
+      margin: 12px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height:1.6;
+      max-width: 42ch;
+    }
+
+    /* === ЧТО МЫ ПРЕДЛАГАЕМ (4 карточки в один ряд) === */
+    .offersGrid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      align-items:stretch;
+    }
+
+    .offer{
+      grid-column: span 3;
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      transition: .16s ease;
+      min-width:0;
+      position:relative;
+    }
+    .offer:hover{
+      transform: translateY(-2px);
+      border-color: rgba(240,32,0,.22);
+    }
+
+    .offerMedia{
+      aspect-ratio: 16 / 10;
+      border-bottom: 1px solid var(--line2);
+      position:relative;
+      overflow:hidden;
+      background:
+        radial-gradient(520px 240px at 18% 0%, rgba(240,32,0,.12), transparent 62%),
+        linear-gradient(180deg, rgba(11,11,12,.06), rgba(11,11,12,.02));
+    }
+
+    /* лёгкая “жизнь” на превью */
+    .offerMedia:after{
+      content:"";
+      position:absolute; inset:-60% -30%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+      transform: rotate(18deg);
+      opacity:.28;
+      animation: sheen 5.4s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes sheen{
+      0%{ transform: translateX(-24%) rotate(18deg); opacity:.08; }
+      35%{ opacity:.28; }
+      55%{ transform: translateX(24%) rotate(18deg); opacity:.18; }
+      100%{ transform: translateX(48%) rotate(18deg); opacity:.06; }
+    }
+
+    .offerMedia img, .offerMedia video{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      transition: opacity .22s ease, transform .25s ease;
+    }
+    .offerMedia img{ opacity:1; transform: scale(1.02); }
+    .offerMedia video{ opacity:0; transform: scale(1.02); }
+
+    .offer.hasVideo:hover .offerMedia video{ opacity:1; transform: scale(1.05); }
+    .offer.hasVideo:hover .offerMedia img{ opacity:0; transform: scale(1.05); }
+
+    .offerBadge{
+      position:absolute;
+      left: 12px; top: 12px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: rgba(11,11,12,.80);
+      border: 1px solid rgba(11,11,12,.12);
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(10px);
+    }
+    .offerBadge i{
+      width:8px; height:8px;
+      border-radius:2px;
+      background: var(--red);
+      display:inline-block;
+    }
+
+    .offerBody{
+      padding: 12px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .offerTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .offer h3{
+      margin:0;
+      font-size: 15px;
+      letter-spacing:.15px;
+      line-height:1.2;
+    }
+    .tag{
+      font-size:12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(11,11,12,.10);
+      background: rgba(11,11,12,.02);
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .offer p{
+      margin:0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height:1.65;
+    }
+    .offerFoot{
+      margin-top:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:12px;
+      color: var(--muted);
+    }
+    .offerFoot span{
+      border: 1px solid rgba(11,11,12,.08);
+      background: rgba(11,11,12,.015);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    /* === КАК МЫ РАБОТАЕМ (3 этапа + “конвейер”) === */
+    .howWrap{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .conveyor{
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+      padding: 14px;
+    }
+    .conveyor:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(820px 300px at 18% 0%, rgba(240,32,0,.08), transparent 62%);
+      pointer-events:none;
+    }
+
+    .belt{
+      position:relative;
+      height: 112px;
+      border-radius: 14px;
+      border: 1px solid rgba(11,11,12,.10);
+      background:
+        linear-gradient(180deg, rgba(11,11,12,.02), rgba(11,11,12,.01)),
+        radial-gradient(360px 160px at 18% 0%, rgba(240,32,0,.08), transparent 60%);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 18px 14px;
+    }
+    /* “лента” */
+    .belt:after{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(11,11,12,.06) 0px,
+          rgba(11,11,12,.06) 10px,
+          rgba(11,11,12,.02) 10px,
+          rgba(11,11,12,.02) 22px
+        );
+      opacity:.28;
+      transform: translateX(0);
+      animation: beltMove 2.2s linear infinite;
+      pointer-events:none;
+      mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+    }
+    @keyframes beltMove{ to{ transform: translateX(-44px); } }
+
+    .stations{
+      position:relative;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      width:100%;
+      max-width: 980px;
+      z-index:1;
+    }
+    .station{
+      border-radius: 14px;
+      border: 1px solid rgba(11,11,12,.10);
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(10px);
+      padding: 12px;
+      min-height: 72px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      position:relative;
+      overflow:hidden;
+      transition: .2s ease;
+    }
+    .station b{
+      font-size: 12px;
+      letter-spacing:1.1px;
+      text-transform:uppercase;
+      color: var(--muted);
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .station b:before{
+      content:"";
+      width:8px; height:8px;
+      border-radius:2px;
+      background: var(--red);
+      display:inline-block;
+    }
+    .station span{
+      font-size: 13px;
+      color: var(--ink);
+      line-height:1.45;
+    }
+
+    /* “каретка” по конвейеру */
+    .carrier{
+      position:absolute;
+      top: 50%;
+      left: 8%;
+      transform: translate(-50%, -50%);
+      width: 38px; height: 38px;
+      border-radius: 16px;
+      border: 1px solid rgba(240,32,0,.28);
+      background:
+        radial-gradient(120px 60px at 30% 20%, rgba(240,32,0,.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.55));
+      box-shadow: 0 14px 24px rgba(11,11,12,.14);
+      z-index:2;
+      animation: carrier 6.6s ease-in-out infinite;
+    }
+    .carrier:after{
+      content:"";
+      position:absolute; inset: 11px;
+      border-radius: 10px;
+      background: rgba(11,11,12,.08);
+    }
+
+    @keyframes carrier{
+      0%   { left: 10%; }
+      18%  { left: 10%; }
+      34%  { left: 50%; }
+      52%  { left: 50%; }
+      68%  { left: 90%; }
+      86%  { left: 90%; }
+      100% { left: 10%; }
+    }
+
+    /* подсветка этапов синхронно */
+    .station:nth-child(1){ animation: stage1 6.6s ease-in-out infinite; }
+    .station:nth-child(2){ animation: stage2 6.6s ease-in-out infinite; }
+    .station:nth-child(3){ animation: stage3 6.6s ease-in-out infinite; }
+
+    @keyframes stage1{
+      0%,18%{ border-color: rgba(240,32,0,.32); box-shadow: 0 14px 26px rgba(240,32,0,.08); transform: translateY(-1px); }
+      22%,100%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+    }
+    @keyframes stage2{
+      0%,30%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+      34%,52%{ border-color: rgba(240,32,0,.32); box-shadow: 0 14px 26px rgba(240,32,0,.08); transform: translateY(-1px); }
+      56%,100%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+    }
+    @keyframes stage3{
+      0%,64%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+      68%,86%{ border-color: rgba(240,32,0,.32); box-shadow: 0 14px 26px rgba(240,32,0,.08); transform: translateY(-1px); }
+      90%,100%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+    }
+
+    /* PACKAGES */
+    .grid12{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .pkg{
+      grid-column: span 4;
+      padding: 14px;
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: var(--shadow2);
+      transition:.14s ease;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      min-width:0;
+    }
+    .pkg:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
+    .pkg.featured{
+      border-color: rgba(240,32,0,.24);
+      box-shadow: 0 18px 32px rgba(11,11,12,.10);
+      position:relative;
+      overflow:hidden;
+    }
+    .pkg.featured:before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(660px 280px at 18% 0%, rgba(240,32,0,.10), transparent 62%);
+      pointer-events:none;
+    }
+    .pkg .inner{ position:relative; display:flex; flex-direction:column; gap:10px; min-height: 100%; }
+    .pkg h3{ margin:0; font-size: 15px; }
+    .pkg p{ margin:0; font-size: 13px; color: var(--muted); line-height:1.65; }
+    .list{
+      margin:0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height:1.65;
+    }
+    .pkg .bottom{
+      margin-top:auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      padding-top: 8px;
+      border-top: 1px solid var(--line2);
+    }
+    .fine{ font-size: 12px; color: var(--muted); }
+
+    /* CTA */
+    .cta{
+      border-radius: var(--r);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      background: var(--ink);
+      color: #f7f7f8;
+      overflow:hidden;
+      position:relative;
+    }
+    .cta:before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(820px 320px at 20% 0%, rgba(240,32,0,.20), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.055), transparent 65%);
+      pointer-events:none;
+      opacity:.95;
+    }
+    .cta .inner{
+      position:relative;
+      padding: 18px;
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 14px;
+      align-items:start;
+    }
+    .cta h2{ margin:0; font-size: 20px; letter-spacing:.2px; }
+    .cta p{ margin: 8px 0 0; color: rgba(247,247,248,.78); font-size: 13px; line-height:1.65; }
+    .form{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--r);
+      padding: 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .field{ display:flex; gap:10px; flex-wrap:wrap; }
+    .input, textarea{
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color: #f7f7f8;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline:none;
+      transition:.14s ease;
+    }
+    .input::placeholder, textarea::placeholder{ color: rgba(247,247,248,.55); }
+    .input:focus, textarea:focus{
+      border-color: rgba(240,32,0,.45);
+      box-shadow: 0 0 0 4px rgba(240,32,0,.12);
+    }
+    textarea{ min-height: 110px; resize: vertical; }
+
+    .ctaActions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 2px;
+    }
+    .ctaSmall{ font-size: 12px; color: rgba(247,247,248,.68); }
+
+    footer{
+      margin-top: 34px;
+      border-top: 1px solid var(--line);
+      padding: 18px 0;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    /* responsive */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+
+      /* offers: 2x2 */
+      .offer{ grid-column: span 6; }
+
+      .pkg{ grid-column: span 6; }
+      .cta .inner{ grid-template-columns: 1fr; }
+
+      .stations{ grid-template-columns: 1fr; }
+      .belt{ height:auto; padding: 12px; }
+      .carrier{ display:none; }
+      .belt:after{ animation-duration: 3.2s; }
+    }
+    @media (max-width: 720px){
+      nav{ display:none; }
+
+      /* offers: 1 per row */
+      .offer{ grid-column: span 12; }
+
+      .pkg{ grid-column: span 12; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none !important; animation:none !important; }
+      .btn:hover,.offer:hover,.pkg:hover{ transform:none !important; }
+      .offerMedia:after{ display:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grid" aria-hidden="true"></div>
+
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <a class="brand" href="index.html">
+          <img src="ПР_PNG.png" alt="Промышленный репортёр" />
+          <div class="t">
+            <strong>Промышленный репортёр</strong>
+            <span>индустрия · экономика · технологии</span>
+          </div>
+        </a>
+
+        <nav aria-label="Меню">
+          <a class="navlink" href="index.html">Главная</a>
+          <a class="navlink" href="news.html">Новости</a>
+          <a class="navlink" href="tv.html">TV</a>
+          <a class="navlink active" href="production.html">Продакшн</a>
+          <a class="navlink" href="editorial.html">Редакция</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HERO (оставлено) -->
+    <section class="hero" aria-label="Продакшн под ключ">
+      <article class="panel">
+        <div class="inner">
+          <div class="kicker"><span class="dot"></span><span>Продакшн</span></div>
+          <h1>Видеоматериалы под ключ — от сценария до монтажа</h1>
+          <p class="lead">
+            Мы умеем делать видео так же, как делаем тексты: с фактами, логикой и пониманием индустрии.
+            Возьмём на себя весь цикл — сценарий, съёмку, звук, графику, монтаж и версии под площадки.
+          </p>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn primary" href="#cta">Обсудить проект</a>
+            <a class="btn ghost" href="#formats">Что мы предлагаем</a>
+            <a class="btn ghost" href="#how">Как мы работаем</a>
+          </div>
+
+          <div class="meta">
+            <span>Сценарий</span>
+            <span>Съёмка</span>
+            <span>Монтаж</span>
+            <span>Графика</span>
+            <span>Адаптации</span>
+          </div>
+        </div>
+      </article>
+
+      <aside class="poster" aria-label="Превью видео">
+        <div class="frame">
+          <div>
+            <div class="play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M10 8.6v6.8L16 12l-6-3.4Z" fill="currentColor" opacity=".85"/>
+              </svg>
+            </div>
+            <p>
+              Здесь может быть превью-кадр шоу/кейса или короткий showreel (встроенный плеер).
+              Пока — аккуратный постер, чтобы страница выглядела «живой» даже без видео.
+            </p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ЧТО МЫ ПРЕДЛАГАЕМ -->
+    <section class="section" id="formats" aria-label="Что мы предлагаем">
+      <div class="sectionTitle">
+        <h2>ЧТО МЫ ПРЕДЛАГАЕМ</h2>
+        <p>Четыре формата — под ключ: от идеи до финального файла и версий под площадки.</p>
+      </div>
+
+      <div class="offersGrid">
+        <!-- 1) Имиджевый ролик -->
+        <article class="offer hasThumb" tabindex="0"
+          data-poster=""
+          data-video=""
+          aria-label="Имиджевый ролик"
+        >
+          <div class="offerMedia">
+            <div class="offerBadge"><i></i> формат</div>
+            <img alt="" aria-hidden="true" />
+            <video muted playsinline loop preload="none"></video>
+          </div>
+          <div class="offerBody">
+            <div class="offerTop">
+              <h3>Имиджевый ролик</h3>
+              <span class="tag">60–120 сек</span>
+            </div>
+            <p>Коротко и “дорого”: кто вы, что делаете, почему вам доверяют. Сценарий, съёмка, монтаж, графика.</p>
+            <div class="offerFoot"><span>сценарий</span><span>графика</span><span>версии</span></div>
+          </div>
+        </article>
+
+        <!-- 2) Интервью -->
+        <article class="offer hasThumb" tabindex="0"
+          data-poster=""
+          data-video=""
+          aria-label="Интервью"
+        >
+          <div class="offerMedia">
+            <div class="offerBadge"><i></i> формат</div>
+            <img alt="" aria-hidden="true" />
+            <video muted playsinline loop preload="none"></video>
+          </div>
+          <div class="offerBody">
+            <div class="offerTop">
+              <h3>Интервью</h3>
+              <span class="tag">4–10 мин</span>
+            </div>
+            <p>Разговор по делу: вопросы, структура и смысл. Помогаем спикеру “звучать” и оставаться точным.</p>
+            <div class="offerFoot"><span>вопросник</span><span>титры</span><span>2 камеры опц.</span></div>
+          </div>
+        </article>
+
+        <!-- 3) Прямой эфир -->
+        <article class="offer hasThumb" tabindex="0"
+          data-poster=""
+          data-video=""
+          aria-label="Прямой эфир"
+        >
+          <div class="offerMedia">
+            <div class="offerBadge"><i></i> формат</div>
+            <img alt="" aria-hidden="true" />
+            <video muted playsinline loop preload="none"></video>
+          </div>
+          <div class="offerBody">
+            <div class="offerTop">
+              <h3>Прямой эфир</h3>
+              <span class="tag">30–90 мин</span>
+            </div>
+            <p>Подготовка, сетап, режиссура, звук — чтобы эфир выглядел профессионально и шёл без “пожаров”.</p>
+            <div class="offerFoot"><span>режиссура</span><span>звук</span><span>графика эфира</span></div>
+          </div>
+        </article>
+
+        <!-- 4) Экспертный репортаж -->
+        <article class="offer hasThumb" tabindex="0"
+          data-poster=""
+          data-video=""
+          aria-label="Экспертный репортаж"
+        >
+          <div class="offerMedia">
+            <div class="offerBadge"><i></i> формат</div>
+            <img alt="" aria-hidden="true" />
+            <video muted playsinline loop preload="none"></video>
+          </div>
+          <div class="offerBody">
+            <div class="offerTop">
+              <h3>Экспертный репортаж</h3>
+              <span class="tag">3–8 мин</span>
+            </div>
+            <p>Выезд на площадку: процесс, контекст, комментарии специалистов. Делает сложное понятным.</p>
+            <div class="offerFoot"><span>выезд</span><span>план-съёмка</span><span>инфографика</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- КАК МЫ РАБОТАЕМ -->
+    <section class="section" id="how" aria-label="КАК МЫ РАБОТАЕМ">
+      <div class="sectionTitle">
+        <h2>КАК МЫ РАБОТАЕМ</h2>
+        <p>Три этапа. Всё прозрачно, без «магии в продакшне».</p>
+      </div>
+
+      <div class="howWrap">
+        <div class="conveyor">
+          <div class="belt" aria-label="Конвейер процесса">
+            <div class="carrier" aria-hidden="true"></div>
+
+            <div class="stations">
+              <div class="station">
+                <b>Этап 1</b>
+                <span>Досконально изучаем ваш продукт</span>
+              </div>
+              <div class="station">
+                <b>Этап 2</b>
+                <span>Пишем сценарий и выезжаем на съёмки</span>
+              </div>
+              <div class="station">
+                <b>Этап 3</b>
+                <span>Монтируем, согласовываем, публикуем</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:12px; color: var(--muted); font-size:13px; line-height:1.65;">
+            <b style="color:var(--ink);">На практике:</b>
+            сначала разбираемся в фактуре (цифры, ограничения, что важно подчеркнуть),
+            потом собираем историю и снимаем только то, что работает на смысл,
+            а финалом — монтаж, согласование и версии под площадки.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ПАКЕТЫ (оставлено как было) -->
+    <section class="section" aria-label="Пакеты">
+      <div class="sectionTitle">
+        <h2>Пакеты</h2>
+        <p>Состав прозрачен. Стоимость — по задаче и объёму.</p>
+      </div>
+
+      <div class="grid12">
+        <article class="pkg">
+          <div class="inner">
+            <h3>Старт</h3>
+            <p>Один ролик — быстро и аккуратно.</p>
+            <ul class="list">
+              <li>1 съёмочный день</li>
+              <li>1 ролик 2–4 минуты</li>
+              <li>титры, базовая графика</li>
+              <li>1 круг правок</li>
+            </ul>
+            <div class="bottom">
+              <span class="fine">Сроки: от 7–10 дней</span>
+              <a class="btn primary" href="#cta">Запросить</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="pkg featured">
+          <div class="inner">
+            <h3>Стандарт</h3>
+            <p>Сценарий + основной ролик + нарезки.</p>
+            <ul class="list">
+              <li>бриф + сценарий</li>
+              <li>1–2 съёмочных дня</li>
+              <li>1 ролик 5–8 минут</li>
+              <li>3 коротких версии (15–60 сек)</li>
+              <li>2 круга правок</li>
+            </ul>
+            <div class="bottom">
+              <span class="fine">Сроки: от 10–14 дней</span>
+              <a class="btn primary" href="#cta">Обсудить</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="pkg">
+          <div class="inner">
+            <h3>Премиум</h3>
+            <p>Несколько локаций + расширенная графика.</p>
+            <ul class="list">
+              <li>расширенный сценарий</li>
+              <li>несколько локаций</li>
+              <li>2 камеры / отдельный звук</li>
+              <li>инфографика + версии</li>
+              <li>правки по договорённости</li>
+            </ul>
+            <div class="bottom">
+              <span class="fine">Сроки: от 14–21 дня</span>
+              <a class="btn primary" href="#cta">Запросить</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section" id="cta" aria-label="Обсудить проект">
+      <div class="cta">
+        <div class="inner">
+          <div>
+            <div class="kicker" style="color: rgba(247,247,248,.78);">
+              <span class="dot"></span><span>Обсудить проект</span>
+            </div>
+            <h2>Расскажите задачу — предложим формат и план</h2>
+            <p>
+              Достаточно 5–7 предложений: что снимаем, кому показываем, какие сроки и ограничения.
+              Если есть референсы — прикрепите ссылками в тексте.
+            </p>
+            <p style="margin-top:10px;">
+              Контакты продакшна: <a href="mailto:production@promreporter.ru" style="text-decoration:underline; text-underline-offset:3px;">production@promreporter.ru</a><br/>
+              Телефон: <a href="tel:+74951234567" style="text-decoration:underline; text-underline-offset:3px;">+7 (495) 123-45-67</a>
+            </p>
+          </div>
+
+          <form class="form" id="prodForm">
+            <div class="field">
+              <input class="input" id="name" placeholder="Имя" autocomplete="name" />
+            </div>
+            <div class="field" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+              <input class="input" id="company" placeholder="Компания" autocomplete="organization" />
+              <input class="input" id="contact" placeholder="Почта или телефон" autocomplete="email" />
+            </div>
+            <textarea id="brief" placeholder="Коротко о задаче: формат/тема/целевая аудитория/сроки/ограничения"></textarea>
+
+            <div class="ctaActions">
+              <button class="btn primary" type="submit">Отправить</button>
+              <span class="ctaSmall">Отправка откроет письмо (mailto) с заполненным шаблоном.</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> Промышленный репортёр</div>
+      <div>Контакты · Реклама · Политика</div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // smooth scroll for internal anchors
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        const el = document.querySelector(id);
+        if(!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // mailto form
+    const form = document.getElementById('prodForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('name').value || '').trim();
+      const company = (document.getElementById('company').value || '').trim();
+      const contact = (document.getElementById('contact').value || '').trim();
+      const brief = (document.getElementById('brief').value || '').trim();
+
+      const subject = encodeURIComponent('Запрос на видеопродакшн (Промышленный репортёр)');
+      const body = encodeURIComponent(
+`Здравствуйте!
+
+Хочу обсудить видеопроект.
+
+Имя: ${name || '—'}
+Компания: ${company || '—'}
+Контакт: ${contact || '—'}
+
+Задача / тема:
+${brief || '—'}
+
+Желаемые сроки:
+—
+
+Площадки (YouTube / соцсети / внутренняя презентация):
+—
+
+Ограничения (NDA / нельзя показывать / др.):
+—`
+      );
+
+      window.location.href = `mailto:production@promreporter.ru?subject=${subject}&body=${body}`;
+    });
+
+    // hover video for offers
+    const offers = Array.from(document.querySelectorAll('.offer'));
+
+    offers.forEach(el => {
+      const poster = el.getAttribute('data-poster') || '';
+      const video = el.getAttribute('data-video') || '';
+
+      const img = el.querySelector('.offerMedia img');
+      const vid = el.querySelector('.offerMedia video');
+
+      if (poster) img.src = poster;
+
+      if (video) {
+        vid.src = video;
+        el.classList.add('hasVideo');
+      } else {
+        el.classList.remove('hasVideo');
+      }
+
+      const play = () => { if(!video) return; vid.play().catch(()=>{}); };
+      const stop = () => {
+        if(!video) return;
+        vid.pause();
+        vid.currentTime = 0;
+      };
+
+      el.addEventListener('mouseenter', play);
+      el.addEventListener('mouseleave', stop);
+      el.addEventListener('focus', play);
+      el.addEventListener('blur', stop);
+
+      el.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

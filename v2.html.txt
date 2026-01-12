@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Промышленный репортёр</title>
+
+  <style>
+    :root{
+      /* Строже: меньше “крема”, больше графики */
+      --bg:#f4f5f6;
+      --paper:#ffffff;
+      --ink:#0b0b0c;
+      --muted:#5a5a61;
+      --muted2:#7a7a83;
+
+      --line:rgba(11,11,12,.12);
+      --line2:rgba(11,11,12,.08);
+      --soft:rgba(11,11,12,.05);
+
+      --red:#f02000;
+
+      --panel:#0b0b0c;
+      --panelText:#f7f7f8;
+      --panelMuted:rgba(247,247,248,.72);
+
+      --max:1160px;
+      --pad:22px;
+
+      /* Чуть “жёстче” ради строгости */
+      --r:16px;
+      --r2:12px;
+
+      /* Тени — тише */
+      --shadow: 0 14px 26px rgba(11,11,12,.08);
+      --shadow2: 0 10px 18px rgba(11,11,12,.06);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing:.15px;
+      text-rendering: geometricPrecision;
+    }
+    a{ color:inherit; text-decoration:none; }
+    .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
+
+    /* еле заметная “тех-сетка” — делаем ещё спокойнее */
+    .grid{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.028) 1px, transparent 1px) 0 0/ 84px 84px,
+        linear-gradient(to bottom, rgba(0,0,0,.024) 1px, transparent 1px) 0 0/ 84px 84px;
+      mask-image: radial-gradient(ellipse at 50% 0%, black 32%, transparent 72%);
+      opacity:.45;
+    }
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:10;
+      background: rgba(244,245,246,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding: 14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 260px;
+    }
+    .brand img{ width:44px; height:44px; object-fit:contain; display:block; }
+    .brand .t{ display:flex; flex-direction:column; line-height:1.05; }
+    .brand .t strong{ text-transform:uppercase; font-size:13px; letter-spacing:1.7px; }
+    .brand .t span{ font-size:12px; color: var(--muted); }
+
+    nav{ display:flex; align-items:center; gap:18px; }
+    .navlink{
+      font-size:13px;
+      color: var(--muted);
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition:.14s ease;
+      white-space:nowrap;
+    }
+    .navlink:hover{ color: var(--ink); border-bottom-color: rgba(240,32,0,.28); }
+    .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
+
+    .actions{ display:flex; align-items:center; gap:10px; min-width: 240px; justify-content:flex-end; }
+    .search{
+      width:min(260px, 34vw);
+      border:1px solid var(--line2);
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline:none;
+      transition:.14s ease;
+    }
+    .search:focus{ border-color: rgba(240,32,0,.40); box-shadow: 0 0 0 4px rgba(240,32,0,.08); }
+
+    .btn{
+      border:1px solid var(--ink);
+      background: transparent;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor:pointer;
+      transition:.14s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{ border-color: var(--red); color: var(--red); font-weight:800; }
+
+    main{ position:relative; z-index:1; padding: 24px 0 56px; }
+
+    .kicker{
+      display:flex; align-items:center; gap:10px;
+      font-size:12px; letter-spacing:1.4px; text-transform:uppercase;
+      color: var(--muted);
+    }
+    .kicker .dot{
+      width:9px; height:9px; border-radius: 3px;
+      background: var(--red);
+    }
+
+    /* HERO */
+    .hero{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1.35fr .9fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    .panel{
+      border-radius: var(--r);
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      background: var(--panel);
+      color: var(--panelText);
+      position:relative;
+    }
+    .panel:before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.20), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.055), transparent 60%);
+      opacity:.95;
+      pointer-events:none;
+    }
+    .panel .inner{
+      position:relative;
+      padding: 20px;
+      min-height: 360px;
+      display:flex; flex-direction:column; gap:14px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      width:fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(240,32,0,.28);
+      background: rgba(240,32,0,.10);
+      font-size: 12px;
+      color: var(--panelText);
+    }
+    .badge i{ width:7px; height:7px; border-radius: 2px; background: var(--red); display:inline-block; }
+
+    h1{
+      margin:0;
+      font-size: clamp(28px, 3.2vw, 44px);
+      line-height: 1.05;
+      letter-spacing: .15px;
+    }
+    .lead{
+      margin:0;
+      color: var(--panelMuted);
+      font-size: 15px;
+      line-height: 1.65;
+      max-width: 72ch;
+    }
+    .meta{
+      margin-top:auto;
+      display:flex; flex-wrap:wrap; gap:10px 12px;
+      font-size: 12px;
+      color: rgba(247,247,248,.78);
+    }
+    .meta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+    }
+
+    /* =========
+       Right: Rambler-like feed
+       ========= */
+    .feed{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-height: 360px;
+    }
+    .feed-head{
+      padding: 12px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      border-bottom: 1px solid var(--line2);
+      background: linear-gradient(180deg, rgba(11,11,12,.018), transparent);
+    }
+    .feed-title{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      font-size:12px;
+    }
+    .feed-title .pulse{
+      width:9px; height:9px; border-radius:3px;
+      background: var(--red);
+      box-shadow: 0 0 0 6px rgba(240,32,0,.08);
+    }
+    .feed-actions{
+      display:flex; gap:8px; align-items:center;
+      font-size:12px;
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .feed-actions a{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(240,32,0,.20);
+      background: rgba(240,32,0,.05);
+      color: var(--red);
+      font-weight:900;
+      transition:.14s ease;
+    }
+    .feed-actions a:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
+
+    .feed-list{
+      padding: 6px 0;
+      overflow:auto;
+      max-height: 360px;
+    }
+
+    /* Rambler vibe: время слева, заголовок справа, тонкая линия */
+    .feed-item{
+      display:grid;
+      grid-template-columns: 56px 1fr;
+      gap: 10px;
+      padding: 10px 14px;
+      border-top: 1px solid rgba(11,11,12,.06);
+      transition:.12s ease;
+    }
+    .feed-item:first-child{ border-top:0; }
+    .feed-item:hover{
+      background: rgba(11,11,12,.02);
+    }
+    .t-time{
+      font-size:12px;
+      color: var(--muted2);
+      font-variant-numeric: tabular-nums;
+      padding-top: 1px;
+    }
+    .t-main{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+    .t-top{
+      display:flex; align-items:center; gap:8px;
+      font-size:12px;
+      color: var(--muted);
+    }
+    .t-dot{
+      width:7px; height:7px; border-radius:2px;
+      background: var(--red);
+      display:inline-block;
+      transform: translateY(1px);
+    }
+    .t-rubric{
+      font-weight:800;
+      color: var(--ink);
+    }
+    .t-live{
+      margin-left:auto;
+      font-size:10px;
+      font-weight:1000;
+      letter-spacing:.9px;
+      color: var(--red);
+      border: 1px solid rgba(240,32,0,.28);
+      background: rgba(240,32,0,.06);
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+    .t-title{
+      font-size:13px;
+      line-height:1.35;
+      color: var(--ink);
+      font-weight:700;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+
+    /* SECTION HEAD */
+    .section{ margin-top: 22px; }
+    .section-head{
+      display:flex; justify-content:space-between; align-items:flex-end; gap:14px;
+      margin-bottom: 12px;
+    }
+    .section-head h2{ margin:0; font-size: 18px; letter-spacing:.2px; }
+    .section-head p{ margin:0; font-size: 13px; color: var(--muted); }
+    .more{
+      font-size: 13px;
+      color: var(--red);
+      font-weight: 900;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(240,32,0,.22);
+      background: rgba(240,32,0,.05);
+      transition:.14s ease;
+      white-space:nowrap;
+    }
+    .more:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
+
+    /* Cards grid */
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      grid-column: span 4;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 14px;
+      box-shadow: var(--shadow2);
+      transition:.14s ease;
+      display:flex; flex-direction:column;
+      min-height: 210px;
+    }
+    .card:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
+    .card .top{ display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted); }
+    .card .rubric{
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight: 900; color: var(--ink);
+      letter-spacing:.2px;
+    }
+    .card .rubric:before{
+      content:""; width:8px; height:8px; border-radius:2px; background: var(--red);
+      display:inline-block;
+    }
+    .card h3{ margin:10px 0 10px; font-size:16px; line-height:1.2; }
+    .card .desc{ margin:0; color: var(--muted); font-size:13px; line-height:1.55; }
+    .chips{ margin-top:auto; display:flex; flex-wrap:wrap; gap:8px; padding-top:12px; }
+    .chip{
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--soft);
+      background: rgba(11,11,12,.02);
+      color: var(--muted);
+    }
+    .chip.hot{ border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); color: var(--ink); font-weight:800; }
+
+    /* Video teaser */
+    .video{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    .player{
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(560px 220px at 20% 15%, rgba(240,32,0,.14), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      aspect-ratio: 16/9;
+      display:grid; place-items:center;
+      box-shadow: var(--shadow2);
+    }
+    .play{
+      width:74px; height:74px;
+      border-radius: 22px;
+      border: 1px solid rgba(240,32,0,.36);
+      background: rgba(240,32,0,.12);
+      cursor:pointer;
+      transition:.14s ease;
+      display:grid; place-items:center;
+    }
+    .play:hover{ transform: translateY(-2px) scale(1.02); }
+    .vside{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .vside b{ font-size: 15px; line-height:1.25; }
+    .vside p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
+
+    /* ========
+       Shorts block (new)
+       ======== */
+    .shorts-wrap{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .shorts-head{
+      padding: 12px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      border-bottom: 1px solid var(--line2);
+      background: linear-gradient(180deg, rgba(11,11,12,.018), transparent);
+    }
+    .shorts-title{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+    .shorts-title h2{ margin:0; font-size: 18px; letter-spacing:.2px; }
+    .shorts-title p{ margin:0; font-size: 13px; color: var(--muted); }
+
+    .shorts-actions{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+    }
+
+    .shorts-row{
+      padding: 14px;
+      display:flex;
+      gap: 12px;
+      overflow:auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .shorts-row::-webkit-scrollbar{ height: 10px; }
+    .shorts-row::-webkit-scrollbar-thumb{
+      background: rgba(11,11,12,.14);
+      border-radius: 999px;
+      border: 3px solid rgba(0,0,0,0);
+      background-clip: padding-box;
+    }
+
+    .short{
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      width: 200px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .short-card{
+      position:relative;
+      border-radius: var(--r);
+      overflow:hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow2);
+      aspect-ratio: 9/16;
+      background:
+        radial-gradient(520px 220px at 20% 18%, rgba(240,32,0,.16), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.08), rgba(11,11,12,.02));
+      display:grid;
+      place-items:center;
+      transition:.14s ease;
+    }
+    .short-card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(240,32,0,.22);
+    }
+
+    /* Thumbnail (optional). If no image — останется строгий фон. */
+    .short-card img{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      filter: contrast(1.02) saturate(.98);
+      transform: scale(1.01);
+    }
+    .short-card:before{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.32));
+      pointer-events:none;
+    }
+
+    .short-play{
+      position:relative;
+      width:58px; height:58px;
+      border-radius: 18px;
+      border: 1px solid rgba(240,32,0,.36);
+      background: rgba(240,32,0,.12);
+      display:grid; place-items:center;
+      cursor:pointer;
+      transition:.14s ease;
+      color: var(--ink);
+      z-index:1;
+      backdrop-filter: blur(6px);
+    }
+    .short-card:hover .short-play{ transform: translateY(-1px) scale(1.02); }
+
+    .short-badge{
+      position:absolute;
+      top:10px; left:10px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      color: rgba(247,247,248,.92);
+      font-size: 11px;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      z-index:1;
+    }
+    .short-badge i{
+      width:7px; height:7px; border-radius:2px;
+      background: var(--red);
+      display:inline-block;
+    }
+
+    .short-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .short-name{
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--ink);
+      font-weight: 800;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+
+    /* Two teasers */
+    .teasers{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .teaser{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+    }
+    .teaser h3{ margin:10px 0 8px; font-size: 15px; }
+    .teaser p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
+
+    footer{
+      margin-top: 34px;
+      border-top: 1px solid var(--line);
+      padding: 18px 0;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .feed-list{ max-height: 320px; }
+      .card{ grid-column: span 6; }
+      .video{ grid-template-columns: 1fr; }
+      .teasers{ grid-template-columns: 1fr; }
+      .actions .search{ display:none; }
+
+      .short{ width: 176px; }
+    }
+    @media (max-width: 720px){
+      nav{ display:none; }
+      .card{ grid-column: span 12; }
+      .brand{ min-width:auto; }
+      .actions{ min-width:auto; }
+
+      .shorts-head{ align-items:flex-start; flex-direction:column; }
+      .shorts-actions{ width:100%; justify-content:flex-start; }
+      .short{ width: 168px; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none !important; }
+      .card:hover,.play:hover,.more:hover,.feed-actions a:hover,.short-card:hover{ transform:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grid" aria-hidden="true"></div>
+
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <a class="brand" href="#">
+          <img src="ПР_PNG.png" alt="Промышленный репортёр" />
+          <div class="t">
+            <strong>Промышленный репортёр</strong>
+            <span>индустрия · экономика · технологии</span>
+          </div>
+        </a>
+
+        <nav aria-label="Меню">
+          <a class="navlink active" href="#">Главная</a>
+          <a class="navlink" href="#">Новости</a>
+          <a class="navlink" href="#">TV</a>
+          <a class="navlink" href="#">Продакшн</a>
+          <a class="navlink" href="#">Редакция</a>
+        </nav>
+
+        <div class="actions">
+          <input class="search" placeholder="Поиск…" />
+          <button class="btn">Войти</button>
+          <button class="btn primary">Подписка</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="kicker"><span class="dot"></span><span>Главная</span></div>
+
+    <section class="hero" aria-label="Витрина дня">
+      <article class="panel">
+        <div class="inner">
+          <div class="badge"><i></i> Главный материал</div>
+          <h1>Промышленность без витрин: что работает, а что просто выглядит умно</h1>
+          <p class="lead">
+            Строгий стиль: минимум украшений, максимум ритма и читаемости.
+            Красный — только как сигнал и навигация внимания.
+          </p>
+          <div class="meta">
+            <span>Аналитика</span><span>8 мин</span><span>Сегодня</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Вместо "Коротко" и "Интервью" -->
+      <aside class="feed" aria-label="Лента новостей">
+        <div class="feed-head">
+          <div class="feed-title"><span class="pulse"></span> Лента</div>
+          <div class="feed-actions">
+            <span id="feedStatus">обновляется</span>
+            <a href="#">Все новости</a>
+          </div>
+        </div>
+
+        <div class="feed-list" id="feedList">
+          <!-- items injected by JS -->
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" aria-label="Сегодня">
+      <div class="section-head">
+        <div>
+          <h2>Сегодня</h2>
+          <p>Плоские карточки + строгая типографика. Не “просто”, но и не “цирк”.</p>
+        </div>
+        <a class="more" href="#">Смотреть ленту →</a>
+      </div>
+
+      <div class="cards">
+        <a class="card" href="#">
+          <div class="top"><span class="rubric">Событие</span><span>2 часа</span></div>
+          <h3>Запуск линии: рост мощности без расширения площади</h3>
+          <p class="desc">Описание 1–2 строки: хватит, чтобы выбрать, куда кликнуть.</p>
+          <div class="chips"><span class="chip hot">Срочно</span><span class="chip">Производство</span></div>
+        </a>
+
+        <a class="card" href="#">
+          <div class="top"><span class="rubric">Аналитика</span><span>Сегодня</span></div>
+          <h3>Автоматизация: три места, где ROI реально живёт</h3>
+          <p class="desc">Минимум украшений, максимум читаемости.</p>
+          <div class="chips"><span class="chip">IT/OT</span><span class="chip">ROI</span></div>
+        </a>
+
+        <a class="card" href="#">
+          <div class="top"><span class="rubric">Люди</span><span>Вчера</span></div>
+          <h3>Кадры без сиропа: грейды, наставники, смена</h3>
+          <p class="desc">Когда дизайн не “продаёт”, а помогает быстро понять смысл.</p>
+          <div class="chips"><span class="chip hot">Интервью</span><span class="chip">HR</span></div>
+        </a>
+
+        <a class="card" href="#">
+          <div class="top"><span class="rubric">Рынок</span><span>2 дня</span></div>
+          <h3>Логистика 2026: где узкие места стали шире</h3>
+          <p class="desc">Ещё одна карточка — тот же ритм, то же спокойствие.</p>
+          <div class="chips"><span class="chip">Цепочки</span><span class="chip">Сроки</span></div>
+        </a>
+
+        <a class="card" href="#">
+          <div class="top"><span class="rubric">Тех</span><span>3 дня</span></div>
+          <h3>Машинное зрение на ОТК: меньше брака, меньше споров</h3>
+          <p class="desc">Красный — метка рубрики, не “заливка всего”.</p>
+          <div class="chips"><span class="chip hot">Качество</span><span class="chip">CV</span></div>
+        </a>
+
+        <a class="card" href="#">
+          <div class="top"><span class="rubric">Колонка</span><span>Неделя</span></div>
+          <h3>Почему промышленным новостям нужен характер</h3>
+          <p class="desc">Тонкий намёк на бренд — и никаких декоративных перегибов.</p>
+          <div class="chips"><span class="chip">Редакция</span><span class="chip">Стиль</span></div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Видео-тизер">
+      <div class="section-head">
+        <div>
+          <h2>Видео дня</h2>
+          <p>Один живой элемент на главной — без полноценного дизайна TV-страницы.</p>
+        </div>
+      </div>
+
+      <div class="video">
+        <div class="player">
+          <button class="play" type="button" aria-label="Смотреть">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+        <div class="vside">
+          <div class="kicker"><span class="dot"></span><span>15 минут</span></div>
+          <b>Экскурсия по цеху: «чистая сборка» без глянца</b>
+          <p>Кнопки/действия — минимальные. Подробный блок TV будем проектировать отдельно.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
+            <button class="btn primary">Смотреть</button>
+            <button class="btn">Открыть материал</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== NEW: Shorts section inserted right after "Видео дня" ====== -->
+    <section class="section" aria-label="Shorts">
+      <div class="shorts-wrap">
+        <div class="shorts-head">
+          <div class="shorts-title">
+            <h2>Shorts</h2>
+            <p>Короткие вертикальные видео: быстро в контекст, без лишней витрины.</p>
+          </div>
+          <div class="shorts-actions">
+            <a class="more" href="#" aria-label="Смотреть все Shorts">Все shorts →</a>
+          </div>
+        </div>
+
+        <div class="shorts-row" id="shortsRow" aria-label="Лента Shorts">
+          <!-- shorts injected by JS -->
+        </div>
+      </div>
+    </section>
+    <!-- ====== /NEW ====== -->
+
+    <section class="section" aria-label="Тизеры">
+      <div class="teasers">
+        <div class="teaser">
+          <div class="kicker"><span class="dot"></span><span>Продакшн</span></div>
+          <h3>Спецпроекты, документалки, бренд-форматы</h3>
+          <p>На главной — коротко и уверенно. Детальную витрину продакшна делаем отдельным блоком.</p>
+          <div style="margin-top:10px;">
+            <button class="btn primary">Кейсы →</button>
+          </div>
+        </div>
+
+        <div class="teaser">
+          <div class="kicker"><span class="dot"></span><span>Редакция</span></div>
+          <h3>Факты, тон, ответственность</h3>
+          <p>Мини-блок доверия: кто вы, как проверяете, куда писать. Остальное — в отдельном дизайне.</p>
+          <div style="margin-top:10px;">
+            <button class="btn primary">Написать →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> Промышленный репортёр</div>
+      <div>Контакты · Реклама · Политика</div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // ====== Rambler-like feed demo (замените на ваш API/SSE/WS)
+    const feedList = document.getElementById('feedList');
+    const feedStatus = document.getElementById('feedStatus');
+
+    // demo data
+    let items = [
+      {time:"10:40", rubric:"Коротко", title:"Сроки поставок: где цепочки стали предсказуемее", live:true, href:"#"},
+      {time:"09:15", rubric:"Интервью", title:"Главный инженер: «цифра — это дисциплина, а не софт»", live:false, href:"#"},
+      {time:"08:32", rubric:"Рынок", title:"Металлы и энергия: три движения недели без лишнего шума", live:false, href:"#"},
+      {time:"07:58", rubric:"Технологии", title:"ОТК и машинное зрение: как снизили споры на смене", live:false, href:"#"},
+      {time:"Вчера", rubric:"Люди", title:"Грейды, наставники, смена: как держат специалистов на заводе", live:false, href:"#"}
+    ];
+
+    function renderFeed(){
+      feedList.innerHTML = items.map((n)=>`
+        <a class="feed-item" href="${n.href}">
+          <div class="t-time">${n.time}</div>
+          <div class="t-main">
+            <div class="t-top">
+              <span class="t-dot"></span>
+              <span class="t-rubric">${n.rubric}</span>
+              ${n.live ? `<span class="t-live">LIVE</span>` : ``}
+            </div>
+            <div class="t-title">${n.title}</div>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    renderFeed();
+
+    // имитация real-time: добавляем новость каждые 12 сек
+    const demoPool = [
+      {rubric:"Коротко", title:"Запуск линии: рост мощности без расширения площади", live:true},
+      {rubric:"Событие", title:"Сбой поставок устранён: логистика восстановлена за 36 часов", live:true},
+      {rubric:"Интервью", title:"Цех и цифра: почему софт без дисциплины не работает", live:false},
+      {rubric:"Тех", title:"Пилот цифрового двойника: где экономия появилась уже на обучении", live:false},
+      {rubric:"Рынок", title:"Контракты и цена риска: что поменялось в переговорах", live:false},
+    ];
+
+    function nowHHMM(){
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2,'0');
+      const mm = String(d.getMinutes()).padStart(2,'0');
+      return `${hh}:${mm}`;
+    }
+
+    setInterval(()=>{
+      const pick = demoPool[Math.floor(Math.random()*demoPool.length)];
+      items.unshift({
+        time: nowHHMM(),
+        rubric: pick.rubric,
+        title: pick.title,
+        live: pick.live,
+        href: "#"
+      });
+      items = items.slice(0, 12);
+      renderFeed();
+
+      feedStatus.textContent = "обновлено сейчас";
+      setTimeout(()=>feedStatus.textContent="обновляется", 1800);
+    }, 12000);
+
+    // ====== Shorts demo (замените на реальные ссылки/ID) ======
+    const shortsRow = document.getElementById('shortsRow');
+
+    // Вариант 1 (простой): даёте ссылку на шортс + (опционально) thumbnail.
+    // Для YouTube-шортсов thumbnail можно хранить как готовую картинку в CMS
+    // или собирать по videoId, если у вас он есть.
+    const shorts = [
+      {
+        title: "60 секунд: как устроен контроль качества на линии",
+        time: "1:00",
+        href: "#",
+        badge: "Тех",
+        thumb: "" // можно поставить URL картинки
+      },
+      {
+        title: "Нормирование без боли: одна привычка на смену",
+        time: "0:45",
+        href: "#",
+        badge: "Люди",
+        thumb: ""
+      },
+      {
+        title: "Три ошибки внедрения MES, которые повторяют все",
+        time: "0:58",
+        href: "#",
+        badge: "IT/OT",
+        thumb: ""
+      },
+      {
+        title: "Безопасность: микро-чеклист перед запуском",
+        time: "0:35",
+        href: "#",
+        badge: "ОТ",
+        thumb: ""
+      },
+      {
+        title: "Цепочки поставок: один график, который всё объясняет",
+        time: "0:52",
+        href: "#",
+        badge: "Рынок",
+        thumb: ""
+      }
+    ];
+
+    function renderShorts(){
+      shortsRow.innerHTML = shorts.map((s)=>`
+        <a class="short" href="${s.href}" aria-label="${s.title}">
+          <div class="short-card">
+            ${s.thumb ? `<img src="${s.thumb}" alt="">` : ``}
+            <div class="short-badge"><i></i> ${s.badge}</div>
+            <div class="short-play" role="button" aria-label="Смотреть short">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+          <div class="short-name">${s.title}</div>
+          <div class="short-meta">
+            <span>Short</span>
+            <span>${s.time}</span>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    renderShorts();
+  </script>
+</body>
+</html>

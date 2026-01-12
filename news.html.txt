@@ -1,0 +1,1096 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Новости — Промышленный репортёр</title>
+
+  <style>
+    :root{
+      /* 1:1 с v3 */
+      --bg:#f4f5f6;
+      --paper:#ffffff;
+      --ink:#0b0b0c;
+      --muted:#5a5a61;
+      --muted2:#7a7a83;
+
+      --line:rgba(11,11,12,.12);
+      --line2:rgba(11,11,12,.08);
+      --soft:rgba(11,11,12,.05);
+
+      --red:#f02000;
+
+      --panel:#0b0b0c;
+      --panelText:#f7f7f8;
+      --panelMuted:rgba(247,247,248,.72);
+
+      --max:1160px;
+      --pad:22px;
+
+      --r:16px;
+      --r2:12px;
+
+      --shadow: 0 14px 26px rgba(11,11,12,.08);
+      --shadow2: 0 10px 18px rgba(11,11,12,.06);
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing:.15px;
+      text-rendering: geometricPrecision;
+    }
+    a{ color:inherit; text-decoration:none; }
+    button{ font-family:inherit; }
+    .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
+
+    /* сетка как в v3 */
+    .grid{
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      background:
+        linear-gradient(to right, rgba(0,0,0,.028) 1px, transparent 1px) 0 0/ 84px 84px,
+        linear-gradient(to bottom, rgba(0,0,0,.024) 1px, transparent 1px) 0 0/ 84px 84px;
+      mask-image: radial-gradient(ellipse at 50% 0%, black 32%, transparent 72%);
+      opacity:.45;
+    }
+
+    /* Header (как в v3) */
+    header{
+      position:sticky; top:0; z-index:10;
+      background: rgba(244,245,246,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding: 14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 260px;
+    }
+    .brand img{ width:44px; height:44px; object-fit:contain; display:block; }
+    .brand .t{ display:flex; flex-direction:column; line-height:1.05; }
+    .brand .t strong{ text-transform:uppercase; font-size:13px; letter-spacing:1.7px; }
+    .brand .t span{ font-size:12px; color: var(--muted); }
+
+    nav{ display:flex; align-items:center; gap:18px; }
+    .navlink{
+      font-size:13px;
+      color: var(--muted);
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition:.14s ease;
+      white-space:nowrap;
+    }
+    .navlink:hover{ color: var(--ink); border-bottom-color: rgba(240,32,0,.28); }
+    .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
+
+    .actions{ display:flex; align-items:center; gap:10px; min-width: 240px; justify-content:flex-end; }
+    .search{
+      width:min(260px, 34vw);
+      border:1px solid var(--line2);
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline:none;
+      transition:.14s ease;
+    }
+    .search:focus{ border-color: rgba(240,32,0,.40); box-shadow: 0 0 0 4px rgba(240,32,0,.08); }
+
+    .btn{
+      border:1px solid var(--ink);
+      background: transparent;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor:pointer;
+      transition:.14s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{ border-color: var(--red); color: var(--red); font-weight:800; }
+
+    /* доп. кнопка в стиле v3 */
+    .btn.ghost{
+      border-color: rgba(11,11,12,0);
+      background: rgba(11,11,12,.02);
+      color: var(--muted);
+    }
+
+    main{ position:relative; z-index:1; padding: 24px 0 56px; }
+
+    .kicker{
+      display:flex; align-items:center; gap:10px;
+      font-size:12px; letter-spacing:1.4px; text-transform:uppercase;
+      color: var(--muted);
+    }
+    .kicker .dot{
+      width:9px; height:9px; border-radius: 3px;
+      background: var(--red);
+    }
+
+    /* ===== Global search (NEW) ===== */
+    .globalSearch{
+      margin-top: 12px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .gsLeft{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex: 1 1 520px;
+      min-width: 260px;
+    }
+    .gsInput{
+      flex: 1 1 auto;
+      border:1px solid var(--line2);
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline:none;
+      transition:.14s ease;
+    }
+    .gsInput:focus{
+      border-color: rgba(240,32,0,.40);
+      box-shadow: 0 0 0 4px rgba(240,32,0,.08);
+    }
+    .gsRight{
+      font-size: 13px;
+      color: var(--muted);
+      flex: 0 0 auto;
+      white-space:nowrap;
+    }
+
+    /* ===== Layout: left big materials + right feed ===== */
+    .layout{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1.35fr .9fr; /* как hero в v3 */
+      gap: 14px;
+      align-items:start;
+    }
+
+    /* ===== Filters (tabs) ===== */
+    .controlbar{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      padding: 10px 12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom: 14px;
+    }
+    .tabs{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .tab{
+      font-size:13px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition:.14s ease;
+      white-space:nowrap;
+    }
+    .tab:hover{ color: var(--ink); border-color: rgba(240,32,0,.18); background: rgba(240,32,0,.04); }
+    .tab.active{ color: var(--ink); border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); font-weight:900; }
+
+    .hint{ font-size:13px; color: var(--muted); }
+
+    /* ===== LEFT: big materials list ===== */
+    .biglist{ display:flex; flex-direction:column; gap:14px; }
+
+    .bigcard{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+      transition:.14s ease;
+      display:flex;
+      flex-direction:column;
+    }
+    .bigcard:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
+
+    .bigrow{
+      display:grid;
+      grid-template-columns: 240px 1fr;
+      gap: 14px;
+      align-items:start;
+    }
+
+    .thumb{
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(560px 220px at 20% 15%, rgba(240,32,0,.14), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      aspect-ratio: 16/10;
+      box-shadow: var(--shadow2);
+    }
+
+    .top{
+      display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted);
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .rubric{
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight: 900; color: var(--ink);
+      letter-spacing:.2px;
+    }
+    .rubric:before{
+      content:""; width:8px; height:8px; border-radius:2px; background: var(--red);
+      display:inline-block;
+    }
+    .live{
+      font-size:10px;
+      font-weight:1000;
+      letter-spacing:.9px;
+      color: var(--red);
+      border: 1px solid rgba(240,32,0,.28);
+      background: rgba(240,32,0,.06);
+      padding: 2px 6px;
+      border-radius: 999px;
+      margin-left:auto;
+    }
+
+    .bigcard h3{ margin:10px 0 10px; font-size:16px; line-height:1.2; }
+    .desc{ margin:0; color: var(--muted); font-size:13px; line-height:1.55; }
+
+    .chips{ margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; }
+    .chip{
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--soft);
+      background: rgba(11,11,12,.02);
+      color: var(--muted);
+    }
+    .chip.hot{ border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); color: var(--ink); font-weight:800; }
+
+    /* ===== RIGHT: feed ===== */
+    .feed{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      min-height: 360px;
+      position:sticky;
+      top: 78px;
+      max-height: calc(100vh - 96px);
+    }
+    .feed-head{
+      padding: 12px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      border-bottom: 1px solid var(--line2);
+      background: linear-gradient(180deg, rgba(11,11,12,.018), transparent);
+    }
+    .feed-title{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      font-size:12px;
+    }
+    .feed-title .pulse{
+      width:9px; height:9px; border-radius:3px;
+      background: var(--red);
+      box-shadow: 0 0 0 6px rgba(240,32,0,.08);
+    }
+    .feed-actions{
+      display:flex; gap:8px; align-items:center;
+      font-size:12px;
+      color: var(--muted);
+      white-space:nowrap;
+    }
+    .feed-actions a{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(240,32,0,.20);
+      background: rgba(240,32,0,.05);
+      color: var(--red);
+      font-weight:900;
+      transition:.14s ease;
+    }
+    .feed-actions a:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
+
+    .feed-list{
+      padding: 6px 0;
+      overflow:auto;
+    }
+    .feed-item{
+      display:grid;
+      grid-template-columns: 56px 1fr;
+      gap: 10px;
+      padding: 10px 14px;
+      border-top: 1px solid rgba(11,11,12,.06);
+      transition:.12s ease;
+      cursor:pointer;
+    }
+    .feed-item:first-child{ border-top:0; }
+    .feed-item:hover{ background: rgba(11,11,12,.02); }
+
+    .t-time{
+      font-size:12px;
+      color: var(--muted2);
+      font-variant-numeric: tabular-nums;
+      padding-top: 1px;
+    }
+    .t-main{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+    .t-top{ display:flex; align-items:center; gap:8px; font-size:12px; color: var(--muted); }
+    .t-dot{
+      width:7px; height:7px; border-radius:2px;
+      background: var(--red);
+      display:inline-block;
+      transform: translateY(1px);
+    }
+    .t-rubric{ font-weight:800; color: var(--ink); }
+    .t-live{
+      margin-left:auto;
+      font-size:10px;
+      font-weight:1000;
+      letter-spacing:.9px;
+      color: var(--red);
+      border: 1px solid rgba(240,32,0,.28);
+      background: rgba(240,32,0,.06);
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+    .t-title{
+      font-size:13px;
+      line-height:1.35;
+      color: var(--ink);
+      font-weight:700;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+
+    /* ===== ARTICLE VIEW ===== */
+    .article{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      padding: 14px;
+    }
+
+    .articleHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:14px;
+      margin-bottom: 12px;
+    }
+    .articleHead h2{ margin:0; font-size: 18px; letter-spacing:.2px; }
+    .articleHead p{ margin:0; font-size: 13px; color: var(--muted); }
+
+    .more{
+      font-size: 13px;
+      color: var(--red);
+      font-weight: 900;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(240,32,0,.22);
+      background: rgba(240,32,0,.05);
+      transition:.14s ease;
+      white-space:nowrap;
+      cursor:pointer;
+    }
+    .more:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
+
+    .media{
+      margin-top: 10px;
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.20), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      aspect-ratio: 16/9;
+      box-shadow: var(--shadow2);
+    }
+    .caption{
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted2);
+      line-height: 1.55;
+    }
+
+    .articleTitle{
+      margin: 12px 0 10px;
+      font-size: clamp(28px, 3.0vw, 44px);
+      line-height: 1.05;
+      letter-spacing: .15px;
+      font-weight: 1000;
+    }
+    .articleLead{
+      margin:0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.65;
+      max-width: 72ch;
+    }
+
+    .meta{
+      margin-top: 12px;
+      display:flex; flex-wrap:wrap; gap:10px 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .meta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--soft);
+      background: rgba(11,11,12,.02);
+      color: var(--muted);
+    }
+    .meta span strong{ color: var(--ink); }
+
+    .toolbar{
+      margin-top: 12px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .body{
+      margin-top: 12px;
+      border-top: 1px solid rgba(11,11,12,.06);
+      padding-top: 12px;
+    }
+    .body p{
+      margin:0 0 12px;
+      font-size: 15px;
+      line-height: 1.75;
+      color: #121214;
+      max-width: 78ch;
+    }
+    .body p.small{
+      font-size:13px;
+      color: var(--muted);
+    }
+
+    .related{
+      margin-top: 14px;
+      border-top: 1px solid rgba(11,11,12,.06);
+      padding-top: 14px;
+    }
+
+    .relGrid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .relCard{
+      grid-column: span 6;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 14px;
+      box-shadow: var(--shadow2);
+      transition:.14s ease;
+      cursor:pointer;
+    }
+    .relCard:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
+    .relCard .top{ display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted); }
+    .relCard h3{ margin:10px 0 10px; font-size:16px; line-height:1.2; }
+
+    footer{
+      margin-top: 34px;
+      border-top: 1px solid var(--line);
+      padding: 18px 0;
+      color: var(--muted);
+      font-size: 12px;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    /* IMPORTANT: на этой странице один поиск — глобальный */
+    .actions .search{ display:none; }
+
+    /* Responsive — как в v3 */
+    @media (max-width: 980px){
+      .layout{ grid-template-columns: 1fr; }
+      .feed{ position:relative; top:auto; max-height:none; min-height:auto; }
+      .actions .search{ display:none; }
+      .bigrow{ grid-template-columns: 1fr; }
+      .relCard{ grid-column: span 12; }
+    }
+    @media (max-width: 720px){
+      nav{ display:none; }
+      .brand{ min-width:auto; }
+      .actions{ min-width:auto; }
+      .gsRight{ width:100%; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none !important; }
+      .feed-actions a:hover,.more:hover,.btn:hover,.bigcard:hover,.relCard:hover{ transform:none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="grid" aria-hidden="true"></div>
+
+  <header>
+    <div class="container">
+      <div class="topbar">
+        <a class="brand" href="#" id="homeLink">
+          <img src="ПР_PNG.png" alt="Промышленный репортёр" />
+          <div class="t">
+            <strong>Промышленный репортёр</strong>
+            <span>индустрия · экономика · технологии</span>
+          </div>
+        </a>
+
+        <nav aria-label="Меню">
+          <a class="navlink" href="#">Главная</a>
+          <a class="navlink active" href="#">Новости</a>
+          <a class="navlink" href="#">TV</a>
+          <a class="navlink" href="#">Продакшн</a>
+          <a class="navlink" href="#">Редакция</a>
+        </nav>
+
+        <div class="actions">
+          <input class="search" placeholder="Поиск…" />
+          <button class="btn">Войти</button>
+          <button class="btn primary">Подписка</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="kicker"><span class="dot"></span><span id="pageTitle">Новости</span></div>
+
+    <!-- GLOBAL SEARCH -->
+    <section class="globalSearch" aria-label="Поиск по новостям">
+      <div class="gsLeft">
+        <input class="gsInput" id="globalSearchInput" placeholder="Поиск по всем материалам и ленте…" />
+        <button class="btn ghost" id="clearGlobalSearch" type="button">Сброс</button>
+      </div>
+      <div class="gsRight" id="globalSearchHint">Введите запрос…</div>
+    </section>
+
+    <div class="layout">
+      <!-- LEFT -->
+      <section aria-label="Большие материалы">
+        <div class="controlbar">
+          <div class="tabs" role="tablist" aria-label="Рубрики">
+            <a class="tab active" href="#" data-tab="all">Все</a>
+            <a class="tab" href="#" data-tab="events">События</a>
+            <a class="tab" href="#" data-tab="market">Рынок</a>
+            <a class="tab" href="#" data-tab="tech">Тех</a>
+            <a class="tab" href="#" data-tab="people">Люди</a>
+            <a class="tab" href="#" data-tab="opinion">Колонка</a>
+          </div>
+          <div class="hint" id="leftHint">Большие материалы · можно фильтровать</div>
+        </div>
+
+        <div id="listView" class="biglist" aria-label="Список материалов"></div>
+        <article id="articleView" class="article" style="display:none;" aria-label="Полная статья"></article>
+      </section>
+
+      <!-- RIGHT -->
+      <aside class="feed" aria-label="Лента новостей">
+        <div class="feed-head">
+          <div class="feed-title"><span class="pulse"></span> Лента</div>
+          <div class="feed-actions">
+            <span id="feedStatus">обновляется</span>
+            <a href="#" id="liveToggle">Только LIVE</a>
+          </div>
+        </div>
+        <div class="feed-list" id="feedList"></div>
+      </aside>
+    </div>
+
+    <footer>
+      <div>© <span id="y"></span> Промышленный репортёр</div>
+      <div>Контакты · Реклама · Политика</div>
+    </footer>
+  </main>
+
+  <script>
+    // ===== Mock content =====
+    const ARTICLES = [
+      {
+        id: "a1", tab: "events", rubric: "События",
+        when: "Сегодня · 10:40", age: "12 мин", live: true,
+        title: "Запуск линии: рост мощности без расширения площади",
+        lead: "Что поменялось в логике потока, где скрытые потери и почему ‘площадь’ давно не главный ограничитель.",
+        tags: ["Срочно","Производство"],
+        author: "Редакция", updated: "Обновлено 10:52",
+        caption: "Визуализация — плейсхолдер. Здесь будет реальное фото/видео с подписью.",
+        body: [
+          "Запуск линии — это почти никогда не ‘про станок’. Это про то, как меняются правила работы людей, данных и логистики между участками.",
+          "В первые недели чаще всего всплывают не технические, а организационные дефекты: очереди на измерение, спорные критерии качества, расползание ответственности.",
+          "Практический трюк: фиксируйте не просто OEE, а причины ‘потерь времени’ по сменам — и делайте ежедневную короткую обратную связь (5–7 минут) с мастером.",
+          "Если линия ‘выросла’ на бумаге, но склад и отгрузка остались прежними — вы просто перенесли узкое место дальше по цепочке.",
+          "Ниже — список решений, которые дают эффект быстрее всего: (1) единые правила приёмки, (2) прозрачный план по сменам, (3) быстрые ‘петли’ качества."
+        ]
+      },
+      {
+        id: "a2", tab: "market", rubric: "Рынок",
+        when: "Сегодня · 10:05", age: "47 мин", live: false,
+        title: "Металлы и энергия: три движения недели без лишнего шума",
+        lead: "Карта рисков: цена, сроки, поставщики. Без драматургии, только то, что меняет решения в закупках.",
+        tags: ["Контракты","Энергия"],
+        author: "Аналитический стол", updated: "Опубликовано 10:05",
+        caption: "Графики и данные — позже, в продуктовой версии.",
+        body: [
+          "Рынок сейчас ведёт себя как ‘пружина’: движений много, но большая часть — шум вокруг ожиданий.",
+          "Для закупок важнее не амплитуда, а скорость изменения условий: авансы, сроки, штрафы, возможность пересогласования.",
+          "Прагматичный подход: держать 2–3 сценария поставок и заранее согласованные лимиты ‘цены риска’ для руководителя проекта.",
+          "Если поставщик пытается переложить на вас колебания, просите зеркальные условия: встречные уступки по срокам и сервису."
+        ]
+      },
+      {
+        id: "a3", tab: "tech", rubric: "Тех",
+        when: "Сегодня · 09:15", age: "1 час", live: false,
+        title: "Машинное зрение на ОТК: меньше брака, меньше споров",
+        lead: "Пилот показывает: эффект даёт не только модель, но и ‘новые правила’ спорных кейсов на смене.",
+        tags: ["Качество","CV"],
+        author: "Тех-редакция", updated: "Опубликовано 09:15",
+        caption: "Подпись к изображению: что именно видим и где это в процессе.",
+        body: [
+          "Главный выигрыш CV на ОТК часто не в ‘точности’, а в снижении числа конфликтов по критериям приемки.",
+          "Если перед внедрением не обновить регламент качества — алгоритм просто масштабирует старые противоречия.",
+          "Лучший формат пилота: 2 недели параллельного контроля + ежедневный разбор спорных примеров с технологом."
+        ]
+      },
+      {
+        id: "a4", tab: "people", rubric: "Люди",
+        when: "Сегодня · 08:32", age: "2 часа", live: false,
+        title: "Грейды, наставники, смена: как удерживают специалистов на заводе",
+        lead: "Что работает: прозрачность роста, ротация задач и нормальная обратная связь без ‘героизма’.",
+        tags: ["HR","Смена"],
+        author: "Редакция", updated: "Опубликовано 08:32",
+        caption: "Командные практики иногда важнее, чем размер бонуса.",
+        body: [
+          "Удержание — это не ‘плюс 5%’. Это предсказуемость правил и ощущение справедливости.",
+          "Наставничество работает, когда оно встроено в план смены и учитывается в оценке, а не держится на энтузиазме.",
+          "Ротация задач снижает выгорание и делает команду устойчивее к отпускным/болезням."
+        ]
+      },
+      {
+        id: "a5", tab: "opinion", rubric: "Колонка",
+        when: "Сегодня · 07:58", age: "3 часа", live: false,
+        title: "Почему новостям в промышленности нужен характер",
+        lead: "Не ‘продавать’, а помогать понимать: где факт, где мнение, где контекст, и кто за что отвечает.",
+        tags: ["Редакция","Стиль"],
+        author: "Главный редактор", updated: "Опубликовано 07:58",
+        caption: "Колонка: позиция автора, не новостной репорт.",
+        body: [
+          "Промышленная новость ценна, когда она экономит читателю время и снижает неопределённость.",
+          "Стиль важен не ради красоты, а ради ясности: короткие абзацы, аккуратная терминология, проверяемые формулировки.",
+          "И да: красный цвет — это сигнал. Если его много, он перестаёт работать."
+        ]
+      },
+      {
+        id: "a6", tab: "events", rubric: "События",
+        when: "Вчера · 18:20", age: "18 ч", live: true,
+        title: "Сбой поставок устранён: логистика восстановлена за 36 часов",
+        lead: "Причина, какой резерв сработал, и что это значит для графика производства.",
+        tags: ["Логистика","Сроки"],
+        author: "Редакция", updated: "Обновлено 18:45",
+        caption: "Сквозная логистика — то, что держит производство в реальности.",
+        body: [
+          "В подобных ситуациях решает не ‘герой’, а заранее созданный резерв: альтернативные перевозчики, буферные партии, договорённые маршруты.",
+          "Важно фиксировать постфактум: какая часть плана была сорвана и почему, чтобы резерв не ‘съедался’ в следующей неделе."
+        ]
+      }
+    ];
+
+    const FEED_POOL = [
+      { tab:"events", rubric:"События", title:"Пусконаладка завершена: переход на 3-сменный график", live:true },
+      { tab:"market", rubric:"Рынок", title:"Сырьё: давление на маржу сохраняется, но без паники", live:false },
+      { tab:"tech", rubric:"Тех", title:"ОТК: спорные кейсы снизились после обновления правил приемки", live:false },
+      { tab:"people", rubric:"Люди", title:"Наставничество: как измерять пользу без ‘героизма’", live:false },
+      { tab:"events", rubric:"Коротко", title:"Сроки поставок: где цепочки стали предсказуемее", live:true },
+    ];
+
+    // ===== State =====
+    let state = { tab: "all", liveOnly: false, query: "", selectedId: null };
+
+    // ===== DOM =====
+    document.getElementById("y").textContent = new Date().getFullYear();
+
+    const listView = document.getElementById("listView");
+    const articleView = document.getElementById("articleView");
+    const pageTitle = document.getElementById("pageTitle");
+    const leftHint = document.getElementById("leftHint");
+
+    const feedList = document.getElementById("feedList");
+    const feedStatus = document.getElementById("feedStatus");
+
+    const homeLink = document.getElementById("homeLink");
+    const liveToggle = document.getElementById("liveToggle");
+
+    // Global search DOM
+    const globalSearchInput = document.getElementById("globalSearchInput");
+    const clearGlobalSearch = document.getElementById("clearGlobalSearch");
+    const globalSearchHint = document.getElementById("globalSearchHint");
+
+    // ===== Helpers =====
+    function nowHHMM(){
+      const d = new Date();
+      const hh = String(d.getHours()).padStart(2,'0');
+      const mm = String(d.getMinutes()).padStart(2,'0');
+      return `${hh}:${mm}`;
+    }
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function matchesFilter(a){
+      const tabOk = (state.tab === "all") || (a.tab === state.tab);
+      const liveOk = !state.liveOnly || a.live;
+      const q = state.query.trim().toLowerCase();
+      const qOk = !q || (a.title.toLowerCase().includes(q) || a.lead.toLowerCase().includes(q) || a.rubric.toLowerCase().includes(q));
+      return tabOk && liveOk && qOk;
+    }
+
+    function relatedFor(article){
+      const sameTab = ARTICLES.filter(a => a.id !== article.id && a.tab === article.tab);
+      const byTags = ARTICLES.filter(a => a.id !== article.id && a.tab !== article.tab && a.tags.some(t => article.tags.includes(t)));
+      const merged = [...sameTab, ...byTags];
+
+      const uniq = [];
+      const seen = new Set();
+      for(const a of merged){
+        if(!seen.has(a.id)){ seen.add(a.id); uniq.push(a); }
+      }
+      return uniq.slice(0, 4);
+    }
+
+    function renderGlobalHint(){
+      const q = state.query.trim();
+      if(!q){
+        globalSearchHint.textContent = "Введите запрос…";
+        return;
+      }
+
+      // Left list count
+      const leftCount = ARTICLES.filter(matchesFilter).length;
+
+      // Feed count (respect liveOnly + query)
+      const qLower = q.toLowerCase();
+      const feedCount = (state.liveOnly ? feedItems.filter(i => i.live) : feedItems)
+        .filter(i => i.title.toLowerCase().includes(qLower) || i.rubric.toLowerCase().includes(qLower)).length;
+
+      globalSearchHint.textContent = `Найдено: ${leftCount} материалов · ${feedCount} в ленте`;
+    }
+
+    // ===== Render list (left big materials) =====
+    function renderList(){
+      const items = ARTICLES.filter(matchesFilter);
+
+      pageTitle.textContent = state.selectedId ? "Статья" : "Новости";
+      leftHint.textContent = state.selectedId
+        ? "Полная статья · внизу будут похожие материалы"
+        : `Большие материалы · ${items.length} шт.`;
+
+      if(state.selectedId){
+        listView.style.display = "none";
+        articleView.style.display = "block";
+        renderArticle(state.selectedId);
+        return;
+      }
+
+      articleView.style.display = "none";
+      listView.style.display = "flex";
+
+      if(items.length === 0){
+        listView.innerHTML = `
+          <div class="bigcard">
+            <div class="bigrow">
+              <div class="thumb" aria-hidden="true"></div>
+              <div>
+                <div class="top"><span class="rubric">Ничего не найдено</span><span>${escapeHtml("Попробуй другой фильтр или запрос")}</span></div>
+                <h3>Пусто. Но честно.</h3>
+                <p class="desc">Сними LIVE, переключи рубрику или сократи поисковый запрос.</p>
+                <div class="chips"><span class="chip">Фильтры</span><span class="chip">Поиск</span></div>
+              </div>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      listView.innerHTML = items.map(a => `
+        <a class="bigcard" href="#" data-open="${a.id}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
+          <div class="bigrow">
+            <div class="thumb" aria-hidden="true"></div>
+            <div>
+              <div class="top">
+                <span class="rubric">${escapeHtml(a.rubric)}</span>
+                <span>${escapeHtml(a.when)} · ${escapeHtml(a.age)}</span>
+                ${a.live ? `<span class="live">LIVE</span>` : ``}
+              </div>
+              <h3>${escapeHtml(a.title)}</h3>
+              <p class="desc">${escapeHtml(a.lead)}</p>
+              <div class="chips">
+                ${a.tags.map(t => `<span class="chip ${t==="Срочно" ? "hot":""}">${escapeHtml(t)}</span>`).join("")}
+              </div>
+            </div>
+          </div>
+        </a>
+      `).join("");
+
+      listView.querySelectorAll("[data-open]").forEach(el=>{
+        el.addEventListener("click",(e)=>{
+          e.preventDefault();
+          openArticle(el.dataset.open);
+        });
+      });
+    }
+
+    // ===== Render article (full) =====
+    function renderArticle(id){
+      const a = ARTICLES.find(x => x.id === id);
+      if(!a){
+        state.selectedId = null;
+        renderList();
+        return;
+      }
+
+      const rel = relatedFor(a);
+
+      articleView.innerHTML = `
+        <div class="articleHead">
+          <div>
+            <h2>${escapeHtml(a.rubric)}</h2>
+            <p>${escapeHtml(a.when)} · ${escapeHtml(a.updated)} · <strong>${escapeHtml(a.author)}</strong></p>
+          </div>
+          <button class="more" id="backBtn" type="button">← Назад</button>
+        </div>
+
+        <div class="media" aria-label="Медиа"></div>
+        <div class="caption">${escapeHtml(a.caption)}</div>
+
+        <div class="articleTitle">${escapeHtml(a.title)}</div>
+        <p class="articleLead">${escapeHtml(a.lead)}</p>
+
+        <div class="meta">
+          <span><strong>${escapeHtml(a.rubric)}</strong></span>
+          <span>${escapeHtml(a.age)}</span>
+          <span>${a.live ? "LIVE" : "Материал"}</span>
+        </div>
+
+        <div class="toolbar" aria-label="Действия">
+          <button class="btn primary" id="shareBtn" type="button">Поделиться</button>
+          <button class="btn" id="saveBtn" type="button">Сохранить</button>
+          <button class="btn" id="copyBtn" type="button">Скопировать ссылку</button>
+        </div>
+
+        <div class="body">
+          ${a.body.map(p => `<p>${escapeHtml(p)}</p>`).join("")}
+          <p class="small">Примечание: это мок-верстка для оценки дизайна/UX. В проде сюда встанет реальный контент, медиа и метаданные.</p>
+        </div>
+
+        <div class="related" aria-label="Похожие материалы">
+          <div class="articleHead" style="margin-bottom:0;">
+            <div>
+              <h2>Похожие материалы</h2>
+              <p>Та же рубрика / пересечение тегов</p>
+            </div>
+          </div>
+
+          <div class="relGrid">
+            ${rel.map(r => `
+              <div class="relCard" data-open="${r.id}" role="button" tabindex="0" aria-label="Открыть похожий материал: ${escapeHtml(r.title)}">
+                <div class="top"><span class="rubric">${escapeHtml(r.rubric)}</span><span>${escapeHtml(r.age)}</span></div>
+                <h3>${escapeHtml(r.title)}</h3>
+                <p class="desc">${escapeHtml(r.lead)}</p>
+                <div class="chips">${r.tags.slice(0,2).map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("")}</div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      `;
+
+      articleView.querySelector("#backBtn").addEventListener("click", ()=>{
+        state.selectedId = null;
+        renderList();
+        renderGlobalHint();
+        window.scrollTo({top: 0, behavior: "smooth"});
+      });
+
+      articleView.querySelector("#shareBtn").addEventListener("click", ()=>{
+        alert("Шэр: в проде откроем системный share / модалку.");
+      });
+      articleView.querySelector("#saveBtn").addEventListener("click", ()=>{
+        alert("Сохранено (мок).");
+      });
+      articleView.querySelector("#copyBtn").addEventListener("click", async ()=>{
+        const fakeUrl = location.href.split("#")[0] + "#/news/" + id;
+        try{
+          await navigator.clipboard.writeText(fakeUrl);
+          alert("Ссылка скопирована: " + fakeUrl);
+        }catch{
+          alert("Не удалось скопировать — браузер запретил. Вот ссылка: " + fakeUrl);
+        }
+      });
+
+      articleView.querySelectorAll("[data-open]").forEach(el=>{
+        el.addEventListener("click", ()=> openArticle(el.dataset.open));
+        el.addEventListener("keydown",(e)=>{
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            openArticle(el.dataset.open);
+          }
+        });
+      });
+    }
+
+    function openArticle(id){
+      state.selectedId = id;
+      renderList();
+      renderGlobalHint();
+      window.scrollTo({top: 0, behavior: "smooth"});
+    }
+
+    // ===== Feed (right) =====
+    let feedItems = [
+      { id:"a1", time:"10:40", rubric:"События", title:"Запуск линии: рост мощности без расширения площади", live:true },
+      { id:"a3", time:"09:15", rubric:"Тех", title:"Машинное зрение на ОТК: меньше брака, меньше споров", live:false },
+      { id:"a2", time:"10:05", rubric:"Рынок", title:"Металлы и энергия: три движения недели без лишнего шума", live:false },
+      { id:"a4", time:"08:32", rubric:"Люди", title:"Грейды, наставники, смена: как удерживают специалистов", live:false },
+      { id:"a6", time:"Вчера", rubric:"События", title:"Сбой поставок устранён: логистика восстановлена за 36 часов", live:true },
+    ];
+
+    function renderFeed(){
+      const q = state.query.trim().toLowerCase();
+
+      const show = (state.liveOnly ? feedItems.filter(i => i.live) : feedItems)
+        .filter(i => !q || i.title.toLowerCase().includes(q) || i.rubric.toLowerCase().includes(q));
+
+      feedList.innerHTML = show.map(n => `
+        <div class="feed-item" data-open="${n.id}">
+          <div class="t-time">${escapeHtml(n.time)}</div>
+          <div class="t-main">
+            <div class="t-top">
+              <span class="t-dot"></span>
+              <span class="t-rubric">${escapeHtml(n.rubric)}</span>
+              ${n.live ? `<span class="t-live">LIVE</span>` : ``}
+            </div>
+            <div class="t-title">${escapeHtml(n.title)}</div>
+          </div>
+        </div>
+      `).join("");
+
+      feedList.querySelectorAll("[data-open]").forEach(el=>{
+        el.addEventListener("click", ()=> openArticle(el.dataset.open));
+      });
+    }
+
+    // simulate updates
+    setInterval(()=>{
+      const pick = FEED_POOL[Math.floor(Math.random()*FEED_POOL.length)];
+      const fallback = ARTICLES.find(a => a.tab === pick.tab) || ARTICLES[0];
+      feedItems.unshift({
+        id: fallback.id,
+        time: nowHHMM(),
+        rubric: pick.rubric,
+        title: pick.title,
+        live: pick.live
+      });
+      feedItems = feedItems.slice(0, 16);
+      renderFeed();
+
+      feedStatus.textContent = "обновлено сейчас";
+      setTimeout(()=>feedStatus.textContent="обновляется", 1800);
+
+      renderGlobalHint();
+    }, 12000);
+
+    // ===== UI wiring =====
+    document.querySelectorAll(".tab").forEach(el=>{
+      el.addEventListener("click",(e)=>{
+        e.preventDefault();
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+        el.classList.add("active");
+        state.tab = el.dataset.tab;
+        state.selectedId = null;
+        renderList();
+        renderFeed();
+        renderGlobalHint();
+      });
+    });
+
+    liveToggle.addEventListener("click",(e)=>{
+      e.preventDefault();
+      state.liveOnly = !state.liveOnly;
+      liveToggle.textContent = state.liveOnly ? "Все" : "Только LIVE";
+      renderFeed();
+      if(!state.selectedId) renderList();
+      renderGlobalHint();
+    });
+
+    homeLink.addEventListener("click",(e)=>{
+      e.preventDefault();
+      state.selectedId = null;
+      renderList();
+      renderFeed();
+      renderGlobalHint();
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+
+    // Global search events
+    globalSearchInput.addEventListener("input",(e)=>{
+      state.query = e.target.value;
+      if(!state.selectedId) renderList();
+      renderFeed();
+      renderGlobalHint();
+    });
+
+    clearGlobalSearch.addEventListener("click", ()=>{
+      state.query = "";
+      globalSearchInput.value = "";
+      if(!state.selectedId) renderList();
+      renderFeed();
+      renderGlobalHint();
+    });
+
+    // init
+    renderList();
+    renderFeed();
+    renderGlobalHint();
+  </script>
+</body>
+</html>
