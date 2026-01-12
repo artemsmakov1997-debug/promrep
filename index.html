@@ -602,7 +602,6 @@
       .short{ width: 176px; }
     }
     @media (max-width: 720px){
-      nav{ display:none; }
       .card{ grid-column: span 12; }
       .brand{ min-width:auto; }
       .actions{ min-width:auto; }
@@ -615,6 +614,58 @@
       *{ transition:none !important; }
       .card:hover,.play:hover,.more:hover,.feed-actions a:hover,.short-card:hover{ transform:none !important; }
     }
+    /* ПК по умолчанию */
+.nav-mobile{ display: none; }
+.nav-desktop{ display: flex; gap: 18px; align-items: center; }
+
+/* бургер-кнопка */
+.burger{
+  cursor: pointer;
+  user-select: none;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--stroke);
+  background: var(--card);
+  color: var(--ink);
+  font-weight: 800;
+}
+.burger::-webkit-details-marker{ display:none; }
+.burger::marker{ content:""; }
+
+.nav-mobile{ position: relative; }
+
+/* панель меню (выпадашка) */
+.nav-panel{
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: min(320px, 92vw);
+
+  padding: 12px;
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  border-radius: 16px;
+  box-shadow: 0 18px 40px rgba(0,0,0,.18);
+  z-index: 50;
+
+  flex-direction: column;
+  gap: 10px;
+}
+.nav-mobile[open] .nav-panel{ display: flex; }
+
+/* Мобилка: выключаем десктоп-меню, включаем бургер */
+@media (max-width: 720px){
+  .nav-desktop{ display: none; }
+  .nav-mobile{ display: block; }
+
+  .nav-panel .navlink{
+    padding: 10px 8px;
+    white-space: nowrap;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .nav-panel .navlink:last-child{ border-bottom: 0; }
+}
   </style>
 </head>
 
@@ -632,13 +683,28 @@
           </div>
         </a>
 
-        <nav aria-label="Меню">
-          <a class="navlink active" href="index.html">Главная</a>
-          <a class="navlink" href="news.html">Новости</a>
-          <a class="navlink" href="tv.html">TV</a>
-          <a class="navlink" href="production.html">Продакшн</a>
-          <a class="navlink" href="editorial.html">Редакция</a>
-        </nav>
+        <!-- ДЕСКТОП-МЕНЮ (видно только на ПК) -->
+<nav class="nav-desktop" aria-label="Меню">
+  <a class="navlink active" href="index.html">Главная</a>
+  <a class="navlink" href="news.html">Новости</a>
+  <a class="navlink" href="tv.html">TV</a>
+  <a class="navlink" href="production.html">Продакшн</a>
+  <a class="navlink" href="editorial.html">Редакция</a>
+</nav>
+
+<!-- МОБИЛЬНОЕ МЕНЮ (видно только на телефоне) -->
+<details class="nav-mobile">
+  <summary class="burger" aria-label="Открыть меню"><span aria-hidden="true">≡</span></summary>
+
+  <nav class="nav-panel" aria-label="Меню">
+    <a class="navlink" href="index.html">Главная</a>
+    <a class="navlink" href="news.html">Новости</a>
+    <a class="navlink" href="tv.html">TV</a>
+    <a class="navlink" href="production.html">Продакшн</a>
+    <a class="navlink" href="editorial.html">Редакция</a>
+  </nav>
+</details>
+
       </div>
     </div>
   </header>
@@ -940,7 +1006,28 @@
 
     renderShorts();
   </script>
+  <script>
+  (function(){
+    const d = document.querySelector('.nav-mobile');
+    if(!d) return;
+
+    d.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', ()=> d.removeAttribute('open'));
+    });
+
+    document.addEventListener('click', (e)=>{
+      if(d.hasAttribute('open') && !d.contains(e.target)){
+        d.removeAttribute('open');
+      }
+    });
+
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') d.removeAttribute('open');
+    });
+  })();
+</script>
 </body>
 </html>
+
 
 
