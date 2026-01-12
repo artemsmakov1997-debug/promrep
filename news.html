@@ -77,7 +77,7 @@
     .brand .t strong{ text-transform:uppercase; font-size:13px; letter-spacing:1.7px; }
     .brand .t span{ font-size:12px; color: var(--muted); }
 
-    nav{ display:flex; align-items:center; gap:18px; }
+    /* базовые стили ссылок меню */
     .navlink{
       font-size:13px;
       color: var(--muted);
@@ -537,6 +537,56 @@
     /* IMPORTANT: на этой странице один поиск — глобальный */
     .actions .search{ display:none; }
 
+    /* ===== БУРГЕР-МЕНЮ: ПК/мобилка (добавлено) ===== */
+    .nav-desktop{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .nav-mobile{
+      display:none;          /* на ПК скрыто */
+      position:relative;
+    }
+    .burger{
+      cursor:pointer;
+      user-select:none;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--line2);
+      background: var(--paper);
+      color: var(--ink);
+      font-weight: 900;
+      line-height: 1;
+    }
+    .burger::-webkit-details-marker{ display:none; }
+    .burger::marker{ content:""; }
+
+    .nav-panel{
+      display:none;
+      position:absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: min(320px, 92vw);
+
+      padding: 12px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 18px 40px rgba(0,0,0,.18);
+      z-index: 50;
+
+      flex-direction:column;
+      gap:10px;
+    }
+    .nav-mobile[open] .nav-panel{ display:flex; }
+
+    .nav-panel .navlink{
+      color: var(--ink);
+      padding: 10px 8px;
+      border-bottom: 1px solid rgba(11,11,12,.06);
+    }
+    .nav-panel .navlink:last-child{ border-bottom: 0; }
+
     /* Responsive — как в v3 */
     @media (max-width: 980px){
       .layout{ grid-template-columns: 1fr; }
@@ -545,12 +595,18 @@
       .bigrow{ grid-template-columns: 1fr; }
       .relCard{ grid-column: span 12; }
     }
+
     @media (max-width: 720px){
-      nav{ display:none; }
+      /* ВАЖНО: НЕ прячем все nav! Раньше тут было nav{display:none;} */
       .brand{ min-width:auto; }
       .actions{ min-width:auto; }
       .gsRight{ width:100%; }
+
+      /* На мобилке: прячем десктоп-меню, показываем бургер */
+      .nav-desktop{ display:none; }
+      .nav-mobile{ display:block; }
     }
+
     @media (prefers-reduced-motion: reduce){
       *{ transition:none !important; }
       .feed-actions a:hover,.more:hover,.btn:hover,.bigcard:hover,.relCard:hover{ transform:none !important; }
@@ -572,13 +628,27 @@
           </div>
         </a>
 
-        <nav aria-label="Меню">
+        <!-- ДЕСКТОП-МЕНЮ (ПК) -->
+        <nav class="nav-desktop" aria-label="Меню">
           <a class="navlink" href="index.html">Главная</a>
           <a class="navlink active" href="news.html">Новости</a>
           <a class="navlink" href="tv.html">TV</a>
           <a class="navlink" href="production.html">Продакшн</a>
           <a class="navlink" href="editorial.html">Редакция</a>
         </nav>
+
+        <!-- МОБИЛЬНОЕ МЕНЮ (бургер) -->
+        <details class="nav-mobile">
+          <summary class="burger" aria-label="Открыть меню"><span aria-hidden="true">≡</span></summary>
+
+          <nav class="nav-panel" aria-label="Меню">
+            <a class="navlink" href="index.html">Главная</a>
+            <a class="navlink active" href="news.html">Новости</a>
+            <a class="navlink" href="tv.html">TV</a>
+            <a class="navlink" href="production.html">Продакшн</a>
+            <a class="navlink" href="editorial.html">Редакция</a>
+          </nav>
+        </details>
       </div>
     </div>
   </header>
@@ -746,7 +816,6 @@
     const feedList = document.getElementById("feedList");
     const feedStatus = document.getElementById("feedStatus");
 
-    const homeLink = document.getElementById("homeLink");
     const liveToggle = document.getElementById("liveToggle");
 
     // Global search DOM
@@ -799,10 +868,8 @@
         return;
       }
 
-      // Left list count
       const leftCount = ARTICLES.filter(matchesFilter).length;
 
-      // Feed count (respect liveOnly + query)
       const qLower = q.toLowerCase();
       const feedCount = (state.liveOnly ? feedItems.filter(i => i.live) : feedItems)
         .filter(i => i.title.toLowerCase().includes(qLower) || i.rubric.toLowerCase().includes(qLower)).length;
@@ -1056,15 +1123,6 @@
       renderGlobalHint();
     });
 
-    homeLink.addEventListener("click",(e)=>{
-      e.preventDefault();
-      state.selectedId = null;
-      renderList();
-      renderFeed();
-      renderGlobalHint();
-      window.scrollTo({top:0, behavior:"smooth"});
-    });
-
     // Global search events
     globalSearchInput.addEventListener("input",(e)=>{
       state.query = e.target.value;
@@ -1086,7 +1144,26 @@
     renderFeed();
     renderGlobalHint();
   </script>
+
+  <script>
+    (function(){
+      const d = document.querySelector('.nav-mobile');
+      if(!d) return;
+
+      d.querySelectorAll('a').forEach(a=>{
+        a.addEventListener('click', ()=> d.removeAttribute('open'));
+      });
+
+      document.addEventListener('click', (e)=>{
+        if(d.hasAttribute('open') && !d.contains(e.target)){
+          d.removeAttribute('open');
+        }
+      });
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') d.removeAttribute('open');
+      });
+    })();
+  </script>
 </body>
 </html>
-
-
