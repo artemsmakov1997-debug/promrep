@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Промышленный репортёр</title>
 
+  <!-- Применяем тему ДО отрисовки, чтобы не было "мигания" -->
+  <script>
+    (function () {
+      const key = "theme"; // "light" | "dark"
+      const saved = localStorage.getItem(key);
+      const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = saved || (systemDark ? "dark" : "light");
+      if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
+
   <style>
     :root{
       --bg:#f4f5f6;
@@ -31,6 +42,37 @@
 
       --shadow: 0 14px 26px rgba(11,11,12,.08);
       --shadow2: 0 10px 18px rgba(11,11,12,.06);
+
+      /* ДОБАВЛЕНО: переменные для шапки и сетки */
+      --headerBg: rgba(244,245,246,.92);
+      --grid1: rgba(0,0,0,.028);
+      --grid2: rgba(0,0,0,.024);
+    }
+
+    /* ДОБАВЛЕНО: тёмная тема (переключается через html[data-theme="dark"]) */
+    html[data-theme="dark"]{
+      --bg:#0b0b0c;
+      --paper:#101214;
+      --ink:#f4f5f6;
+      --muted:rgba(244,245,246,.70);
+      --muted2:rgba(244,245,246,.58);
+
+      --line:rgba(255,255,255,.12);
+      --line2:rgba(255,255,255,.08);
+      --soft:rgba(255,255,255,.06);
+
+      --red:#ff2a2a;
+
+      --panel:#0b0b0c;
+      --panelText:#f7f7f8;
+      --panelMuted:rgba(247,247,248,.72);
+
+      --shadow: 0 14px 26px rgba(0,0,0,.40);
+      --shadow2: 0 10px 18px rgba(0,0,0,.32);
+
+      --headerBg: rgba(11,11,12,.72);
+      --grid1: rgba(255,255,255,.06);
+      --grid2: rgba(255,255,255,.05);
     }
 
     *{ box-sizing:border-box; }
@@ -45,11 +87,15 @@
     a{ color:inherit; text-decoration:none; }
     .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
 
+    /* ДОБАВЛЕНО: приятный переход (и у тебя есть prefers-reduced-motion ниже) */
+    html, body { transition: background-color .18s ease, color .18s ease; }
+    *{ transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+
     .grid{
       position:fixed; inset:0; pointer-events:none; z-index:0;
       background:
-        linear-gradient(to right, rgba(0,0,0,.028) 1px, transparent 1px) 0 0/ 84px 84px,
-        linear-gradient(to bottom, rgba(0,0,0,.024) 1px, transparent 1px) 0 0/ 84px 84px;
+        linear-gradient(to right, var(--grid1) 1px, transparent 1px) 0 0/ 84px 84px,
+        linear-gradient(to bottom, var(--grid2) 1px, transparent 1px) 0 0/ 84px 84px;
       mask-image: radial-gradient(ellipse at 50% 0%, black 32%, transparent 72%);
       opacity:.45;
     }
@@ -57,7 +103,7 @@
     /* Header */
     header{
       position:sticky; top:0; z-index:10;
-      background: rgba(244,245,246,.92);
+      background: var(--headerBg);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
     }
@@ -107,6 +153,10 @@
       font-size: 13px;
       cursor:pointer;
       transition:.14s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
     }
     .btn:hover{ transform: translateY(-1px); }
     .btn.primary{ border-color: var(--red); color: var(--red); font-weight:800; }
@@ -630,6 +680,12 @@
     }
     .nav-panel .navlink:last-child{ border-bottom: 0; }
 
+    /* ДОБАВЛЕНО: кнопка темы внутри моб.панели выглядит как пункт */
+    .nav-panel .btn{
+      width:100%;
+      border-color: var(--line2);
+    }
+
     /* Responsive */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
@@ -648,6 +704,9 @@
       /* На мобилке: прячем десктоп-меню, показываем бургер */
       .nav-desktop{ display:none; }
       .nav-mobile{ display:block; }
+
+      /* на мобилке можно чуть ужать actions, но кнопка остаётся */
+      .actions{ min-width:auto; }
 
       .shorts-head{ align-items:flex-start; flex-direction:column; }
       .shorts-actions{ width:100%; justify-content:flex-start; }
@@ -694,8 +753,21 @@
             <a class="navlink" href="tv.html">TV</a>
             <a class="navlink" href="production.html">Продакшн</a>
             <a class="navlink" href="editorial.html">Редакция</a>
+
+            <!-- ДОБАВЛЕНО: кнопка темы в моб.меню -->
+            <button class="btn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
+              <span aria-hidden="true">🌙</span> Тема
+            </button>
           </nav>
         </details>
+
+        <!-- ДОБАВЛЕНО: кнопка темы на ПК (в шапке) -->
+        <div class="actions">
+          <button class="btn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
+            <span aria-hidden="true">🌙</span>
+          </button>
+        </div>
+
       </div>
     </div>
   </header>
@@ -869,7 +941,7 @@
       {time:"09:15", rubric:"Интервью", title:"Главный инженер: «цифра — это дисциплина, а не софт»", live:false, href:"#"},
       {time:"08:32", rubric:"Рынок", title:"Металлы и энергия: три движения недели без лишнего шума", live:false, href:"#"},
       {time:"07:58", rubric:"Технологии", title:"ОТК и машинное зрение: как снизили споры на смене", live:false, href:"#"},
-      {time:"Вчера", rubric:"Люди", title:"Грейды, наставники, смена: как держат специалистов на заводе", live:false, href:"#"}
+      {time:"Вчера", rubric:"Люди", title:"Грейды, наставники, смена: как держат специалистов на заводе", live:false, href:"#" }
     ];
 
     function renderFeed(){
@@ -973,6 +1045,42 @@
       });
     })();
   </script>
+
+  <!-- ДОБАВЛЕНО: логика переключателя темы (работает и для ПК, и для мобилки) -->
+  <script>
+    (function () {
+      const KEY = "theme";
+      const root = document.documentElement;
+      const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
+
+      function currentTheme() {
+        return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+
+      function apply(theme) {
+        if (theme === "dark") root.setAttribute("data-theme", "dark");
+        else root.removeAttribute("data-theme");
+
+        toggles.forEach(btn => {
+          const isDark = theme === "dark";
+          btn.setAttribute("aria-pressed", isDark ? "true" : "false");
+
+          const icon = btn.querySelector("span[aria-hidden='true']");
+          if (icon) icon.textContent = isDark ? "🌞" : "🌙";
+        });
+      }
+
+      toggles.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const next = currentTheme() === "dark" ? "light" : "dark";
+          localStorage.setItem(KEY, next);
+          apply(next);
+        });
+      });
+
+      // синхронизируем иконки с текущей темой
+      apply(localStorage.getItem(KEY) || currentTheme());
+    })();
+  </script>
 </body>
 </html>
-
