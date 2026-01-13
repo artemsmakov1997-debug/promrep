@@ -763,8 +763,12 @@
 
         <!-- ДОБАВЛЕНО: кнопка темы на ПК (в шапке) -->
         <div class="actions">
-          <button class="btn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
-            <span aria-hidden="true">🌙</span>
+          <input class="search" placeholder="Поиск…" />
+          <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
+            <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true">
+              <!-- заполняется JS -->
+            </svg>
+            <span class="themeLabel">Тема</span>
           </button>
         </div>
 
@@ -1084,3 +1088,4 @@
   </script>
 </body>
 </html>
+
