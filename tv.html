@@ -301,6 +301,7 @@
       font-weight: 900;
       letter-spacing:.6px;
       text-transform:uppercase;
+      z-index:2;
     }
     .player .label i{ width:7px; height:7px; border-radius:2px; background: var(--red); display:inline-block; }
 
@@ -312,6 +313,7 @@
       cursor:pointer;
       transition:.14s ease;
       display:grid; place-items:center;
+      z-index:2;
     }
     .play:hover{ transform: translateY(-2px) scale(1.02); }
 
@@ -346,6 +348,24 @@
       background: rgba(240,32,0,.05);
       color: var(--ink);
       font-weight:800;
+    }
+
+    /* ✅ FIX #4: кнопки рядом с "Видео дня" не сливаются в dark */
+    .vinfo .btn{
+      border-color: var(--line);
+      background: rgba(11,11,12,.03);
+    }
+    .vinfo .btn.primary{
+      background: rgba(240,32,0,.10);
+      border-color: rgba(240,32,0,.45);
+    }
+    html[data-theme="dark"] .vinfo .btn{
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.18);
+    }
+    html[data-theme="dark"] .vinfo .btn.primary{
+      background: rgba(255,42,42,.18);
+      border-color: rgba(255,42,42,.55);
     }
 
     /* ===== Shorts ===== */
@@ -679,6 +699,10 @@
       /* мобилка: выключаем десктоп-меню, включаем бургер */
       .nav-desktop{ display:none; }
       .nav-mobile{ display:block; }
+
+      /* ✅ FIX #2: на мобилке убираем слово "Тема", чтобы бургер не уезжал */
+      .actions .themeLabel{ display:none; }
+      .actions .themeBtn{ padding: 10px 11px; }
     }
     @media (prefers-reduced-motion: reduce){
       *{ transition:none !important; }
@@ -721,23 +745,19 @@
             <a class="navlink" href="production.html">Продакшн</a>
             <a class="navlink" href="editorial.html">Редакция</a>
 
-            <!-- ДОБАВЛЕНО: кнопка темы (в моб.меню) -->
+            <!-- кнопка темы (в моб.меню) -->
             <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
-              <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true">
-                <!-- заполняется JS -->
-              </svg>
+              <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
               <span class="themeLabel"></span>
             </button>
           </nav>
         </details>
 
-        <!-- ДОБАВЛЕНО: кнопка темы (ПК) -->
+        <!-- кнопка темы (ПК) -->
         <div class="actions">
           <input class="search" placeholder="Поиск…" />
           <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
-            <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true">
-              <!-- заполняется JS -->
-            </svg>
+            <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
             <span class="themeLabel">Тема</span>
           </button>
         </div>
@@ -777,31 +797,17 @@
             <span class="tag" id="vodWhen">Сегодня</span>
             <span class="tag" id="vodLen">15:02</span>
           </div>
+
           <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
             <button class="btn primary" type="button" id="vodOpen">Смотреть</button>
-            <button class="btn" type="button">Открыть материал</button>
-            <button class="btn" type="button">Поделиться</button>
+            <button class="btn" type="button" id="vodMaterial">Открыть материал</button>
+            <button class="btn" type="button" id="vodShare">Поделиться</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Shorts -->
-    <section class="section" aria-label="Shorts">
-      <div class="shorts-wrap">
-        <div class="shorts-head">
-          <div>
-            <b>Shorts</b>
-            <div style="margin-top:6px; font-size:13px; color:var(--muted);">Короткие вертикальные видео — быстро в контекст.</div>
-          </div>
-          <a class="more" href="#">Все shorts →</a>
-        </div>
-
-        <div class="shorts-row" id="shortsRow">
-          <!-- injected -->
-        </div>
-      </div>
-    </section>
+    <!-- ✅ FIX #1: Порядок секций изменён: "Все видео" теперь идёт ПЕРЕД Shorts -->
 
     <!-- Архив -->
     <section class="section" aria-label="Архив видео">
@@ -842,6 +848,23 @@
       </div>
     </section>
 
+    <!-- Shorts -->
+    <section class="section" aria-label="Shorts">
+      <div class="shorts-wrap">
+        <div class="shorts-head">
+          <div>
+            <b>Shorts</b>
+            <div style="margin-top:6px; font-size:13px; color:var(--muted);">Короткие вертикальные видео — быстро в контекст.</div>
+          </div>
+          <a class="more" href="#">Все shorts →</a>
+        </div>
+
+        <div class="shorts-row" id="shortsRow">
+          <!-- injected -->
+        </div>
+      </div>
+    </section>
+
     <footer>
       <div>© <span id="y"></span> Промышленный репортёр</div>
       <div>Контакты · Реклама · Политика</div>
@@ -851,15 +874,20 @@
   <script>
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ===== Video of the day (demo) =====
+    // ===== Video of the day (VK embed) =====
     const vod = {
-      title: "Экскурсия по цеху: «чистая сборка» без глянца",
-      desc: "15 минут практики: что реально важно на линии, где теряется качество, и какие метрики не должны врать.",
+      title: "Видео дня (VK): пример",
+      desc: "Встраиваем именно видео через video_ext.php — без текста поста.",
       rubric: "Тех",
       when: "Сегодня",
-      length: "15:02",
-      durLabel: "15 минут",
-      href: "#"
+      length: "—",
+      durLabel: "VK",
+
+      // Открыть материал/страницу (можешь поставить вашу статью или сам пост/видео)
+      href: "https://vk.com/wall-234602001_267",
+
+      // ✅ ТОЛЬКО ВИДЕО (iframe src)
+      embedUrl: "https://vk.com/video_ext.php?oid=-234602001&id=456239128&autoplay=1"
     };
 
     document.getElementById('vodTitle').textContent = vod.title;
@@ -869,9 +897,41 @@
     document.getElementById('vodLen').textContent = vod.length;
     document.getElementById('vodDur').textContent = vod.durLabel;
 
-    function openVod(){ window.location.href = vod.href; }
+    // Вставляем iframe в плеер (чтобы внутри "Видео дня" было ТОЛЬКО видео)
+    function openVod(){
+      const player = document.getElementById('vodPlayer');
+      player.innerHTML = `
+        <iframe
+          src="${vod.embedUrl}"
+          style="position:absolute; inset:0; width:100%; height:100%; border:0; background-color:#000;"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      `;
+    }
+
+    function openVodMaterial(){
+      window.location.href = vod.href;
+    }
+
+    function shareVod(){
+      const url = vod.href || location.href;
+      if (navigator.share) {
+        navigator.share({ title: vod.title, text: vod.desc, url }).catch(()=>{});
+      } else {
+        navigator.clipboard?.writeText(url).then(()=>{
+          alert("Ссылка скопирована");
+        }).catch(()=>{
+          prompt("Скопируй ссылку:", url);
+        });
+      }
+    }
+
     document.getElementById('vodPlay').addEventListener('click', openVod);
     document.getElementById('vodOpen').addEventListener('click', openVod);
+    document.getElementById('vodMaterial').addEventListener('click', openVodMaterial);
+    document.getElementById('vodShare').addEventListener('click', shareVod);
 
     // ===== Shorts (demo) =====
     const shorts = [
@@ -1021,9 +1081,7 @@
     })();
   </script>
 
-  <!-- ДОБАВЛЕНО: переключатель темы.
-       ВАЖНО: в светлой теме показываем ПОЛУМЕСЯЦ (перейти в тёмную),
-              в тёмной теме показываем СОЛНЦЕ (вернуться в светлую). -->
+  <!-- переключатель темы -->
   <script>
     (function () {
       const KEY = "theme";
@@ -1039,17 +1097,11 @@
       }
 
       function setIconAndLabel(btn, theme){
-        // theme = текущая тема страницы
         const svg = btn.querySelector("svg");
         if (!svg) return;
 
         const isDark = theme === "dark";
-
-        // В светлой теме — показываем луну (намёк: переключиться в тёмную)
-        // В тёмной теме — показываем солнце (намёк: вернуться в светлую)
         svg.innerHTML = isDark ? ICON_SUN : ICON_MOON;
-
-        // aria-label логично описывает действие
         btn.setAttribute("aria-label", isDark ? "Включить светлую тему" : "Включить тёмную тему");
       }
 
@@ -1072,13 +1124,8 @@
         });
       });
 
-      // первичная синхронизация иконок/aria
       apply(localStorage.getItem(KEY) || currentTheme());
     })();
   </script>
 </body>
 </html>
-
-
-
-
