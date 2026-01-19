@@ -79,7 +79,7 @@
     .navlink:hover{ color: var(--ink); border-bottom-color: rgba(240,32,0,.28); }
     .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
 
-    /* ===== БУРГЕР-МЕНЮ (добавлено) ===== */
+    /* ===== БУРГЕР-МЕНЮ ===== */
     .nav-desktop{
       display:flex;
       align-items:center;
@@ -184,7 +184,7 @@
     .sectionTitle h2{ margin:0; font-size:18px; letter-spacing:.2px; }
     .sectionTitle p{ margin:0; font-size:13px; color: var(--muted); }
 
-    /* HERO (оставлено) */
+    /* HERO */
     .hero{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
@@ -283,7 +283,7 @@
       max-width: 42ch;
     }
 
-    /* === ЧТО МЫ ПРЕДЛАГАЕМ (4 карточки в один ряд) === */
+    /* offers */
     .offersGrid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -317,7 +317,6 @@
         linear-gradient(180deg, rgba(11,11,12,.06), rgba(11,11,12,.02));
     }
 
-    /* лёгкая “жизнь” на превью */
     .offerMedia:after{
       content:"";
       position:absolute; inset:-60% -30%;
@@ -414,7 +413,7 @@
       border-radius: 999px;
     }
 
-    /* === КАК МЫ РАБОТАЕМ (3 этапа + “конвейер”) === */
+    /* HOW */
     .howWrap{
       display:grid;
       grid-template-columns: 1fr;
@@ -451,7 +450,6 @@
       justify-content:center;
       padding: 18px 14px;
     }
-    /* “лента” */
     .belt:after{
       content:"";
       position:absolute; inset:0;
@@ -516,7 +514,6 @@
       line-height:1.45;
     }
 
-    /* “каретка” по конвейеру */
     .carrier{
       position:absolute;
       top: 50%;
@@ -549,7 +546,6 @@
       100% { left: 10%; }
     }
 
-    /* подсветка этапов синхронно */
     .station:nth-child(1){ animation: stage1 6.6s ease-in-out infinite; }
     .station:nth-child(2){ animation: stage2 6.6s ease-in-out infinite; }
     .station:nth-child(3){ animation: stage3 6.6s ease-in-out infinite; }
@@ -725,6 +721,29 @@
       /* offers: 1 per row */
       .offer{ grid-column: span 12; }
       .pkg{ grid-column: span 12; }
+
+      /* ======== ВАША ПРАВКА ТОЛЬКО ДЛЯ МОБИЛКИ ======== */
+      /* В hero оставляем только заголовок, а следом показываем видеовизитку (poster) */
+      .hero{ grid-template-columns: 1fr; }
+
+      /* удаляем всё, кроме h1 в левом прямоугольнике */
+      .panel .inner{ min-height: auto; padding: 16px; gap: 10px; }
+      .panel .inner .kicker,
+      .panel .inner .lead,
+      .panel .inner .meta,
+      .panel .inner > div[style]{ display:none !important; }
+
+      /* заголовок остаётся */
+      .panel h1{ font-size: 26px; }
+
+      /* “видеовизитка” сразу под заголовком: переносим визуально poster наверх */
+      .poster{
+        order: -1;           /* станет первым блоком в секции hero */
+        min-height: 220px;
+      }
+      .panel{
+        order: 0;            /* заголовок сразу после video */
+      }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -775,7 +794,7 @@
   </header>
 
   <main class="container">
-    <!-- HERO (оставлено) -->
+    <!-- HERO -->
     <section class="hero" aria-label="Продакшн под ключ">
       <article class="panel">
         <div class="inner">
@@ -802,6 +821,7 @@
         </div>
       </article>
 
+      <!-- ВИДЕО-ВИЗИТКА (та же, что была ниже) -->
       <aside class="poster" aria-label="Превью видео">
         <div class="frame">
           <div>
