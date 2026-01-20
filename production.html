@@ -842,6 +842,31 @@
       .btn:hover,.offer:hover,.pkg:hover{ transform:none !important; }
       .offerMedia:after{ display:none !important; }
     }
+    /* Production: на мобилке в тёмной теме заголовок без подложек/панелей */
+@media (max-width: 980px){
+  /* убираем “панель” как отдельный тёмный блок — пусть сливается со страницей */
+  .hero .panel{
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    color: inherit;
+  }
+  .hero .panel:before{ display:none; }
+
+  /* уменьшаем “внутренности”, чтобы заголовок был компактным */
+  .hero .panel .inner{
+    padding: 0;
+    min-height: auto;
+  }
+
+  /* если у тебя заголовок был обёрнут в отдельный блок с радиусом/фоном — убираем и это */
+  .heroTitleBox{
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
   </style>
 </head>
 
@@ -1341,3 +1366,4 @@ ${brief || '—'}
   </script>
 </body>
 </html>
+
