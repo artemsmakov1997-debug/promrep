@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Продакшн — Промышленный репортёр</title>
 
+  <!-- Применяем тему ДО отрисовки (без мигания) -->
+  <script>
+    (function () {
+      const key = "theme"; // "light" | "dark"
+      const saved = localStorage.getItem(key);
+      const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const theme = saved || (systemDark ? "dark" : "light");
+      if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    })();
+  </script>
+
   <style>
     :root{
       --bg:#f4f5f6;
@@ -25,6 +36,31 @@
 
       --shadow: 0 14px 26px rgba(11,11,12,.08);
       --shadow2: 0 10px 18px rgba(11,11,12,.06);
+
+      /* как на главной (index) */
+      --headerBg: rgba(244,245,246,.92);
+      --grid1: rgba(0,0,0,.028);
+      --grid2: rgba(0,0,0,.024);
+    }
+
+    /* тёмная тема */
+    html[data-theme="dark"]{
+      --bg:#0b0b0c;
+      --paper:#101214;
+      --ink:#f4f5f6;
+      --muted:rgba(244,245,246,.70);
+
+      --line:rgba(255,255,255,.12);
+      --line2:rgba(255,255,255,.08);
+
+      --red:#ff2a2a;
+
+      --shadow: 0 14px 26px rgba(0,0,0,.40);
+      --shadow2: 0 10px 18px rgba(0,0,0,.32);
+
+      --headerBg: rgba(11,11,12,.72);
+      --grid1: rgba(255,255,255,.06);
+      --grid2: rgba(255,255,255,.05);
     }
 
     *{ box-sizing:border-box; }
@@ -44,16 +80,16 @@
     .grid{
       position:fixed; inset:0; pointer-events:none; z-index:0;
       background:
-        linear-gradient(to right, rgba(0,0,0,.028) 1px, transparent 1px) 0 0/ 84px 84px,
-        linear-gradient(to bottom, rgba(0,0,0,.024) 1px, transparent 1px) 0 0/ 84px 84px;
+        linear-gradient(to right, var(--grid1) 1px, transparent 1px) 0 0/ 84px 84px,
+        linear-gradient(to bottom, var(--grid2) 1px, transparent 1px) 0 0/ 84px 84px;
       mask-image: radial-gradient(ellipse at 50% 0%, black 32%, transparent 72%);
       opacity:.45;
     }
 
-    /* header */
+    /* header (как на главной) */
     header{
       position:sticky; top:0; z-index:10;
-      background: rgba(244,245,246,.92);
+      background: var(--headerBg);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
     }
@@ -61,7 +97,10 @@
       display:flex; align-items:center; justify-content:space-between; gap:16px;
       padding: 14px 0;
     }
-    .brand{ display:flex; align-items:center; gap:12px; }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      min-width: 260px;
+    }
     .brand img{ width:44px; height:44px; object-fit:contain; display:block; }
     .brand .t{ display:flex; flex-direction:column; line-height:1.05; }
     .brand .t strong{ text-transform:uppercase; font-size:13px; letter-spacing:1.7px; }
@@ -79,7 +118,80 @@
     .navlink:hover{ color: var(--ink); border-bottom-color: rgba(240,32,0,.28); }
     .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
 
-    /* ===== БУРГЕР-МЕНЮ ===== */
+    /* actions (как на главной) */
+    .actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 240px;
+      justify-content:flex-end;
+    }
+    .search{
+      width:min(260px, 34vw);
+      border:1px solid var(--line2);
+      background: var(--paper);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      outline:none;
+      transition:.14s ease;
+    }
+    .search:focus{ border-color: rgba(240,32,0,.40); box-shadow: 0 0 0 4px rgba(240,32,0,.08); }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      border:1px solid var(--ink);
+      background: transparent;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      cursor:pointer;
+      transition:.14s ease;
+      white-space:nowrap;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn.primary{
+      border-color: var(--red);
+      color: var(--red);
+      font-weight: 900;
+      background: rgba(240,32,0,.04);
+    }
+    .btn.ghost{
+      border-color: rgba(11,11,12,0);
+      background: rgba(11,11,12,.02);
+      color: var(--muted);
+    }
+
+    /* кнопка темы (как на главной) */
+    .themeBtn{
+      border-color: var(--line2);
+      background: var(--paper);
+      color: var(--ink);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding: 10px 12px;
+      white-space:nowrap;
+    }
+    .themeBtn:hover{ transform: translateY(-1px); }
+    .themeIcon{ width:18px; height:18px; display:block; }
+    .themeLabel{
+      font-weight:900;
+      letter-spacing:.4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    @media (min-width: 721px){
+      .themeLabel{ display:none; }
+      .themeBtn{ padding: 10px 11px; }
+    }
+
+    /* ===== БУРГЕР-МЕНЮ (как на главной) ===== */
     .nav-desktop{
       display:flex;
       align-items:center;
@@ -129,6 +241,14 @@
     }
     .nav-panel .navlink:last-child{ border-bottom: 0; }
 
+    /* кнопка темы внутри моб.панели — во всю ширину */
+    .nav-panel .themeBtn{
+      width:100%;
+      justify-content:center;
+      border-color: var(--line2);
+      background: rgba(11,11,12,.02);
+    }
+
     main{ position:relative; z-index:1; padding: 26px 0 56px; }
 
     /* primitives */
@@ -138,34 +258,6 @@
       color: var(--muted);
     }
     .kicker .dot{ width:9px; height:9px; border-radius:3px; background: var(--red); }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      border:1px solid var(--ink);
-      background: transparent;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 13px;
-      cursor:pointer;
-      transition:.14s ease;
-      white-space:nowrap;
-      user-select:none;
-    }
-    .btn:hover{ transform: translateY(-1px); }
-    .btn.primary{
-      border-color: var(--red);
-      color: var(--red);
-      font-weight: 900;
-      background: rgba(240,32,0,.04);
-    }
-    .btn.ghost{
-      border-color: rgba(11,11,12,0);
-      background: rgba(11,11,12,.02);
-      color: var(--muted);
-    }
 
     .card{
       background: var(--paper);
@@ -184,7 +276,7 @@
     .sectionTitle h2{ margin:0; font-size:18px; letter-spacing:.2px; }
     .sectionTitle p{ margin:0; font-size:13px; color: var(--muted); }
 
-    /* HERO */
+    /* HERO (оставлено) */
     .hero{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
@@ -283,7 +375,7 @@
       max-width: 42ch;
     }
 
-    /* offers */
+    /* === ЧТО МЫ ПРЕДЛАГАЕМ (4 карточки в один ряд) === */
     .offersGrid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -413,7 +505,7 @@
       border-radius: 999px;
     }
 
-    /* HOW */
+    /* === КАК МЫ РАБОТАЕМ (3 этапа + “конвейер”) === */
     .howWrap{
       display:grid;
       grid-template-columns: 1fr;
@@ -712,38 +804,37 @@
       .belt{ height:auto; padding: 12px; }
       .carrier{ display:none; }
       .belt:after{ animation-duration: 3.2s; }
+
+      /* как на главной: поиск в шапке прячем на <980 */
+      .actions .search{ display:none; }
     }
+
     @media (max-width: 720px){
       /* мобильная навигация */
       .nav-desktop{ display:none; }
       .nav-mobile{ display:block; }
 
-      /* offers: 1 per row */
-      .offer{ grid-column: span 12; }
-      .pkg{ grid-column: span 12; }
+      .brand{ min-width:auto; }
+      .actions{ min-width:auto; }
 
-      /* ======== ВАША ПРАВКА ТОЛЬКО ДЛЯ МОБИЛКИ ======== */
-      /* В hero оставляем только заголовок, а следом показываем видеовизитку (poster) */
-      .hero{ grid-template-columns: 1fr; }
+      /* как на главной: в шапке на мобилке кнопку темы убираем,
+         она остаётся только внутри бургер-меню */
+      .actions .themeBtn{ display:none; }
 
-      /* удаляем всё, кроме h1 в левом прямоугольнике */
-      .panel .inner{ min-height: auto; padding: 16px; gap: 10px; }
+      /* ✅ МОБИЛЬНЫЙ HERO: заголовок в чёрном блоке + сразу под ним видеовизитка */
+      .panel .inner{
+        min-height: auto;
+        padding: 16px;
+        gap: 0;
+      }
       .panel .inner .kicker,
       .panel .inner .lead,
       .panel .inner .meta,
-      .panel .inner > div[style]{ display:none !important; }
+      .panel .inner > div[style]{ display:none !important; } /* блок с кнопками */
 
-      /* заголовок остаётся */
-      .panel h1{ font-size: 26px; }
-
-      /* “видеовизитка” сразу под заголовком: переносим визуально poster наверх */
-      .poster{
-        order: -1;           /* станет первым блоком в секции hero */
-        min-height: 220px;
-      }
-      .panel{
-        order: 0;            /* заголовок сразу после video */
-      }
+      /* гарантируем порядок: сначала заголовок, потом poster */
+      .panel{ order: 1; }
+      .poster{ order: 2; min-height: 260px; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -787,14 +878,30 @@
             <a class="navlink" href="tv.html">TV</a>
             <a class="navlink active" href="production.html">Продакшн</a>
             <a class="navlink" href="editorial.html">Редакция</a>
+
+            <!-- ✅ кнопка темы в моб.меню -->
+            <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
+              <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+              <span class="themeLabel">Тема</span>
+            </button>
           </nav>
         </details>
+
+        <!-- actions (ПК) -->
+        <div class="actions">
+          <input class="search" placeholder="Поиск…" aria-label="Поиск" />
+          <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
+            <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+            <span class="themeLabel">Тема</span>
+          </button>
+        </div>
+
       </div>
     </div>
   </header>
 
   <main class="container">
-    <!-- HERO -->
+    <!-- HERO (оставлено) -->
     <section class="hero" aria-label="Продакшн под ключ">
       <article class="panel">
         <div class="inner">
@@ -821,7 +928,6 @@
         </div>
       </article>
 
-      <!-- ВИДЕО-ВИЗИТКА (та же, что была ниже) -->
       <aside class="poster" aria-label="Превью видео">
         <div class="frame">
           <div>
@@ -1187,6 +1293,50 @@ ${brief || '—'}
       document.addEventListener('keydown', (e)=>{
         if(e.key === 'Escape') d.removeAttribute('open');
       });
+    })();
+  </script>
+
+  <!-- Переключатель темы (как на главной) -->
+  <script>
+    (function () {
+      const KEY = "theme";
+      const root = document.documentElement;
+      const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
+
+      const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
+      const ICON_SUN  = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
+
+      function currentTheme() {
+        return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+
+      function setIcon(btn, theme){
+        const svg = btn.querySelector("svg");
+        if (!svg) return;
+        // если сейчас dark — показываем солнце (перейти на свет), иначе луну (перейти на тёмную)
+        svg.innerHTML = (theme === "dark") ? ICON_SUN : ICON_MOON;
+      }
+
+      function apply(theme) {
+        if (theme === "dark") root.setAttribute("data-theme", "dark");
+        else root.removeAttribute("data-theme");
+
+        toggles.forEach(btn => {
+          const isDark = theme === "dark";
+          btn.setAttribute("aria-pressed", isDark ? "true" : "false");
+          setIcon(btn, theme);
+        });
+      }
+
+      toggles.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const next = currentTheme() === "dark" ? "light" : "dark";
+          localStorage.setItem(KEY, next);
+          apply(next);
+        });
+      });
+
+      apply(localStorage.getItem(KEY) || currentTheme());
     })();
   </script>
 </body>
