@@ -286,18 +286,6 @@
       position:relative;
       overflow:hidden;
     }
-    .player .bg{
-      position:absolute; inset:0;
-      background-size: cover;
-      background-position: center;
-      filter: saturate(.98) contrast(1.02);
-      opacity:.95;
-    }
-    .player .bg:before{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.35));
-    }
     .player .label{
       position:absolute; top:12px; left:12px;
       display:inline-flex; align-items:center; gap:8px;
@@ -311,9 +299,24 @@
       letter-spacing:.6px;
       text-transform:uppercase;
       z-index:2;
-      backdrop-filter: blur(6px);
     }
     .player .label i{ width:7px; height:7px; border-radius:2px; background: var(--red); display:inline-block; }
+
+    .player .poster{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      object-fit:cover;
+      filter: contrast(1.02) saturate(.98);
+      transform: scale(1.01);
+      opacity:.95;
+    }
+    .player:before{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.28));
+      pointer-events:none;
+      z-index:1;
+    }
 
     .play{
       width:74px; height:74px;
@@ -325,7 +328,6 @@
       display:grid; place-items:center;
       z-index:2;
       color: var(--ink);
-      backdrop-filter: blur(8px);
     }
     .play:hover{ transform: translateY(-2px) scale(1.02); }
 
@@ -638,7 +640,6 @@
       background: rgba(240,32,0,.12);
       display:grid; place-items:center;
       z-index:1;
-      backdrop-filter: blur(6px);
     }
     .vbody{
       padding: 12px 14px 14px;
@@ -685,6 +686,13 @@
       font-size: 12px; color: var(--muted);
     }
 
+    .hint{
+      grid-column: 1 / -1;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 6px 2px;
+    }
+
     footer{
       margin-top: 34px;
       border-top: 1px solid var(--line);
@@ -717,6 +725,7 @@
 
       .actions .themeBtn{ display:none; }
 
+      /* на мобилке прячем правую карточку */
       .vod .vinfo{ display:none; }
       .vod{ gap: 0; }
     }
@@ -734,7 +743,6 @@
     <div class="container">
       <div class="topbar">
         <a class="brand" href="index.html">
-          <!-- ✅ FIX: нормальный img -->
           <img src="log.png" alt="Промышленный репортёр" />
           <div class="t">
             <strong>Промышленный репортёр</strong>
@@ -786,5 +794,428 @@
       <div class="section-head">
         <div>
           <h2>Видео дня</h2>
-          <p>Один главный ролик — и рядом контекст +
-::contentReference[oaicite:1]{index=1}
+          <p>Один главный ролик — и рядом контекст + действия.</p>
+        </div>
+      </div>
+
+      <div class="vod">
+        <div class="player" id="vodPlayer">
+          <div class="label"><i></i> В эфире</div>
+          <!-- постер будет подставлен JS -->
+          <button class="play" id="vodPlay" type="button" aria-label="Смотреть видео дня">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="vinfo">
+          <div class="kicker"><span class="dot"></span><span id="vodDur">VK</span></div>
+          <b id="vodTitle">Загружаем…</b>
+          <p id="vodDesc">Подгружаем данные из VK → GitHub → сайт.</p>
+          <div class="meta">
+            <span class="tag hot" id="vodRub">TV</span>
+            <span class="tag" id="vodWhen">—</span>
+            <span class="tag" id="vodLen">—</span>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
+            <button class="btn primary" type="button" id="vodOpen">Смотреть</button>
+            <button class="btn" type="button" id="vodMaterial">Открыть</button>
+            <button class="btn" type="button" id="vodShare">Поделиться</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Архив -->
+    <section class="section" aria-label="Архив видео">
+      <div class="section-head">
+        <div>
+          <h2>Все видео</h2>
+          <p>Поиск + рубрики. Никаких боковых “колонок”: всё по центру.</p>
+        </div>
+        <a class="more" href="#" id="loadMore">Показать ещё →</a>
+      </div>
+
+      <div class="panel" aria-label="Каталог видео">
+        <div class="panel-head">
+          <div class="left">
+            <b>Каталог</b>
+            <span>Фильтры применяются к сетке ниже.</span>
+          </div>
+          <span style="font-size:12px; color:var(--muted);" id="countLabel">0</span>
+        </div>
+
+        <div class="panel-body">
+          <div class="filters-top" aria-label="Фильтры">
+            <input id="vQ" class="searchline" placeholder="Поиск по видео…" />
+            <div class="chips" id="rubChips" aria-label="Рубрики">
+              <span class="chip active" data-rub="all">Все</span>
+              <span class="chip" data-rub="Тех">Тех</span>
+              <span class="chip" data-rub="Рынок">Рынок</span>
+              <span class="chip" data-rub="Люди">Люди</span>
+              <span class="chip" data-rub="Аналитика">Аналитика</span>
+              <span class="chip" data-rub="Продакшн">Продакшн</span>
+            </div>
+          </div>
+
+          <div class="grid-videos" id="gridVideos">
+            <div class="hint">Загружаем список видео…</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shorts -->
+    <section class="section" aria-label="Shorts">
+      <div class="shorts-wrap">
+        <div class="shorts-head">
+          <div>
+            <b>Shorts</b>
+            <div style="margin-top:6px; font-size:13px; color:var(--muted);">Короткие вертикальные видео — быстро в контекст.</div>
+          </div>
+          <a class="more" href="https://vkvideo.ru/@promrep/clips" target="_blank" rel="noopener">Все shorts →</a>
+        </div>
+
+        <div class="shorts-row" id="shortsRow">
+          <div style="color:var(--muted); font-size:13px;">Загружаем shorts…</div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="y"></span> Промышленный репортёр</div>
+      <div>Контакты · Реклама · Политика</div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const TV_JSON = "/content/tv/videos.json";
+    const SHORTS_JSON = "/content/home/shorts.json";
+
+    const pageSize = 6;
+
+    const vodEls = {
+      player: document.getElementById("vodPlayer"),
+      playBtn: document.getElementById("vodPlay"),
+      openBtn: document.getElementById("vodOpen"),
+      materialBtn: document.getElementById("vodMaterial"),
+      shareBtn: document.getElementById("vodShare"),
+      title: document.getElementById("vodTitle"),
+      desc: document.getElementById("vodDesc"),
+      rub: document.getElementById("vodRub"),
+      when: document.getElementById("vodWhen"),
+      len: document.getElementById("vodLen"),
+      dur: document.getElementById("vodDur")
+    };
+
+    const vQ = document.getElementById('vQ');
+    const grid = document.getElementById('gridVideos');
+    const loadMore = document.getElementById('loadMore');
+    const countLabel = document.getElementById('countLabel');
+
+    let allVideos = [];
+    let state = { q:"", rub:"all" };
+    let shown = 0;
+
+    function safeText(v, fallback="") {
+      return (v === undefined || v === null) ? fallback : String(v);
+    }
+
+    function fmtDuration(sec) {
+      if (!sec && sec !== 0) return "—";
+      const s = Number(sec);
+      if (!Number.isFinite(s) || s <= 0) return "—";
+      const mm = Math.floor(s / 60);
+      const ss = Math.floor(s % 60);
+      return `${mm}:${String(ss).padStart(2,'0')}`;
+    }
+
+    function formatViews(n){
+      const x = Number(n);
+      if(!Number.isFinite(x)) return "";
+      if(x >= 1000000) return (x/1000000).toFixed(1).replace('.0','') + "M";
+      if(x >= 1000) return Math.round(x/1000) + "k";
+      return String(x);
+    }
+
+    async function fetchJson(url) {
+      const r = await fetch(url, { cache: "no-store" });
+      if (!r.ok) throw new Error(`${url} → HTTP ${r.status}`);
+      return await r.json();
+    }
+
+    function setVod(item) {
+      if (!item) {
+        vodEls.title.textContent = "Пока нет видео";
+        vodEls.desc.textContent = "Нужно, чтобы GitHub Actions записал данные из VK в /content/tv/videos.json";
+        vodEls.rub.textContent = "TV";
+        vodEls.when.textContent = "—";
+        vodEls.len.textContent = "—";
+        vodEls.dur.textContent = "VK";
+        return;
+      }
+
+      vodEls.title.textContent = safeText(item.title, "Видео дня");
+      vodEls.desc.textContent = safeText(item.description || item.desc, "—");
+      vodEls.rub.textContent = safeText(item.rubric, "TV");
+      vodEls.when.textContent = safeText(item.date, "—");
+      vodEls.len.textContent = fmtDuration(item.durationSec || item.duration);
+      vodEls.dur.textContent = "VK";
+
+      // постер
+      const existingPoster = vodEls.player.querySelector("img.poster");
+      if (existingPoster) existingPoster.remove();
+      if (item.thumb) {
+        const img = document.createElement("img");
+        img.className = "poster";
+        img.src = item.thumb;
+        img.alt = "";
+        vodEls.player.insertBefore(img, vodEls.playBtn);
+      }
+
+      const href = item.href || "#";
+      const embedUrl = item.embedUrl || item.embed || item.player || "";
+
+      function openVod() {
+        if (!embedUrl) {
+          // если embedUrl ещё не сделали в JSON — просто откроем страницу видео
+          window.open(href, "_blank", "noopener");
+          return;
+        }
+        vodEls.player.innerHTML = `
+          <iframe
+            src="${embedUrl}"
+            style="position:absolute; inset:0; width:100%; height:100%; border:0; background-color:#000;"
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        `;
+      }
+
+      function openVodMaterial() {
+        window.open(href, "_blank", "noopener");
+      }
+
+      async function shareVod() {
+        const url = href && href !== "#" ? href : location.href;
+        if (navigator.share) {
+          try { await navigator.share({ title: vodEls.title.textContent, text: vodEls.desc.textContent, url }); } catch(e){}
+        } else {
+          try {
+            await navigator.clipboard.writeText(url);
+            alert("Ссылка скопирована");
+          } catch(e) {
+            prompt("Скопируй ссылку:", url);
+          }
+        }
+      }
+
+      vodEls.playBtn.onclick = openVod;
+      vodEls.openBtn.onclick = openVod;
+      vodEls.materialBtn.onclick = openVodMaterial;
+      vodEls.shareBtn.onclick = shareVod;
+    }
+
+    function matches(v){
+      const q = state.q.trim().toLowerCase();
+      const hay = `${safeText(v.title)} ${safeText(v.description || v.desc)} ${safeText(v.rubric)}`.toLowerCase();
+      const okQ = !q || hay.includes(q);
+      const okR = state.rub === "all" ? true : safeText(v.rubric) === state.rub;
+      return okQ && okR;
+    }
+
+    function renderArchive(reset){
+      if(reset){
+        shown = 0;
+        grid.innerHTML = "";
+        loadMore.style.display = "";
+      }
+
+      const filtered = allVideos.filter(matches);
+      countLabel.textContent = `${filtered.length} материалов`;
+
+      const slice = filtered.slice(shown, shown + pageSize);
+      shown += slice.length;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="hint">Ничего не найдено. Попробуйте другую рубрику или запрос.</div>`;
+        loadMore.style.display = "none";
+        return;
+      }
+
+      grid.insertAdjacentHTML('beforeend', slice.map(v=>`
+        <a class="vcard" href="${v.href || '#'}" target="_blank" rel="noopener" aria-label="${safeText(v.title)}">
+          <div class="thumb">
+            ${v.thumb ? `<img src="${v.thumb}" alt="">` : ``}
+            <div class="p" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+          <div class="vbody">
+            <div class="vtop">
+              <span class="vrub">${safeText(v.rubric, "TV")}</span>
+              <span>${v.views ? `${formatViews(v.views)} просмотров` : ""}</span>
+            </div>
+            <div class="vtitle">${safeText(v.title, "Без названия")}</div>
+            <p class="vdesc">${safeText(v.description || v.desc, "")}</p>
+            <div class="vmeta">
+              <span class="tag">${safeText(v.date, "—")}</span>
+              <span class="tag hot">${fmtDuration(v.durationSec || v.duration)}</span>
+            </div>
+          </div>
+        </a>
+      `).join(''));
+
+      if(shown >= filtered.length) loadMore.style.display = "none";
+    }
+
+    function renderShorts(items){
+      const row = document.getElementById("shortsRow");
+      if(!items || !items.length){
+        row.innerHTML = `<div style="color:var(--muted); font-size:13px;">Shorts пока нет (JSON пустой). Проверьте /content/home/shorts.json</div>`;
+        return;
+      }
+
+      row.innerHTML = items.map(s=>`
+        <a class="short" href="${s.href || '#'}" target="_blank" rel="noopener" aria-label="${safeText(s.title)}">
+          <div class="short-card">
+            ${s.thumb ? `<img src="${s.thumb}" alt="">` : ``}
+            <div class="short-badge"><i></i> ${safeText(s.rubric || s.badge, "TV")}</div>
+            <div class="short-play" role="button" aria-label="Смотреть short">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+          <div class="short-name">${safeText(s.title)}</div>
+          <div class="short-meta"><span>Short</span><span>${fmtDuration(s.durationSec || s.duration)}</span></div>
+        </a>
+      `).join('');
+    }
+
+    async function boot(){
+      // 1) Видео (горизонтальные/все) для TV
+      try{
+        const tv = await fetchJson(TV_JSON);
+        const items = Array.isArray(tv.items) ? tv.items : [];
+        allVideos = items;
+
+        // Видео дня = первый элемент
+        setVod(items[0]);
+
+        // Архив = все элементы (или можете потом фильтровать по isVertical)
+        grid.innerHTML = "";
+        renderArchive(true);
+      } catch(e){
+        setVod(null);
+        grid.innerHTML = `<div class="hint">Не удалось загрузить ${TV_JSON}. Ошибка: ${safeText(e.message)}</div>`;
+        loadMore.style.display = "none";
+      }
+
+      // 2) Shorts (вертикальные)
+      try{
+        const sh = await fetchJson(SHORTS_JSON);
+        renderShorts(Array.isArray(sh.items) ? sh.items : []);
+      } catch(e){
+        document.getElementById("shortsRow").innerHTML =
+          `<div style="color:var(--muted); font-size:13px;">Не удалось загрузить ${SHORTS_JSON}. Ошибка: ${safeText(e.message)}</div>`;
+      }
+    }
+
+    // UI events
+    document.getElementById('rubChips').addEventListener('click', (e)=>{
+      const chip = e.target.closest('.chip');
+      if(!chip) return;
+      document.querySelectorAll('#rubChips .chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      state.rub = chip.dataset.rub;
+      renderArchive(true);
+    });
+
+    vQ.addEventListener('input', ()=>{
+      state.q = vQ.value || "";
+      renderArchive(true);
+    });
+
+    loadMore.addEventListener('click', (e)=>{
+      e.preventDefault();
+      renderArchive(false);
+    });
+
+    boot();
+  </script>
+
+  <script>
+    (function(){
+      const d = document.querySelector('.nav-mobile');
+      if(!d) return;
+
+      d.querySelectorAll('a').forEach(a=>{
+        a.addEventListener('click', ()=> d.removeAttribute('open'));
+      });
+
+      document.addEventListener('click', (e)=>{
+        if(d.hasAttribute('open') && !d.contains(e.target)){
+          d.removeAttribute('open');
+        }
+      });
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') d.removeAttribute('open');
+      });
+    })();
+  </script>
+
+  <!-- Переключатель темы -->
+  <script>
+    (function () {
+      const KEY = "theme";
+      const root = document.documentElement;
+      const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
+
+      const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
+      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4Zm11.2 11.2a1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
+
+      function currentTheme() {
+        return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      }
+
+      function setIconAndLabel(btn, theme){
+        const svg = btn.querySelector("svg");
+        if (!svg) return;
+        const isDark = theme === "dark";
+        svg.innerHTML = isDark ? ICON_SUN : ICON_MOON;
+        btn.setAttribute("aria-label", isDark ? "Включить светлую тему" : "Включить тёмную тему");
+      }
+
+      function apply(theme) {
+        if (theme === "dark") root.setAttribute("data-theme", "dark");
+        else root.removeAttribute("data-theme");
+
+        toggles.forEach(btn => {
+          const isDark = theme === "dark";
+          btn.setAttribute("aria-pressed", isDark ? "true" : "false");
+          setIconAndLabel(btn, theme);
+        });
+      }
+
+      toggles.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const next = currentTheme() === "dark" ? "light" : "dark";
+          localStorage.setItem(KEY, next);
+          apply(next);
+        });
+      });
+
+      apply(localStorage.getItem(KEY) || currentTheme());
+    })();
+  </script>
+</body>
+</html>
