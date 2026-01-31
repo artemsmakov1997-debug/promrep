@@ -2,16 +2,16 @@
   "updatedAt": "2026-01-21T10:30:00Z",
   "items": [
     {
-      "id": "456239128",
+      "id": 456239128,
       "ownerId": -234602001,
-      "title": "Заголовок видео",
+      "title": "Заголовок видео из VK",
       "description": "Описание из VK",
       "duration": 754,
-      "date": "2026-01-21",
+      "date": 1705839000,
       "views": 12400,
-      "thumb": "https://...",
+      "thumb": "https://.....jpg",
       "href": "https://vk.com/video-234602001_456239128",
-      "embed": "https://vk.com/video_ext.php?oid=-234602001&id=456239128"
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239128&hash=...."
     }
   ]
 }
