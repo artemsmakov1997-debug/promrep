@@ -4,33 +4,36 @@ import fetch from "node-fetch";
 
 const VK_TOKEN = process.env.VK_TOKEN;
 
-// === НАСТРОЙКИ ГРУППЫ ===
-const GROUP_ID = 234602001;            // promrep
-const OWNER_ID = -GROUP_ID;            // для wall.get у сообщества owner_id отрицательный
+// promrep
+const GROUP_ID = 234602001;
+const OWNER_ID = -GROUP_ID;
 
+// VK API version
 const API_VERSION = "5.199";
 
-// === ПУТИ К JSON ===
 const ROOT = process.cwd();
 const TV_JSON = path.join(ROOT, "content/tv/videos.json");
 const SHORTS_JSON = path.join(ROOT, "content/home/shorts.json");
 const VOD_JSON = path.join(ROOT, "content/home/videoOfDay.json");
 
-// ---------- VK API helper ----------
+function ensureDir(filePath) {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+}
+
+function writeJson(filePath, data) {
+  ensureDir(filePath);
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+}
+
 async function vk(method, params = {}) {
+  if (!VK_TOKEN) throw new Error("VK_TOKEN is missing (GitHub Secret VK_TOKEN).");
+
   const url = new URL(`https://api.vk.com/method/${method}`);
+  const merged = { ...params, access_token: VK_TOKEN, v: API_VERSION };
 
-  const finalParams = {
-    ...params,
-    v: API_VERSION,
-  };
+  Object.entries(merged).forEach(([k, v]) => url.searchParams.set(k, String(v)));
 
-  // Токен добавляем только если он есть (на публичных данных может работать и без него)
-  if (VK_TOKEN) finalParams.access_token = VK_TOKEN;
-
-  Object.entries(finalParams).forEach(([k, v]) => url.searchParams.set(k, String(v)));
-
-  const res = await fetch(url);
+  const res = await fetch(url.toString());
   const json = await res.json();
 
   if (json.error) {
@@ -39,198 +42,168 @@ async function vk(method, params = {}) {
   return json.response;
 }
 
-// ---------- Utils ----------
-function ensureDirForFile(filePath) {
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+function pickLargestImage(images = []) {
+  if (!Array.isArray(images) || images.length === 0) return null;
+  // обычно VK отдаёт по возрастанию, но на всякий — сортируем
+  const sorted = [...images].sort((a, b) => (a.width * a.height) - (b.width * b.height));
+  return sorted[sorted.length - 1];
 }
 
-function writeJson(filePath, data) {
-  ensureDirForFile(filePath);
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
+function isVerticalByThumb(video) {
+  const img = pickLargestImage(video.image);
+  if (!img) return false;
+  return (img.height || 0) > (img.width || 0);
 }
 
-function pickThumb(video) {
-  // VK даёт video.image = [{url,width,height}, ...]
-  if (!video?.image?.length) return "";
-  const img = video.image[video.image.length - 1];
-  return img?.url || "";
-}
-
-function isVertical(video) {
-  if (!video?.image?.length) return false;
-  const img = video.image[video.image.length - 1];
-  if (!img?.width || !img?.height) return false;
-  return img.height > img.width;
-}
-
-function formatDuration(seconds) {
-  if (!seconds && seconds !== 0) return "";
-  const m = Math.floor(seconds / 60);
-  const s = seconds % 60;
+function secondsToMMSS(sec) {
+  if (!sec || typeof sec !== "number") return "";
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-function buildVideoExtUrl(ownerId, id) {
-  // embed URL для iframe
-  // NB: с token мы не лезем сюда, просто формируем embed на клиенте
-  return `https://vk.com/video_ext.php?oid=${ownerId}&id=${id}`;
-}
+function normalizeFromWallVideo(video, post) {
+  const img = pickLargestImage(video.image);
+  const thumb = img?.url || "";
 
-function normalizeVideo(video, postDate) {
-  // video.owner_id, video.id, video.player, video.title, video.duration, video.views, video.description, video.image
-  const ownerId = video.owner_id;
-  const vid = video.id;
-
-  // player обычно уже содержит URL плеера, но иногда удобнее хранить “страницу видео”
-  // Страница видео:
-  const pageHref = `https://vk.com/video${ownerId}_${vid}`;
+  // video.player обычно есть у прикреплённого видео; если нет — строим ссылку
+  const oid = video.owner_id;
+  const id = video.id;
+  const href = video.player || `https://vk.com/video${oid}_${id}`;
 
   return {
+    // поля для фронта
     title: video.title || "Видео",
-    href: pageHref,
-    embedUrl: buildVideoExtUrl(ownerId, vid),
-    thumb: pickThumb(video),
-    duration: formatDuration(video.duration),
-    dateISO: new Date(postDate * 1000).toISOString(),           // для сортировки
-    date: new Date(postDate * 1000).toISOString().split("T")[0],// для UI
+    href,
+    thumb,
+    duration: secondsToMMSS(video.duration),
+    date: new Date((post.date || video.date || 0) * 1000).toISOString().slice(0, 10),
+
+    // доп поля (не мешают)
     views: video.views ?? 0,
-    description: video.description || "",
-    isShort: isVertical(video),
-    owner_id: ownerId,
-    id: vid
+    oid,
+    id,
+    isShort: isVerticalByThumb(video),
   };
 }
 
-// ---------- Fetch videos via wall.get ----------
 async function fetchVideosFromWall() {
-  let offset = 0;
-  const count = 100;
+  console.log("Fetching videos from VK wall via wall.get ...");
+  console.log("OWNER_ID:", OWNER_ID);
+
   const all = [];
+  const COUNT = 100;
+  let offset = 0;
 
   while (true) {
     const data = await vk("wall.get", {
       owner_id: OWNER_ID,
-      count,
-      offset
+      count: COUNT,
+      offset,
+      extended: 0,
     });
 
-    for (const post of data.items || []) {
-      if (!post.attachments) continue;
-
-      for (const att of post.attachments) {
+    const items = data.items || [];
+    for (const post of items) {
+      const atts = post.attachments || [];
+      for (const att of atts) {
         if (att.type === "video" && att.video) {
-          all.push(normalizeVideo(att.video, post.date));
+          all.push(normalizeFromWallVideo(att.video, post));
         }
       }
     }
 
-    offset += count;
+    offset += COUNT;
     if (offset >= (data.count || 0)) break;
 
-    // небольшой предохранитель: если вдруг API отдаст странное количество
-    if (count === 0) break;
+    // чтобы не шлёпать VK слишком быстро
+    await new Promise((r) => setTimeout(r, 350));
   }
 
-  return all;
-}
-
-// ---------- Main logic ----------
-function uniqByKey(items, keyFn) {
-  const map = new Map();
-  for (const it of items) {
-    const k = keyFn(it);
-    if (!k) continue;
-    if (!map.has(k)) map.set(k, it);
-    // если дубль — оставим первый (он обычно свежее по сортировке)
+  // убираем дубли (иногда видео может встретиться в нескольких постах)
+  const seen = new Set();
+  const uniq = [];
+  for (const v of all) {
+    const key = `${v.oid}_${v.id}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    uniq.push(v);
   }
-  return Array.from(map.values());
+
+  // сортируем по дате (свежее сверху)
+  uniq.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+  console.log("Total videos found on wall:", uniq.length);
+  return uniq;
 }
 
-function sortNewestFirst(items) {
-  return items
-    .slice()
-    .sort((a, b) => {
-      const ta = Date.parse(a.dateISO || a.date || 0) || 0;
-      const tb = Date.parse(b.dateISO || b.date || 0) || 0;
-      return tb - ta;
-    });
-}
+function buildOutputs(videos) {
+  const shorts = videos.filter(v => v.isShort);
+  const tv = videos.filter(v => !v.isShort);
 
-async function main() {
-  console.log("Fetching videos from VK wall...");
-  const raw = await fetchVideosFromWall();
-
-  // сортируем сразу по новизне
-  const sorted = sortNewestFirst(raw);
-
-  // убираем дубли по owner_id+id (бывает, если видео встречается в нескольких постах)
-  const unique = uniqByKey(sorted, (v) => `${v.owner_id}_${v.id}`);
-
-  // split shorts vs tv
-  const shorts = unique.filter(v => v.isShort);
-  const tv = unique.filter(v => !v.isShort);
-
-  // Ограничения по количеству (можешь менять)
-  const TV_LIMIT = 60;
-  const SHORTS_LIMIT = 30;
-
-  const tvItems = tv.slice(0, TV_LIMIT).map(({ dateISO, isShort, owner_id, id, ...rest }) => rest);
-  const shortItems = shorts.slice(0, SHORTS_LIMIT).map(({ dateISO, isShort, owner_id, id, ...rest }) => rest);
-
-  // Видео дня: берём самое свежее вообще (если хочешь — можно только горизонтальное)
-  const vodSource = unique[0] || null;
-
-  // Форматы файлов такие, чтобы tv.html мог просто читать items[]
-  const nowIso = new Date().toISOString();
+  const vod = tv[0] || videos[0] || null;
 
   const tvJson = {
-    updatedAt: nowIso,
-    items: tvItems
+    updatedAt: new Date().toISOString(),
+    items: tv.map(v => ({
+      title: v.title,
+      href: v.href,
+      thumb: v.thumb,
+      duration: v.duration,
+      date: v.date,
+      views: v.views,
+    })),
   };
 
   const shortsJson = {
-    updatedAt: nowIso,
-    items: shortItems
+    updatedAt: new Date().toISOString(),
+    items: shorts.map(v => ({
+      title: v.title,
+      href: v.href,
+      thumb: v.thumb,
+      duration: v.duration,
+      date: v.date,
+      views: v.views,
+    })),
   };
 
-  // videoOfDay — сделаем универсальным (VK, без youtubeId)
-  // если у тебя где-то ожидается youtubeId — оставим поле пустым
-  const vodJson = vodSource
-    ? {
-        updatedAt: nowIso,
-        title: vodSource.title,
-        duration: vodSource.duration,
-        youtubeId: "",
-        href: vodSource.href,
-        embedUrl: vodSource.embedUrl + "&autoplay=1",
-        thumb: vodSource.thumb,
-        description: vodSource.description,
-        date: vodSource.date,
-        views: vodSource.views
-      }
-    : {
-        updatedAt: nowIso,
-        title: "",
-        duration: "",
-        youtubeId: "",
-        href: "#",
-        embedUrl: "",
-        thumb: "",
-        description: "",
-        date: "",
-        views: 0
-      };
+  const vodJson = vod ? {
+    updatedAt: new Date().toISOString(),
+    title: vod.title,
+    href: vod.href,
+    thumb: vod.thumb,
+    duration: vod.duration,
+    date: vod.date,
+    views: vod.views,
+    description: "Видео дня из VK (автоподбор по свежести)",
+  } : {
+    updatedAt: new Date().toISOString(),
+    title: "",
+    href: "#",
+    thumb: "",
+    duration: "",
+    date: "",
+    views: 0,
+    description: "",
+  };
 
-  console.log(`TV: ${tvItems.length}, Shorts: ${shortItems.length}, VOD: ${vodSource ? "yes" : "no"}`);
+  return { tvJson, shortsJson, vodJson, counts: { tv: tv.length, shorts: shorts.length } };
+}
+
+async function main() {
+  const videos = await fetchVideosFromWall();
+  const { tvJson, shortsJson, vodJson, counts } = buildOutputs(videos);
 
   writeJson(TV_JSON, tvJson);
   writeJson(SHORTS_JSON, shortsJson);
   writeJson(VOD_JSON, vodJson);
 
-  console.log("JSON files updated successfully.");
+  console.log("Wrote JSON:");
+  console.log("- TV:", TV_JSON, "items:", counts.tv);
+  console.log("- Shorts:", SHORTS_JSON, "items:", counts.shorts);
+  console.log("- VideoOfDay:", VOD_JSON);
 }
 
-// run
 main().catch((e) => {
   console.error(e);
   process.exit(1);
