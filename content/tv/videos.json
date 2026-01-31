@@ -1,4 +1,12 @@
 {
-  "updatedAt": "2026-01-21T00:00:00Z",
-  "items": []
+  "updatedAt": "2026-01-21T10:30:00Z",
+  "items": [
+    {
+      "title": "Тестовое видео (проверка TV JSON)",
+      "href": "https://vk.com/promrep",
+      "thumb": "",
+      "duration": "1:00",
+      "date": "сегодня"
+    }
+  ]
 }
