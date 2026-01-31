@@ -2,12 +2,16 @@
   "updatedAt": "2026-01-21T10:30:00Z",
   "items": [
     {
-      "id": "clip123",
-      "title": "Коротко о главном",
-      "duration": 42,
-      "thumb": "https://...",
+      "id": 123,
+      "ownerId": -234602001,
+      "title": "Клип из VK",
+      "description": "",
+      "duration": 45,
+      "date": 1705839000,
+      "views": 8000,
+      "thumb": "https://.....jpg",
       "href": "https://vk.com/clip-234602001_123",
-      "embed": "https://vk.com/video_ext.php?oid=-234602001&id=123"
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=...."
     }
   ]
 }
