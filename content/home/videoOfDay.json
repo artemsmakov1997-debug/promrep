@@ -1,7 +1,11 @@
 {
-  "title": "",
-  "duration": "",
-  "youtubeId": "",
-  "href": "#",
-  "description": ""
+  "updatedAt": "2026-01-21T10:30:00Z",
+  "id": "456239128",
+  "ownerId": -234602001,
+  "title": "Видео дня",
+  "description": "Описание",
+  "duration": 754,
+  "thumb": "https://...",
+  "href": "https://vk.com/video-234602001_456239128",
+  "embed": "https://vk.com/video_ext.php?oid=-234602001&id=456239128"
 }
