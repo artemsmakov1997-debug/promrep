@@ -196,7 +196,7 @@
       gap:18px;
     }
     .nav-mobile{
-      display:none;          /* на ПК скрыто */
+      display:none;
       position:relative;
     }
     .burger{
@@ -239,7 +239,6 @@
     }
     .nav-panel .navlink:last-child{ border-bottom: 0; }
 
-    /* кнопка темы внутри моб.панели — во всю ширину */
     .nav-panel .themeBtn{
       width:100%;
       justify-content:center;
@@ -287,6 +286,18 @@
       position:relative;
       overflow:hidden;
     }
+    .player .bg{
+      position:absolute; inset:0;
+      background-size: cover;
+      background-position: center;
+      filter: saturate(.98) contrast(1.02);
+      opacity:.95;
+    }
+    .player .bg:before{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.35));
+    }
     .player .label{
       position:absolute; top:12px; left:12px;
       display:inline-flex; align-items:center; gap:8px;
@@ -300,6 +311,7 @@
       letter-spacing:.6px;
       text-transform:uppercase;
       z-index:2;
+      backdrop-filter: blur(6px);
     }
     .player .label i{ width:7px; height:7px; border-radius:2px; background: var(--red); display:inline-block; }
 
@@ -313,6 +325,7 @@
       display:grid; place-items:center;
       z-index:2;
       color: var(--ink);
+      backdrop-filter: blur(8px);
     }
     .play:hover{ transform: translateY(-2px) scale(1.02); }
 
@@ -349,7 +362,6 @@
       font-weight:800;
     }
 
-    /* ✅ FIX: кнопки в "Видео дня" в тёмной теме читаемые (белые) */
     .vinfo .btn{
       border-color: var(--line);
       background: rgba(11,11,12,.03);
@@ -363,12 +375,12 @@
     html[data-theme="dark"] .vinfo .btn{
       background: rgba(255,255,255,.06);
       border-color: rgba(255,255,255,.18);
-      color: #ffffff;                 /* главное требование */
+      color: #ffffff;
     }
     html[data-theme="dark"] .vinfo .btn.primary{
       background: rgba(255,42,42,.18);
       border-color: rgba(255,42,42,.55);
-      color: var(--red);              /* primary остаётся красной */
+      color: var(--red);
     }
 
     /* ===== Shorts ===== */
@@ -626,6 +638,7 @@
       background: rgba(240,32,0,.12);
       display:grid; place-items:center;
       z-index:1;
+      backdrop-filter: blur(6px);
     }
     .vbody{
       padding: 12px 14px 14px;
@@ -699,16 +712,11 @@
       .vcard{ grid-column: span 12; }
       .short{ width: 168px; }
 
-      /* мобилка: выключаем десктоп-меню, включаем бургер */
       .nav-desktop{ display:none; }
       .nav-mobile{ display:block; }
 
-      /* ✅ ВАШЕ ТРЕБОВАНИЕ: в шапке на мобилке кнопку темы убираем полностью */
       .actions .themeBtn{ display:none; }
 
-      /* ✅ ВАШЕ НОВОЕ ТРЕБОВАНИЕ:
-         на мобилке убираем блок под "Видео дня" (правую/нижнюю карточку VK "Видео дня (VK)"),
-         чтобы сразу после главного видео шёл блок "Все видео". */
       .vod .vinfo{ display:none; }
       .vod{ gap: 0; }
     }
@@ -726,14 +734,14 @@
     <div class="container">
       <div class="topbar">
         <a class="brand" href="index.html">
-          <log.png" alt="Промышленный репортёр" />
+          <!-- ✅ FIX: нормальный img -->
+          <img src="log.png" alt="Промышленный репортёр" />
           <div class="t">
             <strong>Промышленный репортёр</strong>
             <span>индустрия · экономика · технологии</span>
           </div>
         </a>
 
-        <!-- ДЕСКТОП-МЕНЮ (ПК) -->
         <nav class="nav-desktop" aria-label="Меню">
           <a class="navlink" href="index.html">Главная</a>
           <a class="navlink" href="news.html">Новости</a>
@@ -742,10 +750,8 @@
           <a class="navlink" href="editorial.html">Редакция</a>
         </nav>
 
-        <!-- МОБИЛЬНОЕ МЕНЮ (бургер) -->
         <details class="nav-mobile">
           <summary class="burger" aria-label="Открыть меню"><span aria-hidden="true">≡</span></summary>
-
           <nav class="nav-panel" aria-label="Меню">
             <a class="navlink" href="index.html">Главная</a>
             <a class="navlink" href="news.html">Новости</a>
@@ -753,7 +759,6 @@
             <a class="navlink" href="production.html">Продакшн</a>
             <a class="navlink" href="editorial.html">Редакция</a>
 
-            <!-- ✅ Единственная кнопка темы на мобилке — тут, внизу бургер-меню -->
             <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
               <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
               <span class="themeLabel"></span>
@@ -761,10 +766,8 @@
           </nav>
         </details>
 
-        <!-- ШАПКА (ПК) -->
         <div class="actions">
           <input class="search" placeholder="Поиск…" />
-          <!-- ✅ Кнопка темы на ПК остаётся в шапке -->
           <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
             <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
             <span class="themeLabel">Тема</span>
@@ -783,356 +786,5 @@
       <div class="section-head">
         <div>
           <h2>Видео дня</h2>
-          <p>Один главный ролик — и рядом контекст + действия.</p>
-        </div>
-      </div>
-
-      <div class="vod">
-        <div class="player" id="vodPlayer">
-          <div class="label"><i></i> В эфире</div>
-          <button class="play" id="vodPlay" type="button" aria-label="Смотреть видео дня">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
-            </svg>
-          </button>
-        </div>
-
-        <div class="vinfo">
-          <div class="kicker"><span class="dot"></span><span id="vodDur">VK</span></div>
-          <b id="vodTitle">Видео дня (VK)</b>
-          <p id="vodDesc">Встроено только видео (без текста поста).</p>
-          <div class="meta">
-            <span class="tag hot" id="vodRub">Тех</span>
-            <span class="tag" id="vodWhen">Сегодня</span>
-            <span class="tag" id="vodLen">—</span>
-          </div>
-
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
-            <button class="btn primary" type="button" id="vodOpen">Смотреть</button>
-            <button class="btn" type="button" id="vodMaterial">Открыть материал</button>
-            <button class="btn" type="button" id="vodShare">Поделиться</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ✅ Порядок секций: "Все видео" перед Shorts -->
-
-    <!-- Архив -->
-    <section class="section" aria-label="Архив видео">
-      <div class="section-head">
-        <div>
-          <h2>Все видео</h2>
-          <p>Поиск + рубрики. Никаких боковых “колонок”: всё по центру.</p>
-        </div>
-        <a class="more" href="#" id="loadMore">Показать ещё →</a>
-      </div>
-
-      <div class="panel" aria-label="Каталог видео">
-        <div class="panel-head">
-          <div class="left">
-            <b>Каталог</b>
-            <span>Фильтры применяются к сетке ниже.</span>
-          </div>
-          <span style="font-size:12px; color:var(--muted);" id="countLabel">0</span>
-        </div>
-
-        <div class="panel-body">
-          <div class="filters-top" aria-label="Фильтры">
-            <input id="vQ" class="searchline" placeholder="Поиск по видео…" />
-            <div class="chips" id="rubChips" aria-label="Рубрики">
-              <span class="chip active" data-rub="all">Все</span>
-              <span class="chip" data-rub="Тех">Тех</span>
-              <span class="chip" data-rub="Рынок">Рынок</span>
-              <span class="chip" data-rub="Люди">Люди</span>
-              <span class="chip" data-rub="Аналитика">Аналитика</span>
-              <span class="chip" data-rub="Продакшн">Продакшн</span>
-            </div>
-          </div>
-
-          <div class="grid-videos" id="gridVideos">
-            <!-- injected -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Shorts -->
-    <section class="section" aria-label="Shorts">
-      <div class="shorts-wrap">
-        <div class="shorts-head">
-          <div>
-            <b>Shorts</b>
-            <div style="margin-top:6px; font-size:13px; color:var(--muted);">Короткие вертикальные видео — быстро в контекст.</div>
-          </div>
-          <a class="more" href="#">Все shorts →</a>
-        </div>
-
-        <div class="shorts-row" id="shortsRow">
-          <!-- injected -->
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <div>© <span id="y"></span> Промышленный репортёр</div>
-      <div>Контакты · Реклама · Политика</div>
-    </footer>
-  </main>
-
-  <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // ===== Video of the day (VK embed) =====
-    const vod = {
-      title: "Видео дня (VK)",
-      desc: "Встроено только видео (без текста поста).",
-      rubric: "Тех",
-      when: "Сегодня",
-      length: "—",
-      durLabel: "VK",
-
-      // "Открыть материал" / "Поделиться" — ведём сюда (замени на вашу статью, если нужно)
-      href: "https://vk.com/wall-234602001_267",
-
-      // ✅ ВАШ iframe src:
-      embedUrl: "https://vk.com/video_ext.php?oid=-234602001&id=456239128&autoplay=1"
-    };
-
-    document.getElementById('vodTitle').textContent = vod.title;
-    document.getElementById('vodDesc').textContent = vod.desc;
-    document.getElementById('vodRub').textContent = vod.rubric;
-    document.getElementById('vodWhen').textContent = vod.when;
-    document.getElementById('vodLen').textContent = vod.length;
-    document.getElementById('vodDur').textContent = vod.durLabel;
-
-    function openVod(){
-      const player = document.getElementById('vodPlayer');
-      player.innerHTML = `
-        <iframe
-          src="${vod.embedUrl}"
-          style="position:absolute; inset:0; width:100%; height:100%; border:0; background-color:#000;"
-          allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
-      `;
-    }
-
-    function openVodMaterial(){
-      window.location.href = vod.href;
-    }
-
-    function shareVod(){
-      const url = vod.href || location.href;
-      if (navigator.share) {
-        navigator.share({ title: vod.title, text: vod.desc, url }).catch(()=>{});
-      } else {
-        navigator.clipboard?.writeText(url).then(()=>{
-          alert("Ссылка скопирована");
-        }).catch(()=>{
-          prompt("Скопируй ссылку:", url);
-        });
-      }
-    }
-
-    document.getElementById('vodPlay').addEventListener('click', openVod);
-    document.getElementById('vodOpen').addEventListener('click', openVod);
-    document.getElementById('vodMaterial').addEventListener('click', openVodMaterial);
-    document.getElementById('vodShare').addEventListener('click', shareVod);
-
-    // ===== Shorts (demo) =====
-    const shorts = [
-      { title:"60 секунд: контроль качества на линии", time:"1:00", badge:"Тех", href:"#", thumb:"" },
-      { title:"Нормирование без боли: одна привычка на смену", time:"0:45", badge:"Люди", href:"#", thumb:"" },
-      { title:"Три ошибки внедрения MES, которые повторяют все", time:"0:58", badge:"IT/OT", href:"#", thumb:"" },
-      { title:"Безопасность: микро-чеклист перед запуском", time:"0:35", badge:"ОТ", href:"#", thumb:"" },
-      { title:"Цепочки поставок: один график, который всё объясняет", time:"0:52", badge:"Рынок", href:"#", thumb:"" }
-    ];
-
-    const shortsRow = document.getElementById('shortsRow');
-    shortsRow.innerHTML = shorts.map((s)=>`
-      <a class="short" href="${s.href}" aria-label="${s.title}">
-        <div class="short-card">
-          ${s.thumb ? `<img src="${s.thumb}" alt="">` : ``}
-          <div class="short-badge"><i></i> ${s.badge}</div>
-          <div class="short-play" role="button" aria-label="Смотреть short">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
-            </svg>
-          </div>
-        </div>
-        <div class="short-name">${s.title}</div>
-        <div class="short-meta"><span>Short</span><span>${s.time}</span></div>
-      </a>
-    `).join('');
-
-    // ===== Archive (demo) =====
-    const archiveAll = [
-      { rubric:"Тех", title:"ОТК и машинное зрение: как снизили споры на смене", desc:"Пилот, данные, дисциплина фиксации дефектов.", when:"Сегодня", len:"12:40", views:12400, href:"#", thumb:"" },
-      { rubric:"Аналитика", title:"ROI автоматизации: где он честный, а где “для отчёта”", desc:"Три зоны эффекта и три анти-паттерна внедрения.", when:"Вчера", len:"18:05", views:9800, href:"#", thumb:"" },
-      { rubric:"Рынок", title:"Логистика 2026: новые правила поставок", desc:"Контракты, SLA, страховка рисков — без лишнего шума.", when:"2 дня", len:"14:22", views:7600, href:"#", thumb:"" },
-      { rubric:"Люди", title:"Кадры: грейды, наставники, смена", desc:"Как удержать специалистов и не утонуть в “мотивации”.", when:"Неделя", len:"16:10", views:15600, href:"#", thumb:"" },
-      { rubric:"Продакшн", title:"Как снимается заводской репортаж: свет, шум, безопасность", desc:"Закулисье съёмки: техника, план, ограничения.", when:"Месяц", len:"22:14", views:5100, href:"#", thumb:"" },
-      { rubric:"Тех", title:"MES с участка: как начать и не утонуть", desc:"Контур факта → контур причин → отчёты.", when:"3 дня", len:"19:33", views:8700, href:"#", thumb:"" },
-      { rubric:"Люди", title:"Команда смены: микропрактики, которые экономят нервы", desc:"Один ритуал, один протокол и одна доска.", when:"4 дня", len:"13:08", views:6400, href:"#", thumb:"" },
-      { rubric:"Рынок", title:"Цена риска: что реально закладывают в контракт", desc:"Как отличить страх от расчёта — в трёх правилах.", when:"5 дней", len:"11:56", views:9300, href:"#", thumb:"" },
-      { rubric:"Аналитика", title:"Инвестиции в модернизацию: где чаще всего ошибаются", desc:"CAPEX, эффект, скрытые издержки сопровождения.", when:"2 недели", len:"20:41", views:7200, href:"#", thumb:"" },
-    ];
-
-    let state = { q:"", rub:"all" };
-    let shown = 0;
-    const pageSize = 6;
-
-    const vQ = document.getElementById('vQ');
-    const grid = document.getElementById('gridVideos');
-    const loadMore = document.getElementById('loadMore');
-    const countLabel = document.getElementById('countLabel');
-
-    function formatViews(n){
-      if(n >= 1000000) return (n/1000000).toFixed(1).replace('.0','') + "M";
-      if(n >= 1000) return Math.round(n/1000) + "k";
-      return String(n);
-    }
-
-    function matches(v){
-      const q = state.q.trim().toLowerCase();
-      const okQ = !q || v.title.toLowerCase().includes(q) || v.desc.toLowerCase().includes(q) || v.rubric.toLowerCase().includes(q);
-      const okR = state.rub === "all" ? true : v.rubric === state.rub;
-      return okQ && okR;
-    }
-
-    function renderArchive(reset){
-      if(reset){ shown = 0; grid.innerHTML = ""; loadMore.style.display = ""; }
-
-      const filtered = archiveAll.filter(matches);
-      countLabel.textContent = `${filtered.length} материалов`;
-
-      const slice = filtered.slice(shown, shown + pageSize);
-      shown += slice.length;
-
-      grid.insertAdjacentHTML('beforeend', slice.map(v=>`
-        <a class="vcard" href="${v.href}" aria-label="${v.title}">
-          <div class="thumb">
-            ${v.thumb ? `<img src="${v.thumb}" alt="">` : ``}
-            <div class="p" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
-              </svg>
-            </div>
-          </div>
-          <div class="vbody">
-            <div class="vtop">
-              <span class="vrub">${v.rubric}</span>
-              <span>${formatViews(v.views)} просмотров</span>
-            </div>
-            <div class="vtitle">${v.title}</div>
-            <p class="vdesc">${v.desc}</p>
-            <div class="vmeta">
-              <span class="tag">${v.when}</span>
-              <span class="tag hot">${v.len}</span>
-            </div>
-          </div>
-        </a>
-      `).join(''));
-
-      if(shown >= filtered.length) loadMore.style.display = "none";
-      if(filtered.length === 0){
-        grid.innerHTML = `<div style="grid-column:1/-1; color:var(--muted); font-size:13px; padding:6px 2px;">
-          Ничего не найдено. Попробуй другую рубрику или запрос.
-        </div>`;
-        loadMore.style.display = "none";
-      }
-    }
-
-    document.getElementById('rubChips').addEventListener('click', (e)=>{
-      const chip = e.target.closest('.chip');
-      if(!chip) return;
-      document.querySelectorAll('#rubChips .chip').forEach(c=>c.classList.remove('active'));
-      chip.classList.add('active');
-      state.rub = chip.dataset.rub;
-      renderArchive(true);
-    });
-
-    vQ.addEventListener('input', ()=>{
-      state.q = vQ.value || "";
-      renderArchive(true);
-    });
-
-    loadMore.addEventListener('click', (e)=>{
-      e.preventDefault();
-      renderArchive(false);
-    });
-
-    renderArchive(true);
-  </script>
-
-  <script>
-    (function(){
-      const d = document.querySelector('.nav-mobile');
-      if(!d) return;
-
-      d.querySelectorAll('a').forEach(a=>{
-        a.addEventListener('click', ()=> d.removeAttribute('open'));
-      });
-
-      document.addEventListener('click', (e)=>{
-        if(d.hasAttribute('open') && !d.contains(e.target)){
-          d.removeAttribute('open');
-        }
-      });
-
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape') d.removeAttribute('open');
-      });
-    })();
-  </script>
-
-  <!-- Переключатель темы -->
-  <script>
-    (function () {
-      const KEY = "theme";
-      const root = document.documentElement;
-      const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
-
-      const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
-
-      function currentTheme() {
-        return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
-      }
-
-      function setIconAndLabel(btn, theme){
-        const svg = btn.querySelector("svg");
-        if (!svg) return;
-
-        const isDark = theme === "dark";
-        svg.innerHTML = isDark ? ICON_SUN : ICON_MOON;
-        btn.setAttribute("aria-label", isDark ? "Включить светлую тему" : "Включить тёмную тему");
-      }
-
-      function apply(theme) {
-        if (theme === "dark") root.setAttribute("data-theme", "dark");
-        else root.removeAttribute("data-theme");
-
-        toggles.forEach(btn => {
-          const isDark = theme === "dark";
-          btn.setAttribute("aria-pressed", isDark ? "true" : "false");
-          setIconAndLabel(btn, theme);
-        });
-      }
-
-      toggles.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const next = currentTheme() === "dark" ? "light" : "dark";
-          localStorage.setItem(KEY, next);
-          apply(next);
-        });
-      });
-
-      apply(localStorage.getItem(KEY) || currentTheme());
-    })();
-  </script>
-</body>
-</html>
-
+          <p>Один главный ролик — и рядом контекст +
+::contentReference[oaicite:1]{index=1}
