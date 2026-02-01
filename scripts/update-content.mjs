@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import fetch from "node-fetch";
 
 const VK_TOKEN = process.env.VK_TOKEN;
 
