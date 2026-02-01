@@ -1,17 +1,53 @@
 {
-  "updatedAt": "2026-01-21T10:30:00Z",
+  "updatedAt": "2026-02-01T20:53:00.574Z",
   "items": [
     {
-      "id": 123,
-      "ownerId": -234602001,
-      "title": "Клип из VK",
-      "description": "",
-      "duration": 45,
-      "date": 1705839000,
-      "views": 8000,
-      "thumb": "https://.....jpg",
-      "href": "https://vk.com/clip-234602001_123",
-      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=...."
+      "title": "Video by Промышленный репортёр",
+      "href": "https://vk.com/video-234602001_456239249",
+      "thumb": "https://i.mycdn.me/getVideoPreview?id=10979319417543&idx=8&type=39&tkn=nI7hMvGIijgZFY8SPgmixwF-5Lo&fn=vid_u",
+      "duration": "0:57",
+      "date": "2026-02-01",
+      "views": 5
+    },
+    {
+      "title": "Video by Промышленный репортёр",
+      "href": "https://vk.com/video-234602001_456239232",
+      "thumb": "https://i.mycdn.me/getVideoPreview?id=10874681887269&idx=8&type=39&tkn=d52DSIr0b6NvxWZVwcwcPgtRLRY&fn=vid_u",
+      "duration": "0:39",
+      "date": "2026-01-29",
+      "views": 4
+    },
+    {
+      "title": "Video by Промышленный репортёр",
+      "href": "https://vk.com/video-234602001_456239208",
+      "thumb": "https://i.mycdn.me/getVideoPreview?id=10743197076184&idx=0&type=39&tkn=0qjzehJHZ-yvN6qieeenfELdF-Y&fn=vid_u",
+      "duration": "0:23",
+      "date": "2026-01-27",
+      "views": 4
+    },
+    {
+      "title": "Video by Промышленный репортёр",
+      "href": "https://vk.com/video-234602001_456239183",
+      "thumb": "https://i.mycdn.me/getVideoPreview?id=10569262369426&idx=4&type=39&tkn=o9pCbrcKfQVdZvXV33bZukFI5TQ&fn=vid_u",
+      "duration": "0:05",
+      "date": "2026-01-23",
+      "views": 0
+    },
+    {
+      "title": "Video by Промышленный репортёр",
+      "href": "https://vk.com/video-234602001_456239062",
+      "thumb": "https://i.mycdn.me/getVideoPreview?id=9840281717256&idx=4&type=39&tkn=aK41cX2i30x12JFMHBFVCT-NNsc&fn=vid_u",
+      "duration": "0:27",
+      "date": "2025-12-22",
+      "views": 13
+    },
+    {
+      "title": "Video by Промышленный репортёр",
+      "href": "https://vk.com/video-234602001_456239027",
+      "thumb": "https://i.mycdn.me/getVideoPreview?id=9747763759704&idx=0&type=39&tkn=L-PPyodIwj2vKNpsN6_lUFxN-Og&fn=vid_u",
+      "duration": "3:31",
+      "date": "2025-12-15",
+      "views": 7
     }
   ]
 }
