@@ -1,10 +1,14 @@
 {
-  "updatedAt": "2026-02-07T16:16:24.808Z",
-  "title": "Video by Промышленный репортёр",
-  "href": "https://vk.com/video-234602001_456239297",
-  "thumb": "https://i.mycdn.me/getVideoPreview?id=10917154261619&idx=8&type=39&tkn=7UNba-h-Mnck7xIHvpGrRoKTiho&fn=vid_w",
-  "duration": "0:59",
-  "date": "2026-02-07",
-  "views": 1,
-  "description": "Видео дня из VK (автоподбор по свежести)"
+  "updatedAt": "2026-02-07T16:43:55.716Z",
+  "item": {
+    "ownerId": -234602001,
+    "id": 456239297,
+    "title": "Video by Промышленный репортёр",
+    "href": "https://vk.com/video-234602001_456239297",
+    "thumb": "https://i.mycdn.me/getVideoPreview?id=10917154261619&idx=8&type=39&tkn=7UNba-h-Mnck7xIHvpGrRoKTiho&fn=vid_w",
+    "duration": "0:59",
+    "date": "2026-02-07",
+    "views": 2,
+    "description": "Видео дня из VK (автоподбор по свежести)"
+  }
 }
