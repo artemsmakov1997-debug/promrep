@@ -30,21 +30,26 @@ async function vk(method, params = {}) {
   const url = new URL(`https://api.vk.com/method/${method}`);
   const merged = { ...params, access_token: VK_TOKEN, v: API_VERSION };
 
-  Object.entries(merged).forEach(([k, v]) => url.searchParams.set(k, String(v)));
+  Object.entries(merged).forEach(([k, v]) =>
+    url.searchParams.set(k, String(v))
+  );
 
   const res = await fetch(url.toString());
   const json = await res.json();
 
   if (json.error) {
-    throw new Error(`VK API error ${json.error.error_code}: ${json.error.error_msg}`);
+    throw new Error(
+      `VK API error ${json.error.error_code}: ${json.error.error_msg}`
+    );
   }
   return json.response;
 }
 
 function pickLargestImage(images = []) {
   if (!Array.isArray(images) || images.length === 0) return null;
-  // обычно VK отдаёт по возрастанию, но на всякий — сортируем
-  const sorted = [...images].sort((a, b) => (a.width * a.height) - (b.width * b.height));
+  const sorted = [...images].sort(
+    (a, b) => a.width * a.height - b.width * b.height
+  );
   return sorted[sorted.length - 1];
 }
 
@@ -65,21 +70,23 @@ function normalizeFromWallVideo(video, post) {
   const img = pickLargestImage(video.image);
   const thumb = img?.url || "";
 
-  // video.player обычно есть у прикреплённого видео; если нет — строим ссылку
   const oid = video.owner_id;
   const id = video.id;
+
   const href = video.player || `https://vk.com/video${oid}_${id}`;
 
   return {
-    // поля для фронта
     title: video.title || "Видео",
     href,
     thumb,
     duration: secondsToMMSS(video.duration),
-    date: new Date((post.date || video.date || 0) * 1000).toISOString().slice(0, 10),
+    date: new Date(
+      (post.date || video.date || 0) * 1000
+    ).toISOString().slice(0, 10),
 
-    // доп поля (не мешают)
     views: video.views ?? 0,
+
+    // важно для tv.html
     oid,
     id,
     isShort: isVerticalByThumb(video),
@@ -115,11 +122,10 @@ async function fetchVideosFromWall() {
     offset += COUNT;
     if (offset >= (data.count || 0)) break;
 
-    // чтобы не шлёпать VK слишком быстро
     await new Promise((r) => setTimeout(r, 350));
   }
 
-  // убираем дубли (иногда видео может встретиться в нескольких постах)
+  // убираем дубли
   const seen = new Set();
   const uniq = [];
   for (const v of all) {
@@ -129,7 +135,7 @@ async function fetchVideosFromWall() {
     uniq.push(v);
   }
 
-  // сортируем по дате (свежее сверху)
+  // сортировка по дате
   uniq.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
   console.log("Total videos found on wall:", uniq.length);
@@ -137,14 +143,16 @@ async function fetchVideosFromWall() {
 }
 
 function buildOutputs(videos) {
-  const shorts = videos.filter(v => v.isShort);
-  const tv = videos.filter(v => !v.isShort);
+  const shorts = videos.filter((v) => v.isShort);
+  const tv = videos.filter((v) => !v.isShort);
 
   const vod = tv[0] || videos[0] || null;
 
   const tvJson = {
     updatedAt: new Date().toISOString(),
-    items: tv.map(v => ({
+    items: tv.map((v) => ({
+      ownerId: v.oid,
+      id: v.id,
       title: v.title,
       href: v.href,
       thumb: v.thumb,
@@ -156,7 +164,9 @@ function buildOutputs(videos) {
 
   const shortsJson = {
     updatedAt: new Date().toISOString(),
-    items: shorts.map(v => ({
+    items: shorts.map((v) => ({
+      ownerId: v.oid,
+      id: v.id,
       title: v.title,
       href: v.href,
       thumb: v.thumb,
@@ -166,32 +176,38 @@ function buildOutputs(videos) {
     })),
   };
 
-  const vodJson = vod ? {
-    updatedAt: new Date().toISOString(),
-    title: vod.title,
-    href: vod.href,
-    thumb: vod.thumb,
-    duration: vod.duration,
-    date: vod.date,
-    views: vod.views,
-    description: "Видео дня из VK (автоподбор по свежести)",
-  } : {
-    updatedAt: new Date().toISOString(),
-    title: "",
-    href: "#",
-    thumb: "",
-    duration: "",
-    date: "",
-    views: 0,
-    description: "",
-  };
+  const vodJson = vod
+    ? {
+        updatedAt: new Date().toISOString(),
+        item: {
+          ownerId: vod.oid,
+          id: vod.id,
+          title: vod.title,
+          href: vod.href,
+          thumb: vod.thumb,
+          duration: vod.duration,
+          date: vod.date,
+          views: vod.views,
+          description: "Видео дня из VK (автоподбор по свежести)",
+        },
+      }
+    : {
+        updatedAt: new Date().toISOString(),
+        item: null,
+      };
 
-  return { tvJson, shortsJson, vodJson, counts: { tv: tv.length, shorts: shorts.length } };
+  return {
+    tvJson,
+    shortsJson,
+    vodJson,
+    counts: { tv: tv.length, shorts: shorts.length },
+  };
 }
 
 async function main() {
   const videos = await fetchVideosFromWall();
-  const { tvJson, shortsJson, vodJson, counts } = buildOutputs(videos);
+  const { tvJson, shortsJson, vodJson, counts } =
+    buildOutputs(videos);
 
   writeJson(TV_JSON, tvJson);
   writeJson(SHORTS_JSON, shortsJson);
