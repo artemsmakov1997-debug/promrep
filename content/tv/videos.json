@@ -1,6 +1,16 @@
 {
-  "updatedAt": "2026-02-08T10:52:01.615Z",
+  "updatedAt": "2026-02-08T11:14:33.907Z",
   "items": [
+    {
+      "ownerId": -234602001,
+      "id": 456239299,
+      "title": "Video by Промышленный репортёр",
+      "href": "https://vk.com/video-234602001_456239299",
+      "thumb": "https://i.mycdn.me/getVideoPreview?id=11215409842715&idx=5&type=39&tkn=f1VPq47SF_H4MxHbU_7np6mpNlU&fn=vid_w",
+      "duration": "0:10",
+      "date": "2026-02-08",
+      "views": 0
+    },
     {
       "ownerId": -234602001,
       "id": 456239291,
@@ -99,7 +109,7 @@
       "thumb": "https://sun9-12.userapi.com/impg/JwiJ4eXqx_eqJX-hS5ith5FOSooaQK0buJ3Wyg/VuvH_A8L_M0.jpg?quality=90&proxy=1&sign=70f9f930d0ba4a03aff2c1acf8a60a5d&c_uniq_tag=wgkddiM_hX05XLmXF-NMkUYbpc_RGrmFgwdwz3Mdnmo&type=video_thumb",
       "duration": "4:29",
       "date": "2026-02-05",
-      "views": 1128
+      "views": 1130
     },
     {
       "ownerId": -234602001,
