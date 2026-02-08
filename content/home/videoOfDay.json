@@ -1,14 +1,15 @@
 {
-  "updatedAt": "2026-02-08T14:27:53.122Z",
+  "updatedAt": "2026-02-08T14:52:48.349Z",
   "item": {
     "title": "Video by Промышленный репортёр",
-    "thumb": "https://i.mycdn.me/getVideoPreview?id=11215409842715&idx=5&type=39&tkn=f1VPq47SF_H4MxHbU_7np6mpNlU&fn=vid_w",
-    "duration": "0:10",
+    "href": "https://vk.com/video-234602001_456239301",
+    "thumb": "https://i.mycdn.me/getVideoPreview?id=11195577338402&idx=5&type=39&tkn=9I9RUJa24P0AKQwVyquJU00fl_k&fn=vid_w",
+    "duration": "0:13",
     "date": 1770508800,
-    "views": 7,
+    "views": 0,
     "description": "",
     "ownerId": -234602001,
-    "id": 456239299,
-    "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239299"
+    "id": 456239301,
+    "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239301"
   }
 }
