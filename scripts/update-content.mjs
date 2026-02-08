@@ -67,8 +67,11 @@ function normalizeFromWallVideo(video, post) {
   const oid = video.owner_id;
   const id = video.id;
 
+  const href = video.player || `https://vk.com/video${oid}_${id}`;
+
   return {
     title: video.title || "Видео",
+    href,                         // ← ВАЖНО: добавлено
     thumb,
     duration: secondsToMMSS(video.duration),
     date: new Date((post.date || video.date || 0) * 1000)
