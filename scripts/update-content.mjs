@@ -135,61 +135,46 @@ function buildOutputs(videos) {
 
   const vod = tv[0] || videos[0] || null;
 
-  const tvJson = {
-    updatedAt: new Date().toISOString(),
-    items: tv.map(v => ({
-      ownerId: v.oid,
-      id: v.id,
+  function mapItem(v) {
+    return {
       title: v.title,
+      href: v.href,
       thumb: v.thumb,
       duration: v.duration,
-      date: v.date,
+      date: Math.floor(new Date(v.date).getTime() / 1000),
       views: v.views,
-    })),
+      description: "",
+      ownerId: v.oid,
+      id: v.id,
+      embedUrl: `https://vk.com/video_ext.php?oid=${v.oid}&id=${v.id}`
+    };
+  }
+
+  const tvJson = {
+    updatedAt: new Date().toISOString(),
+    items: tv.map(mapItem)
   };
 
   const shortsJson = {
     updatedAt: new Date().toISOString(),
-    items: shorts.map(v => ({
-      ownerId: v.oid,
-      id: v.id,
-      title: v.title,
-      thumb: v.thumb,
-      duration: v.duration,
-      date: v.date,
-      views: v.views,
-    })),
+    items: shorts.map(mapItem)
   };
 
   const vodJson = vod
     ? {
         updatedAt: new Date().toISOString(),
-        ownerId: vod.oid,
-        id: vod.id,
-        title: vod.title,
-        thumb: vod.thumb,
-        duration: vod.duration,
-        date: vod.date,
-        views: vod.views,
-        description: "Видео дня из VK",
+        item: mapItem(vod)
       }
     : {
         updatedAt: new Date().toISOString(),
-        ownerId: 0,
-        id: 0,
-        title: "",
-        thumb: "",
-        duration: "",
-        date: "",
-        views: 0,
-        description: "",
+        item: null
       };
 
   return {
     tvJson,
     shortsJson,
     vodJson,
-    counts: { tv: tv.length, shorts: shorts.length },
+    counts: { tv: tv.length, shorts: shorts.length }
   };
 }
 
