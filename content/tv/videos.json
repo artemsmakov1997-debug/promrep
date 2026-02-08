@@ -1,860 +1,1050 @@
 {
-  "updatedAt": "2026-02-08T14:13:34.191Z",
+  "updatedAt": "2026-02-08T14:27:53.121Z",
   "items": [
     {
-      "ownerId": -234602001,
-      "id": 456239299,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11215409842715&idx=5&type=39&tkn=f1VPq47SF_H4MxHbU_7np6mpNlU&fn=vid_w",
       "duration": "0:10",
-      "date": "2026-02-08",
-      "views": 7
+      "date": 1770508800,
+      "views": 7,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239299,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239299"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239291,
       "title": "Ядерный поезд прибудет в Россию, а ядерный космобуксир избороздит просторы вселенной",
       "thumb": "https://sun9-81.userapi.com/impg/4jURL6qWVNZm109xhI9cZgT4dtJWONzmxfN8RA/R1n5EYPGRu0.jpg?quality=90&proxy=1&sign=91bca67f90fb49b15f098356e47fb170&c_uniq_tag=YhB_RwqGWk9VJ3kdE6COQBFRiaw2DryfllODQ1JW1K0&type=video_thumb",
       "duration": "5:27",
-      "date": "2026-02-07",
-      "views": 5607
+      "date": 1770422400,
+      "views": 5608,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239291,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239291"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239297,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10917154261619&idx=8&type=39&tkn=7UNba-h-Mnck7xIHvpGrRoKTiho&fn=vid_w",
       "duration": "0:59",
-      "date": "2026-02-07",
-      "views": 6
+      "date": 1770422400,
+      "views": 6,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239297,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239297"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239296,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11188123732544&idx=8&type=39&tkn=m1t3LY4Px_0XVVAAoS6zwVg10Zc&fn=vid_w",
       "duration": "1:28",
-      "date": "2026-02-07",
-      "views": 3
+      "date": 1770422400,
+      "views": 3,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239296,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239296"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239295,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10924254169650&idx=8&type=39&tkn=Ap46-qNW6sf60IMsWaQNBxtxKkY&fn=vid_w",
       "duration": "1:26",
-      "date": "2026-02-07",
-      "views": 3
+      "date": 1770422400,
+      "views": 3,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239295,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239295"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239292,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11151136524999&idx=8&type=39&tkn=9lWG87U3gJAzy12epzWvoMz61fA&fn=vid_w",
       "duration": "0:30",
-      "date": "2026-02-07",
-      "views": 7
+      "date": 1770422400,
+      "views": 7,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239292,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239292"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239289,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10929479158318&idx=8&type=39&tkn=xgi82Lfz-T8njBxWwpA6IuMD5NA&fn=vid_w",
       "duration": "0:20",
-      "date": "2026-02-06",
-      "views": 10
+      "date": 1770336000,
+      "views": 10,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239289,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239289"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239285,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11037772810855&idx=8&type=39&tkn=5BGR6thy1l9pCcpm-DjoQFyhAb0&fn=vid_w",
       "duration": "0:44",
-      "date": "2026-02-06",
-      "views": 6
+      "date": 1770336000,
+      "views": 6,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239285,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239285"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239284,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10971067255407&idx=5&type=39&tkn=rcZSgfVyFxwEEDCbZ_fwzibJ7bE&fn=vid_w",
       "duration": "0:07",
-      "date": "2026-02-06",
-      "views": 13
+      "date": 1770336000,
+      "views": 13,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239284,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239284"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239283,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11067969571373&idx=8&type=39&tkn=Fh6A5yQZOyv3KIOruMRMC5yokHk&fn=vid_w",
       "duration": "0:20",
-      "date": "2026-02-06",
-      "views": 15
+      "date": 1770336000,
+      "views": 15,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239283,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239283"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239277,
       "title": "БЛЭКАУТ в Мурманске: как восстанавливали ЛЭП и вернули свет городу",
       "thumb": "https://sun9-12.userapi.com/impg/JwiJ4eXqx_eqJX-hS5ith5FOSooaQK0buJ3Wyg/VuvH_A8L_M0.jpg?quality=90&proxy=1&sign=70f9f930d0ba4a03aff2c1acf8a60a5d&c_uniq_tag=wgkddiM_hX05XLmXF-NMkUYbpc_RGrmFgwdwz3Mdnmo&type=video_thumb",
       "duration": "4:29",
-      "date": "2026-02-05",
-      "views": 1130
+      "date": 1770249600,
+      "views": 1130,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239277,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239277"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239276,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10925819103955&idx=8&type=39&tkn=5GMbuAmalo1z156TUMXt15qq-2s&fn=vid_w",
       "duration": "2:29",
-      "date": "2026-02-05",
-      "views": 29
+      "date": 1770249600,
+      "views": 29,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239276,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239276"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239272,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11068935178862&idx=8&type=39&tkn=In46e0NoYdKxm3v9Iyk-UyTbnqE&fn=vid_w",
       "duration": "0:36",
-      "date": "2026-02-04",
-      "views": 106
+      "date": 1770163200,
+      "views": 106,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239272,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239272"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239270,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10951882377788&idx=8&type=39&tkn=eypOKfQCXUEEkbzIkqS8I0-4rKg&fn=vid_w",
       "duration": "0:35",
-      "date": "2026-02-04",
-      "views": 41
+      "date": 1770163200,
+      "views": 41,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239270,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239270"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239267,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10749040069204&idx=8&type=39&tkn=dLQE9m3hX_Y0OsTIGK9znuzKDC0&fn=vid_u",
       "duration": "0:49",
-      "date": "2026-02-04",
-      "views": 7
+      "date": 1770163200,
+      "views": 7,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239267,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239267"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239265,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10859119643291&idx=8&type=39&tkn=TDTbbW6MaZfieeQbvy84690RQeE&fn=vid_w",
       "duration": "0:24",
-      "date": "2026-02-04",
-      "views": 8
+      "date": 1770163200,
+      "views": 8,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239265,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239265"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239261,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10915784165976&idx=8&type=39&tkn=4N12gy0qNHSjSczq6Kv8GYhG1Fw&fn=vid_w",
       "duration": "0:25",
-      "date": "2026-02-03",
-      "views": 54
+      "date": 1770076800,
+      "views": 54,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239261,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239261"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239259,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10662639307441&idx=8&type=39&tkn=wSNODpV44WwLElgvCxOwrmUHiIg&fn=vid_w",
       "duration": "0:20",
-      "date": "2026-02-03",
-      "views": 5
+      "date": 1770076800,
+      "views": 5,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239259,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239259"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239258,
       "title": "Первая гигафабрика накопителей энергии, производство аккумуляторных батарей, завод сельхозтехники",
       "thumb": "https://sun9-88.userapi.com/impg/6q0UaTdhlf-8WZqA94KfPEQWDeUiBdrPdFeVag/z7jzX6Cx8Q8.jpg?quality=90&proxy=1&sign=70d33659b8c54527fd1e36423e336ba8&c_uniq_tag=TEsf7D8yLzb-Un8r2NN0B84nXi6a3AV0ZuPGOhSd9xY&type=video_thumb",
       "duration": "6:32",
-      "date": "2026-02-03",
-      "views": 7166
+      "date": 1770076800,
+      "views": 7166,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239258,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239258"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239251,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10874439797324&idx=8&type=39&tkn=3TpjTU1hkJ0NUoCOM5xH3EzZEiE&fn=vid_w",
       "duration": "0:32",
-      "date": "2026-02-02",
-      "views": 40
+      "date": 1769990400,
+      "views": 40,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239251,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239251"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239241,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10771627051602&idx=8&type=39&tkn=uO4hbPCbq4c090NHActd6CCTnwo&fn=vid_w",
       "duration": "0:43",
-      "date": "2026-01-31",
-      "views": 77
+      "date": 1769817600,
+      "views": 77,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239241,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239241"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239237,
       "title": "Россия создала аналог Starlink!",
       "thumb": "https://sun9-28.userapi.com/impg/dbxhaBniJBcpe-V2rjGvjcQI5gfecPFnlzPFtQ/ANA8H7DxWe0.jpg?quality=90&proxy=1&sign=8e545e0c03bb621c2dbe0e0b3a0922ec&c_uniq_tag=VNbx6NQjQ96Wo490_v1Fc5cJ0V7naCqCHPcBFokkyZk&type=video_thumb",
       "duration": "5:09",
-      "date": "2026-01-31",
-      "views": 2007
+      "date": 1769817600,
+      "views": 2007,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239237,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239237"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239238,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10836596361835&idx=8&type=39&tkn=BCx3M_9z62ld5IZGC_NB6pnZF3A&fn=vid_w",
       "duration": "0:52",
-      "date": "2026-01-31",
-      "views": 111
+      "date": 1769817600,
+      "views": 111,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239238,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239238"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239236,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10860846058040&idx=8&type=39&tkn=441BZZRBQmXfi2iYC6IrvBLmyZ4&fn=vid_w",
       "duration": "0:57",
-      "date": "2026-01-30",
-      "views": 86
+      "date": 1769731200,
+      "views": 86,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239236,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239236"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239233,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10824874330727&idx=8&type=39&tkn=mR7MDbUauu2MRU_KuE8GoRii7TY&fn=vid_w",
       "duration": "0:33",
-      "date": "2026-01-30",
-      "views": 97
+      "date": 1769731200,
+      "views": 97,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239233,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239233"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239231,
       "title": "Clip by @promrep",
       "thumb": "https://sun9-63.userapi.com/impg/4bX4whDMDv5dc2w4EGg-0lsWZYVeINxAwKboMw/6WKYU1IMCxU.jpg?size=800x450&quality=95&keep_aspect_ratio=1&background=000000&sign=42890d4b32c48518abcaea6c60834199&c_uniq_tag=V2l1rXvyZr-W6z6lJFldtvI9qma8bGdyj9bNemtItIA&type=video_thumb",
       "duration": "1:57",
-      "date": "2026-01-29",
-      "views": 183
+      "date": 1769644800,
+      "views": 183,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239231,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239231"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239229,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10673218652798&idx=8&type=39&tkn=fw9wmRWHnch4bR7uWlE0XwW3_p0&fn=vid_w",
       "duration": "0:43",
-      "date": "2026-01-29",
-      "views": 49
+      "date": 1769644800,
+      "views": 49,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239229,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239229"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239228,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10719924783703&idx=8&type=39&tkn=Iow5pUUTrZHsMGU2FUk1exSSopU&fn=vid_w",
       "duration": "0:59",
-      "date": "2026-01-29",
-      "views": 155
+      "date": 1769644800,
+      "views": 155,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239228,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239228"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239226,
       "title": "Сквозь СНЕГ: Новая российская снегоуборочная ТЕХНИКА",
       "thumb": "https://sun9-32.userapi.com/impg/oyeigzyIpfjDn7XcrB8xMuFuA6MipI342G8ouQ/BvhBpd0dVK4.jpg?quality=90&proxy=1&sign=795d66bca4e3adc2700d1ef08e4bcd08&c_uniq_tag=e0ui5UAhE_9LlYkw7zs6izuv7HVT15PO1tKggxibUtg&type=video_thumb",
       "duration": "7:24",
-      "date": "2026-01-29",
-      "views": 1292
+      "date": 1769644800,
+      "views": 1292,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239226,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239226"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239224,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10806924020352&idx=8&type=39&tkn=tCdYD-wGu8T8rQaYorbx5Kwen9U&fn=vid_w",
       "duration": "0:26",
-      "date": "2026-01-29",
-      "views": 42
+      "date": 1769644800,
+      "views": 42,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239224,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239224"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239223,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10858230123182&idx=5&type=39&tkn=vNX9lhLfFUEt4Imab-C8NLSi89Q&fn=vid_w",
       "duration": "0:10",
-      "date": "2026-01-29",
-      "views": 1958
+      "date": 1769644800,
+      "views": 1958,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239223,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239223"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239188,
       "title": "Новая «Герань-5» или Karrar? Возможности дрона с Су-25, Р-73 и Starlink",
       "thumb": "https://sun9-76.userapi.com/impg/3FO8f-3S69j8S5JIfLYHyDI1Eutr9r7e6QRQdA/4yE-ALYPLCg.jpg?size=800x450&quality=95&keep_aspect_ratio=1&background=000000&sign=7ddf1f45dd89a14aaec7183a05de730b&c_uniq_tag=Yuo6UMq-jShTtTqwFUVR9y40XU_uQXplHAaVntiSXgY&type=video_thumb",
       "duration": "3:02",
-      "date": "2026-01-28",
-      "views": 1590
+      "date": 1769558400,
+      "views": 1590,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239188,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239188"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239222,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10712548313724&idx=5&type=39&tkn=7q1p64MCl7AADUD3WagRoxOXpGg&fn=vid_w",
       "duration": "0:05",
-      "date": "2026-01-28",
-      "views": 57
+      "date": 1769558400,
+      "views": 57,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239222,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239222"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239218,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10680215079570&idx=8&type=39&tkn=uNsQ_p5PfNkWGJXTDVQY-0NIUnI&fn=vid_w",
       "duration": "0:31",
-      "date": "2026-01-28",
-      "views": 21
+      "date": 1769558400,
+      "views": 21,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239218,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239218"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239213,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10757972953745&idx=0&type=39&tkn=IPuRn2QFLDOcTB8NWWDgqm8dyOw&fn=vid_w",
       "duration": "0:17",
-      "date": "2026-01-27",
-      "views": 13
+      "date": 1769472000,
+      "views": 13,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239213,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239213"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239210,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10852442049185&idx=0&type=39&tkn=jigVI8JC-UlS_vXxMnAfqGWUOUw&fn=vid_w",
       "duration": "0:37",
-      "date": "2026-01-27",
-      "views": 57
+      "date": 1769472000,
+      "views": 57,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239210,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239210"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239209,
       "title": "ИИ в промышленности России и за рубежом",
       "thumb": "https://sun9-45.userapi.com/impg/G6kOztIJH9eoaWfQ3n4OmLOC2bzctJnWLimeyA/oLKw_dI8f8I.jpg?quality=90&proxy=1&sign=723e68c7f9b75169b32bd07e97ca7de4&c_uniq_tag=zRmVvKal0dlu_2pGancXYBhoZyUSga5a-9QLCZVJMjY&type=video_thumb",
       "duration": "6:50",
-      "date": "2026-01-27",
-      "views": 4506
+      "date": 1769472000,
+      "views": 4506,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239209,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239209"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239207,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10656015190549&idx=0&type=39&tkn=H52GGjDD-gZcICG2tL3DdhGgxfg&fn=vid_w",
       "duration": "0:32",
-      "date": "2026-01-27",
-      "views": 4
+      "date": 1769472000,
+      "views": 4,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239207,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239207"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239202,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10649150163624&idx=4&type=39&tkn=3FQZwgkPD255iKVgmQgCZVNN1LE&fn=vid_w",
       "duration": "0:25",
-      "date": "2026-01-26",
-      "views": 7
+      "date": 1769385600,
+      "views": 7,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239202,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239202"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239203,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10610512169477&idx=10&type=39&tkn=Nx12pGwGcBIgnKkh6GzS_xhUBI0&fn=vid_w",
       "duration": "0:59",
-      "date": "2026-01-26",
-      "views": 3
+      "date": 1769385600,
+      "views": 3,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239203,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239203"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239204,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10722216970917&idx=2&type=39&tkn=7PI8IVZW4VtPm3UYiSPnorljZFw&fn=vid_w",
       "duration": "0:23",
-      "date": "2026-01-26",
-      "views": 7
+      "date": 1769385600,
+      "views": 7,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239204,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239204"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239198,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10685570943564&idx=2&type=39&tkn=Lxp5vgA4zwxZww9_MZ3vwUWL-c8&fn=vid_w",
       "duration": "0:26",
-      "date": "2026-01-25",
-      "views": 4
+      "date": 1769299200,
+      "views": 4,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239198,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239198"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239199,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10631410092635&idx=8&type=39&tkn=xN4x3CukF7dYOEn24l43oQJHhTQ&fn=vid_w",
       "duration": "0:44",
-      "date": "2026-01-25",
-      "views": 6
+      "date": 1769299200,
+      "views": 6,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239199,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239199"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239197,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10556510571033&idx=7&type=39&tkn=ciGXwGWq2OhfzilIifnBL-_K2YQ&fn=vid_w",
       "duration": "0:13",
-      "date": "2026-01-25",
-      "views": 67
+      "date": 1769299200,
+      "views": 67,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239197,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239197"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239196,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10734331496997&idx=4&type=39&tkn=Nex9H2iu11JWibMXjC9HFuxr6fo&fn=vid_w",
       "duration": "0:31",
-      "date": "2026-01-24",
-      "views": 31
+      "date": 1769212800,
+      "views": 31,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239196,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239196"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239195,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10712166894304&idx=9&type=39&tkn=xp1SqKxdDc2OBICk-Qke6sJHDKw&fn=vid_w",
       "duration": "1:51",
-      "date": "2026-01-24",
-      "views": 36
+      "date": 1769212800,
+      "views": 36,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239195,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239195"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239189,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10492669594358&idx=15&type=39&tkn=JvZeT7__ylPws0SmLpj9gboLZ5c&fn=vid_w",
       "duration": "0:37",
-      "date": "2026-01-24",
-      "views": 94
+      "date": 1769212800,
+      "views": 94,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239189,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239189"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239186,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10584914987735&idx=0&type=39&tkn=umsFBhuTSOjF7ZMH298O5kMH1FE&fn=vid_w",
       "duration": "2:14",
-      "date": "2026-01-23",
-      "views": 45
+      "date": 1769126400,
+      "views": 45,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239186,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239186"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239182,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10589972466238&idx=2&type=39&tkn=KJTNBz0v_moOy6W8Yw7hBKyNpNs&fn=vid_w",
       "duration": "0:06",
-      "date": "2026-01-23",
-      "views": 0
+      "date": 1769126400,
+      "views": 0,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239182,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239182"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239181,
       "title": "«Голиаф 2.0» и «Каракурт 2.0», Supercam S180, пусковая установка для «Изделия 51Э»",
       "thumb": "https://sun9-43.userapi.com/impg/T5QRveGBrNEZKK9Yz3FN1nW2eO7cIIqZLdFFGw/dVMNlWkbs5Y.jpg?quality=90&proxy=1&sign=b180d1fc2414c757bbe56ea5ffff3d81&c_uniq_tag=8eRtGFcWnCr3WcCePa4t_eYYsuR19sobtCXEjWDbja0&type=video_thumb",
       "duration": "6:55",
-      "date": "2026-01-23",
-      "views": 746
+      "date": 1769126400,
+      "views": 746,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239181,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239181"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239176,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10784745327136&idx=6&type=39&tkn=HNuw645GVg4BhobJ2afRQ-VjUg4&fn=vid_w",
       "duration": "1:03",
-      "date": "2026-01-22",
-      "views": 42
+      "date": 1769040000,
+      "views": 42,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239176,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239176"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239172,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10462632872472&idx=0&type=39&tkn=gdwYlyExlL0nc2btQthZximYlvs&fn=vid_w",
       "duration": "0:49",
-      "date": "2026-01-21",
-      "views": 181
+      "date": 1768953600,
+      "views": 181,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239172,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239172"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239171,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10502462900940&idx=2&type=39&tkn=qii7xCmgla0rMbKG4CN-Sd5l6a4&fn=vid_w",
       "duration": "1:15",
-      "date": "2026-01-21",
-      "views": 94
+      "date": 1768953600,
+      "views": 94,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239171,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239171"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239165,
       "title": "«Темные цеха» — Россия переходит на роботизацию производств",
       "thumb": "https://sun9-38.userapi.com/impg/p7ysi9JWxDCF7AzBTIom9kyFsL2V8p6ujzZOPg/4iW7vW8lrp8.jpg?quality=90&proxy=1&sign=08c905131dc34c26c2d480305100a83f&c_uniq_tag=KxWcs_amxv3p6NhL0RNK-XDxIfsv89FwBrATvJTK_iw&type=video_thumb",
       "duration": "6:37",
-      "date": "2026-01-21",
-      "views": 2539
+      "date": 1768953600,
+      "views": 2539,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239165,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239165"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239160,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10574911638269&idx=1&type=39&tkn=3OQsXsD-XLsWhPZnHQn1aK3mjnU&fn=vid_w",
       "duration": "0:59",
-      "date": "2026-01-19",
-      "views": 4
+      "date": 1768780800,
+      "views": 4,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239160,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239160"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239154,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10327396190902&idx=1&type=39&tkn=CfQDjXY_TnSwTS_z5xyJrCwdJRY&fn=vid_w",
       "duration": "0:14",
-      "date": "2026-01-18",
-      "views": 12559
+      "date": 1768694400,
+      "views": 12559,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239154,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239154"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239152,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10436405824159&idx=0&type=39&tkn=cw1UUhEyKvacLixkrAjCp2Vrqm0&fn=vid_w",
       "duration": "0:21",
-      "date": "2026-01-17",
-      "views": 89
+      "date": 1768608000,
+      "views": 89,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239152,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239152"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239148,
       "title": "Обновленный ЗРПК «Панцирь-С1М», Дрон «Контур» из Сибири победил США и Китай, Продажи Lada Azimut",
       "thumb": "https://sun9-64.userapi.com/impg/3cZUBVd97gBYgtgwX1UV_jjyKqejhhzxbroA6w/1J2v9KYwFrM.jpg?quality=90&proxy=1&sign=dae0002068d26186bad4f92b970c9d8c&c_uniq_tag=cSJ5eKgTcvrgrtxhLG8XXeClFvRGiANK18l8CB_blhU&type=video_thumb",
       "duration": "4:54",
-      "date": "2026-01-16",
-      "views": 8093
+      "date": 1768521600,
+      "views": 8093,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239148,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239148"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239143,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10371735226918&idx=0&type=39&tkn=Um4s6vKyPNeqpakI8fb0KE0SBys&fn=vid_w",
       "duration": "0:14",
-      "date": "2026-01-15",
-      "views": 4
+      "date": 1768435200,
+      "views": 4,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239143,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239143"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239137,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10285427264026&idx=0&type=39&tkn=ofgvuwnvtptEus96fno8Z6pGV08&fn=vid_w",
       "duration": "2:29",
-      "date": "2026-01-14",
-      "views": 23
+      "date": 1768348800,
+      "views": 23,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239137,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239137"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239131,
       "title": "Стратегия мощи: ключевые события российского ВПК",
       "thumb": "https://sun9-40.userapi.com/impg/hEa31Hch-h3nQAmq8qj4op_vaen0iLyH1T2bfg/1o_yOQTZHk0.jpg?quality=90&proxy=1&sign=56a6f17874d5eb8905c25d3d67d4b9d2&c_uniq_tag=Ej1WlcXmMm_8p5qFJwq6qqZEhLUTZM4ZjzmQUD9FP5g&type=video_thumb",
       "duration": "6:51",
-      "date": "2026-01-12",
-      "views": 1249
+      "date": 1768176000,
+      "views": 1249,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239131,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239131"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239128,
       "title": "Погоня и захват российских нефтяных танкеров США. Венесуэльский «нефтяной передел»",
       "thumb": "https://sun9-26.userapi.com/impg/86pnacon8DnCFwF1cV493I2MK-4o6PC_d7Hh9Q/q80kQZD3Gec.jpg?quality=90&proxy=1&sign=32ffbe996f6521d48d64aa50a5462cd7&c_uniq_tag=mZWnrUmUu_flbVIbdcw-t5vvRbpdm0FQuXXOYD0GE3s&type=video_thumb",
       "duration": "3:59",
-      "date": "2026-01-11",
-      "views": 3111
+      "date": 1768089600,
+      "views": 3111,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239128,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239128"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239127,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10183468714582&idx=0&type=39&tkn=LBeuOyE0azW4AFSfXMe1s_gxAZM&fn=vid_w",
       "duration": "0:56",
-      "date": "2026-01-11",
-      "views": 24
+      "date": 1768089600,
+      "views": 24,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239127,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239127"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239121,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10277336975950&idx=8&type=39&tkn=sWzpgRDsZejASyEQVx0gGT6pH0U&fn=vid_w",
       "duration": "2:59",
-      "date": "2026-01-09",
-      "views": 25
+      "date": 1767916800,
+      "views": 25,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239121,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239121"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239120,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10179377760939&idx=0&type=39&tkn=Pf4lkcoVYLXyhOi9fWLhqQP1MKY&fn=vid_w",
       "duration": "1:24",
-      "date": "2026-01-08",
-      "views": 28
+      "date": 1767830400,
+      "views": 28,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239120,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239120"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239115,
       "title": "Новый отечественный двигатель ВК-650В впервые поднял в воздух вертолет Ми-34М1",
       "thumb": "https://sun9-73.userapi.com/impg/UQaN4ZzURo9v8XTH5dr4zL1qQdEwmXq5vRS5LA/P-2no_Kix_I.jpg?quality=90&proxy=1&sign=ef073f8957629f7143533dbb43141e95&c_uniq_tag=woLQajP_mlVqUN6efZUYfS28tZ2l3lDSCvebgxFaplo&type=video_thumb",
       "duration": "2:36",
-      "date": "2026-01-08",
-      "views": 65
+      "date": 1767830400,
+      "views": 65,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239115,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239115"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239111,
       "title": "Космические итоги 2025: Космолет, Байтерек, Плазменный двигатель",
       "thumb": "https://sun9-27.userapi.com/impg/NtSt1czaLYV1jaB3lUkewnY2JgQpGDGntfPBoA/4utThQMlClQ.jpg?quality=90&proxy=1&sign=3374d3e684ef4f6ec2d008b9e73ff722&c_uniq_tag=fe20tJDZV_xzDjoQ8aYWtnkAtiuM2m15YVrWD3vMr0E&type=video_thumb",
       "duration": "7:24",
-      "date": "2026-01-07",
-      "views": 1577
+      "date": 1767744000,
+      "views": 1577,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239111,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239111"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239108,
       "title": "БПЛА с ИИ и СПУТНИКИ в единой системе",
       "thumb": "https://sun9-63.userapi.com/impg/hgkUN5VSYcJbQyrqJnz1p7dc89B9PxIP0W_OPg/OUJOwnwxQEc.jpg?quality=90&proxy=1&sign=7b7cca8ff2ac5ee936f94c57c4e712fb&c_uniq_tag=K0J-WEUIGOyaJ72U8zCDAqDPYHEDAXf39rglyIMmlBs&type=video_thumb",
       "duration": "3:31",
-      "date": "2026-01-05",
-      "views": 3577
+      "date": 1767571200,
+      "views": 3577,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239108,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239108"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239101,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10022278793852&idx=15&type=39&tkn=XNRX9MOF0z_GqmFZ73GQrnT4lC0&fn=vid_w",
       "duration": "0:26",
-      "date": "2026-01-02",
-      "views": 16
+      "date": 1767312000,
+      "views": 16,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239101,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239101"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239099,
       "title": "Новые заводы 2025: \"Яковлев\", \"Москвич\", \"Соллерс\"",
       "thumb": "https://sun9-70.userapi.com/impg/MC4FFYl_ZzSJkQ-XYOEmVY7w3hgsOdFHrV0a5g/n-t3KghAJrk.jpg?quality=90&proxy=1&sign=0c95690f4fc5310f9c7b69b824213970&c_uniq_tag=ekmaopDh-Z6-RGFIRV9n9BlV69DXnne0MmaHyfLx_YA&type=video_thumb",
       "duration": "6:22",
-      "date": "2026-01-02",
-      "views": 1849
+      "date": 1767312000,
+      "views": 1849,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239099,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239099"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239093,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10059289135814&idx=5&type=39&tkn=Dm2bVowAoAcqnxtWP34XaubOovA&fn=vid_w",
       "duration": "0:17",
-      "date": "2025-12-31",
-      "views": 2
+      "date": 1767139200,
+      "views": 2,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239093,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239093"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239094,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10058204187250&idx=2&type=39&tkn=9veghRlCU4gyUpCQnOVVQj3NDMk&fn=vid_w",
       "duration": "0:11",
-      "date": "2025-12-31",
-      "views": 1
+      "date": 1767139200,
+      "views": 1,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239094,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239094"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239092,
       "title": "Новая эра ПВО России. Су-35С в войсках. Автомат от Калашникова. «Одуванчик» защитит от дронов",
       "thumb": "https://sun9-28.userapi.com/impg/2nw_I8Rn6WxWc4qkFAdDn5iN4xxg1glZ-iXa0g/1Oo8D03QySE.jpg?quality=90&proxy=1&sign=d7be7b4e7b7b4f720a24f5adb2e52c43&c_uniq_tag=Su4-lD4RsoTOeZOmQSlRV534_2uBcbffjOEar9kAwOU&type=video_thumb",
       "duration": "5:54",
-      "date": "2025-12-31",
-      "views": 2523
+      "date": 1767139200,
+      "views": 2523,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239092,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239092"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239091,
       "title": "НИИМаш создал новый жидкостный ракетный двигатель для аппаратов дальнего космоса",
       "thumb": "https://sun9-64.userapi.com/impg/C1sxqeJ0LDOTwWMIIIZQqm1q2uclcpEIUpD4LQ/SYv_uI1xFV8.jpg?quality=90&proxy=1&sign=f19dbcd4b8ec83d753faf493f18e0bfe&c_uniq_tag=6YGiPOtOHWCpd8VjKrSxkFphNkafcXZaxyi2bxC_vG0&type=video_thumb",
       "duration": "3:13",
-      "date": "2025-12-30",
-      "views": 955
+      "date": 1767052800,
+      "views": 956,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239091,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239091"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239090,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10088835779150&idx=0&type=39&tkn=MQz_DZDhhvRodpOopOQ8tkwqXgk&fn=vid_w",
       "duration": "0:18",
-      "date": "2025-12-30",
-      "views": 5
+      "date": 1767052800,
+      "views": 5,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239090,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239090"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239089,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9930944743961&idx=2&type=39&tkn=wLwjf0vD5sNIsLNXU4gf5nLHPl0&fn=vid_w",
       "duration": "1:29",
-      "date": "2025-12-30",
-      "views": 6
+      "date": 1767052800,
+      "views": 6,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239089,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239089"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239082,
       "title": "Новый секретный военный спутник «Обзор-Р». Космический долгострой уже в строю",
       "thumb": "https://sun9-8.userapi.com/impg/81sLrb__R5D6oxt515s54Tgmg4R_heQjqYlWAQ/qcfF2bJfEss.jpg?quality=90&proxy=1&sign=d92e8836d98e11f9d436baa9139685ed&c_uniq_tag=GRH4pF_ZabuzPjcenVAuoxbNUf45w4LvgGtE3KXe4s4&type=video_thumb",
       "duration": "3:20",
-      "date": "2025-12-29",
-      "views": 2954
+      "date": 1766966400,
+      "views": 2954,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239082,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239082"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239078,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9950365944407&idx=3&type=39&tkn=GZTMbQVGS-YiK-kX2ukMYXN7wTQ&fn=vid_w",
       "duration": "1:23",
-      "date": "2025-12-26",
-      "views": 7
+      "date": 1766707200,
+      "views": 7,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239078,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239078"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239077,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9927647759046&idx=2&type=39&tkn=LEQbc5HaPE85KLKPwcdWYCzY-RY&fn=vid_w",
       "duration": "1:29",
-      "date": "2025-12-26",
-      "views": 4
+      "date": 1766707200,
+      "views": 4,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239077,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239077"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239076,
       "title": "Су-57 впервые поднялся в небо с двигателем нового поколения",
       "thumb": "https://sun9-36.userapi.com/impg/FFWYuBsf6pBoaBD9VDEK_O4OB4Wy-aOdzak70Q/2RbdT75ngkM.jpg?quality=90&proxy=1&sign=0b3388092f23facffcb3b358710b0a35&c_uniq_tag=BFBfAC9sOD9ibAYOADG5ZoSEWvxA6PgBoL-xUCeYqg0&type=video_thumb",
       "duration": "2:26",
-      "date": "2025-12-26",
-      "views": 88
+      "date": 1766707200,
+      "views": 88,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239076,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239076"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239073,
       "title": "ЛМС-901 «Байкал» с российским двигателем ВК-800СМ и винтом АВ-901. Старт летных испытаний",
       "thumb": "https://sun9-69.userapi.com/impg/_BVnmRWp6RkCp1bzQP6ar4frO5b3sMfZfZPr_w/awef2vPepL0.jpg?quality=90&proxy=1&sign=c15af906d4a84b112786ab34c124539c&c_uniq_tag=6Iw7-KraDjgV2iId8RBBSuWf6j6jR5OomcTldDlys1s&type=video_thumb",
       "duration": "3:13",
-      "date": "2025-12-25",
-      "views": 1145
+      "date": 1766620800,
+      "views": 1145,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239073,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239073"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239066,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9778853382812&idx=9&type=39&tkn=_NKY6efkjsvuzojNTTn6voAWWrs&fn=vid_w",
       "duration": "0:29",
-      "date": "2025-12-24",
-      "views": 11
+      "date": 1766534400,
+      "views": 11,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239066,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239066"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239063,
       "title": "Clip by @promrep",
       "thumb": "https://sun9-68.userapi.com/impg/K-jiD07tlJKVvSNRQuPkrkrJqsdP0LRY9m3gvw/yp3Uq9RNf4A.jpg?size=800x450&quality=95&keep_aspect_ratio=1&background=000000&sign=647d70e7c8c4d211619cb4ad669c1e9e&c_uniq_tag=Brt0UjKjxZBlWvlojz7Z35eGa_cnAtVd6y8kBbgvCSs&type=video_thumb",
       "duration": "0:30",
-      "date": "2025-12-23",
-      "views": 115
+      "date": 1766448000,
+      "views": 115,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239063,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239063"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239058,
       "title": "Беспилотники на базе Ка-226. Новый ЗРПК «Панцирь-С1». Первый 70-кубитный квантовый компьютер",
       "thumb": "https://sun9-65.userapi.com/impg/1IedSoPoVyADnE_GDwkLxzh4xR2vTSK4U_mntA/ipL7bfvob7E.jpg?quality=90&proxy=1&sign=f4456266dd66a3ffd6280910bc7c5190&c_uniq_tag=2z52z-p-t0qQhT_Bq6FuvNw9H36--LZL9UNR0O4tkdI&type=video_thumb",
       "duration": "4:09",
-      "date": "2025-12-22",
-      "views": 1137
+      "date": 1766361600,
+      "views": 1137,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239058,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239058"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239055,
       "title": "Российская авиация 2025: Суперджет, ВК-650В, МС-21",
       "thumb": "https://sun9-61.userapi.com/impg/r8fBNzDqFhHn9SxzPeKT40-hb7f21-ixQcqu-A/ssckgbKm67I.jpg?quality=90&proxy=1&sign=25ba9accf932f4a4dac6674834907b3d&c_uniq_tag=E8Xvkdvvb6YrcxDyl1KOvUNxvuDo-d7VMT7thvsUbh0&type=video_thumb",
       "duration": "4:53",
-      "date": "2025-12-21",
-      "views": 4156
+      "date": 1766275200,
+      "views": 4156,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239055,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239055"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239050,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9741459982877&idx=10&type=39&tkn=Sbg6wXxgnWHzde72Toqib4m-Mis&fn=vid_w",
       "duration": "0:22",
-      "date": "2025-12-18",
-      "views": 11
+      "date": 1766016000,
+      "views": 11,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239050,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239050"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239047,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9717026654943&idx=15&type=39&tkn=HKfYhfkPeh1MBselcxYQGyZIQIw&fn=vid_u",
       "duration": "1:10",
-      "date": "2025-12-18",
-      "views": 5
+      "date": 1766016000,
+      "views": 5,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239047,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239047"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239041,
       "title": "Секретная АПЛ России «Хабаровск»",
       "thumb": "https://sun9-17.userapi.com/impg/tGe7hfPgujWTNcRcsQapaGNjN4iSJJUi-HqEYg/zzN7HO53vyk.jpg?quality=90&proxy=1&sign=47afa448a48f046ea6bd011ffb4e7c57&c_uniq_tag=qx6qaoK-CnSbqEbntvhle-yEmKkcmpefywWdFZue5-Q&type=video_thumb",
       "duration": "3:41",
-      "date": "2025-12-17",
-      "views": 474
+      "date": 1765929600,
+      "views": 474,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239041,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239041"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239038,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11005347564032&idx=13&type=39&tkn=XVkCdjZ2Ezt3AqpB-g7AvIlvjIM&fn=vid_w",
       "duration": "0:39",
-      "date": "2025-12-16",
-      "views": 6
+      "date": 1765843200,
+      "views": 6,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239038,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239038"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239037,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9669748984515&idx=6&type=39&tkn=_dpT-QvRoSdxTGHViITM2K62-cc&fn=vid_w",
       "duration": "0:32",
-      "date": "2025-12-16",
-      "views": 5
+      "date": 1765843200,
+      "views": 5,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239037,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239037"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239036,
       "title": "Очередной УТС-800 подключили к лётным испытаниям. Что показали результаты тестирования?",
       "thumb": "https://sun9-75.userapi.com/impg/RspqiMZU9ZbgiiBSx1aT4_hUNHp8h7BowvzYxA/_8oB7VgkAEU.jpg?quality=90&proxy=1&sign=5669433e19f767f3a6bbd2be44059873&c_uniq_tag=Iu-fTdlp6SzauUagbwPtsN46-S2TLTCwmPklf3zLWK4&type=video_thumb",
       "duration": "2:36",
-      "date": "2025-12-16",
-      "views": 37
+      "date": 1765843200,
+      "views": 37,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239036,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239036"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239034,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9626114329179&idx=0&type=39&tkn=gnSQDX6Jn1odWhEys-h_oelVtp0&fn=vid_w",
       "duration": "1:16",
-      "date": "2025-12-16",
-      "views": 7
+      "date": 1765843200,
+      "views": 7,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239034,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239034"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239033,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9621121993436&idx=0&type=39&tkn=uVy_vzmMwr1FdVfhk2EEBk1ME2s&fn=vid_w",
       "duration": "0:48",
-      "date": "2025-12-16",
-      "views": 5
+      "date": 1765843200,
+      "views": 5,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239033,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239033"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239026,
       "title": "Video by Промышленный репортёр",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=9698611432138&idx=0&type=39&tkn=e_CgpOQacCgezk0A-SA2EXzfgrA&fn=vid_w",
       "duration": "0:29",
-      "date": "2025-12-15",
-      "views": 3
+      "date": 1765756800,
+      "views": 3,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239026,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239026"
     },
     {
-      "ownerId": -234602001,
-      "id": 456239017,
       "title": "Су-34 стал бить мощнее. Новые Ми-8. Первые «Атомы» в продаже",
       "thumb": "https://sun9-31.userapi.com/impg/bZfYEKfwZuR0WEb3309ugSstZMLPI4O9Uy7vAw/dM0fivu2Exo.jpg?quality=90&proxy=1&sign=6cc5deea23c045ae2049b4fe35ce03ba&c_uniq_tag=zng0QbZCeWPQKiclqO5tZN0xSDFpoKI_WfBxKUPMpfk&type=video_thumb",
       "duration": "4:44",
-      "date": "2025-12-14",
-      "views": 301
+      "date": 1765670400,
+      "views": 301,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239017,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239017"
     }
   ]
 }
