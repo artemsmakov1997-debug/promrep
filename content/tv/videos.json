@@ -1,6 +1,18 @@
 {
-  "updatedAt": "2026-02-13T09:32:55.511Z",
+  "updatedAt": "2026-02-13T10:29:30.831Z",
   "items": [
+    {
+      "title": "Ми-34М1, ZALA «ГЕОКОСМОС», ВК-800, М105/М105В и другие новинки НАИС/ДРОНТЕХ 2026",
+      "href": "https://vk.com/video-234602001_456239342",
+      "thumb": "https://sun9-30.userapi.com/impg/vrz-PVv8NzIRCAnVq_UDdn_5EJQsmYwpBTLurA/Lyd_8HRgpSI.jpg?quality=90&proxy=1&sign=a0853164b115d950199f32382fc85d76&c_uniq_tag=2y3C-qGQl6zirHzmREQIGAN0081DPyP58l_fbuZwMQg&type=video_thumb",
+      "duration": "4:39",
+      "date": 1770940800,
+      "views": 5,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239342,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239342"
+    },
     {
       "title": "Video by Промышленный репортёр",
       "href": "https://vk.com/video-234602001_456239340",
@@ -19,7 +31,7 @@
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11237260069478&idx=8&type=39&tkn=0EsKhZUV22qf3DwcGjYjAoafGNk&fn=vid_w",
       "duration": "0:41",
       "date": 1770854400,
-      "views": 6,
+      "views": 7,
       "description": "",
       "ownerId": -234602001,
       "id": 456239339,
@@ -31,7 +43,7 @@
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11043439446605&idx=8&type=39&tkn=F3Xeq7C4-0aef7ZsHeSgrL1QHj4&fn=vid_w",
       "duration": "0:36",
       "date": 1770854400,
-      "views": 8,
+      "views": 9,
       "description": "",
       "ownerId": -234602001,
       "id": 456239335,
@@ -86,18 +98,6 @@
       "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239319"
     },
     {
-      "title": "Су-57 получил новое оружие. Экстремальные испытания ПД-8 и «Витязя», Гигантское зеркало Роскосмоса",
-      "href": "https://vk.com/video-234602001_456239307",
-      "thumb": "https://sun9-26.userapi.com/impg/cuySXo_hG7zE2-3wnJS_GvCMI3xp0_NwW4vO5A/8aBstx7qqKs.jpg?quality=90&proxy=1&sign=fe1840418906eff70cc9820b423f5cc1&c_uniq_tag=yWrdU6XpT5pAXIWRcCb5mSTEJObyPft944QWGud37V0&type=video_thumb",
-      "duration": "5:44",
-      "date": 1770595200,
-      "views": 2191,
-      "description": "",
-      "ownerId": -234602001,
-      "id": 456239307,
-      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239307"
-    },
-    {
       "title": "Video by Промышленный репортёр",
       "href": "https://vk.com/video-234602001_456239316",
       "thumb": "https://i.mycdn.me/getVideoPreview?id=11123762662076&idx=8&type=39&tkn=OuB9S3frFsbXIJETG0rnjSy0IzU&fn=vid_w",
@@ -108,6 +108,18 @@
       "ownerId": -234602001,
       "id": 456239316,
       "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239316"
+    },
+    {
+      "title": "Су-57 получил новое оружие. Экстремальные испытания ПД-8 и «Витязя», Гигантское зеркало Роскосмоса",
+      "href": "https://vk.com/video-234602001_456239307",
+      "thumb": "https://sun9-26.userapi.com/impg/cuySXo_hG7zE2-3wnJS_GvCMI3xp0_NwW4vO5A/8aBstx7qqKs.jpg?quality=90&proxy=1&sign=fe1840418906eff70cc9820b423f5cc1&c_uniq_tag=yWrdU6XpT5pAXIWRcCb5mSTEJObyPft944QWGud37V0&type=video_thumb",
+      "duration": "5:44",
+      "date": 1770595200,
+      "views": 2191,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239307,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239307"
     },
     {
       "title": "Video by Промышленный репортёр",
@@ -163,7 +175,7 @@
       "thumb": "https://i.mycdn.me/getVideoPreview?id=10917154261619&idx=8&type=39&tkn=7UNba-h-Mnck7xIHvpGrRoKTiho&fn=vid_w",
       "duration": "0:59",
       "date": 1770422400,
-      "views": 39,
+      "views": 40,
       "description": "",
       "ownerId": -234602001,
       "id": 456239297,
@@ -523,7 +535,7 @@
       "thumb": "https://sun9-56.userapi.com/impg/3FO8f-3S69j8S5JIfLYHyDI1Eutr9r7e6QRQdA/4yE-ALYPLCg.jpg?size=800x450&quality=95&keep_aspect_ratio=1&background=000000&sign=7ddf1f45dd89a14aaec7183a05de730b&c_uniq_tag=Yuo6UMq-jShTtTqwFUVR9y40XU_uQXplHAaVntiSXgY&type=video_thumb",
       "duration": "3:02",
       "date": 1769558400,
-      "views": 1652,
+      "views": 1654,
       "description": "",
       "ownerId": -234602001,
       "id": 456239188,
