@@ -59,26 +59,19 @@ function isVerticalByThumb(video) {
   return (img.height || 0) > (img.width || 0);
 }
 
-function secondsToMMSS(sec) {
-  if (!sec || typeof sec !== "number" || sec <= 0) return "";
-  const m = Math.floor(sec / 60);
-  const s = sec % 60;
-  return `${m}:${String(s).padStart(2, "0")}`;
-}
-
 function normalizeFromWallVideo(video, post) {
   const img = pickLargestImage(video.image);
   const thumb = img?.url || "";
 
   const oid = video.owner_id;
   const id = video.id;
+
   const href = video.player || `https://vk.com/video${oid}_${id}`;
 
   return {
     title: video.title || "",
     href,
     thumb,
-    duration: secondsToMMSS(video.duration),
     durationSec: video.duration || 0,
     date: new Date((post.date || video.date || 0) * 1000)
       .toISOString()
@@ -92,6 +85,8 @@ function normalizeFromWallVideo(video, post) {
 
 async function fetchVideosFromWall() {
   console.log("Fetching videos from VK wall...");
+  console.log("OWNER_ID:", OWNER_ID);
+
   const all = [];
   const COUNT = 100;
   let offset = 0;
@@ -115,6 +110,7 @@ async function fetchVideosFromWall() {
 
     offset += COUNT;
     if (offset >= (data.count || 0)) break;
+
     await new Promise((r) => setTimeout(r, 350));
   }
 
@@ -128,24 +124,29 @@ async function fetchVideosFromWall() {
     uniq.push(v);
   }
 
+  // sort by date desc
   uniq.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
   console.log("Total videos found:", uniq.length);
   return uniq;
 }
 
 function buildOutputs(videos) {
-  // 1. Убираем мусорные заголовки
+  // чистим явный мусор
   const clean = videos.filter(v => {
-    const title = (v.title || "").trim().toLowerCase();
-    return title && !title.startsWith("video by");
+    if (!v.title) return false;
+    if (v.title === "Video by Промышленный репортёр") return false;
+    return true;
   });
 
-  // 2. TV — горизонтальные и >= 60 сек
-  const tv = clean.filter(v => !v.isShort && v.durationSec >= 60);
-
-  // 3. Shorts — вертикальные и < 60 сек
+  // shorts: вертикальные до 90 секунд
   const shorts = clean.filter(
-    v => v.isShort && v.durationSec > 0 && v.durationSec < 60
+    v => v.isShort && v.durationSec < 90
+  );
+
+  // tv: всё остальное длиннее 40 сек
+  const tv = clean.filter(
+    v => !v.isShort && v.durationSec >= 40
   );
 
   const vod = tv[0] || null;
@@ -155,8 +156,8 @@ function buildOutputs(videos) {
       title: v.title,
       href: v.href,
       thumb: v.thumb,
-      duration: v.duration,
-      date: Math.floor(new Date(v.date).getTime() / 1000),
+      duration: v.durationSec || 0,
+      date: v.date,
       views: v.views,
       description: "",
       ownerId: v.oid,
@@ -167,29 +168,36 @@ function buildOutputs(videos) {
 
   const tvJson = {
     updatedAt: new Date().toISOString(),
-    items: tv.map(mapItem),
+    items: tv.map(mapItem)
   };
 
   const shortsJson = {
     updatedAt: new Date().toISOString(),
-    items: shorts.map(mapItem),
+    items: shorts.map(mapItem)
   };
 
   const vodJson = vod
-    ? { updatedAt: new Date().toISOString(), item: mapItem(vod) }
-    : { updatedAt: new Date().toISOString(), item: null };
+    ? {
+        updatedAt: new Date().toISOString(),
+        item: mapItem(vod)
+      }
+    : {
+        updatedAt: new Date().toISOString(),
+        item: null
+      };
 
   return {
     tvJson,
     shortsJson,
     vodJson,
-    counts: { tv: tv.length, shorts: shorts.length },
+    counts: { tv: tv.length, shorts: shorts.length }
   };
 }
 
 async function main() {
   const videos = await fetchVideosFromWall();
-  const { tvJson, shortsJson, vodJson, counts } = buildOutputs(videos);
+  const { tvJson, shortsJson, vodJson, counts } =
+    buildOutputs(videos);
 
   writeJson(TV_JSON, tvJson);
   writeJson(SHORTS_JSON, shortsJson);
