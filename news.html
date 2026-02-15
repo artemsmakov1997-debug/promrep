@@ -766,8 +766,7 @@
     </footer>
   </main>
 
-  <script>
-    <script>
+<script>
   // ===== Real content from Telegram JSON =====
   let ARTICLES = [];
   let feedItems = [];
@@ -1009,53 +1008,6 @@
     });
 </script>
 
-      feedStatus.textContent = "обновлено сейчас";
-      setTimeout(()=>feedStatus.textContent="обновляется", 1800);
-    }, 12000);
-
-    // ===== UI wiring =====
-    document.querySelectorAll(".tab").forEach(el=>{
-      el.addEventListener("click",(e)=>{
-        e.preventDefault();
-        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-        el.classList.add("active");
-        state.tab = el.dataset.tab;
-        state.selectedId = null;
-        renderList();
-        renderFeed();
-      });
-    });
-
-    liveToggle.addEventListener("click",(e)=>{
-      e.preventDefault();
-      state.liveOnly = !state.liveOnly;
-      liveToggle.textContent = state.liveOnly ? "Все" : "Только LIVE";
-      renderFeed();
-      if(!state.selectedId) renderList();
-    });
-
-    // Header search (ПК). На мобилке скрыт CSS-ом.
-    headerSearch.addEventListener("input",(e)=>{
-      state.query = e.target.value || "";
-      if(!state.selectedId) renderList();
-      renderFeed();
-    });
-
-    // Esc очищает поиск
-    headerSearch.addEventListener("keydown",(e)=>{
-      if(e.key === "Escape"){
-        headerSearch.value = "";
-        state.query = "";
-        if(!state.selectedId) renderList();
-        renderFeed();
-      }
-    });
-
-    // init
-    renderList();
-    renderFeed();
-  </script>
-
   <script>
     (function(){
       const d = document.querySelector('.nav-mobile');
@@ -1129,6 +1081,7 @@
   </script>
 </body>
 </html>
+
 
 
 
