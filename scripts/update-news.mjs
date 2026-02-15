@@ -1,52 +1,51 @@
 import fs from "fs";
 
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const CHANNEL = "@promreporter";
-const LIMIT = 20;
+const CHANNEL = "promreporter"; // без @
+const LIMIT = 30;
 
-async function getChatId() {
-  const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getChat`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ chat_id: CHANNEL })
-  });
-  const data = await res.json();
-  if (!data.ok) throw new Error("Cannot get chat_id");
-  return data.result.id;
-}
-
-async function getHistory(chatId) {
-  const res = await fetch(
-    `https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`
-  );
-  const data = await res.json();
-  if (!data.ok) throw new Error("Cannot get updates");
-
-  const posts = data.result
-    .map(u => u.channel_post)
-    .filter(Boolean)
-    .slice(-LIMIT)
-    .map(m => ({
-      id: m.message_id,
-      text: m.text || "",
-      date: m.date
-    }))
-    .reverse();
-
-  return posts;
+function stripHtml(s) {
+  return s
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n\n")
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'");
 }
 
 async function main() {
-  const chatId = await getChatId();
-  const posts = await getHistory(chatId);
+  const url = `https://t.me/s/${CHANNEL}`;
+  const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+  const html = await res.text();
+
+  // Находим посты в публичной ленте
+  const re = /data-post="[^"]*\/(\d+)"[\s\S]*?tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/g;
+
+  const items = [];
+  let m;
+
+  while ((m = re.exec(html)) && items.length < LIMIT) {
+    const id = Number(m[1]);
+    const textHtml = m[2];
+    const text = stripHtml(textHtml).trim();
+    if (!text) continue;
+
+    items.push({
+      id,
+      text,
+      date: Math.floor(Date.now() / 1000) // точного времени в HTML может не быть стабильно
+    });
+  }
+
+  // старые внизу, новые сверху
+  const out = items.reverse();
 
   fs.mkdirSync("content/news", { recursive: true });
-  fs.writeFileSync(
-    "content/news/feed.json",
-    JSON.stringify(posts, null, 2)
-  );
-
-  console.log("News updated:", posts.length);
+  fs.writeFileSync("content/news/feed.json", JSON.stringify(out, null, 2));
+  console.log("News updated:", out.length);
 }
 
 main().catch(err => {
