@@ -74,12 +74,14 @@ function normalizeFromWallVideo(video, post) {
   const id = video.id;
   const href = video.player || `https://vk.com/video${oid}_${id}`;
 
+  const durationSec = video.duration || 0;
+
   return {
     title: video.title || "",
     href,
     thumb,
-    duration: secondsToMMSS(video.duration),
-    durationSec: video.duration || 0,
+    duration: secondsToMMSS(durationSec),
+    durationSec,
     date: new Date((post.date || video.date || 0) * 1000)
       .toISOString()
       .slice(0, 10),
@@ -141,12 +143,14 @@ function buildOutputs(videos) {
   });
 
   // 2. TV — горизонтальные и >= 60 сек
-  const tv = clean.filter(v => !v.isShort && v.durationSec >= 60);
+  const tv = clean.filter(v => {
+    return !v.isShort && v.durationSec >= 60;
+  });
 
-  // 3. Shorts — вертикальные и < 60 сек
-  const shorts = clean.filter(
-    v => v.isShort && v.durationSec > 0 && v.durationSec < 60
-  );
+  // 3. Shorts — вертикальные до 120 сек
+  const shorts = clean.filter(v => {
+    return v.isShort && v.durationSec > 0 && v.durationSec <= 120;
+  });
 
   const vod = tv[0] || null;
 
@@ -155,7 +159,7 @@ function buildOutputs(videos) {
       title: v.title,
       href: v.href,
       thumb: v.thumb,
-      duration: v.duration,
+      duration: v.duration || "",
       date: Math.floor(new Date(v.date).getTime() / 1000),
       views: v.views,
       description: "",
