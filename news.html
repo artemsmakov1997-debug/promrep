@@ -885,22 +885,27 @@ ARTICLES = sorted.map(p => {
       return;
     }
 
-    listView.innerHTML = items.map(a => `
-      <a class="bigcard" href="#" data-open="${a.id}">
-        <div class="bigrow">
-         <div class="thumb"
-  style="${a.thumb ? `background-image:url('${a.thumb}');background-size:cover;background-position:center;` : ''}">
-</div>
-            <div class="top">
-              <span class="rubric">${escapeHtml(a.rubric)}</span>
-              <span>${escapeHtml(a.when)}</span>
-            </div>
-            <h3>${escapeHtml(a.title)}</h3>
-            <p class="desc">${escapeHtml(a.lead)}</p>
-          </div>
+   listView.innerHTML = items.map(a => `
+  <a class="bigcard" href="#" data-open="${a.id}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
+    <div class="bigrow">
+      <div class="thumb" aria-hidden="true"
+        style="${a.thumb ? `background-image:url('${a.thumb}');background-size:cover;background-position:center;` : ``}">
+      </div>
+      <div>
+        <div class="top">
+          <span class="rubric">${escapeHtml(a.rubric)}</span>
+          <span>${a.when ? escapeHtml(a.when) : ""}</span>
+          ${a.live ? `<span class="live">LIVE</span>` : ``}
         </div>
-      </a>
-    `).join("");
+        <h3>${escapeHtml(a.title)}</h3>
+        <p class="desc">${escapeHtml(a.lead || "")}</p>
+        <div class="chips">
+          ${(a.tags || []).map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("")}
+        </div>
+      </div>
+    </div>
+  </a>
+`).join("");
 
     listView.querySelectorAll("[data-open]").forEach(el=>{
       el.addEventListener("click",(e)=>{
@@ -1084,6 +1089,7 @@ ARTICLES = sorted.map(p => {
   </script>
 </body>
 </html>
+
 
 
 
