@@ -610,9 +610,18 @@
       .chips{ justify-content:flex-start; }
     }
     @media (max-width: 720px){
-      .vcard{ grid-column: span 12; }
-      .short{ width: 168px; }
-    }
+  .vcard{ grid-column: span 12; }
+  .short{ width: 168px; }
+
+  /* как на index: на мобиле скрываем десктоп-меню и показываем бургер */
+  .nav-desktop{ display:none; }
+  .nav-mobile{ display:block; }
+
+  /* кнопку темы в шапке на мобиле убираем */
+  .actions .themeBtn{ display:none; }
+
+  .actions{ min-width:auto; }
+}
     @media (prefers-reduced-motion: reduce){
       *{ transition:none !important; }
     }
@@ -1056,5 +1065,6 @@
   </script>
 </body>
 </html>
+
 
 
