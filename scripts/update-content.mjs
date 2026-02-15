@@ -69,24 +69,21 @@ function normalizeFromWallVideo(video, post) {
   const href = video.player || `https://vk.com/video${oid}_${id}`;
 
   return {
-    title: video.title || "",
+    title: video.title || "Видео",
     href,
     thumb,
-    durationSec: video.duration || 0,
     date: new Date((post.date || video.date || 0) * 1000)
       .toISOString()
       .slice(0, 10),
     views: video.views ?? 0,
     oid,
     id,
+    durationSec: video.duration || 0,
     isShort: isVerticalByThumb(video),
   };
 }
 
 async function fetchVideosFromWall() {
-  console.log("Fetching videos from VK wall...");
-  console.log("OWNER_ID:", OWNER_ID);
-
   const all = [];
   const COUNT = 100;
   let offset = 0;
@@ -127,85 +124,83 @@ async function fetchVideosFromWall() {
   // sort by date desc
   uniq.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
-  console.log("Total videos found:", uniq.length);
   return uniq;
 }
 
+function mapItem(v) {
+  const m = Math.floor(v.durationSec / 60);
+  const s = v.durationSec % 60;
+
+  return {
+    title: v.title,
+    href: v.href,
+    thumb: v.thumb,
+    duration: `${m}:${String(s).padStart(2, "0")}`,
+    date: v.date,
+    views: v.views,
+    ownerId: v.oid,
+    id: v.id,
+    embedUrl: `https://vk.com/video_ext.php?oid=${v.oid}&id=${v.id}`,
+  };
+}
+
 function buildOutputs(videos) {
-  // чистим явный мусор
-  const clean = videos.filter(v => {
-    if (!v.title) return false;
-    if (v.title === "Video by Промышленный репортёр") return false;
-    return true;
-  });
+  // нормальные ролики (≥ 60 сек)
+  const tv = videos.filter((v) => v.durationSec >= 60);
 
-  // shorts: вертикальные до 90 секунд
-  const shorts = clean.filter(
-    v => v.isShort && v.durationSec < 90
-  );
-
-  // tv: всё остальное длиннее 40 сек
-  const tv = clean.filter(
-    v => !v.isShort && v.durationSec >= 40
+  // shorts: вертикальные и < 60 сек
+  const shorts = videos.filter(
+    (v) => v.isShort && v.durationSec > 0 && v.durationSec < 60
   );
 
   const vod = tv[0] || null;
 
-  function mapItem(v) {
-    return {
-      title: v.title,
-      href: v.href,
-      thumb: v.thumb,
-      duration: v.durationSec || 0,
-      date: v.date,
-      views: v.views,
-      description: "",
-      ownerId: v.oid,
-      id: v.id,
-      embedUrl: `https://vk.com/video_ext.php?oid=${v.oid}&id=${v.id}`
-    };
-  }
-
   const tvJson = {
     updatedAt: new Date().toISOString(),
-    items: tv.map(mapItem)
+    items: tv.map(mapItem),
   };
 
   const shortsJson = {
     updatedAt: new Date().toISOString(),
-    items: shorts.map(mapItem)
+    items: shorts.map(mapItem),
   };
 
   const vodJson = vod
     ? {
         updatedAt: new Date().toISOString(),
-        item: mapItem(vod)
+        title: vod.title,
+        href: vod.href,
+        thumb: vod.thumb,
+        duration: mapItem(vod).duration,
+        date: vod.date,
+        views: vod.views,
       }
     : {
         updatedAt: new Date().toISOString(),
-        item: null
+        title: "",
+        href: "#",
+        thumb: "",
+        duration: "",
+        date: "",
+        views: 0,
       };
 
   return {
     tvJson,
     shortsJson,
     vodJson,
-    counts: { tv: tv.length, shorts: shorts.length }
   };
 }
 
 async function main() {
   const videos = await fetchVideosFromWall();
-  const { tvJson, shortsJson, vodJson, counts } =
-    buildOutputs(videos);
+  const { tvJson, shortsJson, vodJson } = buildOutputs(videos);
 
   writeJson(TV_JSON, tvJson);
   writeJson(SHORTS_JSON, shortsJson);
   writeJson(VOD_JSON, vodJson);
 
-  console.log("Wrote JSON:");
-  console.log("- TV:", counts.tv);
-  console.log("- Shorts:", counts.shorts);
+  console.log("Content updated successfully.");
 }
 
 main().catch((e) => {
