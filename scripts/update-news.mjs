@@ -1,8 +1,9 @@
 import fs from "fs";
 
-const CHANNEL = "promreporter"; // без @
+const CHANNEL = "promreporter"; // имя канала без @
 const LIMIT = 30;
 
+// очистка HTML из текста поста
 function stripHtml(s) {
   return s
     .replace(/<br\s*\/?>/gi, "\n")
@@ -18,53 +19,60 @@ function stripHtml(s) {
 
 async function main() {
   const url = `https://t.me/s/${CHANNEL}`;
-  const res = await fetch(url, { headers: { "User-Agent": "Mozilla/5.0" } });
+  const res = await fetch(url, {
+    headers: { "User-Agent": "Mozilla/5.0" }
+  });
+
   const html = await res.text();
 
-  // Находим посты в публичной ленте
-  const re = /data-post="[^"]*\/(\d+)"[\s\S]*?tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/g;
+  // ищем блоки постов
+  const re = /data-post="[^"]*\/(\d+)"([\s\S]*?)tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/g;
 
   const items = [];
   let m;
 
   while ((m = re.exec(html)) && items.length < LIMIT) {
     const id = Number(m[1]);
-    const textHtml = m[2];
+    const postChunk = m[0];
+    const textHtml = m[3];
+
     const text = stripHtml(textHtml).trim();
     if (!text) continue;
 
-  let photoUrl = null;
+    // ищем картинку превью
+    let photo = null;
 
-// если у поста есть фото
-if (msg.photo && msg.photo.length) {
-  try {
-    const best = msg.photo[msg.photo.length - 1];
+    // вариант 1: background-image
+    const bg = postChunk.match(/background-image:\s*url\('([^']+)'\)/i);
+    if (bg && bg[1]) {
+      photo = bg[1];
+    }
 
-    const file = await fetch(
-      `https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${best.file_id}`
-    ).then(r => r.json());
+    // вариант 2: обычный img
+    if (!photo) {
+      const img = postChunk.match(/<img[^>]+src="([^"]+)"/i);
+      if (img && img[1]) {
+        photo = img[1];
+      }
+    }
 
-    const path = file.result.file_path;
-    photoUrl = `https://api.telegram.org/file/bot${BOT_TOKEN}/${path}`;
-  } catch (e) {
-    console.log("Photo load error:", e);
-  }
-}
-
-items.push({
-  id,
-  text,
-  date: msg.date || Math.floor(Date.now() / 1000),
-  photo: photoUrl
-});
-
+    items.push({
+      id,
+      text,
+      date: Math.floor(Date.now() / 1000),
+      photo
+    });
   }
 
-  // старые внизу, новые сверху
+  // старые вниз, новые вверх
   const out = items.reverse();
 
   fs.mkdirSync("content/news", { recursive: true });
-  fs.writeFileSync("content/news/feed.json", JSON.stringify(out, null, 2));
+  fs.writeFileSync(
+    "content/news/feed.json",
+    JSON.stringify(out, null, 2)
+  );
+
   console.log("News updated:", out.length);
 }
 
