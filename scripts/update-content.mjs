@@ -59,31 +59,39 @@ function isVerticalByThumb(video) {
   return (img.height || 0) > (img.width || 0);
 }
 
+function secondsToMMSS(sec) {
+  if (!sec || typeof sec !== "number" || sec <= 0) return "";
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
+}
+
 function normalizeFromWallVideo(video, post) {
   const img = pickLargestImage(video.image);
   const thumb = img?.url || "";
 
   const oid = video.owner_id;
   const id = video.id;
-
   const href = video.player || `https://vk.com/video${oid}_${id}`;
 
   return {
-    title: video.title || "Видео",
+    title: video.title || "",
     href,
     thumb,
+    duration: secondsToMMSS(video.duration),
+    durationSec: video.duration || 0,
     date: new Date((post.date || video.date || 0) * 1000)
       .toISOString()
       .slice(0, 10),
     views: video.views ?? 0,
     oid,
     id,
-    durationSec: video.duration || 0,
     isShort: isVerticalByThumb(video),
   };
 }
 
 async function fetchVideosFromWall() {
+  console.log("Fetching videos from VK wall...");
   const all = [];
   const COUNT = 100;
   let offset = 0;
@@ -107,7 +115,6 @@ async function fetchVideosFromWall() {
 
     offset += COUNT;
     if (offset >= (data.count || 0)) break;
-
     await new Promise((r) => setTimeout(r, 350));
   }
 
@@ -121,39 +128,42 @@ async function fetchVideosFromWall() {
     uniq.push(v);
   }
 
-  // sort by date desc
   uniq.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-
+  console.log("Total videos found:", uniq.length);
   return uniq;
 }
 
-function mapItem(v) {
-  const m = Math.floor(v.durationSec / 60);
-  const s = v.durationSec % 60;
-
-  return {
-    title: v.title,
-    href: v.href,
-    thumb: v.thumb,
-    duration: `${m}:${String(s).padStart(2, "0")}`,
-    date: v.date,
-    views: v.views,
-    ownerId: v.oid,
-    id: v.id,
-    embedUrl: `https://vk.com/video_ext.php?oid=${v.oid}&id=${v.id}`,
-  };
-}
-
 function buildOutputs(videos) {
-  // нормальные ролики (≥ 60 сек)
-  const tv = videos.filter((v) => v.durationSec >= 60);
+  // 1. Убираем мусорные заголовки
+  const clean = videos.filter(v => {
+    const title = (v.title || "").trim().toLowerCase();
+    return title && !title.startsWith("video by");
+  });
 
-  // shorts: вертикальные и < 60 сек
-  const shorts = videos.filter(
-    (v) => v.isShort && v.durationSec > 0 && v.durationSec < 60
+  // 2. TV — горизонтальные и >= 60 сек
+  const tv = clean.filter(v => !v.isShort && v.durationSec >= 60);
+
+  // 3. Shorts — вертикальные и < 60 сек
+  const shorts = clean.filter(
+    v => v.isShort && v.durationSec > 0 && v.durationSec < 60
   );
 
   const vod = tv[0] || null;
+
+  function mapItem(v) {
+    return {
+      title: v.title,
+      href: v.href,
+      thumb: v.thumb,
+      duration: v.duration,
+      date: Math.floor(new Date(v.date).getTime() / 1000),
+      views: v.views,
+      description: "",
+      ownerId: v.oid,
+      id: v.id,
+      embedUrl: `https://vk.com/video_ext.php?oid=${v.oid}&id=${v.id}`
+    };
+  }
 
   const tvJson = {
     updatedAt: new Date().toISOString(),
@@ -166,41 +176,28 @@ function buildOutputs(videos) {
   };
 
   const vodJson = vod
-    ? {
-        updatedAt: new Date().toISOString(),
-        title: vod.title,
-        href: vod.href,
-        thumb: vod.thumb,
-        duration: mapItem(vod).duration,
-        date: vod.date,
-        views: vod.views,
-      }
-    : {
-        updatedAt: new Date().toISOString(),
-        title: "",
-        href: "#",
-        thumb: "",
-        duration: "",
-        date: "",
-        views: 0,
-      };
+    ? { updatedAt: new Date().toISOString(), item: mapItem(vod) }
+    : { updatedAt: new Date().toISOString(), item: null };
 
   return {
     tvJson,
     shortsJson,
     vodJson,
+    counts: { tv: tv.length, shorts: shorts.length },
   };
 }
 
 async function main() {
   const videos = await fetchVideosFromWall();
-  const { tvJson, shortsJson, vodJson } = buildOutputs(videos);
+  const { tvJson, shortsJson, vodJson, counts } = buildOutputs(videos);
 
   writeJson(TV_JSON, tvJson);
   writeJson(SHORTS_JSON, shortsJson);
   writeJson(VOD_JSON, vodJson);
 
-  console.log("Content updated successfully.");
+  console.log("Wrote JSON:");
+  console.log("- TV:", counts.tv);
+  console.log("- Shorts:", counts.shorts);
 }
 
 main().catch((e) => {
