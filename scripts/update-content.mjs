@@ -25,25 +25,31 @@ function writeJson(filePath, data) {
 }
 
 async function vk(method, params = {}) {
-  if (!VK_TOKEN) throw new Error("VK_TOKEN is missing (GitHub Secret VK_TOKEN).");
+  if (!VK_TOKEN) throw new Error("VK_TOKEN is missing.");
 
   const url = new URL(`https://api.vk.com/method/${method}`);
   const merged = { ...params, access_token: VK_TOKEN, v: API_VERSION };
 
-  Object.entries(merged).forEach(([k, v]) => url.searchParams.set(k, String(v)));
+  Object.entries(merged).forEach(([k, v]) =>
+    url.searchParams.set(k, String(v))
+  );
 
   const res = await fetch(url.toString());
   const json = await res.json();
 
   if (json.error) {
-    throw new Error(`VK API error ${json.error.error_code}: ${json.error.error_msg}`);
+    throw new Error(
+      `VK API error ${json.error.error_code}: ${json.error.error_msg}`
+    );
   }
   return json.response;
 }
 
 function pickLargestImage(images = []) {
   if (!Array.isArray(images) || images.length === 0) return null;
-  const sorted = [...images].sort((a, b) => (a.width * a.height) - (b.width * b.height));
+  const sorted = [...images].sort(
+    (a, b) => a.width * a.height - b.width * b.height
+  );
   return sorted[sorted.length - 1];
 }
 
@@ -71,7 +77,7 @@ function normalizeFromWallVideo(video, post) {
 
   return {
     title: video.title || "Видео",
-    href,                         // ← ВАЖНО: добавлено
+    href,
     thumb,
     duration: secondsToMMSS(video.duration),
     date: new Date((post.date || video.date || 0) * 1000)
@@ -85,9 +91,6 @@ function normalizeFromWallVideo(video, post) {
 }
 
 async function fetchVideosFromWall() {
-  console.log("Fetching videos from VK wall via wall.get ...");
-  console.log("OWNER_ID:", OWNER_ID);
-
   const all = [];
   const COUNT = 100;
   let offset = 0;
@@ -128,12 +131,26 @@ async function fetchVideosFromWall() {
   // sort by date desc
   uniq.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
 
-  console.log("Total videos found on wall:", uniq.length);
   return uniq;
 }
 
+function mapItem(v) {
+  return {
+    title: v.title,
+    href: v.href,
+    thumb: v.thumb,
+    duration: v.duration,
+    date: v.date,
+    views: v.views,
+    description: "",
+    ownerId: v.oid,
+    id: v.id,
+    embedUrl: `https://vk.com/video_ext.php?oid=${v.oid}&id=${v.id}`
+  };
+}
+
 function buildOutputs(videos) {
-  // 1. Оставляем только нормальные ролики продакшна (дольше 60 сек)
+  // продакшн: длиннее 60 секунд
   const production = videos.filter(v => {
     const parts = v.duration.split(":");
     const sec = parts.length === 2
@@ -142,7 +159,7 @@ function buildOutputs(videos) {
     return sec >= 60;
   });
 
-  // 2. Shorts — вертикальные и до минуты
+  // shorts: вертикальные и до 60 сек
   const shorts = videos.filter(v => {
     const parts = v.duration.split(":");
     const sec = parts.length === 2
@@ -153,72 +170,6 @@ function buildOutputs(videos) {
 
   const tv = production;
   const vod = tv[0] || null;
-
-  const tvJson = {
-    updatedAt: new Date().toISOString(),
-    items: tv.map(v => ({
-      title: v.title,
-      href: v.href,
-      thumb: v.thumb,
-      duration: v.duration,
-      date: v.date,
-      views: v.views,
-    })),
-  };
-
-  const shortsJson = {
-    updatedAt: new Date().toISOString(),
-    items: shorts.map(v => ({
-      title: v.title,
-      href: v.href,
-      thumb: v.thumb,
-      duration: v.duration,
-      date: v.date,
-      views: v.views,
-    })),
-  };
-
-  const vodJson = vod ? {
-    updatedAt: new Date().toISOString(),
-    title: vod.title,
-    href: vod.href,
-    thumb: vod.thumb,
-    duration: vod.duration,
-    date: vod.date,
-    views: vod.views,
-    description: "Видео дня из VK",
-  } : {
-    updatedAt: new Date().toISOString(),
-    title: "",
-    href: "#",
-    thumb: "",
-    duration: "",
-    date: "",
-    views: 0,
-    description: "",
-  };
-
-  return {
-    tvJson,
-    shortsJson,
-    vodJson,
-    counts: { tv: tv.length, shorts: shorts.length }
-  };
-}
-  function mapItem(v) {
-    return {
-      title: v.title,
-      href: v.href,
-      thumb: v.thumb,
-      duration: v.duration,
-      date: Math.floor(new Date(v.date).getTime() / 1000),
-      views: v.views,
-      description: "",
-      ownerId: v.oid,
-      id: v.id,
-      embedUrl: `https://vk.com/video_ext.php?oid=${v.oid}&id=${v.id}`
-    };
-  }
 
   const tvJson = {
     updatedAt: new Date().toISOString(),
