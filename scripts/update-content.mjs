@@ -25,25 +25,31 @@ function writeJson(filePath, data) {
 }
 
 async function vk(method, params = {}) {
-  if (!VK_TOKEN) throw new Error("VK_TOKEN is missing (GitHub Secret VK_TOKEN).");
+  if (!VK_TOKEN) throw new Error("VK_TOKEN is missing.");
 
   const url = new URL(`https://api.vk.com/method/${method}`);
   const merged = { ...params, access_token: VK_TOKEN, v: API_VERSION };
 
-  Object.entries(merged).forEach(([k, v]) => url.searchParams.set(k, String(v)));
+  Object.entries(merged).forEach(([k, v]) =>
+    url.searchParams.set(k, String(v))
+  );
 
   const res = await fetch(url.toString());
   const json = await res.json();
 
   if (json.error) {
-    throw new Error(`VK API error ${json.error.error_code}: ${json.error.error_msg}`);
+    throw new Error(
+      `VK API error ${json.error.error_code}: ${json.error.error_msg}`
+    );
   }
   return json.response;
 }
 
 function pickLargestImage(images = []) {
   if (!Array.isArray(images) || images.length === 0) return null;
-  const sorted = [...images].sort((a, b) => (a.width * a.height) - (b.width * b.height));
+  const sorted = [...images].sort(
+    (a, b) => a.width * a.height - b.width * b.height
+  );
   return sorted[sorted.length - 1];
 }
 
@@ -54,7 +60,7 @@ function isVerticalByThumb(video) {
 }
 
 function secondsToMMSS(sec) {
-  if (!sec || typeof sec !== "number") return "";
+  if (!sec || typeof sec !== "number" || sec <= 0) return "";
   const m = Math.floor(sec / 60);
   const s = sec % 60;
   return `${m}:${String(s).padStart(2, "0")}`;
@@ -69,10 +75,11 @@ function normalizeFromWallVideo(video, post) {
   const href = video.player || `https://vk.com/video${oid}_${id}`;
 
   return {
-    title: video.title || "Видео",
+    title: video.title || "",
     href,
     thumb,
     duration: secondsToMMSS(video.duration),
+    durationSec: video.duration || 0,
     date: new Date((post.date || video.date || 0) * 1000)
       .toISOString()
       .slice(0, 10),
@@ -84,9 +91,7 @@ function normalizeFromWallVideo(video, post) {
 }
 
 async function fetchVideosFromWall() {
-  console.log("Fetching videos from VK wall via wall.get ...");
-  console.log("OWNER_ID:", OWNER_ID);
-
+  console.log("Fetching videos from VK wall...");
   const all = [];
   const COUNT = 100;
   let offset = 0;
@@ -110,7 +115,6 @@ async function fetchVideosFromWall() {
 
     offset += COUNT;
     if (offset >= (data.count || 0)) break;
-
     await new Promise((r) => setTimeout(r, 350));
   }
 
@@ -124,21 +128,26 @@ async function fetchVideosFromWall() {
     uniq.push(v);
   }
 
-  // sort by date desc
   uniq.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-
-  console.log("Total videos found on wall:", uniq.length);
+  console.log("Total videos found:", uniq.length);
   return uniq;
 }
 
 function buildOutputs(videos) {
-  // продакшн: всё, что не shorts
-  const production = videos.filter(v => !v.isShort);
+  // 1. Убираем мусорные заголовки
+  const clean = videos.filter(v => {
+    const title = (v.title || "").trim().toLowerCase();
+    return title && !title.startsWith("video by");
+  });
 
-  // shorts: вертикальные
-  const shorts = videos.filter(v => v.isShort);
+  // 2. TV — горизонтальные и >= 60 сек
+  const tv = clean.filter(v => !v.isShort && v.durationSec >= 60);
 
-  const tv = production;
+  // 3. Shorts — вертикальные и < 60 сек
+  const shorts = clean.filter(
+    v => v.isShort && v.durationSec > 0 && v.durationSec < 60
+  );
+
   const vod = tv[0] || null;
 
   function mapItem(v) {
@@ -158,29 +167,23 @@ function buildOutputs(videos) {
 
   const tvJson = {
     updatedAt: new Date().toISOString(),
-    items: tv.map(mapItem)
+    items: tv.map(mapItem),
   };
 
   const shortsJson = {
     updatedAt: new Date().toISOString(),
-    items: shorts.map(mapItem)
+    items: shorts.map(mapItem),
   };
 
   const vodJson = vod
-    ? {
-        updatedAt: new Date().toISOString(),
-        item: mapItem(vod)
-      }
-    : {
-        updatedAt: new Date().toISOString(),
-        item: null
-      };
+    ? { updatedAt: new Date().toISOString(), item: mapItem(vod) }
+    : { updatedAt: new Date().toISOString(), item: null };
 
   return {
     tvJson,
     shortsJson,
     vodJson,
-    counts: { tv: tv.length, shorts: shorts.length }
+    counts: { tv: tv.length, shorts: shorts.length },
   };
 }
 
