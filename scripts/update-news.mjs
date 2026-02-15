@@ -33,11 +33,31 @@ async function main() {
     const text = stripHtml(textHtml).trim();
     if (!text) continue;
 
-    items.push({
-      id,
-      text,
-      date: Math.floor(Date.now() / 1000) // точного времени в HTML может не быть стабильно
-    });
+  let photoUrl = null;
+
+// если у поста есть фото
+if (msg.photo && msg.photo.length) {
+  try {
+    const best = msg.photo[msg.photo.length - 1];
+
+    const file = await fetch(
+      `https://api.telegram.org/bot${BOT_TOKEN}/getFile?file_id=${best.file_id}`
+    ).then(r => r.json());
+
+    const path = file.result.file_path;
+    photoUrl = `https://api.telegram.org/file/bot${BOT_TOKEN}/${path}`;
+  } catch (e) {
+    console.log("Photo load error:", e);
+  }
+}
+
+items.push({
+  id,
+  text,
+  date: msg.date || Math.floor(Date.now() / 1000),
+  photo: photoUrl
+});
+
   }
 
   // старые внизу, новые сверху
