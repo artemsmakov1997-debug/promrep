@@ -834,10 +834,11 @@ function buildFromFeed(posts){
     const title = parts[0]?.slice(0,120) || "Новость";
     const lead = parts[1]?.slice(0,200) || parts[0]?.slice(0,200) || "";
 
-    return {
+    
       id: String(p.id),
       tab: "events",
       rubric: "События",
+      thumb: p.photo || null,
       when: "",
       age: "",
       live: false,
@@ -887,8 +888,9 @@ function buildFromFeed(posts){
     listView.innerHTML = items.map(a => `
       <a class="bigcard" href="#" data-open="${a.id}">
         <div class="bigrow">
-          <div class="thumb"></div>
-          <div>
+         <div class="thumb"
+  style="${a.thumb ? `background-image:url('${a.thumb}');background-size:cover;background-position:center;` : ''}">
+</div>
             <div class="top">
               <span class="rubric">${escapeHtml(a.rubric)}</span>
               <span>${escapeHtml(a.when)}</span>
@@ -1082,6 +1084,7 @@ function buildFromFeed(posts){
   </script>
 </body>
 </html>
+
 
 
 
