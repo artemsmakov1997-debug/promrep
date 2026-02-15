@@ -133,11 +133,78 @@ async function fetchVideosFromWall() {
 }
 
 function buildOutputs(videos) {
-  const shorts = videos.filter(v => v.isShort);
-  const tv = videos.filter(v => !v.isShort);
+  // 1. Оставляем только нормальные ролики продакшна (дольше 60 сек)
+  const production = videos.filter(v => {
+    const parts = v.duration.split(":");
+    const sec = parts.length === 2
+      ? (+parts[0] * 60 + +parts[1])
+      : 0;
+    return sec >= 60;
+  });
 
-  const vod = tv[0] || videos[0] || null;
+  // 2. Shorts — вертикальные и до минуты
+  const shorts = videos.filter(v => {
+    const parts = v.duration.split(":");
+    const sec = parts.length === 2
+      ? (+parts[0] * 60 + +parts[1])
+      : 0;
+    return v.isShort && sec < 60;
+  });
 
+  const tv = production;
+  const vod = tv[0] || null;
+
+  const tvJson = {
+    updatedAt: new Date().toISOString(),
+    items: tv.map(v => ({
+      title: v.title,
+      href: v.href,
+      thumb: v.thumb,
+      duration: v.duration,
+      date: v.date,
+      views: v.views,
+    })),
+  };
+
+  const shortsJson = {
+    updatedAt: new Date().toISOString(),
+    items: shorts.map(v => ({
+      title: v.title,
+      href: v.href,
+      thumb: v.thumb,
+      duration: v.duration,
+      date: v.date,
+      views: v.views,
+    })),
+  };
+
+  const vodJson = vod ? {
+    updatedAt: new Date().toISOString(),
+    title: vod.title,
+    href: vod.href,
+    thumb: vod.thumb,
+    duration: vod.duration,
+    date: vod.date,
+    views: vod.views,
+    description: "Видео дня из VK",
+  } : {
+    updatedAt: new Date().toISOString(),
+    title: "",
+    href: "#",
+    thumb: "",
+    duration: "",
+    date: "",
+    views: 0,
+    description: "",
+  };
+
+  return {
+    tvJson,
+    shortsJson,
+    vodJson,
+    counts: { tv: tv.length, shorts: shorts.length }
+  };
+}
   function mapItem(v) {
     return {
       title: v.title,
