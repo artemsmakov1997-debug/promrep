@@ -633,35 +633,40 @@
           </div>
         </a>
 
+        <!-- ДЕСКТОП-МЕНЮ (ПК) -->
         <nav class="nav-desktop" aria-label="Меню">
-  <a class="navlink" href="index.html">Главная</a>
-  <a class="navlink" href="news.html">Новости</a>
-  <a class="navlink active" href="tv.html">TV</a>
-  <a class="navlink" href="production.html">Продакшн</a>
-  <a class="navlink" href="editorial.html">Редакция</a>
-</nav>
-<details class="nav-mobile">
-  <summary class="burger" aria-label="Открыть меню">
-    <span aria-hidden="true">≡</span>
-  </summary>
+          <a class="navlink" href="index.html">Главная</a>
+          <a class="navlink" href="news.html">Новости</a>
+          <a class="navlink active" href="tv.html">TV</a>
+          <a class="navlink" href="production.html">Продакшн</a>
+          <a class="navlink" href="editorial.html">Редакция</a>
+        </nav>
 
-  <nav class="nav-panel" aria-label="Меню">
-    <a class="navlink" href="index.html">Главная</a>
-    <a class="navlink" href="news.html">Новости</a>
-    <a class="navlink active" href="tv.html">TV</a>
-    <a class="navlink" href="production.html">Продакшн</a>
-    <a class="navlink" href="editorial.html">Редакция</a>
+        <!-- МОБИЛЬНОЕ МЕНЮ (бургер) -->
+        <details class="nav-mobile">
+          <summary class="burger" aria-label="Открыть меню"><span aria-hidden="true">≡</span></summary>
 
-    <button class="btn themeBtn" type="button" data-theme-toggle>
-      <span class="themeLabel">Тема</span>
-    </button>
-  </nav>
-</details>
+          <nav class="nav-panel" aria-label="Меню">
+            <a class="navlink" href="index.html">Главная</a>
+            <a class="navlink" href="news.html">Новости</a>
+            <a class="navlink active" href="tv.html">TV</a>
+            <a class="navlink" href="production.html">Продакшн</a>
+            <a class="navlink" href="editorial.html">Редакция</a>
 
+            <!-- ✅ кнопка темы в моб.меню -->
+            <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
+              <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+              <span class="themeLabel">Тема</span>
+            </button>
+          </nav>
+        </details>
+
+        <!-- actions (ПК) -->
         <div class="actions">
-          <input class="search" placeholder="Поиск…" />
+          <input class="search" placeholder="Поиск…" aria-label="Поиск" />
           <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
             <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+            <span class="themeLabel">Тема</span>
           </button>
         </div>
 
@@ -1051,4 +1056,5 @@
   </script>
 </body>
 </html>
+
 
