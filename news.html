@@ -827,30 +827,30 @@ function buildFromFeed(posts){
   // используем порядок из JSON, без сортировки по дате
   const sorted = posts.slice().reverse();
 
-  ARTICLES = sorted.map(p => {
-    const text = p.text || "";
-    const parts = text.split("\n\n");
+ARTICLES = sorted.map(p => {
+  const text = p.text || "";
+  const parts = text.split("\n\n");
 
-    const title = parts[0]?.slice(0,120) || "Новость";
-    const lead = parts[1]?.slice(0,200) || parts[0]?.slice(0,200) || "";
+  const title = parts[0]?.slice(0,120) || "Новость";
+  const lead = parts[1]?.slice(0,200) || parts[0]?.slice(0,200) || "";
 
-    
-      id: String(p.id),
-      tab: "events",
-      rubric: "События",
-      thumb: p.photo || null,
-      when: "",
-      age: "",
-      live: false,
-      title,
-      lead,
-      tags: [],
-      author: "Telegram",
-      updated: "",
-      caption: "Источник: Telegram-канал",
-      body: parts.length ? parts : [text]
-    };
-  });
+  return {
+    id: String(p.id),
+    tab: "events",
+    rubric: "События",
+    thumb: p.photo || null,
+    when: "",
+    age: "",
+    live: false,
+    title,
+    lead,
+    tags: [],
+    author: "Telegram",
+    updated: "",
+    caption: "Источник: Telegram-канал",
+    body: parts.length ? parts : [text]
+  };
+});
 
   feedItems = sorted.map(p => ({
     id: String(p.id),
@@ -1084,6 +1084,7 @@ function buildFromFeed(posts){
   </script>
 </body>
 </html>
+
 
 
 
