@@ -866,21 +866,7 @@
       </div>
     </section>
 
-    <section class="section" aria-label="Shorts">
-      <div class="shorts-wrap">
-        <div class="shorts-head">
-          <div class="shorts-title">
-            <h2>Shorts</h2>
-            <p>Короткие вертикальные видео: быстро в контекст, без лишней витрины.</p>
-          </div>
-          <div class="shorts-actions">
-            <a class="more" href="tv.html" aria-label="Смотреть все Shorts">Все shorts →</a>
-          </div>
-        </div>
-
-        <div class="shorts-row" id="shortsRow" aria-label="Лента Shorts"></div>
-      </div>
-    </section>
+    
 
     <section class="section" aria-label="Тизеры">
       <div class="teasers">
@@ -889,7 +875,7 @@
           <h3>Спецпроекты, документалки, бренд-форматы</h3>
           <p>На главной — коротко и уверенно. Детальную витрину продакшна делаем отдельным блоком.</p>
           <div style="margin-top:10px;">
-            <button class="btn primary">Кейсы →</button>
+            <a class="btn primary" href="https://promrep.ru/production" target="_blank" rel="noopener">Кейсы →</a>
           </div>
         </div>
 
@@ -898,7 +884,7 @@
           <h3>Факты, тон, ответственность</h3>
           <p>Мини-блок доверия: кто вы, как проверяете, куда писать. Остальное — в отдельном дизайне.</p>
           <div style="margin-top:10px;">
-            <button class="btn primary">Написать →</button>
+            <a class="btn primary" href="https://promrep.ru/editorial" target="_blank" rel="noopener">Написать →</a>
           </div>
         </div>
       </div>
@@ -917,7 +903,6 @@
     const feedList = document.getElementById('feedList');
     const feedStatus = document.getElementById('feedStatus');
     const todayCards = document.getElementById('todayCards');
-    const shortsRow = document.getElementById('shortsRow');
     const headerSearch = document.getElementById('headerSearch');
 
     const heroLink = document.getElementById('heroLink');
@@ -1112,45 +1097,11 @@
       vodOpen.onclick = open;
     }
 
-    function renderShorts(){
-      const list = shortsItems.filter(matchesQueryShort).slice(0, 12);
-
-      if(list.length === 0){
-        shortsRow.innerHTML = `<div style="color:var(--muted); font-size:13px; padding:6px 2px;">Shorts пока нет.</div>`;
-        return;
-      }
-
-      shortsRow.innerHTML = list.map((s)=>`
-        <a class="short" href="${escapeHtml(s.href || "tv.html")}" target="_blank" rel="noopener" aria-label="${escapeHtml(s.title || "Short")}">
-          <div class="short-card" ${s.thumb ? `style="background-image:linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.18)), url('${s.thumb}'); background-size:cover; background-position:center;"` : ``}>
-            <div class="short-badge"><i></i> Shorts</div>
-            <div class="short-play" role="button" aria-label="Смотреть short">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
-              </svg>
-            </div>
-          </div>
-          <div class="short-name">${escapeHtml(s.title || "Short")}</div>
-          <div class="short-meta">
-            <span>VK</span>
-            <span>${escapeHtml(fmtDur(s.duration))}</span>
-          </div>
-        </a>
-      `).join("");
-    }
-
-    function matchesQueryShort(s){
-      const q = state.q.trim().toLowerCase();
-      if(!q) return true;
-      return ((s?.title || "") + " " + (s?.description || "")).toLowerCase().includes(q);
-    }
-
-    function syncAll(){
+            function syncAll(){
       renderHero();
       renderTodayCards();
       renderFeed();
       renderVideoOfDay();
-      renderShorts();
     }
 
     async function loadJson(url){
@@ -1258,5 +1209,4 @@
   </script>
 </body>
 </html>
-
 
