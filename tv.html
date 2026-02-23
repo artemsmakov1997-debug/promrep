@@ -140,76 +140,62 @@
     @media (min-width: 721px){
       .themeBtn{ padding: 10px 11px; }
     }
-.themeBtn{
-  border-color: var(--line2);
-  background: var(--paper);
-  color: var(--ink);
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  padding: 10px 12px;
-  white-space:nowrap;
-}
-.themeIcon{ width:18px; height:18px; display:block; }
-@media (min-width: 721px){
-  .themeBtn{ padding: 10px 11px; }
-}
 
-/* ===== БУРГЕР-МЕНЮ (как в index) ===== */
-.nav-desktop{
-  display:flex;
-  align-items:center;
-  gap:18px;
-}
-.nav-mobile{
-  display:none;
-  position:relative;
-}
-.burger{
-  cursor:pointer;
-  user-select:none;
-  padding:8px 10px;
-  border-radius:12px;
-  border:1px solid var(--line2);
-  background:var(--paper);
-  color:var(--ink);
-  font-weight:900;
-  line-height:1;
-}
-.burger::-webkit-details-marker{ display:none; }
-.burger::marker{ content:""; }
+    /* ===== БУРГЕР-МЕНЮ (как в index) ===== */
+    .nav-desktop{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+    .nav-mobile{
+      display:none;
+      position:relative;
+    }
+    .burger{
+      cursor:pointer;
+      user-select:none;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--line2);
+      background:var(--paper);
+      color:var(--ink);
+      font-weight:900;
+      line-height:1;
+    }
+    .burger::-webkit-details-marker{ display:none; }
+    .burger::marker{ content:""; }
 
-.nav-panel{
-  display:none;
-  position:absolute;
-  top:calc(100% + 10px);
-  right:0;
-  min-width:min(320px, 92vw);
-  padding:12px;
-  background:var(--paper);
-  border:1px solid var(--line);
-  border-radius:16px;
-  box-shadow:0 18px 40px rgba(0,0,0,.18);
-  z-index:50;
-  flex-direction:column;
-  gap:10px;
-}
-.nav-mobile[open] .nav-panel{ display:flex; }
+    .nav-panel{
+      display:none;
+      position:absolute;
+      top:calc(100% + 10px);
+      right:0;
+      min-width:min(320px, 92vw);
+      padding:12px;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:0 18px 40px rgba(0,0,0,.18);
+      z-index:50;
+      flex-direction:column;
+      gap:10px;
+    }
+    .nav-mobile[open] .nav-panel{ display:flex; }
 
-.nav-panel .navlink{
-  color:var(--ink);
-  padding:10px 8px;
-  border-bottom:1px solid rgba(11,11,12,.06);
-}
-.nav-panel .navlink:last-child{ border-bottom:0; }
+    .nav-panel .navlink{
+      color:var(--ink);
+      padding:10px 8px;
+      border-bottom:1px solid rgba(11,11,12,.06);
+    }
+    .nav-panel .navlink:last-child{ border-bottom:0; }
 
-.nav-panel .themeBtn{
-  width:100%;
-  justify-content:center;
-  border-color:var(--line2);
-  background:rgba(11,11,12,.02);
-}
+    .nav-panel .themeBtn{
+      width:100%;
+      justify-content:center;
+      border-color:var(--line2);
+      background:rgba(11,11,12,.02);
+    }
+
     main{ position:relative; z-index:1; padding: 18px 0 56px; }
 
     .kicker{
@@ -336,114 +322,6 @@
       background: rgba(255,42,42,.18);
       border-color: rgba(255,42,42,.55);
       color: var(--red);
-    }
-
-    .shorts-wrap{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-    }
-    .shorts-head{
-      padding: 12px 14px;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:14px;
-      border-bottom: 1px solid var(--line2);
-      background: linear-gradient(180deg, rgba(11,11,12,.018), transparent);
-    }
-    .shorts-head b{
-      font-size: 12px;
-      letter-spacing:1.2px;
-      text-transform:uppercase;
-      color: var(--muted);
-    }
-    .shorts-row{
-      padding: 14px;
-      display:flex;
-      gap: 12px;
-      overflow:auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-    }
-    .short{
-      scroll-snap-align: start;
-      flex: 0 0 auto;
-      width: 200px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .short-card{
-      position:relative;
-      border-radius: var(--r);
-      overflow:hidden;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow2);
-      aspect-ratio: 9/16;
-      background:
-        radial-gradient(520px 220px at 20% 18%, rgba(240,32,0,.16), transparent 60%),
-        linear-gradient(180deg, rgba(11,11,12,.08), rgba(11,11,12,.02));
-      display:grid;
-      place-items:center;
-    }
-    .short-card .cover{
-      position:absolute; inset:0;
-      background-size:cover;
-      background-position:center;
-      opacity:.95;
-    }
-    .short-card:before{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.32));
-      pointer-events:none;
-    }
-    .short-badge{
-      position:absolute;
-      top:10px; left:10px;
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.22);
-      color: rgba(247,247,248,.92);
-      font-size: 11px;
-      letter-spacing:.8px;
-      text-transform:uppercase;
-      z-index:1;
-    }
-    .short-badge i{ width:7px; height:7px; border-radius:2px; background: var(--red); display:inline-block; }
-    .short-play{
-      position:relative;
-      width:58px; height:58px;
-      border-radius: 18px;
-      border: 1px solid rgba(240,32,0,.36);
-      background: rgba(240,32,0,.12);
-      display:grid; place-items:center;
-      cursor:pointer;
-      color: var(--ink);
-      z-index:1;
-      backdrop-filter: blur(6px);
-    }
-    .short-name{
-      font-size: 13px;
-      line-height: 1.35;
-      color: var(--ink);
-      font-weight: 800;
-      display:-webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow:hidden;
-    }
-    .short-meta{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      font-size: 12px;
-      color: var(--muted);
     }
 
     .panel{
@@ -675,22 +553,20 @@
       .actions .search{ display:none; }
       .vod{ grid-template-columns: 1fr; }
       .vcard{ grid-column: span 6; }
-      .short{ width: 176px; }
       .chips{ justify-content:flex-start; }
     }
     @media (max-width: 720px){
-  .vcard{ grid-column: span 12; }
-  .short{ width: 168px; }
+      .vcard{ grid-column: span 12; }
 
-  /* как на index: на мобиле скрываем десктоп-меню и показываем бургер */
-  .nav-desktop{ display:none; }
-  .nav-mobile{ display:block; }
+      /* как на index: на мобиле скрываем десктоп-меню и показываем бургер */
+      .nav-desktop{ display:none; }
+      .nav-mobile{ display:block; }
 
-  /* кнопку темы в шапке на мобиле убираем */
-  .actions .themeBtn{ display:none; }
+      /* кнопку темы в шапке на мобиле убираем */
+      .actions .themeBtn{ display:none; }
 
-  .actions{ min-width:auto; }
-}
+      .actions{ min-width:auto; }
+    }
     @media (prefers-reduced-motion: reduce){
       *{ transition:none !important; }
     }
@@ -731,7 +607,6 @@
             <a class="navlink" href="production.html">Продакшн</a>
             <a class="navlink" href="editorial.html">Редакция</a>
 
-            <!-- ✅ кнопка темы в моб.меню -->
             <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
               <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
               <span class="themeLabel">Тема</span>
@@ -739,7 +614,6 @@
           </nav>
         </details>
 
-        <!-- actions (ПК) -->
         <div class="actions">
           <input class="search" placeholder="Поиск…" aria-label="Поиск" />
           <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
@@ -747,7 +621,6 @@
             <span class="themeLabel"></span>
           </button>
         </div>
-
       </div>
     </div>
   </header>
@@ -826,20 +699,6 @@
       </div>
     </section>
 
-    <section class="section" aria-label="Shorts">
-      <div class="shorts-wrap">
-        <div class="shorts-head">
-          <div>
-            <b>Shorts</b>
-            <div style="margin-top:6px; font-size:13px; color:var(--muted);">Короткие вертикальные видео — быстро в контекст.</div>
-          </div>
-          <a class="more" href="https://vkvideo.ru/@promrep/clips" target="_blank" rel="noopener">Все shorts →</a>
-        </div>
-
-        <div class="shorts-row" id="shortsRow"></div>
-      </div>
-    </section>
-
     <footer>
       <div>© <span id="y"></span> Промышленный репортёр</div>
       <div>Контакты · Реклама · Политика</div>
@@ -881,16 +740,24 @@
       if(num >= 1000) return Math.round(num/1000) + "k";
       return String(num);
     }
+
     function fmtDate(ts){
       if(!ts) return "—";
-      const d = new Date(ts * 1000);
+      const d = new Date(Number(ts) * 1000);
+      if (Number.isNaN(d.getTime())) return "—";
       return d.toISOString().slice(0,10);
     }
-    function fmtDur(sec){
-      const s = Number(sec||0);
-      const m = Math.floor(s/60);
-      const r = s%60;
-      return m + ":" + String(r).padStart(2,"0");
+
+    function fmtDur(sec) {
+      if (typeof sec === "string" && sec.includes(":")) return sec;
+      const s = Number(sec);
+      if (!Number.isFinite(s) || s < 0) return "";
+      const total = Math.floor(s);
+      const h = Math.floor(total / 3600);
+      const m = Math.floor((total % 3600) / 60);
+      const r = total % 60;
+      if (h > 0) return `${h}:${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
+      return `${m}:${String(r).padStart(2, "0")}`;
     }
 
     function openVideo(item){
@@ -909,11 +776,13 @@
       modal.classList.add("open");
       modal.setAttribute("aria-hidden","false");
     }
+
     function closeModal(){
       modal.classList.remove("open");
       modal.setAttribute("aria-hidden","true");
       modalPlayer.innerHTML = "";
     }
+
     modalClose.addEventListener("click", closeModal);
     modal.addEventListener("click", (e)=>{ if(e.target === modal) closeModal(); });
     document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") closeModal(); });
@@ -928,7 +797,11 @@
     }
 
     function renderArchive(reset){
-      if(reset){ shown = 0; grid.innerHTML = ""; loadMore.style.display = ""; }
+      if(reset){
+        shown = 0;
+        grid.innerHTML = "";
+        loadMore.style.display = "";
+      }
 
       const filtered = allVideos.filter(matches);
       countLabel.textContent = `${filtered.length} материалов`;
@@ -936,32 +809,36 @@
       const slice = filtered.slice(shown, shown + pageSize);
       shown += slice.length;
 
-      grid.insertAdjacentHTML('beforeend', slice.map(v=>`
-        <a class="vcard" href="#" data-id="${v.ownerId}_${v.id}" aria-label="${(v.title||"").replaceAll('"','&quot;')}">
-          <div class="thumb">
-            ${v.thumb ? `<div class="cover" style="background-image:url('${v.thumb}')"></div>` : ``}
-            <div class="p" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
-              </svg>
+      grid.insertAdjacentHTML('beforeend', slice.map(v => {
+        const dur = fmtDur(v.duration);
+        return `
+          <a class="vcard" href="#" data-id="${v.ownerId}_${v.id}" aria-label="${(v.title||"").replaceAll('"','&quot;')}">
+            <div class="thumb">
+              ${v.thumb ? `<div class="cover" style="background-image:url('${v.thumb}')"></div>` : ``}
+              <div class="p" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+                </svg>
+              </div>
             </div>
-          </div>
-          <div class="vbody">
-            <div class="vtop">
-              <span class="vrub">TV</span>
-              <span>${fmtViews(v.views)} просмотров</span>
+            <div class="vbody">
+              <div class="vtop">
+                <span class="vrub">TV</span>
+                <span>${fmtViews(v.views)} просмотров</span>
+              </div>
+              <div class="vtitle">${v.title || "Без названия"}</div>
+              <p class="vdesc">${v.description || ""}</p>
+              <div class="vmeta">
+                <span class="tag">${fmtDate(v.date)}</span>
+                ${dur ? `<span class="tag hot">${dur}</span>` : ``}
+              </div>
             </div>
-            <div class="vtitle">${v.title || "Без названия"}</div>
-            <p class="vdesc">${v.description || ""}</p>
-            <div class="vmeta">
-              <span class="tag">${fmtDate(v.date)}</span>
-              <span class="tag hot">${fmtDur(v.duration)}</span>
-            </div>
-          </div>
-        </a>
-      `).join(''));
+          </a>
+        `;
+      }).join(''));
 
       if(shown >= filtered.length) loadMore.style.display = "none";
+
       if(filtered.length === 0){
         grid.innerHTML = `<div style="grid-column:1/-1; color:var(--muted); font-size:13px; padding:6px 2px;">
           Ничего не найдено. Попробуйте другой запрос.
@@ -998,7 +875,6 @@
       renderArchive(false);
     });
 
-    // === Load JSON ===
     async function loadJson(url){
       const r = await fetch(url, { cache: "no-store" });
       if(!r.ok) throw new Error(`Failed to load ${url}: ${r.status}`);
@@ -1007,24 +883,27 @@
 
     async function init(){
       try{
-        const [tv, shorts, vod] = await Promise.all([
+        const [tv, vod] = await Promise.all([
           loadJson("/content/tv/videos.json"),
-          loadJson("/content/home/shorts.json"),
           loadJson("/content/home/videoOfDay.json")
         ]);
 
-        updatedLabel.textContent = tv?.updatedAt ? ("Обновлено: " + tv.updatedAt.replace("T"," ").replace("Z","")) : "—";
+        updatedLabel.textContent = tv?.updatedAt
+          ? ("Обновлено: " + tv.updatedAt.replace("T"," ").replace("Z",""))
+          : "—";
 
         allVideos = Array.isArray(tv?.items) ? tv.items : [];
         renderArchive(true);
 
-        // Video of day
         const vodItem = vod?.item || allVideos[0] || null;
         if(vodItem){
           document.getElementById('vodTitle').textContent = vodItem.title || "Видео дня";
           document.getElementById('vodDesc').textContent = vodItem.description || "";
-          document.getElementById('vodWhen').textContent = fmtDate(vodItem.date);
-          document.getElementById('vodLen').textContent = fmtDur(vodItem.duration);
+          document.getElementById('vodWhen').textContent = fmtDate(vodItem.date) || "—";
+
+          const vodLen = fmtDur(vodItem.duration);
+          document.getElementById('vodLen').textContent = vodLen || "—";
+
           document.getElementById('vodViews').textContent = fmtViews(vodItem.views) + " просмотров";
 
           const cover = document.getElementById("vodCover");
@@ -1047,45 +926,14 @@
             if (navigator.share) {
               navigator.share({ title: vodItem.title, text: vodItem.description, url }).catch(()=>{});
             } else {
-              navigator.clipboard?.writeText(url).then(()=> alert("Ссылка скопирована")).catch(()=> prompt("Скопируй ссылку:", url));
+              navigator.clipboard?.writeText(url)
+                .then(()=> alert("Ссылка скопирована"))
+                .catch(()=> prompt("Скопируй ссылку:", url));
             }
           });
         } else {
-          document.getElementById('vodDesc').textContent = "Пока нет данных. Проверьте, что GitHub Actions обновил content/*.json";
-        }
-
-        // Shorts row
-        const shortsRow = document.getElementById("shortsRow");
-        const shortsItems = Array.isArray(shorts?.items) ? shorts.items : [];
-        if(shortsItems.length === 0){
-          shortsRow.innerHTML = `<div style="color:var(--muted); font-size:13px; padding:6px 2px;">
-            Пока нет shorts (или VK API метод для клипов недоступен для токена).
-          </div>`;
-        } else {
-          shortsRow.innerHTML = shortsItems.map((s)=>`
-            <a class="short" href="#" data-id="${s.ownerId}_${s.id}" aria-label="${(s.title||"").replaceAll('"','&quot;')}">
-              <div class="short-card">
-                ${s.thumb ? `<div class="cover" style="background-image:url('${s.thumb}')"></div>` : ``}
-                <div class="short-badge"><i></i> Shorts</div>
-                <div class="short-play" role="button" aria-label="Смотреть short">
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="short-name">${s.title || "Short"}</div>
-              <div class="short-meta"><span>VK</span><span>${fmtDur(s.duration)}</span></div>
-            </a>
-          `).join("");
-
-          shortsRow.addEventListener("click",(e)=>{
-            const a = e.target.closest("a.short");
-            if(!a) return;
-            e.preventDefault();
-            const key = a.dataset.id;
-            const item = shortsItems.find(x => `${x.ownerId}_${x.id}` === key);
-            if(item) openVideo(item);
-          });
+          document.getElementById('vodDesc').textContent =
+            "Пока нет данных. Проверьте, что GitHub Actions обновил content/*.json";
         }
       }catch(err){
         console.error(err);
@@ -1134,7 +982,3 @@
   </script>
 </body>
 </html>
-
-
-
-
