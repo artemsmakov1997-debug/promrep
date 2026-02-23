@@ -337,11 +337,57 @@
       border-color: rgba(255,42,42,.55);
       color: var(--red);
     }
+
+    .shorts-wrap{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+    }
+    .shorts-head{
+      padding: 12px 14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:14px;
+      border-bottom: 1px solid var(--line2);
+      background: linear-gradient(180deg, rgba(11,11,12,.018), transparent);
+    }
     .shorts-head b{
       font-size: 12px;
       letter-spacing:1.2px;
       text-transform:uppercase;
       color: var(--muted);
+    }
+    .shorts-row{
+      padding: 14px;
+      display:flex;
+      gap: 12px;
+      overflow:auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .short{
+      scroll-snap-align: start;
+      flex: 0 0 auto;
+      width: 200px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .short-card{
+      position:relative;
+      border-radius: var(--r);
+      overflow:hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow2);
+      aspect-ratio: 9/16;
+      background:
+        radial-gradient(520px 220px at 20% 18%, rgba(240,32,0,.16), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.08), rgba(11,11,12,.02));
+      display:grid;
+      place-items:center;
     }
     .short-card .cover{
       position:absolute; inset:0;
@@ -355,7 +401,50 @@
       background: linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.32));
       pointer-events:none;
     }
+    .short-badge{
+      position:absolute;
+      top:10px; left:10px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.22);
+      color: rgba(247,247,248,.92);
+      font-size: 11px;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      z-index:1;
+    }
     .short-badge i{ width:7px; height:7px; border-radius:2px; background: var(--red); display:inline-block; }
+    .short-play{
+      position:relative;
+      width:58px; height:58px;
+      border-radius: 18px;
+      border: 1px solid rgba(240,32,0,.36);
+      background: rgba(240,32,0,.12);
+      display:grid; place-items:center;
+      cursor:pointer;
+      color: var(--ink);
+      z-index:1;
+      backdrop-filter: blur(6px);
+    }
+    .short-name{
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--ink);
+      font-weight: 800;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+    }
+    .short-meta{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
 
     .panel{
       background: var(--paper);
@@ -586,11 +675,14 @@
       .actions .search{ display:none; }
       .vod{ grid-template-columns: 1fr; }
       .vcard{ grid-column: span 6; }
-.chips{ justify-content:flex-start; }
+      .short{ width: 176px; }
+      .chips{ justify-content:flex-start; }
     }
     @media (max-width: 720px){
   .vcard{ grid-column: span 12; }
-/* как на index: на мобиле скрываем десктоп-меню и показываем бургер */
+  .short{ width: 168px; }
+
+  /* как на index: на мобиле скрываем десктоп-меню и показываем бургер */
   .nav-desktop{ display:none; }
   .nav-mobile{ display:block; }
 
@@ -734,6 +826,20 @@
       </div>
     </section>
 
+    <section class="section" aria-label="Shorts">
+      <div class="shorts-wrap">
+        <div class="shorts-head">
+          <div>
+            <b>Shorts</b>
+            <div style="margin-top:6px; font-size:13px; color:var(--muted);">Короткие вертикальные видео — быстро в контекст.</div>
+          </div>
+          <a class="more" href="https://vkvideo.ru/@promrep/clips" target="_blank" rel="noopener">Все shorts →</a>
+        </div>
+
+        <div class="shorts-row" id="shortsRow"></div>
+      </div>
+    </section>
+
     <footer>
       <div>© <span id="y"></span> Промышленный репортёр</div>
       <div>Контакты · Реклама · Политика</div>
@@ -781,14 +887,9 @@
       return d.toISOString().slice(0,10);
     }
     function fmtDur(sec){
-      if (typeof sec === "string" && sec.includes(":")) return sec;
-      const s = Number(sec);
-      if (!Number.isFinite(s) || s < 0) return "";
-      const total = Math.floor(s);
-      const h = Math.floor(total / 3600);
-      const m = Math.floor((total % 3600) / 60);
-      const r = total % 60;
-      if (h > 0) return h + ":" + String(m).padStart(2,"0") + ":" + String(r).padStart(2,"0");
+      const s = Number(sec||0);
+      const m = Math.floor(s/60);
+      const r = s%60;
       return m + ":" + String(r).padStart(2,"0");
     }
 
@@ -854,7 +955,7 @@
             <p class="vdesc">${v.description || ""}</p>
             <div class="vmeta">
               <span class="tag">${fmtDate(v.date)}</span>
-              <span class="tag hot">${fmtDur(v.duration) || ""}</span>
+              <span class="tag hot">${fmtDur(v.duration)}</span>
             </div>
           </div>
         </a>
@@ -906,8 +1007,9 @@
 
     async function init(){
       try{
-        const [tv, vod] = await Promise.all([
+        const [tv, shorts, vod] = await Promise.all([
           loadJson("/content/tv/videos.json"),
+          loadJson("/content/home/shorts.json"),
           loadJson("/content/home/videoOfDay.json")
         ]);
 
@@ -951,6 +1053,39 @@
         } else {
           document.getElementById('vodDesc').textContent = "Пока нет данных. Проверьте, что GitHub Actions обновил content/*.json";
         }
+
+        // Shorts row
+        const shortsRow = document.getElementById("shortsRow");
+        const shortsItems = Array.isArray(shorts?.items) ? shorts.items : [];
+        if(shortsItems.length === 0){
+          shortsRow.innerHTML = `<div style="color:var(--muted); font-size:13px; padding:6px 2px;">
+            Пока нет shorts (или VK API метод для клипов недоступен для токена).
+          </div>`;
+        } else {
+          shortsRow.innerHTML = shortsItems.map((s)=>`
+            <a class="short" href="#" data-id="${s.ownerId}_${s.id}" aria-label="${(s.title||"").replaceAll('"','&quot;')}">
+              <div class="short-card">
+                ${s.thumb ? `<div class="cover" style="background-image:url('${s.thumb}')"></div>` : ``}
+                <div class="short-badge"><i></i> Shorts</div>
+                <div class="short-play" role="button" aria-label="Смотреть short">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="short-name">${s.title || "Short"}</div>
+              <div class="short-meta"><span>VK</span><span>${fmtDur(s.duration)}</span></div>
+            </a>
+          `).join("");
+
+          shortsRow.addEventListener("click",(e)=>{
+            const a = e.target.closest("a.short");
+            if(!a) return;
+            e.preventDefault();
+            const key = a.dataset.id;
+            const item = shortsItems.find(x => `${x.ownerId}_${x.id}` === key);
+            if(item) openVideo(item);
+          });
         }
       }catch(err){
         console.error(err);
