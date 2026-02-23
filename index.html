@@ -273,17 +273,51 @@
       content:"";
       position:absolute; inset:0;
       background:
-        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.20), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.055), transparent 60%);
+        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.12), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.035), transparent 60%);
       opacity:.95;
       pointer-events:none;
+      z-index:1;
     }
+
+    /* ===== HERO c фото ===== */
+    .panel-media{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.55));
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      transform: scale(1.01);
+    }
+
+    .panel-media.is-empty{
+      background:
+        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.20), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.055), transparent 60%);
+    }
+
     .panel .inner{
       position:relative;
-      padding: 20px;
+      z-index:2;
       min-height: 360px;
-      display:flex; flex-direction:column; gap:14px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      padding: 20px;
     }
+
+    /* Делаем ссылку в hero полноценным flex-контейнером */
+    .panel .inner#heroLink{
+      display:flex !important;
+      flex-direction:column;
+      gap:14px;
+      min-height: 360px;
+      padding: 20px;
+    }
+
     .badge{
       display:inline-flex; align-items:center; gap:8px;
       width:fit-content;
@@ -293,6 +327,7 @@
       background: rgba(240,32,0,.10);
       font-size: 12px;
       color: var(--panelText);
+      backdrop-filter: blur(3px);
     }
     .badge i{ width:7px; height:7px; border-radius: 2px; background: var(--red); display:inline-block; }
 
@@ -301,6 +336,7 @@
       font-size: clamp(28px, 3.2vw, 44px);
       line-height: 1.05;
       letter-spacing: .15px;
+      text-shadow: 0 2px 16px rgba(0,0,0,.35);
     }
     .lead{
       margin:0;
@@ -308,6 +344,7 @@
       font-size: 15px;
       line-height: 1.65;
       max-width: 72ch;
+      text-shadow: 0 1px 12px rgba(0,0,0,.25);
     }
     .meta{
       margin-top:auto;
@@ -319,7 +356,8 @@
       padding: 6px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
+      background: rgba(0,0,0,.22);
+      backdrop-filter: blur(4px);
     }
 
     /* Feed */
@@ -497,6 +535,45 @@
     }
     .chip.hot{ border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); color: var(--ink); font-weight:800; }
 
+    /* ===== Карточки с превью ===== */
+    .card-thumb{
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line2);
+      background:
+        radial-gradient(420px 180px at 20% 15%, rgba(240,32,0,.10), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      margin: 10px 0 10px;
+      position: relative;
+    }
+
+    .card-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .card-thumb.is-empty::after{
+      content:"Нет фото";
+      position:absolute;
+      inset:auto 10px 10px auto;
+      font-size:11px;
+      color: var(--muted);
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.75);
+      border:1px solid var(--line2);
+    }
+
+    html[data-theme="dark"] .card-thumb.is-empty::after{
+      background: rgba(16,18,20,.86);
+      color: var(--muted);
+      border-color: var(--line2);
+    }
+
     /* Video teaser */
     .video{
       margin-top: 14px;
@@ -536,147 +613,6 @@
     .vside b{ font-size: 15px; line-height:1.25; }
     .vside p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
 
-    /* Shorts */
-    .shorts-wrap{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-    }
-    .shorts-head{
-      padding: 12px 14px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:14px;
-      border-bottom: 1px solid var(--line2);
-      background: linear-gradient(180deg, rgba(11,11,12,.018), transparent);
-    }
-    .shorts-title{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      min-width:0;
-    }
-    .shorts-title h2{ margin:0; font-size: 18px; letter-spacing:.2px; }
-    .shorts-title p{ margin:0; font-size: 13px; color: var(--muted); }
-
-    .shorts-actions{
-      display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end;
-    }
-
-    .shorts-row{
-      padding: 14px;
-      display:flex;
-      gap: 12px;
-      overflow:auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-    }
-    .shorts-row::-webkit-scrollbar{ height: 10px; }
-    .shorts-row::-webkit-scrollbar-thumb{
-      background: rgba(11,11,12,.14);
-      border-radius: 999px;
-      border: 3px solid rgba(0,0,0,0);
-      background-clip: padding-box;
-    }
-
-    .short{
-      scroll-snap-align: start;
-      flex: 0 0 auto;
-      width: 200px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-
-    .short-card{
-      position:relative;
-      border-radius: var(--r);
-      overflow:hidden;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow2);
-      aspect-ratio: 9/16;
-      background:
-        radial-gradient(520px 220px at 20% 18%, rgba(240,32,0,.16), transparent 60%),
-        linear-gradient(180deg, rgba(11,11,12,.08), rgba(11,11,12,.02));
-      display:grid;
-      place-items:center;
-      transition:.14s ease;
-    }
-    .short-card:hover{
-      transform: translateY(-2px);
-      border-color: rgba(240,32,0,.22);
-    }
-
-    .short-card img{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      object-fit:cover;
-      filter: contrast(1.02) saturate(.98);
-      transform: scale(1.01);
-    }
-    .short-card:before{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.00), rgba(0,0,0,.32));
-      pointer-events:none;
-    }
-
-    .short-play{
-      position:relative;
-      width:58px; height:58px;
-      border-radius: 18px;
-      border: 1px solid rgba(240,32,0,.36);
-      background: rgba(240,32,0,.12);
-      display:grid; place-items:center;
-      cursor:pointer;
-      transition:.14s ease;
-      color: var(--ink);
-      z-index:1;
-      backdrop-filter: blur(6px);
-    }
-    .short-card:hover .short-play{ transform: translateY(-1px) scale(1.02); }
-
-    .short-badge{
-      position:absolute;
-      top:10px; left:10px;
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.22);
-      color: rgba(247,247,248,.92);
-      font-size: 11px;
-      letter-spacing:.8px;
-      text-transform:uppercase;
-      z-index:1;
-    }
-    .short-badge i{
-      width:7px; height:7px; border-radius:2px;
-      background: var(--red);
-      display:inline-block;
-    }
-
-    .short-meta{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .short-name{
-      font-size: 13px;
-      line-height: 1.35;
-      color: var(--ink);
-      font-weight: 800;
-      display:-webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow:hidden;
-    }
-
     /* Two teasers */
     .teasers{
       margin-top: 14px;
@@ -714,7 +650,6 @@
       .video{ grid-template-columns: 1fr; }
       .teasers{ grid-template-columns: 1fr; }
       .actions .search{ display:none; }
-      .short{ width: 176px; }
     }
 
     @media (max-width: 720px){
@@ -732,12 +667,24 @@
 
       .shorts-head{ align-items:flex-start; flex-direction:column; }
       .shorts-actions{ width:100%; justify-content:flex-start; }
-      .short{ width: 168px; }
+
+      .panel .inner#heroLink{
+        min-height: 300px;
+        padding: 16px;
+      }
+      .hero .panel h1{
+        font-size: clamp(24px, 7vw, 32px);
+        line-height: 1.08;
+      }
+      .hero .panel .lead{
+        font-size: 14px;
+        line-height: 1.5;
+      }
     }
 
     @media (prefers-reduced-motion: reduce){
       *{ transition:none !important; }
-      .card:hover,.play:hover,.more:hover,.feed-actions a:hover,.short-card:hover{ transform:none !important; }
+      .card:hover,.play:hover,.more:hover,.feed-actions a:hover{ transform:none !important; }
     }
   </style>
 </head>
@@ -803,7 +750,9 @@
 
     <section class="hero" aria-label="Витрина дня">
       <article class="panel">
-        <a class="inner" id="heroLink" href="news.html" style="display:block;">
+        <div class="panel-media is-empty" id="heroMedia" aria-hidden="true"></div>
+
+        <a class="inner" id="heroLink" href="news.html">
           <div class="badge"><i></i> Главный материал</div>
           <h1 id="heroTitle">Загрузка…</h1>
           <p class="lead" id="heroLead">Подтягиваем свежий материал из ленты новостей.</p>
@@ -866,8 +815,6 @@
       </div>
     </section>
 
-    
-
     <section class="section" aria-label="Тизеры">
       <div class="teasers">
         <div class="teaser">
@@ -906,6 +853,7 @@
     const headerSearch = document.getElementById('headerSearch');
 
     const heroLink = document.getElementById('heroLink');
+    const heroMedia = document.getElementById('heroMedia');
     const heroTitle = document.getElementById('heroTitle');
     const heroLead = document.getElementById('heroLead');
     const heroMeta = document.getElementById('heroMeta');
@@ -935,13 +883,6 @@
         .replaceAll("'","&#039;");
     }
 
-    function fmtViews(n){
-      const x = Number(n || 0);
-      if (x >= 1_000_000) return (x/1_000_000).toFixed(1).replace(".0","") + " млн";
-      if (x >= 1_000) return (x/1_000).toFixed(1).replace(".0","") + " тыс.";
-      return String(x);
-    }
-
     function fmtDate(ts){
       if(!ts) return "";
       const d = new Date(ts * 1000);
@@ -968,6 +909,51 @@
       if (h < 24) return `${h} ч`;
       const d = Math.floor(h / 24);
       return d === 1 ? "вчера" : `${d} дн`;
+    }
+
+    // Нормализация URL медиа (по мотивам news + защита от смешанного контента/кривых путей)
+    function normalizeMediaUrl(url){
+      if(!url) return null;
+      let s = String(url).trim();
+      if(!s) return null;
+
+      // protocol-relative //example.com/img.jpg
+      if (s.startsWith("//")) s = window.location.protocol + s;
+
+      // absolute path /uploads/...
+      if (s.startsWith("/")) {
+        s = new URL(s, window.location.origin).href;
+      }
+
+      // если сайт на https, а фото http — пробуем https
+      if (window.location.protocol === "https:" && s.startsWith("http://")) {
+        s = "https://" + s.slice(7);
+      }
+
+      return s;
+    }
+
+    function setBgCover(el, url, overlay = "dark"){
+      if(!el) return;
+      const src = normalizeMediaUrl(url);
+
+      if(!src){
+        el.style.backgroundImage = "";
+        el.classList.add("is-empty");
+        return;
+      }
+
+      const safe = encodeURI(src).replace(/"/g, "%22").replace(/'/g, "%27");
+
+      const overlayCss = overlay === "soft"
+        ? "linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.32))"
+        : "linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.55))";
+
+      el.style.backgroundImage = `${overlayCss}, url("${safe}")`;
+      el.style.backgroundSize = "cover";
+      el.style.backgroundPosition = "center";
+      el.style.backgroundRepeat = "no-repeat";
+      el.classList.remove("is-empty");
     }
 
     function buildNewsFromFeed(posts){
@@ -1016,6 +1002,9 @@
         `<span>Telegram</span>`,
         `<span>${escapeHtml(a.ts ? fmtDate(a.ts) : "Сегодня")}</span>`
       ].join("");
+
+      // ✅ Фото главного материала
+      setBgCover(heroMedia, a.thumb, "dark");
     }
 
     function renderTodayCards(){
@@ -1026,17 +1015,36 @@
         return;
       }
 
-      todayCards.innerHTML = items.map((a, i) => `
-        <a class="card" href="news.html#${encodeURIComponent(a.id)}" aria-label="Открыть новость: ${escapeHtml(a.title)}">
-          <div class="top"><span class="rubric">${escapeHtml(a.rubric)}</span><span>${escapeHtml(a.ts ? relTime(a.ts) : "сегодня")}</span></div>
-          <h3>${escapeHtml(a.title)}</h3>
-          <p class="desc">${escapeHtml(a.lead || "")}</p>
-          <div class="chips">
-            <span class="chip ${i===0 ? "hot" : ""}">${a.ts ? escapeHtml(fmtDate(a.ts)) : "Telegram"}</span>
-            <span class="chip">${a.thumb ? "Фото" : "Материал"}</span>
-          </div>
-        </a>
-      `).join("");
+      todayCards.innerHTML = items.map((a, i) => {
+        const thumb = normalizeMediaUrl(a.thumb);
+        const thumbHtml = thumb
+          ? `
+            <div class="card-thumb">
+              <img
+                src="${escapeHtml(thumb)}"
+                alt=""
+                loading="lazy"
+                decoding="async"
+                referrerpolicy="no-referrer"
+                onerror="this.closest('.card-thumb') && this.closest('.card-thumb').classList.add('is-empty'); this.remove();"
+              />
+            </div>
+          `
+          : `<div class="card-thumb is-empty" aria-hidden="true"></div>`;
+
+        return `
+          <a class="card" href="news.html#${encodeURIComponent(a.id)}" aria-label="Открыть новость: ${escapeHtml(a.title)}">
+            <div class="top"><span class="rubric">${escapeHtml(a.rubric)}</span><span>${escapeHtml(a.ts ? relTime(a.ts) : "сегодня")}</span></div>
+            ${thumbHtml}
+            <h3>${escapeHtml(a.title)}</h3>
+            <p class="desc">${escapeHtml(a.lead || "")}</p>
+            <div class="chips">
+              <span class="chip ${i===0 ? "hot" : ""}">${a.ts ? escapeHtml(fmtDate(a.ts)) : "Telegram"}</span>
+              <span class="chip">${a.thumb ? "Фото" : "Материал"}</span>
+            </div>
+          </a>
+        `;
+      }).join("");
     }
 
     function renderFeed(){
@@ -1060,13 +1068,9 @@
     }
 
     function applyVodPlayerCover(item){
-      if(item?.thumb){
-        vodPlayer.style.backgroundImage = `
-          linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.32)),
-          url('${item.thumb}')
-        `;
-        vodPlayer.style.backgroundSize = "cover";
-        vodPlayer.style.backgroundPosition = "center";
+      const src = normalizeMediaUrl(item?.thumb);
+      if(src){
+        setBgCover(vodPlayer, src, "soft");
       }
     }
 
@@ -1097,7 +1101,7 @@
       vodOpen.onclick = open;
     }
 
-            function syncAll(){
+    function syncAll(){
       renderHero();
       renderTodayCards();
       renderFeed();
@@ -1141,6 +1145,7 @@
 
     initHome();
   </script>
+
   <script>
     (function(){
       const d = document.querySelector('.nav-mobile');
@@ -1170,7 +1175,7 @@
       const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
 
       const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
+      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
 
       function currentTheme() {
         return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
@@ -1183,6 +1188,11 @@
         const isDark = theme === "dark";
         svg.innerHTML = isDark ? ICON_SUN : ICON_MOON;
         btn.setAttribute("aria-label", isDark ? "Включить светлую тему" : "Включить тёмную тему");
+
+        const label = btn.querySelector(".themeLabel");
+        if(label){
+          label.textContent = isDark ? "Свет" : (label.textContent || "Тема");
+        }
       }
 
       function apply(theme) {
@@ -1209,4 +1219,3 @@
   </script>
 </body>
 </html>
-
