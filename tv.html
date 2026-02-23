@@ -566,6 +566,9 @@
       .actions .themeBtn{ display:none; }
 
       .actions{ min-width:auto; }
+
+      /* ✅ На мобильной версии скрываем "Видео дня", чтобы сразу открывался каталог */
+      .vod-day{ display:none; }
     }
     @media (prefers-reduced-motion: reduce){
       *{ transition:none !important; }
@@ -628,7 +631,7 @@
   <main class="container">
     <div class="kicker"><span class="dot"></span><span>TV</span></div>
 
-    <section class="section" aria-label="Видео дня">
+    <section class="section vod-day" aria-label="Видео дня">
       <div class="section-head">
         <div>
           <h2>Видео дня</h2>
@@ -946,13 +949,34 @@
   </script>
 
   <script>
+    (function(){
+      const d = document.querySelector('.nav-mobile');
+      if(!d) return;
+
+      d.querySelectorAll('a').forEach(a=>{
+        a.addEventListener('click', ()=> d.removeAttribute('open'));
+      });
+
+      document.addEventListener('click', (e)=>{
+        if(d.hasAttribute('open') && !d.contains(e.target)){
+          d.removeAttribute('open');
+        }
+      });
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') d.removeAttribute('open');
+      });
+    })();
+  </script>
+
+  <script>
     (function () {
       const KEY = "theme";
       const root = document.documentElement;
       const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
 
       const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 0 0 1 1-1Z"/>`;
+      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 0 0 1 1-1Z"/>`;
 
       function currentTheme() {
         return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
