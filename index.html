@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -786,7 +787,7 @@
 
         <!-- ШАПКА (ПК) -->
         <div class="actions">
-          <input class="search" placeholder="Поиск…" />
+          <input id="headerSearch" class="search" placeholder="Поиск…" />
           <!-- ✅ Кнопка темы на ПК остаётся в шапке -->
           <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
             <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
@@ -803,17 +804,14 @@
 
     <section class="hero" aria-label="Витрина дня">
       <article class="panel">
-        <div class="inner">
+        <a class="inner" id="heroLink" href="news.html" style="display:block;">
           <div class="badge"><i></i> Главный материал</div>
-          <h1>Промышленность без витрин: что работает, а что просто выглядит умно</h1>
-          <p class="lead">
-            Строгий стиль: минимум украшений, максимум ритма и читаемости.
-            Красный — только как сигнал и навигация внимания.
-          </p>
-          <div class="meta">
-            <span>Аналитика</span><span>8 мин</span><span>Сегодня</span>
+          <h1 id="heroTitle">Загрузка…</h1>
+          <p class="lead" id="heroLead">Подтягиваем свежий материал из ленты новостей.</p>
+          <div class="meta" id="heroMeta">
+            <span>События</span><span>Telegram</span><span>Сейчас</span>
           </div>
-        </div>
+        </a>
       </article>
 
       <aside class="feed" aria-label="Лента новостей">
@@ -821,7 +819,7 @@
           <div class="feed-title"><span class="pulse"></span> Лента</div>
           <div class="feed-actions">
             <span id="feedStatus">обновляется</span>
-            <a href="#">Все новости</a>
+            <a href="news.html">Все новости</a>
           </div>
         </div>
 
@@ -835,52 +833,10 @@
           <h2>Сегодня</h2>
           <p>Плоские карточки + строгая типографика. Не “просто”, но и не “цирк”.</p>
         </div>
-        <a class="more" href="#">Смотреть ленту →</a>
+        <a class="more" href="news.html">Смотреть ленту →</a>
       </div>
 
-      <div class="cards">
-        <a class="card" href="#">
-          <div class="top"><span class="rubric">Событие</span><span>2 часа</span></div>
-          <h3>Запуск линии: рост мощности без расширения площади</h3>
-          <p class="desc">Описание 1–2 строки: хватит, чтобы выбрать, куда кликнуть.</p>
-          <div class="chips"><span class="chip hot">Срочно</span><span class="chip">Производство</span></div>
-        </a>
-
-        <a class="card" href="#">
-          <div class="top"><span class="rubric">Аналитика</span><span>Сегодня</span></div>
-          <h3>Автоматизация: три места, где ROI реально живёт</h3>
-          <p class="desc">Минимум украшений, максимум читаемости.</p>
-          <div class="chips"><span class="chip">IT/OT</span><span class="chip">ROI</span></div>
-        </a>
-
-        <a class="card" href="#">
-          <div class="top"><span class="rubric">Люди</span><span>Вчера</span></div>
-          <h3>Кадры без сиропа: грейды, наставники, смена</h3>
-          <p class="desc">Когда дизайн не “продаёт”, а помогает быстро понять смысл.</p>
-          <div class="chips"><span class="chip hot">Интервью</span><span class="chip">HR</span></div>
-        </a>
-
-        <a class="card" href="#">
-          <div class="top"><span class="rubric">Рынок</span><span>2 дня</span></div>
-          <h3>Логистика 2026: где узкие места стали шире</h3>
-          <p class="desc">Ещё одна карточка — тот же ритм, то же спокойствие.</p>
-          <div class="chips"><span class="chip">Цепочки</span><span class="chip">Сроки</span></div>
-        </a>
-
-        <a class="card" href="#">
-          <div class="top"><span class="rubric">Тех</span><span>3 дня</span></div>
-          <h3>Машинное зрение на ОТК: меньше брака, меньше споров</h3>
-          <p class="desc">Красный — метка рубрики, не “заливка всего”.</p>
-          <div class="chips"><span class="chip hot">Качество</span><span class="chip">CV</span></div>
-        </a>
-
-        <a class="card" href="#">
-          <div class="top"><span class="rubric">Колонка</span><span>Неделя</span></div>
-          <h3>Почему промышленным новостям нужен характер</h3>
-          <p class="desc">Тонкий намёк на бренд — и никаких декоративных перегибов.</p>
-          <div class="chips"><span class="chip">Редакция</span><span class="chip">Стиль</span></div>
-        </a>
-      </div>
+      <div class="cards" id="todayCards"></div>
     </section>
 
     <section class="section" aria-label="Видео-тизер">
@@ -892,20 +848,20 @@
       </div>
 
       <div class="video">
-        <div class="player">
-          <button class="play" type="button" aria-label="Смотреть">
+        <div class="player" id="vodPlayer">
+          <button class="play" id="vodPlay" type="button" aria-label="Смотреть видео дня">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
             </svg>
           </button>
         </div>
         <div class="vside">
-          <div class="kicker"><span class="dot"></span><span>15 минут</span></div>
-          <b>Экскурсия по цеху: «чистая сборка» без глянца</b>
-          <p>Кнопки/действия — минимальные. Подробный блок TV будем проектировать отдельно.</p>
+          <div class="kicker"><span class="dot"></span><span id="vodLen">—</span></div>
+          <b id="vodTitle">Видео дня загружается…</b>
+          <p id="vodDesc">Подтягиваем данные из TV-раздела.</p>
           <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
-            <button class="btn primary">Смотреть</button>
-            <button class="btn">Открыть материал</button>
+            <button class="btn primary" id="vodOpen" type="button">Смотреть</button>
+            <a class="btn" id="vodMaterial" href="tv.html">Открыть материал</a>
           </div>
         </div>
       </div>
@@ -919,7 +875,7 @@
             <p>Короткие вертикальные видео: быстро в контекст, без лишней витрины.</p>
           </div>
           <div class="shorts-actions">
-            <a class="more" href="#" aria-label="Смотреть все Shorts">Все shorts →</a>
+            <a class="more" href="tv.html" aria-label="Смотреть все Shorts">Все shorts →</a>
           </div>
         </div>
 
@@ -956,101 +912,285 @@
   </main>
 
   <script>
+    // ===== Главная: реальные новости + видео (как в news и tv) =====
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ====== Feed demo ======
     const feedList = document.getElementById('feedList');
     const feedStatus = document.getElementById('feedStatus');
+    const todayCards = document.getElementById('todayCards');
+    const shortsRow = document.getElementById('shortsRow');
+    const headerSearch = document.getElementById('headerSearch');
 
-    let items = [
-      {time:"10:40", rubric:"Коротко", title:"Сроки поставок: где цепочки стали предсказуемее", live:true, href:"#"},
-      {time:"09:15", rubric:"Интервью", title:"Главный инженер: «цифра — это дисциплина, а не софт»", live:false, href:"#"},
-      {time:"08:32", rubric:"Рынок", title:"Металлы и энергия: три движения недели без лишнего шума", live:false, href:"#"},
-      {time:"07:58", rubric:"Технологии", title:"ОТК и машинное зрение: как снизили споры на смене", live:false, href:"#"},
-      {time:"Вчера", rubric:"Люди", title:"Грейды, наставники, смена: как держат специалистов на заводе", live:false, href:"#" }
-    ];
+    const heroLink = document.getElementById('heroLink');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroLead = document.getElementById('heroLead');
+    const heroMeta = document.getElementById('heroMeta');
+
+    const vodPlayer = document.getElementById('vodPlayer');
+    const vodPlay = document.getElementById('vodPlay');
+    const vodOpen = document.getElementById('vodOpen');
+    const vodMaterial = document.getElementById('vodMaterial');
+    const vodTitle = document.getElementById('vodTitle');
+    const vodDesc = document.getElementById('vodDesc');
+    const vodLen = document.getElementById('vodLen');
+
+    let ARTICLES = [];
+    let feedItems = [];
+    let allVideos = [];
+    let shortsItems = [];
+    let videoOfDay = null;
+
+    let state = { q: "" };
+
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function fmtViews(n){
+      const x = Number(n || 0);
+      if (x >= 1_000_000) return (x/1_000_000).toFixed(1).replace(".0","") + " млн";
+      if (x >= 1_000) return (x/1_000).toFixed(1).replace(".0","") + " тыс.";
+      return String(x);
+    }
+
+    function fmtDate(ts){
+      if(!ts) return "";
+      const d = new Date(ts * 1000);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toLocaleDateString("ru-RU", { day:"2-digit", month:"2-digit", year:"numeric" });
+    }
+
+    function fmtDur(sec){
+      const s = Math.max(0, Number(sec || 0));
+      const h = Math.floor(s/3600);
+      const m = Math.floor((s%3600)/60);
+      const r = Math.floor(s%60);
+      if(h) return `${h}:${String(m).padStart(2,"0")}:${String(r).padStart(2,"0")}`;
+      return `${m}:${String(r).padStart(2,"0")}`;
+    }
+
+    function relTime(ts){
+      if(!ts) return "";
+      const diff = Math.max(0, Date.now() - (ts * 1000));
+      const m = Math.floor(diff / 60000);
+      if (m < 1) return "сейчас";
+      if (m < 60) return `${m} мин`;
+      const h = Math.floor(m / 60);
+      if (h < 24) return `${h} ч`;
+      const d = Math.floor(h / 24);
+      return d === 1 ? "вчера" : `${d} дн`;
+    }
+
+    function buildNewsFromFeed(posts){
+      const sorted = Array.isArray(posts) ? posts.slice().reverse() : [];
+
+      ARTICLES = sorted.map((p, idx) => {
+        const text = p?.text || "";
+        const parts = text.split("\n\n").filter(Boolean);
+        const title = (parts[0] || text || "Новость").slice(0, 120);
+        const lead = (parts[1] || parts[0] || "").slice(0, 220);
+
+        return {
+          id: String(p?.id ?? idx),
+          rubric: "События",
+          title,
+          lead,
+          thumb: p?.photo || null,
+          ts: p?.date || null,
+          body: parts.length ? parts : [text]
+        };
+      });
+
+      feedItems = ARTICLES.map(a => ({
+        id: a.id,
+        time: a.ts ? relTime(a.ts) : "",
+        rubric: a.rubric,
+        title: a.title
+      }));
+    }
+
+    function matchesQuery(a){
+      const q = state.q.trim().toLowerCase();
+      if(!q) return true;
+      return [a.title, a.lead, a.rubric].some(v => (v || "").toLowerCase().includes(q));
+    }
+
+    function renderHero(){
+      const a = ARTICLES.find(matchesQuery) || ARTICLES[0];
+      if(!a) return;
+
+      heroLink.href = `news.html#${encodeURIComponent(a.id)}`;
+      heroTitle.textContent = a.title || "Главный материал";
+      heroLead.textContent = a.lead || "Откройте новостной раздел для полного текста.";
+      heroMeta.innerHTML = [
+        `<span>${escapeHtml(a.rubric || "События")}</span>`,
+        `<span>Telegram</span>`,
+        `<span>${escapeHtml(a.ts ? fmtDate(a.ts) : "Сегодня")}</span>`
+      ].join("");
+    }
+
+    function renderTodayCards(){
+      const items = ARTICLES.filter(matchesQuery).slice(0, 6);
+
+      if(items.length === 0){
+        todayCards.innerHTML = `<div class="card"><h3>Ничего не найдено</h3><p class="desc">Попробуйте другой запрос в поиске.</p></div>`;
+        return;
+      }
+
+      todayCards.innerHTML = items.map((a, i) => `
+        <a class="card" href="news.html#${encodeURIComponent(a.id)}" aria-label="Открыть новость: ${escapeHtml(a.title)}">
+          <div class="top"><span class="rubric">${escapeHtml(a.rubric)}</span><span>${escapeHtml(a.ts ? relTime(a.ts) : "сегодня")}</span></div>
+          <h3>${escapeHtml(a.title)}</h3>
+          <p class="desc">${escapeHtml(a.lead || "")}</p>
+          <div class="chips">
+            <span class="chip ${i===0 ? "hot" : ""}">${a.ts ? escapeHtml(fmtDate(a.ts)) : "Telegram"}</span>
+            <span class="chip">${a.thumb ? "Фото" : "Материал"}</span>
+          </div>
+        </a>
+      `).join("");
+    }
 
     function renderFeed(){
-      feedList.innerHTML = items.map((n)=>`
-        <a class="feed-item" href="${n.href}">
-          <div class="t-time">${n.time}</div>
+      const q = state.q.trim().toLowerCase();
+      const show = feedItems
+        .filter(i => !q || (i.title || "").toLowerCase().includes(q))
+        .slice(0, 12);
+
+      feedList.innerHTML = show.map((n)=>`
+        <a class="feed-item" href="news.html#${encodeURIComponent(n.id)}" aria-label="${escapeHtml(n.title)}">
+          <div class="t-time">${escapeHtml(n.time || "")}</div>
           <div class="t-main">
             <div class="t-top">
               <span class="t-dot"></span>
-              <span class="t-rubric">${n.rubric}</span>
-              ${n.live ? `<span class="t-live">LIVE</span>` : ``}
+              <span class="t-rubric">${escapeHtml(n.rubric || "События")}</span>
             </div>
-            <div class="t-title">${n.title}</div>
+            <div class="t-title">${escapeHtml(n.title || "")}</div>
           </div>
         </a>
-      `).join('');
-    }
-    renderFeed();
-
-    const demoPool = [
-      {rubric:"Коротко", title:"Запуск линии: рост мощности без расширения площади", live:true},
-      {rubric:"Событие", title:"Сбой поставок устранён: логистика восстановлена за 36 часов", live:true},
-      {rubric:"Интервью", title:"Цех и цифра: почему софт без дисциплины не работает", live:false},
-      {rubric:"Тех", title:"Пилот цифрового двойника: где экономия появилась уже на обучении", live:false},
-      {rubric:"Рынок", title:"Контракты и цена риска: что поменялось в переговорах", live:false},
-    ];
-
-    function nowHHMM(){
-      const d = new Date();
-      const hh = String(d.getHours()).padStart(2,'0');
-      const mm = String(d.getMinutes()).padStart(2,'0');
-      return `${hh}:${mm}`;
+      `).join("");
     }
 
-    setInterval(()=>{
-      const pick = demoPool[Math.floor(Math.random()*demoPool.length)];
-      items.unshift({
-        time: nowHHMM(),
-        rubric: pick.rubric,
-        title: pick.title,
-        live: pick.live,
-        href: "#"
-      });
-      items = items.slice(0, 12);
-      renderFeed();
+    function applyVodPlayerCover(item){
+      if(item?.thumb){
+        vodPlayer.style.backgroundImage = `
+          linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.32)),
+          url('${item.thumb}')
+        `;
+        vodPlayer.style.backgroundSize = "cover";
+        vodPlayer.style.backgroundPosition = "center";
+      }
+    }
 
-      feedStatus.textContent = "обновлено сейчас";
-      setTimeout(()=>feedStatus.textContent="обновляется", 1800);
-    }, 12000);
+    function openVideo(item){
+      const url = item?.href || "https://vk.com/promrep";
+      if(url) window.open(url, "_blank", "noopener");
+    }
 
-    // ====== Shorts demo ======
-    const shortsRow = document.getElementById('shortsRow');
-    const shorts = [
-      { title: "60 секунд: как устроен контроль качества на линии", time: "1:00", href: "#", badge: "Тех", thumb: "" },
-      { title: "Нормирование без боли: одна привычка на смену",       time: "0:45", href: "#", badge: "Люди", thumb: "" },
-      { title: "Три ошибки внедрения MES, которые повторяют все",     time: "0:58", href: "#", badge: "IT/OT", thumb: "" },
-      { title: "Безопасность: микро-чеклист перед запуском",         time: "0:35", href: "#", badge: "ОТ", thumb: "" },
-      { title: "Цепочки поставок: один график, который всё объясняет", time: "0:52", href: "#", badge: "Рынок", thumb: "" }
-    ];
+    function renderVideoOfDay(){
+      const v = videoOfDay || allVideos[0] || null;
+      if(!v){
+        vodTitle.textContent = "Видео дня пока недоступно";
+        vodDesc.textContent = "Проверьте /content/home/videoOfDay.json и /content/tv/videos.json";
+        vodLen.textContent = "—";
+        return;
+      }
+
+      vodTitle.textContent = v.title || "Видео дня";
+      vodDesc.textContent = v.description || "Открыть в разделе TV";
+      vodLen.textContent = fmtDur(v.duration);
+      vodMaterial.href = v.href || "tv.html";
+      vodMaterial.target = "_blank";
+      vodMaterial.rel = "noopener";
+      applyVodPlayerCover(v);
+
+      const open = () => openVideo(v);
+      vodPlay.onclick = open;
+      vodOpen.onclick = open;
+    }
 
     function renderShorts(){
-      shortsRow.innerHTML = shorts.map((s)=>`
-        <a class="short" href="${s.href}" aria-label="${s.title}">
-          <div class="short-card">
-            ${s.thumb ? `<img src="${s.thumb}" alt="">` : ``}
-            <div class="short-badge"><i></i> ${s.badge}</div>
+      const list = shortsItems.filter(matchesQueryShort).slice(0, 12);
+
+      if(list.length === 0){
+        shortsRow.innerHTML = `<div style="color:var(--muted); font-size:13px; padding:6px 2px;">Shorts пока нет.</div>`;
+        return;
+      }
+
+      shortsRow.innerHTML = list.map((s)=>`
+        <a class="short" href="${escapeHtml(s.href || "tv.html")}" target="_blank" rel="noopener" aria-label="${escapeHtml(s.title || "Short")}">
+          <div class="short-card" ${s.thumb ? `style="background-image:linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.18)), url('${s.thumb}'); background-size:cover; background-position:center;"` : ``}>
+            <div class="short-badge"><i></i> Shorts</div>
             <div class="short-play" role="button" aria-label="Смотреть short">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
               </svg>
             </div>
           </div>
-          <div class="short-name">${s.title}</div>
+          <div class="short-name">${escapeHtml(s.title || "Short")}</div>
           <div class="short-meta">
-            <span>Short</span>
-            <span>${s.time}</span>
+            <span>VK</span>
+            <span>${escapeHtml(fmtDur(s.duration))}</span>
           </div>
         </a>
-      `).join('');
+      `).join("");
     }
-    renderShorts();
-  </script>
 
+    function matchesQueryShort(s){
+      const q = state.q.trim().toLowerCase();
+      if(!q) return true;
+      return ((s?.title || "") + " " + (s?.description || "")).toLowerCase().includes(q);
+    }
+
+    function syncAll(){
+      renderHero();
+      renderTodayCards();
+      renderFeed();
+      renderVideoOfDay();
+      renderShorts();
+    }
+
+    async function loadJson(url){
+      const r = await fetch(url, { cache: "no-store" });
+      if(!r.ok) throw new Error(`Failed to load ${url}: ${r.status}`);
+      return r.json();
+    }
+
+    headerSearch?.addEventListener("input", (e)=>{
+      state.q = e.target.value || "";
+      syncAll();
+    });
+
+    async function initHome(){
+      try{
+        const [newsFeed, tvData, shortsData, vodData] = await Promise.all([
+          loadJson("content/news/feed.json"),
+          loadJson("/content/tv/videos.json").catch(()=>loadJson("content/tv/videos.json")),
+          loadJson("/content/home/shorts.json").catch(()=>loadJson("content/home/shorts.json")),
+          loadJson("/content/home/videoOfDay.json").catch(()=>loadJson("content/home/videoOfDay.json"))
+        ]);
+
+        buildNewsFromFeed(newsFeed);
+        allVideos = Array.isArray(tvData?.items) ? tvData.items : [];
+        shortsItems = Array.isArray(shortsData?.items) ? shortsData.items : [];
+        videoOfDay = vodData?.item || null;
+
+        syncAll();
+        feedStatus.textContent = "обновлено";
+      }catch(err){
+        console.error("Home content load error:", err);
+        feedStatus.textContent = "ошибка загрузки";
+        // graceful fallback: render what we can if some arrays already set
+        syncAll();
+      }
+    }
+
+    initHome();
+  </script>
   <script>
     (function(){
       const d = document.querySelector('.nav-mobile');
@@ -1119,5 +1259,4 @@
   </script>
 </body>
 </html>
-
 
