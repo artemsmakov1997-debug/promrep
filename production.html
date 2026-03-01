@@ -41,6 +41,19 @@
       --headerBg: rgba(244,245,246,.92);
       --grid1: rgba(0,0,0,.028);
       --grid2: rgba(0,0,0,.024);
+
+      /* стабильные “тёмные панели” — чтобы не бледнели в dark */
+      --panelBg: #0b0b0c;
+      --panelText: #f7f7f8;
+      --panelMuted: rgba(247,247,248,.76);
+      --panelLine: rgba(255,255,255,.10);
+      --panelFieldBg: rgba(0,0,0,.18);
+      --panelFieldLine: rgba(255,255,255,.16);
+
+      /* светлая “стекляшка” для внутренних элементов */
+      --glassBg: rgba(11,11,12,.015);
+      --glassLine: rgba(11,11,12,.10);
+      --glassFill: rgba(11,11,12,.02);
     }
 
     /* тёмная тема */
@@ -61,6 +74,11 @@
       --headerBg: rgba(11,11,12,.72);
       --grid1: rgba(255,255,255,.06);
       --grid2: rgba(255,255,255,.05);
+
+      /* тёмная “стекляшка” — чтобы элементы не выцветали */
+      --glassBg: rgba(255,255,255,.06);
+      --glassLine: rgba(255,255,255,.12);
+      --glassFill: rgba(255,255,255,.05);
     }
 
     *{ box-sizing:border-box; }
@@ -152,6 +170,7 @@
       transition:.14s ease;
       white-space:nowrap;
       user-select:none;
+      color: var(--ink);
     }
     .btn:hover{ transform: translateY(-1px); }
     .btn.primary{
@@ -192,15 +211,8 @@
     }
 
     /* ===== БУРГЕР-МЕНЮ (как на главной) ===== */
-    .nav-desktop{
-      display:flex;
-      align-items:center;
-      gap:18px;
-    }
-    .nav-mobile{
-      display:none;          /* на ПК скрыто */
-      position:relative;
-    }
+    .nav-desktop{ display:flex; align-items:center; gap:18px; }
+    .nav-mobile{ display:none; position:relative; }
     .burger{
       cursor:pointer;
       user-select:none;
@@ -239,14 +251,19 @@
       padding: 10px 8px;
       border-bottom: 1px solid rgba(11,11,12,.06);
     }
+    html[data-theme="dark"] .nav-panel .navlink{
+      border-bottom-color: rgba(255,255,255,.08);
+    }
     .nav-panel .navlink:last-child{ border-bottom: 0; }
 
-    /* кнопка темы внутри моб.панели — во всю ширину */
     .nav-panel .themeBtn{
       width:100%;
       justify-content:center;
       border-color: var(--line2);
       background: rgba(11,11,12,.02);
+    }
+    html[data-theme="dark"] .nav-panel .themeBtn{
+      background: rgba(255,255,255,.05);
     }
 
     main{ position:relative; z-index:1; padding: 26px 0 56px; }
@@ -259,14 +276,6 @@
     }
     .kicker .dot{ width:9px; height:9px; border-radius:3px; background: var(--red); }
 
-    .card{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      padding: 14px;
-    }
-
     .section{ margin-top: 18px; }
     .sectionTitle{
       display:flex; justify-content:space-between; align-items:flex-end; gap:14px;
@@ -276,7 +285,7 @@
     .sectionTitle h2{ margin:0; font-size:18px; letter-spacing:.2px; }
     .sectionTitle p{ margin:0; font-size:13px; color: var(--muted); }
 
-    /* HERO (оставлено) */
+    /* HERO */
     .hero{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
@@ -284,9 +293,10 @@
       align-items:stretch;
     }
 
+    /* FIX: панель больше не зависит от --ink (чтобы не выцветала в dark) */
     .panel{
-      background: var(--ink);
-      color: #f7f7f8;
+      background: var(--panelBg);
+      color: var(--panelText);
       border-radius: var(--r);
       box-shadow: var(--shadow);
       overflow:hidden;
@@ -318,7 +328,7 @@
     }
     .lead{
       margin:0;
-      color: rgba(247,247,248,.76);
+      color: var(--panelMuted);
       font-size: 15px;
       line-height: 1.7;
       max-width: 86ch;
@@ -355,6 +365,11 @@
       padding: 16px;
       text-align:center;
     }
+    html[data-theme="dark"] .poster .frame{
+      background:
+        radial-gradient(760px 320px at 16% 0%, rgba(240,32,0,.10), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
     .play{
       width: 74px; height: 74px;
       border-radius: 24px;
@@ -364,6 +379,11 @@
       place-items:center;
       box-shadow: 0 12px 24px rgba(11,11,12,.12);
       transition:.14s ease;
+    }
+    html[data-theme="dark"] .play{
+      border-color: rgba(255,255,255,.14);
+      background: rgba(255,255,255,.10);
+      box-shadow: 0 12px 24px rgba(0,0,0,.38);
     }
     .poster:hover .play{ transform: translateY(-1px); }
     .play svg{ width:26px; height:26px; }
@@ -375,137 +395,7 @@
       max-width: 42ch;
     }
 
-    /* === ЧТО МЫ ПРЕДЛАГАЕМ (4 карточки в один ряд) === */
-    .offersGrid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 14px;
-      align-items:stretch;
-    }
-
-    .offer{
-      grid-column: span 3;
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background: var(--paper);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      transition: .16s ease;
-      min-width:0;
-      position:relative;
-    }
-    .offer:hover{
-      transform: translateY(-2px);
-      border-color: rgba(240,32,0,.22);
-    }
-
-    .offerMedia{
-      aspect-ratio: 16 / 10;
-      border-bottom: 1px solid var(--line2);
-      position:relative;
-      overflow:hidden;
-      background:
-        radial-gradient(520px 240px at 18% 0%, rgba(240,32,0,.12), transparent 62%),
-        linear-gradient(180deg, rgba(11,11,12,.06), rgba(11,11,12,.02));
-    }
-
-    .offerMedia:after{
-      content:"";
-      position:absolute; inset:-60% -30%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
-      transform: rotate(18deg);
-      opacity:.28;
-      animation: sheen 5.4s linear infinite;
-      pointer-events:none;
-    }
-    @keyframes sheen{
-      0%{ transform: translateX(-24%) rotate(18deg); opacity:.08; }
-      35%{ opacity:.28; }
-      55%{ transform: translateX(24%) rotate(18deg); opacity:.18; }
-      100%{ transform: translateX(48%) rotate(18deg); opacity:.06; }
-    }
-
-    .offerMedia img, .offerMedia video{
-      position:absolute; inset:0;
-      width:100%; height:100%;
-      object-fit:cover;
-      display:block;
-      transition: opacity .22s ease, transform .25s ease;
-    }
-    .offerMedia img{ opacity:1; transform: scale(1.02); }
-    .offerMedia video{ opacity:0; transform: scale(1.02); }
-
-    .offer.hasVideo:hover .offerMedia video{ opacity:1; transform: scale(1.05); }
-    .offer.hasVideo:hover .offerMedia img{ opacity:0; transform: scale(1.05); }
-
-    .offerBadge{
-      position:absolute;
-      left: 12px; top: 12px;
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      color: rgba(11,11,12,.80);
-      border: 1px solid rgba(11,11,12,.12);
-      background: rgba(255,255,255,.72);
-      backdrop-filter: blur(10px);
-    }
-    .offerBadge i{
-      width:8px; height:8px;
-      border-radius:2px;
-      background: var(--red);
-      display:inline-block;
-    }
-
-    .offerBody{
-      padding: 12px 14px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    .offerTop{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .offer h3{
-      margin:0;
-      font-size: 15px;
-      letter-spacing:.15px;
-      line-height:1.2;
-    }
-    .tag{
-      font-size:12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(11,11,12,.10);
-      background: rgba(11,11,12,.02);
-      color: var(--muted);
-      white-space:nowrap;
-    }
-    .offer p{
-      margin:0;
-      font-size: 13px;
-      color: var(--muted);
-      line-height:1.65;
-    }
-    .offerFoot{
-      margin-top:auto;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      font-size:12px;
-      color: var(--muted);
-    }
-    .offerFoot span{
-      border: 1px solid rgba(11,11,12,.08);
-      background: rgba(11,11,12,.015);
-      padding: 6px 10px;
-      border-radius: 999px;
-    }
-
-    /* === КАК МЫ РАБОТАЕМ (3 этапа + “конвейер”) === */
+    /* === КАК МЫ РАБОТАЕМ === */
     .howWrap{
       display:grid;
       grid-template-columns: 1fr;
@@ -532,9 +422,9 @@
       position:relative;
       height: 112px;
       border-radius: 14px;
-      border: 1px solid rgba(11,11,12,.10);
+      border: 1px solid var(--glassLine);
       background:
-        linear-gradient(180deg, rgba(11,11,12,.02), rgba(11,11,12,.01)),
+        linear-gradient(180deg, var(--glassFill), var(--glassBg)),
         radial-gradient(360px 160px at 18% 0%, rgba(240,32,0,.08), transparent 60%);
       overflow:hidden;
       display:flex;
@@ -559,6 +449,17 @@
       pointer-events:none;
       mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
     }
+    html[data-theme="dark"] .belt:after{
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,.10) 0px,
+          rgba(255,255,255,.10) 10px,
+          rgba(255,255,255,.04) 10px,
+          rgba(255,255,255,.04) 22px
+        );
+      opacity:.18;
+    }
     @keyframes beltMove{ to{ transform: translateX(-44px); } }
 
     .stations{
@@ -572,8 +473,8 @@
     }
     .station{
       border-radius: 14px;
-      border: 1px solid rgba(11,11,12,.10);
-      background: rgba(255,255,255,.72);
+      border: 1px solid var(--glassLine);
+      background: var(--glassBg);
       backdrop-filter: blur(10px);
       padding: 12px;
       min-height: 72px;
@@ -621,12 +522,19 @@
       z-index:2;
       animation: carrier 6.6s ease-in-out infinite;
     }
+    html[data-theme="dark"] .carrier{
+      background:
+        radial-gradient(120px 60px at 30% 20%, rgba(240,32,0,.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
+      box-shadow: 0 14px 24px rgba(0,0,0,.45);
+    }
     .carrier:after{
       content:"";
       position:absolute; inset: 11px;
       border-radius: 10px;
       background: rgba(11,11,12,.08);
     }
+    html[data-theme="dark"] .carrier:after{ background: rgba(0,0,0,.28); }
 
     @keyframes carrier{
       0%   { left: 10%; }
@@ -644,80 +552,26 @@
 
     @keyframes stage1{
       0%,18%{ border-color: rgba(240,32,0,.32); box-shadow: 0 14px 26px rgba(240,32,0,.08); transform: translateY(-1px); }
-      22%,100%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+      22%,100%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
     }
     @keyframes stage2{
-      0%,30%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+      0%,30%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
       34%,52%{ border-color: rgba(240,32,0,.32); box-shadow: 0 14px 26px rgba(240,32,0,.08); transform: translateY(-1px); }
-      56%,100%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+      56%,100%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
     }
     @keyframes stage3{
-      0%,64%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+      0%,64%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
       68%,86%{ border-color: rgba(240,32,0,.32); box-shadow: 0 14px 26px rgba(240,32,0,.08); transform: translateY(-1px); }
-      90%,100%{ border-color: rgba(11,11,12,.10); box-shadow:none; transform:none; }
+      90%,100%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
     }
-
-    /* PACKAGES */
-    .grid12{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 14px;
-    }
-    .pkg{
-      grid-column: span 4;
-      padding: 14px;
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background: var(--paper);
-      box-shadow: var(--shadow2);
-      transition:.14s ease;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      min-width:0;
-    }
-    .pkg:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
-    .pkg.featured{
-      border-color: rgba(240,32,0,.24);
-      box-shadow: 0 18px 32px rgba(11,11,12,.10);
-      position:relative;
-      overflow:hidden;
-    }
-    .pkg.featured:before{
-      content:"";
-      position:absolute; inset:-1px;
-      background: radial-gradient(660px 280px at 18% 0%, rgba(240,32,0,.10), transparent 62%);
-      pointer-events:none;
-    }
-    .pkg .inner{ position:relative; display:flex; flex-direction:column; gap:10px; min-height: 100%; }
-    .pkg h3{ margin:0; font-size: 15px; }
-    .pkg p{ margin:0; font-size: 13px; color: var(--muted); line-height:1.65; }
-    .list{
-      margin:0;
-      padding-left: 18px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height:1.65;
-    }
-    .pkg .bottom{
-      margin-top:auto;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      padding-top: 8px;
-      border-top: 1px solid var(--line2);
-    }
-    .fine{ font-size: 12px; color: var(--muted); }
 
     /* CTA */
     .cta{
       border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.10);
+      border: 1px solid var(--panelLine);
       box-shadow: var(--shadow);
-      background: var(--ink);
-      color: #f7f7f8;
+      background: var(--panelBg);
+      color: var(--panelText);
       overflow:hidden;
       position:relative;
     }
@@ -740,6 +594,7 @@
     }
     .cta h2{ margin:0; font-size: 20px; letter-spacing:.2px; }
     .cta p{ margin: 8px 0 0; color: rgba(247,247,248,.78); font-size: 13px; line-height:1.65; }
+
     .form{
       background: rgba(255,255,255,.06);
       border: 1px solid rgba(255,255,255,.12);
@@ -752,9 +607,9 @@
     .field{ display:flex; gap:10px; flex-wrap:wrap; }
     .input, textarea{
       width: 100%;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.18);
-      color: #f7f7f8;
+      border: 1px solid var(--panelFieldLine);
+      background: var(--panelFieldBg);
+      color: var(--panelText);
       border-radius: 12px;
       padding: 10px 12px;
       font-size: 13px;
@@ -793,11 +648,6 @@
     /* responsive */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
-
-      /* offers: 2x2 */
-      .offer{ grid-column: span 6; }
-
-      .pkg{ grid-column: span 6; }
       .cta .inner{ grid-template-columns: 1fr; }
 
       .stations{ grid-template-columns: 1fr; }
@@ -805,68 +655,29 @@
       .carrier{ display:none; }
       .belt:after{ animation-duration: 3.2s; }
 
-      /* как на главной: поиск в шапке прячем на <980 */
       .actions .search{ display:none; }
     }
 
     @media (max-width: 720px){
-      /* мобильная навигация */
       .nav-desktop{ display:none; }
       .nav-mobile{ display:block; }
 
       .brand{ min-width:auto; }
       .actions{ min-width:auto; }
 
-      /* как на главной: в шапке на мобилке кнопку темы убираем,
-         она остаётся только внутри бургер-меню */
       .actions .themeBtn{ display:none; }
 
-      /* ✅ МОБИЛЬНЫЙ HERO: заголовок в чёрном блоке + сразу под ним видеовизитка */
       .panel .inner{
         min-height: auto;
         padding: 16px;
-        gap: 0;
       }
-      .panel .inner .kicker,
-      .panel .inner .lead,
-      .panel .inner .meta,
-      .panel .inner > div[style]{ display:none !important; } /* блок с кнопками */
-
-      /* гарантируем порядок: сначала заголовок, потом poster */
-      .panel{ order: 1; }
-      .poster{ order: 2; min-height: 260px; }
+      .poster{ min-height: 260px; }
     }
 
     @media (prefers-reduced-motion: reduce){
       *{ transition:none !important; animation:none !important; }
-      .btn:hover,.offer:hover,.pkg:hover{ transform:none !important; }
-      .offerMedia:after{ display:none !important; }
+      .btn:hover{ transform:none !important; }
     }
-    /* Production: на мобилке в тёмной теме заголовок без подложек/панелей */
-@media (max-width: 980px){
-  /* убираем “панель” как отдельный тёмный блок — пусть сливается со страницей */
-  .hero .panel{
-    background: transparent;
-    border: 0;
-    box-shadow: none;
-    color: inherit;
-  }
-  .hero .panel:before{ display:none; }
-
-  /* уменьшаем “внутренности”, чтобы заголовок был компактным */
-  .hero .panel .inner{
-    padding: 0;
-    min-height: auto;
-  }
-
-  /* если у тебя заголовок был обёрнут в отдельный блок с радиусом/фоном — убираем и это */
-  .heroTitleBox{
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-  }
   </style>
 </head>
 
@@ -883,7 +694,6 @@
           </div>
         </a>
 
-        <!-- ДЕСКТОП-МЕНЮ (ПК) -->
         <nav class="nav-desktop" aria-label="Меню">
           <a class="navlink" href="index.html">Главная</a>
           <a class="navlink" href="news.html">Новости</a>
@@ -892,7 +702,6 @@
           <a class="navlink" href="editorial.html">Редакция</a>
         </nav>
 
-        <!-- МОБИЛЬНОЕ МЕНЮ (бургер) -->
         <details class="nav-mobile">
           <summary class="burger" aria-label="Открыть меню"><span aria-hidden="true">≡</span></summary>
 
@@ -903,7 +712,6 @@
             <a class="navlink active" href="production.html">Продакшн</a>
             <a class="navlink" href="editorial.html">Редакция</a>
 
-            <!-- ✅ кнопка темы в моб.меню -->
             <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
               <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
               <span class="themeLabel">Тема</span>
@@ -911,7 +719,6 @@
           </nav>
         </details>
 
-        <!-- actions (ПК) -->
         <div class="actions">
           <input class="search" placeholder="Поиск…" aria-label="Поиск" />
           <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
@@ -925,11 +732,11 @@
   </header>
 
   <main class="container">
-    <!-- HERO (оставлено) -->
+    <!-- HERO -->
     <section class="hero" aria-label="Продакшн под ключ">
       <article class="panel">
         <div class="inner">
-          <div class="kicker"><span class="dot"></span><span>Продакшн</span></div>
+          <div class="kicker" style="color: rgba(247,247,248,.72);"><span class="dot"></span><span>Продакшн</span></div>
           <h1>Видеоматериалы под ключ — от сценария до монтажа</h1>
           <p class="lead">
             Мы умеем делать видео так же, как делаем тексты: с фактами, логикой и пониманием индустрии.
@@ -938,7 +745,6 @@
 
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
             <a class="btn primary" href="#cta">Обсудить проект</a>
-            <a class="btn ghost" href="#formats">Что мы предлагаем</a>
             <a class="btn ghost" href="#how">Как мы работаем</a>
           </div>
 
@@ -967,100 +773,6 @@
           </div>
         </div>
       </aside>
-    </section>
-
-    <!-- ЧТО МЫ ПРЕДЛАГАЕМ -->
-    <section class="section" id="formats" aria-label="Что мы предлагаем">
-      <div class="sectionTitle">
-        <h2>ЧТО МЫ ПРЕДЛАГАЕМ</h2>
-        <p>Четыре формата — под ключ: от идеи до финального файла и версий под площадки.</p>
-      </div>
-
-      <div class="offersGrid">
-        <!-- 1) Имиджевый ролик -->
-        <article class="offer hasThumb" tabindex="0"
-          data-poster=""
-          data-video=""
-          aria-label="Имиджевый ролик"
-        >
-          <div class="offerMedia">
-            <div class="offerBadge"><i></i> формат</div>
-            <img alt="" aria-hidden="true" />
-            <video muted playsinline loop preload="none"></video>
-          </div>
-          <div class="offerBody">
-            <div class="offerTop">
-              <h3>Имиджевый ролик</h3>
-              <span class="tag">60–120 сек</span>
-            </div>
-            <p>Коротко и “дорого”: кто вы, что делаете, почему вам доверяют. Сценарий, съёмка, монтаж, графика.</p>
-            <div class="offerFoot"><span>сценарий</span><span>графика</span><span>версии</span></div>
-          </div>
-        </article>
-
-        <!-- 2) Интервью -->
-        <article class="offer hasThumb" tabindex="0"
-          data-poster=""
-          data-video=""
-          aria-label="Интервью"
-        >
-          <div class="offerMedia">
-            <div class="offerBadge"><i></i> формат</div>
-            <img alt="" aria-hidden="true" />
-            <video muted playsinline loop preload="none"></video>
-          </div>
-          <div class="offerBody">
-            <div class="offerTop">
-              <h3>Интервью</h3>
-              <span class="tag">4–10 мин</span>
-            </div>
-            <p>Разговор по делу: вопросы, структура и смысл. Помогаем спикеру “звучать” и оставаться точным.</p>
-            <div class="offerFoot"><span>вопросник</span><span>титры</span><span>2 камеры опц.</span></div>
-          </div>
-        </article>
-
-        <!-- 3) Прямой эфир -->
-        <article class="offer hasThumb" tabindex="0"
-          data-poster=""
-          data-video=""
-          aria-label="Прямой эфир"
-        >
-          <div class="offerMedia">
-            <div class="offerBadge"><i></i> формат</div>
-            <img alt="" aria-hidden="true" />
-            <video muted playsinline loop preload="none"></video>
-          </div>
-          <div class="offerBody">
-            <div class="offerTop">
-              <h3>Прямой эфир</h3>
-              <span class="tag">30–90 мин</span>
-            </div>
-            <p>Подготовка, сетап, режиссура, звук — чтобы эфир выглядел профессионально и шёл без “пожаров”.</p>
-            <div class="offerFoot"><span>режиссура</span><span>звук</span><span>графика эфира</span></div>
-          </div>
-        </article>
-
-        <!-- 4) Экспертный репортаж -->
-        <article class="offer hasThumb" tabindex="0"
-          data-poster=""
-          data-video=""
-          aria-label="Экспертный репортаж"
-        >
-          <div class="offerMedia">
-            <div class="offerBadge"><i></i> формат</div>
-            <img alt="" aria-hidden="true" />
-            <video muted playsinline loop preload="none"></video>
-          </div>
-          <div class="offerBody">
-            <div class="offerTop">
-              <h3>Экспертный репортаж</h3>
-              <span class="tag">3–8 мин</span>
-            </div>
-            <p>Выезд на площадку: процесс, контекст, комментарии специалистов. Делает сложное понятным.</p>
-            <div class="offerFoot"><span>выезд</span><span>план-съёмка</span><span>инфографика</span></div>
-          </div>
-        </article>
-      </div>
     </section>
 
     <!-- КАК МЫ РАБОТАЕМ -->
@@ -1101,69 +813,6 @@
       </div>
     </section>
 
-    <!-- ПАКЕТЫ -->
-    <section class="section" aria-label="Пакеты">
-      <div class="sectionTitle">
-        <h2>Пакеты</h2>
-        <p>Состав прозрачен. Стоимость — по задаче и объёму.</p>
-      </div>
-
-      <div class="grid12">
-        <article class="pkg">
-          <div class="inner">
-            <h3>Старт</h3>
-            <p>Один ролик — быстро и аккуратно.</p>
-            <ul class="list">
-              <li>1 съёмочный день</li>
-              <li>1 ролик 2–4 минуты</li>
-              <li>титры, базовая графика</li>
-              <li>1 круг правок</li>
-            </ul>
-            <div class="bottom">
-              <span class="fine">Сроки: от 7–10 дней</span>
-              <a class="btn primary" href="#cta">Запросить</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="pkg featured">
-          <div class="inner">
-            <h3>Стандарт</h3>
-            <p>Сценарий + основной ролик + нарезки.</p>
-            <ul class="list">
-              <li>бриф + сценарий</li>
-              <li>1–2 съёмочных дня</li>
-              <li>1 ролик 5–8 минут</li>
-              <li>3 коротких версии (15–60 сек)</li>
-              <li>2 круга правок</li>
-            </ul>
-            <div class="bottom">
-              <span class="fine">Сроки: от 10–14 дней</span>
-              <a class="btn primary" href="#cta">Обсудить</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="pkg">
-          <div class="inner">
-            <h3>Премиум</h3>
-            <p>Несколько локаций + расширенная графика.</p>
-            <ul class="list">
-              <li>расширенный сценарий</li>
-              <li>несколько локаций</li>
-              <li>2 камеры / отдельный звук</li>
-              <li>инфографика + версии</li>
-              <li>правки по договорённости</li>
-            </ul>
-            <div class="bottom">
-              <span class="fine">Сроки: от 14–21 дня</span>
-              <a class="btn primary" href="#cta">Запросить</a>
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
     <!-- CTA -->
     <section class="section" id="cta" aria-label="Обсудить проект">
       <div class="cta">
@@ -1177,11 +826,10 @@
               Достаточно 5–7 предложений: что снимаем, кому показываем, какие сроки и ограничения.
               Если есть референсы — прикрепите ссылками в тексте.
             </p>
+
             <p style="margin-top:10px;">
-              Контакты продакшна:
-              <a href="mailto:production@promreporter.ru" style="text-decoration:underline; text-underline-offset:3px;">production@promreporter.ru</a><br/>
-              Телефон:
-              <a href="tel:+74951234567" style="text-decoration:underline; text-underline-offset:3px;">+7 (495) 123-45-67</a>
+              Почта:
+              <a href="mailto:info@promrep.ru" style="text-decoration:underline; text-underline-offset:3px;">info@promrep.ru</a>
             </p>
           </div>
 
@@ -1189,15 +837,17 @@
             <div class="field">
               <input class="input" id="name" placeholder="Имя" autocomplete="name" />
             </div>
+
             <div class="field" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
               <input class="input" id="company" placeholder="Компания" autocomplete="organization" />
-              <input class="input" id="contact" placeholder="Почта или телефон" autocomplete="email" />
+              <input class="input" id="email" placeholder="Почта" autocomplete="email" inputmode="email" />
             </div>
+
             <textarea id="brief" placeholder="Коротко о задаче: формат/тема/целевая аудитория/сроки/ограничения"></textarea>
 
             <div class="ctaActions">
               <button class="btn primary" type="submit">Отправить</button>
-              <span class="ctaSmall">Отправка откроет письмо (mailto) с заполненным шаблоном.</span>
+              <span class="ctaSmall">Откроется письмо на info@promrep.ru с заполненным шаблоном.</span>
             </div>
           </form>
         </div>
@@ -1206,7 +856,11 @@
 
     <footer>
       <div>© <span id="y"></span> Промышленный репортёр</div>
-      <div>Контакты · Реклама · Политика</div>
+      <div>
+        <a href="https://promrep.ru/editorial" style="text-decoration:underline; text-underline-offset:3px;">
+          Контакты · Реклама · Политика
+        </a>
+      </div>
     </footer>
   </main>
 
@@ -1224,16 +878,17 @@
       });
     });
 
-    // mailto form
+    // mailto form -> info@promrep.ru
     const form = document.getElementById('prodForm');
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+
       const name = (document.getElementById('name').value || '').trim();
       const company = (document.getElementById('company').value || '').trim();
-      const contact = (document.getElementById('contact').value || '').trim();
+      const email = (document.getElementById('email').value || '').trim();
       const brief = (document.getElementById('brief').value || '').trim();
 
-      const subject = encodeURIComponent('Запрос на видеопродакшн (Промышленный репортёр)');
+      const subject = encodeURIComponent('Запрос на продакшн (Промышленный репортёр)');
       const body = encodeURIComponent(
 `Здравствуйте!
 
@@ -1241,7 +896,7 @@
 
 Имя: ${name || '—'}
 Компания: ${company || '—'}
-Контакт: ${contact || '—'}
+Почта: ${email || '—'}
 
 Задача / тема:
 ${brief || '—'}
@@ -1256,45 +911,7 @@ ${brief || '—'}
 —`
       );
 
-      window.location.href = `mailto:production@promreporter.ru?subject=${subject}&body=${body}`;
-    });
-
-    // hover video for offers
-    const offers = Array.from(document.querySelectorAll('.offer'));
-
-    offers.forEach(el => {
-      const poster = el.getAttribute('data-poster') || '';
-      const video = el.getAttribute('data-video') || '';
-
-      const img = el.querySelector('.offerMedia img');
-      const vid = el.querySelector('.offerMedia video');
-
-      if (poster) img.src = poster;
-
-      if (video) {
-        vid.src = video;
-        el.classList.add('hasVideo');
-      } else {
-        el.classList.remove('hasVideo');
-      }
-
-      const play = () => { if(!video) return; vid.play().catch(()=>{}); };
-      const stop = () => {
-        if(!video) return;
-        vid.pause();
-        vid.currentTime = 0;
-      };
-
-      el.addEventListener('mouseenter', play);
-      el.addEventListener('mouseleave', stop);
-      el.addEventListener('focus', play);
-      el.addEventListener('blur', stop);
-
-      el.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter' || e.key === ' '){
-          e.preventDefault();
-        }
-      });
+      window.location.href = `mailto:info@promrep.ru?subject=${subject}&body=${body}`;
     });
   </script>
 
@@ -1328,7 +945,7 @@ ${brief || '—'}
       const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
 
       const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN  = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
+      const ICON_SUN  = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 0 1 1-2 0v-1.2a1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
 
       function currentTheme() {
         return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
@@ -1337,7 +954,6 @@ ${brief || '—'}
       function setIcon(btn, theme){
         const svg = btn.querySelector("svg");
         if (!svg) return;
-        // если сейчас dark — показываем солнце (перейти на свет), иначе луну (перейти на тёмную)
         svg.innerHTML = (theme === "dark") ? ICON_SUN : ICON_MOON;
       }
 
@@ -1365,7 +981,3 @@ ${brief || '—'}
   </script>
 </body>
 </html>
-
-
-
-
