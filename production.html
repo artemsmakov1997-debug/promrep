@@ -943,7 +943,7 @@ ${brief || '—'}
       const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
 
       const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN  = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 0 1 1-2 0v-1.2a1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
+      const ICON_SUN  = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 0 1 1-2 0v-1.2a1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 0 0 1 0 1.4l-.8.8a1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
 
       function currentTheme() {
         return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
@@ -977,8 +977,43 @@ ${brief || '—'}
       apply(localStorage.getItem(KEY) || currentTheme());
     })();
   </script>
+
+  <!-- ✅ FIX: на мобиле переносим .poster между заголовком и описанием -->
+  <script>
+    (function () {
+      // Берём 980px, потому что именно на этом брейкпоинте .hero становится в 1 колонку
+      const mq = window.matchMedia("(max-width: 980px)");
+
+      const poster = document.querySelector(".poster");
+      const h1 = document.querySelector(".panel .inner h1");
+      const lead = document.querySelector(".panel .inner .lead");
+
+      if (!poster || !h1 || !lead) return;
+
+      // Запоминаем исходное положение постера, чтобы вернуть на десктопе как было
+      const originalParent = poster.parentNode;
+      const originalNext = poster.nextSibling;
+
+      function apply() {
+        if (mq.matches) {
+          // Мобила: вставляем постер прямо перед описанием (т.е. после h1)
+          lead.parentNode.insertBefore(poster, lead);
+        } else {
+          // Десктоп: возвращаем обратно в hero на исходное место
+          if (originalNext) originalParent.insertBefore(poster, originalNext);
+          else originalParent.appendChild(poster);
+        }
+      }
+
+      apply();
+
+      // Слушаем смену медиавыражения
+      if (mq.addEventListener) mq.addEventListener("change", apply);
+      else mq.addListener(apply);
+
+      // На всякий случай — при повороте экрана
+      window.addEventListener("orientationchange", apply);
+    })();
+  </script>
 </body>
 </html>
-
-
-
