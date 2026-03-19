@@ -293,7 +293,6 @@
       align-items:stretch;
     }
 
-    /* FIX: панель больше не зависит от --ink (чтобы не выцветала в dark) */
     .panel{
       background: var(--panelBg);
       color: var(--panelText);
@@ -348,51 +347,25 @@
 
     .poster{
       border-radius: var(--r);
-      overflow:hidden;
+      overflow: hidden;
       border: 1px solid var(--line);
       box-shadow: var(--shadow2);
-      background: var(--paper);
-      position:relative;
+      background: #000;
+      position: relative;
+      aspect-ratio: 16 / 9;
       min-height: 320px;
     }
-    .poster .frame{
-      position:absolute; inset:0;
-      background:
-        radial-gradient(760px 320px at 16% 0%, rgba(240,32,0,.10), transparent 60%),
-        linear-gradient(180deg, rgba(11,11,12,.04), rgba(11,11,12,.01));
-      display:grid;
-      place-items:center;
-      padding: 16px;
-      text-align:center;
+
+    .videoEmbed{
+      position: absolute;
+      inset: 0;
     }
-    html[data-theme="dark"] .poster .frame{
-      background:
-        radial-gradient(760px 320px at 16% 0%, rgba(240,32,0,.10), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-    }
-    .play{
-      width: 74px; height: 74px;
-      border-radius: 24px;
-      border: 1px solid rgba(11,11,12,.16);
-      background: rgba(255,255,255,.72);
-      display:grid;
-      place-items:center;
-      box-shadow: 0 12px 24px rgba(11,11,12,.12);
-      transition:.14s ease;
-    }
-    html[data-theme="dark"] .play{
-      border-color: rgba(255,255,255,.14);
-      background: rgba(255,255,255,.10);
-      box-shadow: 0 12px 24px rgba(0,0,0,.38);
-    }
-    .poster:hover .play{ transform: translateY(-1px); }
-    .play svg{ width:26px; height:26px; }
-    .poster p{
-      margin: 12px 0 0;
-      font-size: 13px;
-      color: var(--muted);
-      line-height:1.6;
-      max-width: 42ch;
+
+    .videoEmbed iframe{
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
     }
 
     /* === КАК МЫ РАБОТАЕМ === */
@@ -671,7 +644,10 @@
         min-height: auto;
         padding: 16px;
       }
-      .poster{ min-height: 260px; }
+      .poster{
+        min-height: auto;
+        aspect-ratio: 16 / 9;
+      }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -758,19 +734,15 @@
         </div>
       </article>
 
-      <aside class="poster" aria-label="Превью видео">
-        <div class="frame">
-          <div>
-            <div class="play" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M10 8.6v6.8L16 12l-6-3.4Z" fill="currentColor" opacity=".85"/>
-              </svg>
-            </div>
-            <p>
-              Здесь может быть превью-кадр шоу/кейса или короткий showreel (встроенный плеер).
-              Пока — аккуратный постер, чтобы страница выглядела «живой» даже без видео.
-            </p>
-          </div>
+      <aside class="poster" aria-label="Видео">
+        <div class="videoEmbed">
+          <iframe
+            src="https://vkvideo.ru/video_ext.php?oid=-234602001&id=456239555&hash=8338bbed914f53e4&hd=3"
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+            frameborder="0"
+            allowfullscreen
+            title="Видео Промышленный репортёр">
+          </iframe>
         </div>
       </aside>
     </section>
@@ -981,7 +953,6 @@ ${brief || '—'}
   <!-- ✅ FIX: на мобиле переносим .poster между заголовком и описанием -->
   <script>
     (function () {
-      // Берём 980px, потому что именно на этом брейкпоинте .hero становится в 1 колонку
       const mq = window.matchMedia("(max-width: 980px)");
 
       const poster = document.querySelector(".poster");
@@ -990,16 +961,13 @@ ${brief || '—'}
 
       if (!poster || !h1 || !lead) return;
 
-      // Запоминаем исходное положение постера, чтобы вернуть на десктопе как было
       const originalParent = poster.parentNode;
       const originalNext = poster.nextSibling;
 
       function apply() {
         if (mq.matches) {
-          // Мобила: вставляем постер прямо перед описанием (т.е. после h1)
           lead.parentNode.insertBefore(poster, lead);
         } else {
-          // Десктоп: возвращаем обратно в hero на исходное место
           if (originalNext) originalParent.insertBefore(poster, originalNext);
           else originalParent.appendChild(poster);
         }
@@ -1007,11 +975,9 @@ ${brief || '—'}
 
       apply();
 
-      // Слушаем смену медиавыражения
       if (mq.addEventListener) mq.addEventListener("change", apply);
       else mq.addListener(apply);
 
-      // На всякий случай — при повороте экрана
       window.addEventListener("orientationchange", apply);
     })();
   </script>
