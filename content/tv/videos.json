@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-23T06:56:52.803Z",
+  "updatedAt": "2026-03-23T07:58:08.907Z",
   "items": [
     {
       "title": "Новые заводы России",
@@ -7,11 +7,35 @@
       "thumb": "https://sun9-25.userapi.com/impg/HZCJBC0qJh88HOVCbCbsAyfURvRBw6PO6wLMlg/6alnUIJnL3M.jpg?quality=90&proxy=1&sign=e27251fc313677ac3030b1e38e6a16c9&c_uniq_tag=sWngB5Qp2NFIs4DSDO8kGgtdmuqeU_XW2aDBZMr3ieg&type=video_thumb",
       "duration": "5:29",
       "date": 1773878400,
-      "views": 3031,
+      "views": 3034,
       "description": "",
       "ownerId": -234602001,
       "id": 456239556,
       "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239556"
+    },
+    {
+      "title": "Ядерный поезд прибудет в Россию, а ядерный космобуксир избороздит просторы вселенной",
+      "href": "https://vk.com/video-234602001_456239291",
+      "thumb": "https://sun9-79.userapi.com/impg/4jURL6qWVNZm109xhI9cZgT4dtJWONzmxfN8RA/R1n5EYPGRu0.jpg?quality=90&proxy=1&sign=91bca67f90fb49b15f098356e47fb170&c_uniq_tag=YhB_RwqGWk9VJ3kdE6COQBFRiaw2DryfllODQ1JW1K0&type=video_thumb",
+      "duration": "5:27",
+      "date": 1773792000,
+      "views": 5809,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239291,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239291"
+    },
+    {
+      "title": "Первая гигафабрика накопителей энергии, производство аккумуляторных батарей, завод сельхозтехники",
+      "href": "https://vk.com/video-234602001_456239258",
+      "thumb": "https://sun9-88.userapi.com/impg/6q0UaTdhlf-8WZqA94KfPEQWDeUiBdrPdFeVag/z7jzX6Cx8Q8.jpg?quality=90&proxy=1&sign=70d33659b8c54527fd1e36423e336ba8&c_uniq_tag=TEsf7D8yLzb-Un8r2NN0B84nXi6a3AV0ZuPGOhSd9xY&type=video_thumb",
+      "duration": "6:32",
+      "date": 1773792000,
+      "views": 7218,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456239258,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239258"
     },
     {
       "title": "Архангельская авиация получит Ил-114-300. Самолет ждут туристические направления",
@@ -146,18 +170,6 @@
       "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239307"
     },
     {
-      "title": "Ядерный поезд прибудет в Россию, а ядерный космобуксир избороздит просторы вселенной",
-      "href": "https://vk.com/video-234602001_456239291",
-      "thumb": "https://sun9-79.userapi.com/impg/4jURL6qWVNZm109xhI9cZgT4dtJWONzmxfN8RA/R1n5EYPGRu0.jpg?quality=90&proxy=1&sign=91bca67f90fb49b15f098356e47fb170&c_uniq_tag=YhB_RwqGWk9VJ3kdE6COQBFRiaw2DryfllODQ1JW1K0&type=video_thumb",
-      "duration": "5:27",
-      "date": 1770422400,
-      "views": 5809,
-      "description": "",
-      "ownerId": -234602001,
-      "id": 456239291,
-      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239291"
-    },
-    {
       "title": "БЛЭКАУТ в Мурманске: как восстанавливали ЛЭП и вернули свет городу",
       "href": "https://vk.com/video-234602001_456239277",
       "thumb": "https://sun9-12.userapi.com/impg/JwiJ4eXqx_eqJX-hS5ith5FOSooaQK0buJ3Wyg/VuvH_A8L_M0.jpg?quality=90&proxy=1&sign=70f9f930d0ba4a03aff2c1acf8a60a5d&c_uniq_tag=wgkddiM_hX05XLmXF-NMkUYbpc_RGrmFgwdwz3Mdnmo&type=video_thumb",
@@ -168,18 +180,6 @@
       "ownerId": -234602001,
       "id": 456239277,
       "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239277"
-    },
-    {
-      "title": "Первая гигафабрика накопителей энергии, производство аккумуляторных батарей, завод сельхозтехники",
-      "href": "https://vk.com/video-234602001_456239258",
-      "thumb": "https://sun9-88.userapi.com/impg/6q0UaTdhlf-8WZqA94KfPEQWDeUiBdrPdFeVag/z7jzX6Cx8Q8.jpg?quality=90&proxy=1&sign=70d33659b8c54527fd1e36423e336ba8&c_uniq_tag=TEsf7D8yLzb-Un8r2NN0B84nXi6a3AV0ZuPGOhSd9xY&type=video_thumb",
-      "duration": "6:32",
-      "date": 1770076800,
-      "views": 7218,
-      "description": "",
-      "ownerId": -234602001,
-      "id": 456239258,
-      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456239258"
     },
     {
       "title": "Россия создала аналог Starlink!",
@@ -223,7 +223,7 @@
       "thumb": "https://sun9-76.userapi.com/impg/3FO8f-3S69j8S5JIfLYHyDI1Eutr9r7e6QRQdA/4yE-ALYPLCg.jpg?size=800x450&quality=95&keep_aspect_ratio=1&background=000000&sign=7ddf1f45dd89a14aaec7183a05de730b&c_uniq_tag=Yuo6UMq-jShTtTqwFUVR9y40XU_uQXplHAaVntiSXgY&type=video_thumb",
       "duration": "3:02",
       "date": 1769558400,
-      "views": 1912,
+      "views": 1915,
       "description": "",
       "ownerId": -234602001,
       "id": 456239188,
@@ -427,7 +427,7 @@
       "thumb": "https://sun9-61.userapi.com/impg/r8fBNzDqFhHn9SxzPeKT40-hb7f21-ixQcqu-A/ssckgbKm67I.jpg?quality=90&proxy=1&sign=25ba9accf932f4a4dac6674834907b3d&c_uniq_tag=E8Xvkdvvb6YrcxDyl1KOvUNxvuDo-d7VMT7thvsUbh0&type=video_thumb",
       "duration": "4:53",
       "date": 1766275200,
-      "views": 4242,
+      "views": 4243,
       "description": "",
       "ownerId": -234602001,
       "id": 456239055,
