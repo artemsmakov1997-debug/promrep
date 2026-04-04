@@ -1,87 +1,34 @@
-import fs from "fs";
+name: Update news from VK
 
-const TOKEN = process.env.VK_TOKEN;
-const DOMAIN = "promrep"; // короткий адрес сообщества, например vk.com/promrep
-const LIMIT = 30;
-const API_VERSION = "5.199";
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/15 * * * *"  # каждые 15 минут
 
-function cleanText(text) {
-  return String(text || "")
-    .replace(/\r/g, "")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
-}
+permissions:
+  contents: write
 
-function extractPhoto(post) {
-  const attachments = Array.isArray(post?.attachments) ? post.attachments : [];
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
 
-  for (const att of attachments) {
-    if (att.type === "photo" && att.photo?.sizes?.length) {
-      const sorted = att.photo.sizes
-        .slice()
-        .sort((a, b) => (a.width || 0) - (b.width || 0));
-      return sorted[sorted.length - 1]?.url || null;
-    }
-  }
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  return null;
-}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-async function main() {
-  if (!TOKEN) {
-    throw new Error("VK_TOKEN is missing in environment variables");
-  }
+      - name: Update news from VK
+        env:
+          VK_TOKEN: ${{ secrets.VK_TOKEN }}
+        run: node scripts/update-news.mjs
 
-  const url =
-    `https://api.vk.com/method/wall.get` +
-    `?domain=${encodeURIComponent(DOMAIN)}` +
-    `&count=${LIMIT}` +
-    `&filter=owner` +
-    `&v=${API_VERSION}` +
-    `&access_token=${encodeURIComponent(TOKEN)}`;
-
-  const res = await fetch(url, {
-    headers: {
-      "User-Agent": "Mozilla/5.0"
-    }
-  });
-
-  if (!res.ok) {
-    throw new Error(`VK API HTTP error: ${res.status}`);
-  }
-
-  const data = await res.json();
-
-  if (data.error) {
-    throw new Error(`VK API error: ${JSON.stringify(data.error)}`);
-  }
-
-  const posts = Array.isArray(data?.response?.items) ? data.response.items : [];
-
-  const items = posts
-    .filter(post => !post.is_pinned)
-    .filter(post => cleanText(post.text))
-    .map(post => ({
-      id: post.id,
-      text: cleanText(post.text),
-      date: post.date || Math.floor(Date.now() / 1000),
-      photo: extractPhoto(post),
-      url: `https://vk.com/wall${post.owner_id}_${post.id}`
-    }));
-
-  const out = items.reverse();
-
-  fs.mkdirSync("content/news", { recursive: true });
-  fs.writeFileSync(
-    "content/news/feed.json",
-    JSON.stringify(out, null, 2),
-    "utf-8"
-  );
-
-  console.log("News updated from VK:", out.length);
-}
-
-main().catch(err => {
-  console.error(err);
-  process.exit(1);
-});
+      - name: Commit & push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/news/*.json
+          git diff --cached --quiet || (git commit -m "Update news from VK" && git push)
