@@ -1,79 +1,84 @@
 import fs from "fs";
 
-const CHANNEL = "promreporter"; // имя канала без @
+const TOKEN = process.env.VK_TOKEN;
+const DOMAIN = "promrep"; // короткий адрес сообщества, например vk.com/promrep
 const LIMIT = 30;
+const API_VERSION = "5.199";
 
-// очистка HTML из текста поста
-function stripHtml(s) {
-  return s
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/<\/p>/gi, "\n\n")
-    .replace(/<[^>]*>/g, "")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'");
+function cleanText(text) {
+  return String(text || "")
+    .replace(/\r/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function extractPhoto(post) {
+  const attachments = Array.isArray(post?.attachments) ? post.attachments : [];
+
+  for (const att of attachments) {
+    if (att.type === "photo" && att.photo?.sizes?.length) {
+      const sorted = att.photo.sizes
+        .slice()
+        .sort((a, b) => (a.width || 0) - (b.width || 0));
+      return sorted[sorted.length - 1]?.url || null;
+    }
+  }
+
+  return null;
 }
 
 async function main() {
-  const url = `https://t.me/s/${CHANNEL}`;
-  const res = await fetch(url, {
-    headers: { "User-Agent": "Mozilla/5.0" }
-  });
-
-  const html = await res.text();
-
-  // ищем блоки постов
-  const re = /data-post="[^"]*\/(\d+)"([\s\S]*?)tgme_widget_message_text[^>]*>([\s\S]*?)<\/div>/g;
-
-  const items = [];
-  let m;
-
-  while ((m = re.exec(html)) && items.length < LIMIT) {
-    const id = Number(m[1]);
-    const postChunk = m[0];
-    const textHtml = m[3];
-
-    const text = stripHtml(textHtml).trim();
-    if (!text) continue;
-
-    // ищем картинку превью
-    let photo = null;
-
-    // вариант 1: background-image
-    const bg = postChunk.match(/background-image:\s*url\('([^']+)'\)/i);
-    if (bg && bg[1]) {
-      photo = bg[1];
-    }
-
-    // вариант 2: обычный img
-    if (!photo) {
-      const img = postChunk.match(/<img[^>]+src="([^"]+)"/i);
-      if (img && img[1]) {
-        photo = img[1];
-      }
-    }
-
-    items.push({
-      id,
-      text,
-      date: Math.floor(Date.now() / 1000),
-      photo
-    });
+  if (!TOKEN) {
+    throw new Error("VK_TOKEN is missing in environment variables");
   }
 
-  // старые вниз, новые вверх
+  const url =
+    `https://api.vk.com/method/wall.get` +
+    `?domain=${encodeURIComponent(DOMAIN)}` +
+    `&count=${LIMIT}` +
+    `&filter=owner` +
+    `&v=${API_VERSION}` +
+    `&access_token=${encodeURIComponent(TOKEN)}`;
+
+  const res = await fetch(url, {
+    headers: {
+      "User-Agent": "Mozilla/5.0"
+    }
+  });
+
+  if (!res.ok) {
+    throw new Error(`VK API HTTP error: ${res.status}`);
+  }
+
+  const data = await res.json();
+
+  if (data.error) {
+    throw new Error(`VK API error: ${JSON.stringify(data.error)}`);
+  }
+
+  const posts = Array.isArray(data?.response?.items) ? data.response.items : [];
+
+  const items = posts
+    .filter(post => !post.is_pinned)
+    .filter(post => cleanText(post.text))
+    .map(post => ({
+      id: post.id,
+      text: cleanText(post.text),
+      date: post.date || Math.floor(Date.now() / 1000),
+      photo: extractPhoto(post),
+      url: `https://vk.com/wall${post.owner_id}_${post.id}`
+    }));
+
   const out = items.reverse();
 
   fs.mkdirSync("content/news", { recursive: true });
   fs.writeFileSync(
     "content/news/feed.json",
-    JSON.stringify(out, null, 2)
+    JSON.stringify(out, null, 2),
+    "utf-8"
   );
 
-  console.log("News updated:", out.length);
+  console.log("News updated from VK:", out.length);
 }
 
 main().catch(err => {
