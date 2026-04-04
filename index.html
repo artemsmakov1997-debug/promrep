@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Промышленный репортёр</title>
 
-  <!-- Применяем тему ДО отрисовки, чтобы не было "мигания" -->
   <script>
     (function () {
-      const key = "theme"; // "light" | "dark"
+      const key = "theme";
       const saved = localStorage.getItem(key);
       const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
       const theme = saved || (systemDark ? "dark" : "light");
@@ -97,7 +96,6 @@
       opacity:.45;
     }
 
-    /* Header */
     header{
       position:sticky; top:0; z-index:10;
       background: var(--headerBg);
@@ -190,7 +188,6 @@
       background: var(--red);
     }
 
-    /* ===== БУРГЕР-МЕНЮ ===== */
     .nav-desktop{
       display:flex;
       align-items:center;
@@ -247,7 +244,6 @@
       background: rgba(11,11,12,.02);
     }
 
-    /* HERO */
     .hero{
       margin-top: 14px;
       display:grid;
@@ -353,7 +349,6 @@
       backdrop-filter: blur(4px);
     }
 
-    /* Feed */
     .feed{
       background: var(--paper);
       border: 1px solid var(--line);
@@ -475,7 +470,6 @@
     }
     .more:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
 
-    /* Cards grid */
     .cards{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -554,7 +548,6 @@
       border-color: var(--line2);
     }
 
-    /* Video teaser */
     .video{
       margin-top: 14px;
       display:grid;
@@ -593,7 +586,6 @@
     .vside b{ font-size: 15px; line-height:1.25; }
     .vside p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
 
-    /* Two teasers */
     .teasers{
       margin-top: 14px;
       display:grid;
@@ -622,7 +614,6 @@
       flex-wrap:wrap;
     }
 
-    /* Responsive */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
       .feed-list{ max-height: 320px; }
@@ -642,7 +633,6 @@
       .actions .themeBtn{ display:none; }
       .actions{ min-width:auto; }
 
-      /* ✅ Убираем ленту на мобильных */
       .feed{ display:none; }
 
       .panel .inner#heroLink{
@@ -727,7 +717,7 @@
           <h1 id="heroTitle">Загрузка…</h1>
           <p class="lead" id="heroLead">Подтягиваем свежий материал из ленты новостей.</p>
           <div class="meta" id="heroMeta">
-            <span>События</span><span>Telegram</span><span>Сейчас</span>
+            <span>События</span><span>ВКонтакте</span><span>Сейчас</span>
           </div>
         </a>
       </article>
@@ -812,7 +802,6 @@
   </main>
 
   <script>
-    // ===== Главная: реальные новости + видео =====
     document.getElementById('y').textContent = new Date().getFullYear();
 
     const feedList = document.getElementById('feedList');
@@ -936,6 +925,7 @@
           lead,
           thumb: p?.photo || null,
           ts: p?.date || null,
+          url: p?.url || null,
           body: parts.length ? parts : [text]
         };
       });
@@ -958,12 +948,20 @@
       const a = ARTICLES.find(matchesQuery) || ARTICLES[0];
       if(!a) return;
 
-      heroLink.href = `news.html#${encodeURIComponent(a.id)}`;
+      heroLink.href = a.url || `news.html#${encodeURIComponent(a.id)}`;
+      if (a.url) {
+        heroLink.target = "_blank";
+        heroLink.rel = "noopener";
+      } else {
+        heroLink.removeAttribute("target");
+        heroLink.removeAttribute("rel");
+      }
+
       heroTitle.textContent = a.title || "Главный материал";
       heroLead.textContent = a.lead || "Откройте новостной раздел для полного текста.";
       heroMeta.innerHTML = [
         `<span>${escapeHtml(a.rubric || "События")}</span>`,
-        `<span>Telegram</span>`,
+        `<span>ВКонтакте</span>`,
         `<span>${escapeHtml(a.ts ? fmtDate(a.ts) : "Сегодня")}</span>`
       ].join("");
 
@@ -980,6 +978,8 @@
 
       todayCards.innerHTML = items.map((a, i) => {
         const thumb = normalizeMediaUrl(a.thumb);
+        const href = a.url || `news.html#${encodeURIComponent(a.id)}`;
+        const target = a.url ? `target="_blank" rel="noopener"` : "";
         const thumbHtml = thumb
           ? `
             <div class="card-thumb">
@@ -996,13 +996,13 @@
           : `<div class="card-thumb is-empty" aria-hidden="true"></div>`;
 
         return `
-          <a class="card" href="news.html#${encodeURIComponent(a.id)}" aria-label="Открыть новость: ${escapeHtml(a.title)}">
+          <a class="card" href="${href}" ${target} aria-label="Открыть новость: ${escapeHtml(a.title)}">
             <div class="top"><span class="rubric">${escapeHtml(a.rubric)}</span><span>${escapeHtml(a.ts ? relTime(a.ts) : "сегодня")}</span></div>
             ${thumbHtml}
             <h3>${escapeHtml(a.title)}</h3>
             <p class="desc">${escapeHtml(a.lead || "")}</p>
             <div class="chips">
-              <span class="chip ${i===0 ? "hot" : ""}">${a.ts ? escapeHtml(fmtDate(a.ts)) : "Telegram"}</span>
+              <span class="chip ${i===0 ? "hot" : ""}">${a.ts ? escapeHtml(fmtDate(a.ts)) : "Лента"}</span>
               <span class="chip">${a.thumb ? "Фото" : "Материал"}</span>
             </div>
           </a>
@@ -1180,6 +1180,3 @@
   </script>
 </body>
 </html>
-
-
-
