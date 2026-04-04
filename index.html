@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Промышленный репортёр</title>
 
+  <!-- Применяем тему ДО отрисовки, чтобы не было "мигания" -->
   <script>
     (function () {
-      const key = "theme";
+      const key = "theme"; // "light" | "dark"
       const saved = localStorage.getItem(key);
       const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
       const theme = saved || (systemDark ? "dark" : "light");
@@ -96,6 +97,7 @@
       opacity:.45;
     }
 
+    /* Header */
     header{
       position:sticky; top:0; z-index:10;
       background: var(--headerBg);
@@ -188,6 +190,7 @@
       background: var(--red);
     }
 
+    /* ===== БУРГЕР-МЕНЮ ===== */
     .nav-desktop{
       display:flex;
       align-items:center;
@@ -244,6 +247,7 @@
       background: rgba(11,11,12,.02);
     }
 
+    /* HERO */
     .hero{
       margin-top: 14px;
       display:grid;
@@ -349,6 +353,7 @@
       backdrop-filter: blur(4px);
     }
 
+    /* Feed */
     .feed{
       background: var(--paper);
       border: 1px solid var(--line);
@@ -470,6 +475,7 @@
     }
     .more:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
 
+    /* Cards grid */
     .cards{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -548,6 +554,7 @@
       border-color: var(--line2);
     }
 
+    /* Video teaser */
     .video{
       margin-top: 14px;
       display:grid;
@@ -586,6 +593,7 @@
     .vside b{ font-size: 15px; line-height:1.25; }
     .vside p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
 
+    /* Two teasers */
     .teasers{
       margin-top: 14px;
       display:grid;
@@ -614,6 +622,7 @@
       flex-wrap:wrap;
     }
 
+    /* Responsive */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
       .feed-list{ max-height: 320px; }
@@ -633,6 +642,7 @@
       .actions .themeBtn{ display:none; }
       .actions{ min-width:auto; }
 
+      /* ✅ Убираем ленту на мобильных */
       .feed{ display:none; }
 
       .panel .inner#heroLink{
@@ -802,6 +812,7 @@
   </main>
 
   <script>
+    // ===== Главная: реальные новости + видео =====
     document.getElementById('y').textContent = new Date().getFullYear();
 
     const feedList = document.getElementById('feedList');
@@ -925,7 +936,6 @@
           lead,
           thumb: p?.photo || null,
           ts: p?.date || null,
-          url: p?.url || null,
           body: parts.length ? parts : [text]
         };
       });
@@ -948,14 +958,9 @@
       const a = ARTICLES.find(matchesQuery) || ARTICLES[0];
       if(!a) return;
 
-      heroLink.href = a.url || `news.html#${encodeURIComponent(a.id)}`;
-      if (a.url) {
-        heroLink.target = "_blank";
-        heroLink.rel = "noopener";
-      } else {
-        heroLink.removeAttribute("target");
-        heroLink.removeAttribute("rel");
-      }
+      heroLink.href = `news.html#${encodeURIComponent(a.id)}`;
+      heroLink.removeAttribute("target");
+      heroLink.removeAttribute("rel");
 
       heroTitle.textContent = a.title || "Главный материал";
       heroLead.textContent = a.lead || "Откройте новостной раздел для полного текста.";
@@ -978,8 +983,8 @@
 
       todayCards.innerHTML = items.map((a, i) => {
         const thumb = normalizeMediaUrl(a.thumb);
-        const href = a.url || `news.html#${encodeURIComponent(a.id)}`;
-        const target = a.url ? `target="_blank" rel="noopener"` : "";
+        const href = `news.html#${encodeURIComponent(a.id)}`;
+        const target = "";
         const thumbHtml = thumb
           ? `
             <div class="card-thumb">
@@ -1136,7 +1141,7 @@
       const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
 
       const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0Z"/>`;
+      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0Z"/>`;
 
       function currentTheme() {
         return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
