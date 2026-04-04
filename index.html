@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Промышленный репортёр</title>
 
-  <!-- Применяем тему ДО отрисовки, чтобы не было "мигания" -->
   <script>
     (function () {
-      const key = "theme"; // "light" | "dark"
+      const key = "theme";
       const saved = localStorage.getItem(key);
       const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
       const theme = saved || (systemDark ? "dark" : "light");
@@ -97,7 +96,6 @@
       opacity:.45;
     }
 
-    /* Header */
     header{
       position:sticky; top:0; z-index:10;
       background: var(--headerBg);
@@ -190,7 +188,6 @@
       background: var(--red);
     }
 
-    /* ===== БУРГЕР-МЕНЮ ===== */
     .nav-desktop{
       display:flex;
       align-items:center;
@@ -220,14 +217,12 @@
       top: calc(100% + 10px);
       right: 0;
       min-width: min(320px, 92vw);
-
       padding: 12px;
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: 16px;
       box-shadow: 0 18px 40px rgba(0,0,0,.18);
       z-index: 50;
-
       flex-direction:column;
       gap:10px;
     }
@@ -247,7 +242,6 @@
       background: rgba(11,11,12,.02);
     }
 
-    /* HERO */
     .hero{
       margin-top: 14px;
       display:grid;
@@ -353,7 +347,6 @@
       backdrop-filter: blur(4px);
     }
 
-    /* Feed */
     .feed{
       background: var(--paper);
       border: 1px solid var(--line);
@@ -461,7 +454,6 @@
       margin-bottom: 12px;
     }
     .section-head h2{ margin:0; font-size: 18px; letter-spacing:.2px; }
-    .section-head p{ margin:0; font-size: 13px; color: var(--muted); }
     .more{
       font-size: 13px;
       color: var(--red);
@@ -475,7 +467,6 @@
     }
     .more:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
 
-    /* Cards grid */
     .cards{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -554,7 +545,6 @@
       border-color: var(--line2);
     }
 
-    /* Video teaser */
     .video{
       margin-top: 14px;
       display:grid;
@@ -571,6 +561,7 @@
       aspect-ratio: 16/9;
       display:grid; place-items:center;
       box-shadow: var(--shadow2);
+      cursor:pointer;
     }
     .play{
       width:74px; height:74px;
@@ -593,7 +584,6 @@
     .vside b{ font-size: 15px; line-height:1.25; }
     .vside p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
 
-    /* Two teasers */
     .teasers{
       margin-top: 14px;
       display:grid;
@@ -622,7 +612,6 @@
       flex-wrap:wrap;
     }
 
-    /* Responsive */
     @media (max-width: 980px){
       .hero{ grid-template-columns: 1fr; }
       .feed-list{ max-height: 320px; }
@@ -642,8 +631,8 @@
       .actions .themeBtn{ display:none; }
       .actions{ min-width:auto; }
 
-      /* ✅ Убираем ленту на мобильных */
       .feed{ display:none; }
+      .vside{ display:none; }
 
       .panel .inner#heroLink{
         min-height: 300px;
@@ -661,7 +650,7 @@
 
     @media (prefers-reduced-motion: reduce){
       *{ transition:none !important; }
-      .card:hover,.play:hover,.more:hover,.feed-actions a:hover{ transform:none !important; }
+      .card:hover,.play:hover,.more:hover,.feed-actions a:hover,.btn:hover{ transform:none !important; }
     }
   </style>
 </head>
@@ -764,7 +753,7 @@
       </div>
 
       <div class="video">
-        <div class="player" id="vodPlayer">
+        <div class="player" id="vodPlayer" role="button" tabindex="0" aria-label="Смотреть видео дня">
           <button class="play" id="vodPlay" type="button" aria-label="Смотреть видео дня">
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
@@ -777,7 +766,6 @@
           <p id="vodDesc">Подтягиваем данные из TV-раздела.</p>
           <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
             <button class="btn primary" id="vodOpen" type="button">Смотреть</button>
-            <a class="btn" id="vodMaterial" href="tv.html">Открыть материал</a>
           </div>
         </div>
       </div>
@@ -812,7 +800,6 @@
   </main>
 
   <script>
-    // ===== Главная: реальные новости + видео =====
     document.getElementById('y').textContent = new Date().getFullYear();
 
     const feedList = document.getElementById('feedList');
@@ -829,7 +816,6 @@
     const vodPlayer = document.getElementById('vodPlayer');
     const vodPlay = document.getElementById('vodPlay');
     const vodOpen = document.getElementById('vodOpen');
-    const vodMaterial = document.getElementById('vodMaterial');
     const vodTitle = document.getElementById('vodTitle');
     const vodDesc = document.getElementById('vodDesc');
     const vodLen = document.getElementById('vodLen');
@@ -885,15 +871,10 @@
       if(!s) return null;
 
       if (s.startsWith("//")) s = window.location.protocol + s;
-
-      if (s.startsWith("/")) {
-        s = new URL(s, window.location.origin).href;
-      }
-
+      if (s.startsWith("/")) s = new URL(s, window.location.origin).href;
       if (window.location.protocol === "https:" && s.startsWith("http://")) {
         s = "https://" + s.slice(7);
       }
-
       return s;
     }
 
@@ -908,7 +889,6 @@
       }
 
       const safe = encodeURI(src).replace(/"/g, "%22").replace(/'/g, "%27");
-
       const overlayCss = overlay === "soft"
         ? "linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.32))"
         : "linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.55))";
@@ -920,18 +900,70 @@
       el.classList.remove("is-empty");
     }
 
+    function detectCategory(text) {
+      const t = String(text || "").toLowerCase();
+
+      const rules = [
+        {
+          tab: "market",
+          rubric: "Рынок",
+          keywords: [
+            "рынок", "экспорт", "импорт", "цена", "цены", "контракт", "поставка",
+            "логистика", "продажи", "выручка", "инвестиции", "инвестпроект",
+            "спрос", "предложение", "прибыль", "убыток", "сделка"
+          ]
+        },
+        {
+          tab: "tech",
+          rubric: "Тех",
+          keywords: [
+            "технолог", "технология", "робот", "роботизация", "автоматизация",
+            "цифровизация", "станок", "оборудование", "разработка", "инновация",
+            "ии", "искусственный интеллект", "платформа", "система", "модернизация"
+          ]
+        },
+        {
+          tab: "people",
+          rubric: "Люди",
+          keywords: [
+            "директор", "гендиректор", "руководитель", "инженер", "специалист",
+            "кадры", "сотрудники", "работники", "интервью", "назначение",
+            "команда", "персонал", "биография"
+          ]
+        },
+        {
+          tab: "opinion",
+          rubric: "Колонка",
+          keywords: [
+            "мнение", "колонка", "комментарий", "эксперт", "оценка",
+            "точка зрения", "авторская колонка", "разбор"
+          ]
+        }
+      ];
+
+      for (const rule of rules) {
+        if (rule.keywords.some(word => t.includes(word))) {
+          return { tab: rule.tab, rubric: rule.rubric };
+        }
+      }
+
+      return { tab: "events", rubric: "События" };
+    }
+
     function buildNewsFromFeed(posts){
       const sorted = Array.isArray(posts) ? posts.slice().reverse() : [];
 
       ARTICLES = sorted.map((p, idx) => {
         const text = p?.text || "";
-        const parts = text.split("\n\n").filter(Boolean);
+        const parts = text.split("\n\n").map(x => x.trim()).filter(Boolean);
         const title = (parts[0] || text || "Новость").slice(0, 120);
         const lead = (parts[1] || parts[0] || "").slice(0, 220);
+        const category = detectCategory(text);
 
         return {
           id: String(p?.id ?? idx),
-          rubric: "События",
+          tab: p?.tab || category.tab,
+          rubric: p?.rubric || category.rubric,
           title,
           lead,
           thumb: p?.photo || null,
@@ -984,7 +1016,6 @@
       todayCards.innerHTML = items.map((a, i) => {
         const thumb = normalizeMediaUrl(a.thumb);
         const href = `news.html#${encodeURIComponent(a.id)}`;
-        const target = "";
         const thumbHtml = thumb
           ? `
             <div class="card-thumb">
@@ -1001,7 +1032,7 @@
           : `<div class="card-thumb is-empty" aria-hidden="true"></div>`;
 
         return `
-          <a class="card" href="${href}" ${target} aria-label="Открыть новость: ${escapeHtml(a.title)}">
+          <a class="card" href="${href}" aria-label="Открыть новость: ${escapeHtml(a.title)}">
             <div class="top"><span class="rubric">${escapeHtml(a.rubric)}</span><span>${escapeHtml(a.ts ? relTime(a.ts) : "сегодня")}</span></div>
             ${thumbHtml}
             <h3>${escapeHtml(a.title)}</h3>
@@ -1042,9 +1073,8 @@
       }
     }
 
-    function openVideo(item){
-      const url = item?.href || "https://vk.com/promrep";
-      if(url) window.open(url, "_blank", "noopener");
+    function openVideo(){
+      window.location.href = "tv.html";
     }
 
     function renderVideoOfDay(){
@@ -1059,14 +1089,20 @@
       vodTitle.textContent = v.title || "Видео дня";
       vodDesc.textContent = v.description || "Открыть в разделе TV";
       vodLen.textContent = fmtDur(v.duration);
-      vodMaterial.href = v.href || "tv.html";
-      vodMaterial.target = "_blank";
-      vodMaterial.rel = "noopener";
       applyVodPlayerCover(v);
 
-      const open = () => openVideo(v);
-      vodPlay.onclick = open;
-      vodOpen.onclick = open;
+      vodPlay.onclick = openVideo;
+      vodOpen.onclick = openVideo;
+      vodPlayer.onclick = (e) => {
+        if (e.target === vodPlay || vodPlay.contains(e.target)) return;
+        openVideo();
+      };
+      vodPlayer.onkeydown = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openVideo();
+        }
+      };
     }
 
     function syncAll(){
