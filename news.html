@@ -43,7 +43,6 @@
       --shadow: 0 14px 26px rgba(11,11,12,.08);
       --shadow2: 0 10px 18px rgba(11,11,12,.06);
 
-      /* как на главной */
       --headerBg: rgba(244,245,246,.92);
       --grid1: rgba(0,0,0,.028);
       --grid2: rgba(0,0,0,.024);
@@ -99,7 +98,6 @@
       opacity:.45;
     }
 
-    /* Header (как на главной) */
     header{
       position:sticky; top:0; z-index:10;
       background: var(--headerBg);
@@ -157,7 +155,6 @@
     .btn:hover{ transform: translateY(-1px); }
     .btn.primary{ border-color: var(--red); color: var(--red); font-weight:800; }
 
-    /* кнопка темы (как на главной) */
     .themeBtn{
       border-color: var(--line2);
       background: var(--paper);
@@ -182,14 +179,13 @@
       .themeBtn{ padding: 10px 11px; }
     }
 
-    /* ===== БУРГЕР-МЕНЮ (как на главной) ===== */
     .nav-desktop{
       display:flex;
       align-items:center;
       gap:18px;
     }
     .nav-mobile{
-      display:none;          /* на ПК скрыто */
+      display:none;
       position:relative;
     }
     .burger{
@@ -232,7 +228,6 @@
     }
     .nav-panel .navlink:last-child{ border-bottom: 0; }
 
-    /* кнопка темы внутри моб.панели — во всю ширину */
     .nav-panel .themeBtn{
       width:100%;
       justify-content:center;
@@ -252,21 +247,17 @@
       background: var(--red);
     }
 
-    /* ===== Layout: left materials + right feed (ПК как было) ===== */
     .layout{
       margin-top: 14px;
       display:grid;
       grid-template-columns: 1.35fr .9fr;
       gap: 14px;
       align-items:start;
-
-      /* чтобы на мобилке можно было “перекинуть” ленту вверх */
       grid-template-areas: "left feed";
     }
     .leftcol{ grid-area:left; }
     .feed{ grid-area:feed; }
 
-    /* ===== Filters (tabs) ===== */
     .controlbar{
       background: var(--paper);
       border: 1px solid var(--line);
@@ -295,7 +286,6 @@
 
     .hint{ font-size:13px; color: var(--muted); }
 
-    /* ===== LEFT: big materials list ===== */
     .biglist{ display:flex; flex-direction:column; gap:14px; }
 
     .bigcard{
@@ -325,6 +315,9 @@
         linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
       aspect-ratio: 16/10;
       box-shadow: var(--shadow2);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
     .top{
@@ -367,7 +360,6 @@
     }
     .chip.hot{ border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); color: var(--ink); font-weight:800; }
 
-    /* ===== RIGHT: feed ===== */
     .feed{
       background: var(--paper);
       border: 1px solid var(--line);
@@ -472,7 +464,6 @@
       overflow:hidden;
     }
 
-    /* ===== ARTICLE VIEW ===== */
     .article{
       background: var(--paper);
       border: 1px solid var(--line);
@@ -515,6 +506,9 @@
         linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
       aspect-ratio: 16/9;
       box-shadow: var(--shadow2);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
     .caption{
       margin-top: 10px;
@@ -571,6 +565,7 @@
       line-height: 1.75;
       color: var(--ink);
       max-width: 78ch;
+      white-space: pre-wrap;
     }
     .body p.small{
       font-size:13px;
@@ -615,9 +610,7 @@
       flex-wrap:wrap;
     }
 
-    /* ===== Responsive ===== */
     @media (max-width: 980px){
-      /* мобильная/планшет: Лента ВВЕРХУ и с неё начинается страница */
       .layout{
         grid-template-columns: 1fr;
         grid-template-areas:
@@ -631,7 +624,6 @@
         min-height:auto;
       }
 
-      /* ✅ Лента на мобилке: ограничиваем высоту (~3 новости) и скроллим внутри */
       .feed-list{
         max-height: 280px;
         overflow-y: auto;
@@ -640,7 +632,6 @@
         scrollbar-gutter: stable both-edges;
       }
 
-      /* убрать поиск на мобильной версии */
       .actions .search{ display:none; }
     }
 
@@ -652,16 +643,13 @@
     @media (max-width: 720px){
       .brand{ min-width:auto; }
 
-      /* мобилка: выключаем десктоп-меню, включаем бургер */
       .nav-desktop{ display:none; }
       .nav-mobile{ display:block; }
 
-      /* ✅ как на главной: в шапке на мобилке кнопку темы убираем полностью */
       .actions .themeBtn{ display:none; }
 
       .actions{ min-width:auto; }
 
-      /* ✅ Убираем ленту новостей на мобильной версии */
       .feed{ display:none; }
     }
 
@@ -685,7 +673,6 @@
           </div>
         </a>
 
-        <!-- ДЕСКТОП-МЕНЮ (ПК) -->
         <nav class="nav-desktop" aria-label="Меню">
           <a class="navlink" href="index.html">Главная</a>
           <a class="navlink active" href="news.html">Новости</a>
@@ -694,7 +681,6 @@
           <a class="navlink" href="editorial.html">Редакция</a>
         </nav>
 
-        <!-- МОБИЛЬНОЕ МЕНЮ (бургер) -->
         <details class="nav-mobile">
           <summary class="burger" aria-label="Открыть меню"><span aria-hidden="true">≡</span></summary>
 
@@ -705,7 +691,6 @@
             <a class="navlink" href="production.html">Продакшн</a>
             <a class="navlink" href="editorial.html">Редакция</a>
 
-            <!-- ✅ Единственная кнопка темы на мобилке — тут, внизу бургер-меню -->
             <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
               <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
               <span class="themeLabel"></span>
@@ -713,10 +698,8 @@
           </nav>
         </details>
 
-        <!-- ШАПКА (ПК) -->
         <div class="actions">
           <input class="search" id="headerSearch" placeholder="Поиск…" aria-label="Поиск по материалам и ленте" />
-          <!-- ✅ Кнопка темы на ПК остаётся в шапке -->
           <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
             <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
             <span class="themeLabel">Тема</span>
@@ -731,7 +714,6 @@
     <div class="kicker"><span class="dot"></span><span id="pageTitle">Новости</span></div>
 
     <div class="layout">
-      <!-- LEFT -->
       <section class="leftcol" aria-label="Большие материалы">
         <div class="controlbar">
           <div class="tabs" role="tablist" aria-label="Рубрики">
@@ -749,7 +731,6 @@
         <article id="articleView" class="article" style="display:none;" aria-label="Полная статья"></article>
       </section>
 
-      <!-- RIGHT -->
       <aside class="feed" aria-label="Лента новостей">
         <div class="feed-head">
           <div class="feed-title"><span class="pulse"></span> Лента</div>
@@ -769,14 +750,11 @@
   </main>
 
 <script>
-  // ===== Real content from Telegram JSON =====
   let ARTICLES = [];
   let feedItems = [];
 
-  // ===== State =====
   let state = { tab: "all", liveOnly: false, query: "", selectedId: null };
 
-  // ===== DOM =====
   document.getElementById("y").textContent = new Date().getFullYear();
 
   const listView = document.getElementById("listView");
@@ -790,17 +768,54 @@
 
   const headerSearch = document.getElementById("headerSearch");
 
-  // ===== Helpers =====
   function formatTime(ts){
+    if (!ts) return "";
     const d = new Date(ts * 1000);
+    if (Number.isNaN(d.getTime())) return "";
     return d.toLocaleTimeString("ru-RU", {
       hour: "2-digit",
       minute: "2-digit"
     });
   }
 
+  function formatDate(ts){
+    if (!ts) return "";
+    const d = new Date(ts * 1000);
+    if (Number.isNaN(d.getTime())) return "";
+    return d.toLocaleDateString("ru-RU", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    });
+  }
+
+  function formatDateTime(ts){
+    if (!ts) return "";
+    const d = new Date(ts * 1000);
+    if (Number.isNaN(d.getTime())) return "";
+    return d.toLocaleString("ru-RU", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+  }
+
+  function relTime(ts){
+    if(!ts) return "";
+    const diff = Math.max(0, Date.now() - (ts * 1000));
+    const m = Math.floor(diff / 60000);
+    if (m < 1) return "сейчас";
+    if (m < 60) return `${m} мин`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h} ч`;
+    const d = Math.floor(h / 24);
+    return d === 1 ? "вчера" : `${d} дн`;
+  }
+
   function escapeHtml(s){
-    return String(s)
+    return String(s ?? "")
       .replaceAll("&","&amp;")
       .replaceAll("<","&lt;")
       .replaceAll(">","&gt;")
@@ -808,14 +823,32 @@
       .replaceAll("'","&#039;");
   }
 
+  function normalizeMediaUrl(url){
+    if(!url) return null;
+    let s = String(url).trim();
+    if(!s) return null;
+
+    if (s.startsWith("//")) s = window.location.protocol + s;
+
+    if (s.startsWith("/")) {
+      s = new URL(s, window.location.origin).href;
+    }
+
+    if (window.location.protocol === "https:" && s.startsWith("http://")) {
+      s = "https://" + s.slice(7);
+    }
+
+    return s;
+  }
+
   function matchesFilter(a){
     const tabOk = (state.tab === "all") || (a.tab === state.tab);
     const liveOk = !state.liveOnly || a.live;
     const q = state.query.trim().toLowerCase();
     const qOk = !q || (
-      a.title.toLowerCase().includes(q) ||
-      a.lead.toLowerCase().includes(q) ||
-      a.rubric.toLowerCase().includes(q)
+      (a.title || "").toLowerCase().includes(q) ||
+      (a.lead || "").toLowerCase().includes(q) ||
+      (a.rubric || "").toLowerCase().includes(q)
     );
     return tabOk && liveOk && qOk;
   }
@@ -825,45 +858,48 @@
     return sameTab.slice(0, 4);
   }
 
-function buildFromFeed(posts){
-  // используем порядок из JSON, без сортировки по дате
-  const sorted = posts.slice().reverse();
+  function buildFromFeed(posts){
+    const sorted = Array.isArray(posts) ? posts.slice().reverse() : [];
 
-ARTICLES = sorted.map(p => {
-  const text = p.text || "";
-  const parts = text.split("\n\n");
+    ARTICLES = sorted.map((p, idx) => {
+      const text = p?.text || "";
+      const parts = text
+        .split("\n\n")
+        .map(x => x.trim())
+        .filter(Boolean);
 
-  const title = parts[0]?.slice(0,120) || "Новость";
-  const lead = parts[1]?.slice(0,200) || parts[0]?.slice(0,200) || "";
+      const title = (parts[0] || text || "Новость").slice(0, 120);
+      const lead = (parts[1] || parts[0] || "").slice(0, 220);
 
-  return {
-    id: String(p.id),
-    tab: "events",
-    rubric: "События",
-    thumb: p.photo || null,
-    when: "",
-    age: "",
-    live: false,
-    title,
-    lead,
-    tags: [],
-    author: "Telegram",
-    updated: "",
-    caption: "Источник: Telegram-канал",
-    body: parts.length ? parts : [text]
-  };
-});
+      return {
+        id: String(p?.id ?? idx),
+        tab: "events",
+        rubric: "События",
+        thumb: p?.photo || null,
+        when: p?.date ? formatDate(p.date) : "",
+        age: p?.date ? relTime(p.date) : "",
+        live: false,
+        title,
+        lead,
+        tags: [],
+        author: "ВКонтакте",
+        updated: p?.date ? formatDateTime(p.date) : "",
+        caption: "Источник: сообщество ВКонтакте",
+        body: parts.length ? parts : [text],
+        ts: p?.date || null,
+        url: p?.url || null
+      };
+    });
 
-  feedItems = sorted.map(p => ({
-    id: String(p.id),
-    time: "",
-    rubric: "События",
-    title: (p.text || "").split("\n")[0].slice(0,120),
-    live: false
-  }));
-}
+    feedItems = ARTICLES.map(a => ({
+      id: a.id,
+      time: a.ts ? formatTime(a.ts) : "",
+      rubric: a.rubric,
+      title: a.title,
+      live: a.live
+    }));
+  }
 
-  // ===== Render list =====
   function renderList(){
     const items = ARTICLES.filter(matchesFilter);
 
@@ -887,27 +923,33 @@ ARTICLES = sorted.map(p => {
       return;
     }
 
-   listView.innerHTML = items.map(a => `
-  <a class="bigcard" href="#" data-open="${a.id}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
-    <div class="bigrow">
-      <div class="thumb" aria-hidden="true"
-        style="${a.thumb ? `background-image:url('${a.thumb}');background-size:cover;background-position:center;` : ``}">
-      </div>
-      <div>
-        <div class="top">
-          <span class="rubric">${escapeHtml(a.rubric)}</span>
-          <span>${a.when ? escapeHtml(a.when) : ""}</span>
-          ${a.live ? `<span class="live">LIVE</span>` : ``}
-        </div>
-        <h3>${escapeHtml(a.title)}</h3>
-        <p class="desc">${escapeHtml(a.lead || "")}</p>
-        <div class="chips">
-          ${(a.tags || []).map(t => `<span class="chip">${escapeHtml(t)}</span>`).join("")}
-        </div>
-      </div>
-    </div>
-  </a>
-`).join("");
+    listView.innerHTML = items.map(a => {
+      const thumb = normalizeMediaUrl(a.thumb);
+      const thumbStyle = thumb
+        ? `background-image:url('${thumb.replace(/'/g, "%27")}');`
+        : "";
+
+      return `
+        <a class="bigcard" href="#${encodeURIComponent(a.id)}" data-open="${a.id}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
+          <div class="bigrow">
+            <div class="thumb" aria-hidden="true" style="${thumbStyle}"></div>
+            <div>
+              <div class="top">
+                <span class="rubric">${escapeHtml(a.rubric)}</span>
+                <span>${escapeHtml(a.when || "")}</span>
+                ${a.live ? `<span class="live">LIVE</span>` : ``}
+              </div>
+              <h3>${escapeHtml(a.title)}</h3>
+              <p class="desc">${escapeHtml(a.lead || "")}</p>
+              <div class="chips">
+                <span class="chip hot">${escapeHtml(a.ts ? formatDate(a.ts) : "Лента")}</span>
+                <span class="chip">${a.thumb ? "Фото" : "Материал"}</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      `;
+    }).join("");
 
     listView.querySelectorAll("[data-open]").forEach(el=>{
       el.addEventListener("click",(e)=>{
@@ -921,50 +963,101 @@ ARTICLES = sorted.map(p => {
     const a = ARTICLES.find(x => x.id === id);
     if(!a) return;
 
+    const related = relatedFor(a);
+    const thumb = normalizeMediaUrl(a.thumb);
+
     articleView.innerHTML = `
       <div class="articleHead">
         <div>
           <h2>${escapeHtml(a.rubric)}</h2>
-          <p>${escapeHtml(a.when)} · <strong>${escapeHtml(a.author)}</strong></p>
+          <p>${escapeHtml(a.when || "")}${a.author ? ` · <strong>${escapeHtml(a.author)}</strong>` : ""}</p>
         </div>
         <button class="more" id="backBtn" type="button">← Назад</button>
       </div>
 
       <div class="articleTitle">${escapeHtml(a.title)}</div>
-      <p class="articleLead">${escapeHtml(a.lead)}</p>
+      <p class="articleLead">${escapeHtml(a.lead || "")}</p>
+
+      ${thumb ? `<div class="media" style="background-image:url('${thumb.replace(/'/g, "%27")}');"></div>` : ``}
+      ${a.caption ? `<div class="caption">${escapeHtml(a.caption)}</div>` : ``}
+
+      <div class="meta">
+        ${a.updated ? `<span><strong>Обновлено:</strong> ${escapeHtml(a.updated)}</span>` : ``}
+        <span><strong>Источник:</strong> ВКонтакте</span>
+      </div>
+
+      <div class="toolbar">
+        <button class="more" id="backBtn2" type="button">← К списку</button>
+      </div>
 
       <div class="body">
         ${a.body.map(p => `<p>${escapeHtml(p)}</p>`).join("")}
       </div>
+
+      ${related.length ? `
+        <div class="related">
+          <div class="articleHead" style="margin-bottom:0">
+            <div>
+              <h2>Ещё по теме</h2>
+              <p>Похожие материалы из ленты</p>
+            </div>
+          </div>
+
+          <div class="relGrid">
+            ${related.map(r => `
+              <a class="relCard" href="#${encodeURIComponent(r.id)}" data-open-related="${r.id}">
+                <div class="top">
+                  <span class="rubric">${escapeHtml(r.rubric)}</span>
+                  <span>${escapeHtml(r.when || "")}</span>
+                </div>
+                <h3>${escapeHtml(r.title)}</h3>
+                <p class="desc">${escapeHtml(r.lead || "")}</p>
+              </a>
+            `).join("")}
+          </div>
+        </div>
+      ` : ``}
     `;
 
-    articleView.querySelector("#backBtn").addEventListener("click", ()=>{
+    const back = () => {
       state.selectedId = null;
+      history.replaceState(null, "", "news.html");
       renderList();
       window.scrollTo({top: 0, behavior: "smooth"});
+    };
+
+    articleView.querySelector("#backBtn")?.addEventListener("click", back);
+    articleView.querySelector("#backBtn2")?.addEventListener("click", back);
+
+    articleView.querySelectorAll("[data-open-related]").forEach(el => {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        openArticle(el.dataset.openRelated);
+      });
     });
   }
 
   function openArticle(id){
     state.selectedId = id;
+    history.replaceState(null, "", `news.html#${encodeURIComponent(id)}`);
     renderList();
     window.scrollTo({top: 0, behavior: "smooth"});
   }
 
-  // ===== Feed =====
   function renderFeed(){
     const q = state.query.trim().toLowerCase();
 
     const show = (state.liveOnly ? feedItems.filter(i => i.live) : feedItems)
-      .filter(i => !q || i.title.toLowerCase().includes(q));
+      .filter(i => !q || (i.title || "").toLowerCase().includes(q));
 
     feedList.innerHTML = show.map(n => `
       <div class="feed-item" data-open="${n.id}">
-        <div class="t-time">${escapeHtml(n.time)}</div>
+        <div class="t-time">${escapeHtml(n.time || "")}</div>
         <div class="t-main">
           <div class="t-top">
             <span class="t-dot"></span>
             <span class="t-rubric">${escapeHtml(n.rubric)}</span>
+            ${n.live ? `<span class="t-live">LIVE</span>` : ``}
           </div>
           <div class="t-title">${escapeHtml(n.title)}</div>
         </div>
@@ -976,7 +1069,6 @@ ARTICLES = sorted.map(p => {
     });
   }
 
-  // ===== UI wiring =====
   document.querySelectorAll(".tab").forEach(el=>{
     el.addEventListener("click",(e)=>{
       e.preventDefault();
@@ -984,6 +1076,7 @@ ARTICLES = sorted.map(p => {
       el.classList.add("active");
       state.tab = el.dataset.tab;
       state.selectedId = null;
+      history.replaceState(null, "", "news.html");
       renderList();
       renderFeed();
     });
@@ -1003,19 +1096,43 @@ ARTICLES = sorted.map(p => {
     renderFeed();
   });
 
-  // ===== Load feed =====
-  fetch("content/news/feed.json")
+  function openFromHash(){
+    const raw = window.location.hash.replace(/^#/, "").trim();
+    if (!raw) {
+      state.selectedId = null;
+      renderList();
+      renderFeed();
+      return;
+    }
+
+    const id = decodeURIComponent(raw);
+    const exists = ARTICLES.some(a => a.id === id);
+
+    if (exists) {
+      state.selectedId = id;
+    } else {
+      state.selectedId = null;
+    }
+
+    renderList();
+    renderFeed();
+  }
+
+  fetch("content/news/feed.json", { cache: "no-store" })
     .then(r => r.json())
     .then(data => {
       buildFromFeed(data);
-      renderList();
-      renderFeed();
+      openFromHash();
       feedStatus.textContent = "обновлено";
     })
     .catch(err => {
       console.error("Feed load error:", err);
       feedStatus.textContent = "ошибка загрузки";
+      renderList();
+      renderFeed();
     });
+
+  window.addEventListener("hashchange", openFromHash);
 </script>
 
   <script>
@@ -1039,7 +1156,6 @@ ARTICLES = sorted.map(p => {
     })();
   </script>
 
-  <!-- Переключатель темы (как на главной) -->
   <script>
     (function () {
       const KEY = "theme";
@@ -1047,7 +1163,7 @@ ARTICLES = sorted.map(p => {
       const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
 
       const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0Z"/>`;
+      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0Z"/>`;
 
       function currentTheme() {
         return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
@@ -1091,4 +1207,3 @@ ARTICLES = sorted.map(p => {
   </script>
 </body>
 </html>
-
