@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Новости — Промышленный репортёр</title>
 
-  <!-- Применяем тему ДО отрисовки (без мигания) -->
   <script>
     (function () {
-      const key = "theme"; // "light" | "dark"
+      const key = "theme";
       const saved = localStorage.getItem(key);
       const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
       const theme = saved || (systemDark ? "dark" : "light");
@@ -208,14 +207,12 @@
       top: calc(100% + 10px);
       right: 0;
       min-width: min(320px, 92vw);
-
       padding: 12px;
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: 16px;
       box-shadow: 0 18px 40px rgba(0,0,0,.18);
       z-index: 50;
-
       flex-direction:column;
       gap:10px;
     }
@@ -567,10 +564,6 @@
       max-width: 78ch;
       white-space: pre-wrap;
     }
-    .body p.small{
-      font-size:13px;
-      color: var(--muted);
-    }
 
     .related{
       margin-top: 14px;
@@ -642,14 +635,10 @@
 
     @media (max-width: 720px){
       .brand{ min-width:auto; }
-
       .nav-desktop{ display:none; }
       .nav-mobile{ display:block; }
-
       .actions .themeBtn{ display:none; }
-
       .actions{ min-width:auto; }
-
       .feed{ display:none; }
     }
 
@@ -705,7 +694,6 @@
             <span class="themeLabel">Тема</span>
           </button>
         </div>
-
       </div>
     </div>
   </header>
@@ -829,16 +817,62 @@
     if(!s) return null;
 
     if (s.startsWith("//")) s = window.location.protocol + s;
-
-    if (s.startsWith("/")) {
-      s = new URL(s, window.location.origin).href;
-    }
-
+    if (s.startsWith("/")) s = new URL(s, window.location.origin).href;
     if (window.location.protocol === "https:" && s.startsWith("http://")) {
       s = "https://" + s.slice(7);
     }
 
     return s;
+  }
+
+  function detectCategory(text) {
+    const t = String(text || "").toLowerCase();
+
+    const rules = [
+      {
+        tab: "market",
+        rubric: "Рынок",
+        keywords: [
+          "рынок", "экспорт", "импорт", "цена", "цены", "контракт", "поставка",
+          "логистика", "продажи", "выручка", "инвестиции", "инвестпроект",
+          "спрос", "предложение", "прибыль", "убыток", "сделка"
+        ]
+      },
+      {
+        tab: "tech",
+        rubric: "Тех",
+        keywords: [
+          "технолог", "технология", "робот", "роботизация", "автоматизация",
+          "цифровизация", "станок", "оборудование", "разработка", "инновация",
+          "ии", "искусственный интеллект", "платформа", "система", "модернизация"
+        ]
+      },
+      {
+        tab: "people",
+        rubric: "Люди",
+        keywords: [
+          "директор", "гендиректор", "руководитель", "инженер", "специалист",
+          "кадры", "сотрудники", "работники", "интервью", "назначение",
+          "команда", "персонал", "биография"
+        ]
+      },
+      {
+        tab: "opinion",
+        rubric: "Колонка",
+        keywords: [
+          "мнение", "колонка", "комментарий", "эксперт", "оценка",
+          "точка зрения", "авторская колонка", "разбор"
+        ]
+      }
+    ];
+
+    for (const rule of rules) {
+      if (rule.keywords.some(word => t.includes(word))) {
+        return { tab: rule.tab, rubric: rule.rubric };
+      }
+    }
+
+    return { tab: "events", rubric: "События" };
   }
 
   function matchesFilter(a){
@@ -870,11 +904,14 @@
 
       const title = (parts[0] || text || "Новость").slice(0, 120);
       const lead = (parts[1] || parts[0] || "").slice(0, 220);
+      const fallbackCategory = detectCategory(text);
+      const tab = p?.tab || fallbackCategory.tab;
+      const rubric = p?.rubric || fallbackCategory.rubric;
 
       return {
         id: String(p?.id ?? idx),
-        tab: "events",
-        rubric: "События",
+        tab,
+        rubric,
         thumb: p?.photo || null,
         when: p?.date ? formatDate(p.date) : "",
         age: p?.date ? relTime(p.date) : "",
@@ -886,8 +923,7 @@
         updated: p?.date ? formatDateTime(p.date) : "",
         caption: "Источник: сообщество ВКонтакте",
         body: parts.length ? parts : [text],
-        ts: p?.date || null,
-        url: p?.url || null
+        ts: p?.date || null
       };
     });
 
@@ -925,9 +961,7 @@
 
     listView.innerHTML = items.map(a => {
       const thumb = normalizeMediaUrl(a.thumb);
-      const thumbStyle = thumb
-        ? `background-image:url('${thumb.replace(/'/g, "%27")}');`
-        : "";
+      const thumbStyle = thumb ? `background-image:url('${thumb.replace(/'/g, "%27")}');` : "";
 
       return `
         <a class="bigcard" href="#${encodeURIComponent(a.id)}" data-open="${a.id}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
@@ -1108,12 +1142,7 @@
     const id = decodeURIComponent(raw);
     const exists = ARTICLES.some(a => a.id === id);
 
-    if (exists) {
-      state.selectedId = id;
-    } else {
-      state.selectedId = null;
-    }
-
+    state.selectedId = exists ? id : null;
     renderList();
     renderFeed();
   }
