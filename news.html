@@ -150,6 +150,7 @@
       cursor:pointer;
       transition:.14s ease;
       white-space:nowrap;
+      color: var(--ink);
     }
     .btn:hover{ transform: translateY(-1px); }
     .btn.primary{ border-color: var(--red); color: var(--red); font-weight:800; }
@@ -467,18 +468,96 @@
       border-radius: var(--r);
       box-shadow: var(--shadow2);
       overflow:hidden;
-      padding: 14px;
+      padding: 16px;
     }
 
-    .articleHead{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:14px;
-      margin-bottom: 12px;
+    .articleTitle{
+      margin: 0 0 14px;
+      font-size: clamp(28px, 3.0vw, 44px);
+      line-height: 1.05;
+      letter-spacing: .15px;
+      font-weight: 1000;
     }
-    .articleHead h2{ margin:0; font-size: 18px; letter-spacing:.2px; }
-    .articleHead p{ margin:0; font-size: 13px; color: var(--muted); }
+
+    .articleMeta{
+      margin: -4px 0 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:12px;
+      color: var(--muted);
+    }
+
+    .articleMeta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--soft);
+      background: rgba(11,11,12,.02);
+      color: var(--muted);
+    }
+
+    .media{
+      margin-top: 10px;
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.20), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      aspect-ratio: 16/9;
+      box-shadow: var(--shadow2);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .media.is-empty::after{
+      content:"Фото отсутствует";
+      position:absolute;
+      right:12px;
+      bottom:12px;
+      font-size:12px;
+      color: var(--muted);
+      padding: 6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line2);
+      background: rgba(255,255,255,.78);
+    }
+
+    html[data-theme="dark"] .media.is-empty::after{
+      background: rgba(16,18,20,.86);
+      color: var(--muted);
+      border-color: var(--line2);
+    }
+
+    .caption{
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted2);
+      line-height: 1.55;
+    }
+
+    .body{
+      margin-top: 16px;
+      border-top: 1px solid rgba(11,11,12,.06);
+      padding-top: 16px;
+    }
+    .body p{
+      margin:0 0 12px;
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ink);
+      max-width: 78ch;
+      white-space: pre-wrap;
+    }
+
+    .toolbar{
+      margin-top: 16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
     .more{
       font-size: 13px;
@@ -494,81 +573,30 @@
     }
     .more:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
 
-    .media{
-      margin-top: 10px;
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.20), transparent 60%),
-        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
-      aspect-ratio: 16/9;
-      box-shadow: var(--shadow2);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-    }
-    .caption{
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--muted2);
-      line-height: 1.55;
-    }
-
-    .articleTitle{
-      margin: 12px 0 10px;
-      font-size: clamp(28px, 3.0vw, 44px);
-      line-height: 1.05;
-      letter-spacing: .15px;
-      font-weight: 1000;
-    }
-    .articleLead{
-      margin:0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.65;
-      max-width: 72ch;
-    }
-
-    .meta{
-      margin-top: 12px;
-      display:flex; flex-wrap:wrap; gap:10px 12px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    .meta span{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--soft);
-      background: rgba(11,11,12,.02);
-      color: var(--muted);
-    }
-    .meta span strong{ color: var(--ink); }
-
-    .toolbar{
-      margin-top: 12px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .body{
-      margin-top: 12px;
-      border-top: 1px solid rgba(11,11,12,.06);
-      padding-top: 12px;
-    }
-    .body p{
-      margin:0 0 12px;
-      font-size: 15px;
-      line-height: 1.75;
-      color: var(--ink);
-      max-width: 78ch;
-      white-space: pre-wrap;
-    }
-
     .related{
-      margin-top: 14px;
+      margin-top: 18px;
       border-top: 1px solid rgba(11,11,12,.06);
-      padding-top: 14px;
+      padding-top: 16px;
+    }
+
+    .relatedHead{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:14px;
+      margin-bottom: 12px;
+    }
+
+    .relatedHead h2{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+    }
+
+    .relatedHead p{
+      margin:0;
+      font-size:13px;
+      color:var(--muted);
     }
 
     .relGrid{
@@ -708,9 +736,8 @@
             <a class="tab active" href="#" data-tab="all">Все</a>
             <a class="tab" href="#" data-tab="events">События</a>
             <a class="tab" href="#" data-tab="market">Рынок</a>
-            <a class="tab" href="#" data-tab="tech">Тех</a>
-            <a class="tab" href="#" data-tab="people">Люди</a>
-            <a class="tab" href="#" data-tab="opinion">Колонка</a>
+            <a class="tab" href="#" data-tab="technologies">Технологии</a>
+            <a class="tab" href="#" data-tab="appointments">Назначения</a>
           </div>
           <div class="hint" id="leftHint">Большие материалы · можно фильтровать</div>
         </div>
@@ -825,54 +852,117 @@
     return s;
   }
 
+  function cssBgUrl(url){
+    const src = normalizeMediaUrl(url);
+    if(!src) return "";
+    return encodeURI(src)
+      .replace(/"/g, "%22")
+      .replace(/'/g, "%27");
+  }
+
+  function hasKeyword(t, keyword){
+    if(keyword instanceof RegExp) return keyword.test(t);
+    return t.includes(keyword);
+  }
+
+  const CATEGORY_RULES = [
+    {
+      tab: "market",
+      rubric: "Рынок",
+      keywords: [
+        "рынок", "экспорт", "импорт", "цена", "цены", "подорожание", "снижение цен",
+        "контракт", "госконтракт", "договор", "тендер", "закупка", "поставка",
+        "отгрузка", "логистика", "транспортировка", "продажи", "выручка",
+        "прибыль", "убыток", "маржа", "инвестиции", "инвестпроект",
+        "финансирование", "кредит", "заем", "сделка", "партнерство",
+        "спрос", "предложение", "заказ", "портфель заказов", "млрд", "млн",
+        "рубл", "доллар", "евро", "банкротство", "акции", "дивиденды",
+        "субсидия", "льгота", "налог", "таможня", "пошлина", "импортер",
+        "экспортер", "поставщик", "потребитель", "дистрибьютор"
+      ]
+    },
+    {
+      tab: "technologies",
+      rubric: "Технологии",
+      keywords: [
+        "технолог", "робот", "роботизация", "автоматизация", "цифровизация",
+        "цифровой двойник", "станок", "чпу", "оборудование", "разработка",
+        "инновация", "инновационный", /\bии\b/u, /\bai\b/i,
+        "искусственный интеллект", "нейросет", "машинное зрение",
+        "компьютерное зрение", "платформа", "система", "софт",
+        "программное обеспечение", "модернизация", "датчик", "сенсор",
+        "беспилот", "дрон", "аддитив", "3d-печать", "3d печать",
+        "композит", "испытания", "лаборатория", "патент", "инжиниринг",
+        "асу тп", "erp", "mes", "scada", "промышленный интернет вещей",
+        "iiot", "энергоэффективность", "накопитель энергии", "водород",
+        "электролизер", "микроэлектроника", "полупроводник", "датасет",
+        "алгоритм", "модель", "прототип", "опытный образец", "серийное производство"
+      ]
+    },
+    {
+      tab: "appointments",
+      rubric: "Назначения",
+      keywords: [
+        "назначен", "назначена", "назначили", "назначение", "возглавил",
+        "возглавила", "стал директором", "стала директором", "новый директор",
+        "новая директор", "новый руководитель", "новая руководитель",
+        "гендиректор", "генеральный директор", "исполнительный директор",
+        "коммерческий директор", "технический директор", "директор по",
+        "руководитель", "председатель", "топ-менеджер", "заместитель",
+        "совет директоров", "правление", "наблюдательный совет",
+        "кадровые изменения", "кадровое назначение", "сменил", "сменила",
+        "покинул пост", "покинула пост", "ушел с поста", "ушла с поста",
+        "избран", "избрана", "переизбран", "переизбрана", "команда",
+        "персонал", "карьера", "биография", "интервью", "директор",
+        "инженер", "специалист", "кадры", "сотрудники", "работники"
+      ]
+    }
+  ];
+
   function detectCategory(text) {
     const t = String(text || "").toLowerCase();
 
-    const rules = [
-      {
-        tab: "market",
-        rubric: "Рынок",
-        keywords: [
-          "рынок", "экспорт", "импорт", "цена", "цены", "контракт", "поставка",
-          "логистика", "продажи", "выручка", "инвестиции", "инвестпроект",
-          "спрос", "предложение", "прибыль", "убыток", "сделка"
-        ]
-      },
-      {
-        tab: "tech",
-        rubric: "Тех",
-        keywords: [
-          "технолог", "технология", "робот", "роботизация", "автоматизация",
-          "цифровизация", "станок", "оборудование", "разработка", "инновация",
-          "ии", "искусственный интеллект", "платформа", "система", "модернизация"
-        ]
-      },
-      {
-        tab: "people",
-        rubric: "Люди",
-        keywords: [
-          "директор", "гендиректор", "руководитель", "инженер", "специалист",
-          "кадры", "сотрудники", "работники", "интервью", "назначение",
-          "команда", "персонал", "биография"
-        ]
-      },
-      {
-        tab: "opinion",
-        rubric: "Колонка",
-        keywords: [
-          "мнение", "колонка", "комментарий", "эксперт", "оценка",
-          "точка зрения", "авторская колонка", "разбор"
-        ]
-      }
-    ];
-
-    for (const rule of rules) {
-      if (rule.keywords.some(word => t.includes(word))) {
+    for (const rule of CATEGORY_RULES) {
+      if (rule.keywords.some(keyword => hasKeyword(t, keyword))) {
         return { tab: rule.tab, rubric: rule.rubric };
       }
     }
 
     return { tab: "events", rubric: "События" };
+  }
+
+  function normalizeCategory(tab, rubric, text){
+    const rawTab = String(tab || "").trim().toLowerCase();
+    const rawRubric = String(rubric || "").trim().toLowerCase();
+
+    const aliases = {
+      "market": { tab: "market", rubric: "Рынок" },
+      "рынок": { tab: "market", rubric: "Рынок" },
+
+      "tech": { tab: "technologies", rubric: "Технологии" },
+      "тех": { tab: "technologies", rubric: "Технологии" },
+      "technology": { tab: "technologies", rubric: "Технологии" },
+      "technologies": { tab: "technologies", rubric: "Технологии" },
+      "технологии": { tab: "technologies", rubric: "Технологии" },
+
+      "people": { tab: "appointments", rubric: "Назначения" },
+      "люди": { tab: "appointments", rubric: "Назначения" },
+      "appointments": { tab: "appointments", rubric: "Назначения" },
+      "appointment": { tab: "appointments", rubric: "Назначения" },
+      "назначения": { tab: "appointments", rubric: "Назначения" },
+      "назначение": { tab: "appointments", rubric: "Назначения" },
+
+      "events": { tab: "events", rubric: "События" },
+      "event": { tab: "events", rubric: "События" },
+      "события": { tab: "events", rubric: "События" },
+      "событие": { tab: "events", rubric: "События" }
+    };
+
+    if (rawTab === "opinion" || rawRubric === "колонка") {
+      return detectCategory(text);
+    }
+
+    return aliases[rawTab] || aliases[rawRubric] || detectCategory(text);
   }
 
   function matchesFilter(a){
@@ -882,14 +972,20 @@
     const qOk = !q || (
       (a.title || "").toLowerCase().includes(q) ||
       (a.lead || "").toLowerCase().includes(q) ||
-      (a.rubric || "").toLowerCase().includes(q)
+      (a.rubric || "").toLowerCase().includes(q) ||
+      (Array.isArray(a.body) ? a.body.join(" ").toLowerCase().includes(q) : false)
     );
     return tabOk && liveOk && qOk;
   }
 
   function relatedFor(article){
-    const sameTab = ARTICLES.filter(a => a.id !== article.id && a.tab === article.tab);
-    return sameTab.slice(0, 4);
+    const sameTab = ARTICLES
+      .filter(a => a.id !== article.id && a.tab === article.tab);
+
+    const fallback = ARTICLES
+      .filter(a => a.id !== article.id && a.tab !== article.tab);
+
+    return [...sameTab, ...fallback].slice(0, 4);
   }
 
   function buildFromFeed(posts){
@@ -904,25 +1000,27 @@
 
       const title = (parts[0] || text || "Новость").slice(0, 120);
       const lead = (parts[1] || parts[0] || "").slice(0, 220);
-      const fallbackCategory = detectCategory(text);
-      const tab = p?.tab || fallbackCategory.tab;
-      const rubric = p?.rubric || fallbackCategory.rubric;
+      const category = normalizeCategory(p?.tab, p?.rubric, text);
+
+      const bodyParts = parts.length > 1
+        ? parts.slice(1)
+        : [text].filter(Boolean);
 
       return {
         id: String(p?.id ?? idx),
-        tab,
-        rubric,
+        tab: category.tab,
+        rubric: category.rubric,
         thumb: p?.photo || null,
         when: p?.date ? formatDate(p.date) : "",
         age: p?.date ? relTime(p.date) : "",
-        live: false,
+        live: Boolean(p?.live),
         title,
         lead,
         tags: [],
         author: "ВКонтакте",
         updated: p?.date ? formatDateTime(p.date) : "",
         caption: "Источник: сообщество ВКонтакте",
-        body: parts.length ? parts : [text],
+        body: bodyParts.length ? bodyParts : [lead || title],
         ts: p?.date || null
       };
     });
@@ -960,11 +1058,11 @@
     }
 
     listView.innerHTML = items.map(a => {
-      const thumb = normalizeMediaUrl(a.thumb);
-      const thumbStyle = thumb ? `background-image:url('${thumb.replace(/'/g, "%27")}');` : "";
+      const thumb = cssBgUrl(a.thumb);
+      const thumbStyle = thumb ? `background-image:url('${thumb}');` : "";
 
       return `
-        <a class="bigcard" href="#${encodeURIComponent(a.id)}" data-open="${a.id}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
+        <a class="bigcard" href="#${encodeURIComponent(a.id)}" data-open="${escapeHtml(a.id)}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
           <div class="bigrow">
             <div class="thumb" aria-hidden="true" style="${thumbStyle}"></div>
             <div>
@@ -998,39 +1096,31 @@
     if(!a) return;
 
     const related = relatedFor(a);
-    const thumb = normalizeMediaUrl(a.thumb);
+    const thumb = cssBgUrl(a.thumb);
 
     articleView.innerHTML = `
-      <div class="articleHead">
-        <div>
-          <h2>${escapeHtml(a.rubric)}</h2>
-          <p>${escapeHtml(a.when || "")}${a.author ? ` · <strong>${escapeHtml(a.author)}</strong>` : ""}</p>
-        </div>
-        <button class="more" id="backBtn" type="button">← Назад</button>
+      <h1 class="articleTitle">${escapeHtml(a.title)}</h1>
+
+      <div class="articleMeta">
+        <span>${escapeHtml(a.rubric || "События")}</span>
+        ${a.updated ? `<span>${escapeHtml(a.updated)}</span>` : ``}
+        ${a.author ? `<span>${escapeHtml(a.author)}</span>` : ``}
       </div>
 
-      <div class="articleTitle">${escapeHtml(a.title)}</div>
-      <p class="articleLead">${escapeHtml(a.lead || "")}</p>
-
-      ${thumb ? `<div class="media" style="background-image:url('${thumb.replace(/'/g, "%27")}');"></div>` : ``}
-      ${a.caption ? `<div class="caption">${escapeHtml(a.caption)}</div>` : ``}
-
-      <div class="meta">
-        ${a.updated ? `<span><strong>Обновлено:</strong> ${escapeHtml(a.updated)}</span>` : ``}
-        <span><strong>Источник:</strong> ВКонтакте</span>
-      </div>
-
-      <div class="toolbar">
-        <button class="more" id="backBtn2" type="button">← К списку</button>
-      </div>
+      <div class="media ${thumb ? "" : "is-empty"}" style="${thumb ? `background-image:url('${thumb}');` : ""}"></div>
+      ${a.thumb && a.caption ? `<div class="caption">${escapeHtml(a.caption)}</div>` : ``}
 
       <div class="body">
         ${a.body.map(p => `<p>${escapeHtml(p)}</p>`).join("")}
       </div>
 
+      <div class="toolbar">
+        <button class="more" id="backBtn" type="button">← К списку</button>
+      </div>
+
       ${related.length ? `
         <div class="related">
-          <div class="articleHead" style="margin-bottom:0">
+          <div class="relatedHead">
             <div>
               <h2>Ещё по теме</h2>
               <p>Похожие материалы из ленты</p>
@@ -1039,7 +1129,7 @@
 
           <div class="relGrid">
             ${related.map(r => `
-              <a class="relCard" href="#${encodeURIComponent(r.id)}" data-open-related="${r.id}">
+              <a class="relCard" href="#${encodeURIComponent(r.id)}" data-open-related="${escapeHtml(r.id)}">
                 <div class="top">
                   <span class="rubric">${escapeHtml(r.rubric)}</span>
                   <span>${escapeHtml(r.when || "")}</span>
@@ -1061,7 +1151,6 @@
     };
 
     articleView.querySelector("#backBtn")?.addEventListener("click", back);
-    articleView.querySelector("#backBtn2")?.addEventListener("click", back);
 
     articleView.querySelectorAll("[data-open-related]").forEach(el => {
       el.addEventListener("click", (e) => {
@@ -1085,7 +1174,7 @@
       .filter(i => !q || (i.title || "").toLowerCase().includes(q));
 
     feedList.innerHTML = show.map(n => `
-      <div class="feed-item" data-open="${n.id}">
+      <div class="feed-item" data-open="${escapeHtml(n.id)}">
         <div class="t-time">${escapeHtml(n.time || "")}</div>
         <div class="t-main">
           <div class="t-top">
