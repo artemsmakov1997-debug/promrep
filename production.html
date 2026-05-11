@@ -367,6 +367,144 @@
       min-width: 0;
     }
 
+    .verticalCases{
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      position:relative;
+      padding: 14px;
+    }
+
+    .verticalCases:before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(780px 300px at 18% 0%, rgba(240,32,0,.10), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.04), transparent 70%);
+      pointer-events:none;
+    }
+
+    .verticalIntro{
+      position:relative;
+      z-index:1;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:14px;
+      padding: 4px 4px 14px;
+      flex-wrap:wrap;
+    }
+
+    .verticalIntroText{
+      max-width: 720px;
+    }
+
+    .verticalIntroText h3{
+      margin:8px 0 0;
+      font-size: clamp(20px, 2vw, 28px);
+      line-height:1.12;
+      letter-spacing:.1px;
+    }
+
+    .verticalIntroText p{
+      margin:8px 0 0;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.65;
+      max-width: 72ch;
+    }
+
+    .verticalChips{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      gap:8px;
+      font-size:12px;
+      color: var(--muted);
+    }
+
+    .verticalChips span{
+      border:1px solid var(--line2);
+      background: var(--glassBg);
+      border-radius:999px;
+      padding:7px 10px;
+      white-space:nowrap;
+    }
+
+    .shorts{
+      position:relative;
+      z-index:1;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 340px));
+      gap: 14px;
+      justify-content:center;
+      align-items:start;
+    }
+
+    .shortCard{
+      min-width:0;
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: var(--shadow2);
+      overflow:hidden;
+      padding: 12px;
+      position:relative;
+    }
+
+    .shortCard:before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(420px 220px at 20% 0%, rgba(240,32,0,.08), transparent 62%);
+      pointer-events:none;
+    }
+
+    .shortFrame{
+      position:relative;
+      z-index:1;
+      width:100%;
+      aspect-ratio: 325 / 646;
+      border-radius: 14px;
+      overflow:hidden;
+      background:#000;
+      border: 1px solid var(--line2);
+    }
+
+    .shortFrame iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      display:block;
+      border:0;
+      background:#000;
+    }
+
+    .shortText{
+      position:relative;
+      z-index:1;
+      padding: 10px 2px 2px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .shortText b{
+      font-size:13px;
+      line-height:1.35;
+      letter-spacing:.15px;
+    }
+
+    .shortText span{
+      font-size:12px;
+      line-height:1.55;
+      color: var(--muted);
+    }
+
     .howWrap{
       display:grid;
       grid-template-columns: 1fr;
@@ -619,6 +757,36 @@
       .hero{ grid-template-columns: 1fr; }
       .cta .inner{ grid-template-columns: 1fr; }
 
+      .verticalCases{
+        padding: 12px;
+      }
+
+      .verticalIntro{
+        align-items:flex-start;
+        padding: 2px 2px 12px;
+      }
+
+      .verticalChips{
+        justify-content:flex-start;
+      }
+
+      .shorts{
+        display:flex;
+        justify-content:flex-start;
+        overflow-x:auto;
+        gap:12px;
+        padding: 2px 12px 12px;
+        margin: 0 -12px;
+        scroll-snap-type:x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+      }
+
+      .shortCard{
+        flex: 0 0 min(72vw, 340px);
+        scroll-snap-align:start;
+      }
+
       .stations{ grid-template-columns: 1fr; }
       .belt{ height:auto; padding: 12px; }
       .carrier{ display:none; }
@@ -643,6 +811,23 @@
       .poster{
         min-height: auto;
         aspect-ratio: 16 / 9;
+      }
+
+      .shortCard{
+        flex-basis: min(82vw, 320px);
+        padding: 10px;
+      }
+
+      .shortText b{
+        font-size:12.5px;
+      }
+
+      .shortText span{
+        font-size:11.5px;
+      }
+
+      .verticalIntroText h3{
+        font-size: 20px;
       }
     }
 
@@ -716,6 +901,7 @@
 
           <div style="display:flex; gap:10px; flex-wrap:wrap;">
             <a class="btn primary" href="#cta">Обсудить проект</a>
+            <a class="btn ghost" href="#vertical-videos">Вертикальные видео</a>
             <a class="btn ghost" href="#how">Как мы работаем</a>
           </div>
 
@@ -741,6 +927,89 @@
           </iframe>
         </div>
       </aside>
+    </section>
+
+    <section class="section" id="vertical-videos" aria-label="Примеры вертикальных видео">
+      <div class="sectionTitle">
+        <h2>ВЕРТИКАЛЬНЫЕ ВИДЕО ПОД ЗАКАЗ</h2>
+        <p>Формат 9:16 для VK Клипов, Shorts, Reels и корпоративных соцсетей</p>
+      </div>
+
+      <div class="verticalCases">
+        <div class="verticalIntro">
+          <div class="verticalIntroText">
+            <div class="kicker"><span class="dot"></span><span>Примеры работ</span></div>
+            <h3>Короткие ролики, которые быстро объясняют сложное</h3>
+            <p>
+              Берём промышленную фактуру, событие, продукт или экспертную мысль — и собираем из этого
+              вертикальное видео с понятным темпом, титрами и акцентом на смысл.
+            </p>
+          </div>
+
+          <div class="verticalChips" aria-label="Форматы">
+            <span>9:16</span>
+            <span>VK Клипы</span>
+            <span>Reels / Shorts</span>
+            <span>Титры и монтаж</span>
+          </div>
+        </div>
+
+        <div class="shorts">
+          <article class="shortCard">
+            <div class="shortFrame">
+              <iframe
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239816&autoplay=1"
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                frameborder="0"
+                allowfullscreen
+                scrolling="no"
+                loading="lazy"
+                title="Пример вертикального видео — Промышленный репортёр">
+              </iframe>
+            </div>
+            <div class="shortText">
+              <b>Вертикальный репортаж</b>
+              <span>Динамичная подача, производственная фактура, титры и смысл без воды.</span>
+            </div>
+          </article>
+
+          <article class="shortCard">
+            <div class="shortFrame">
+              <iframe
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239576&autoplay=1"
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                frameborder="0"
+                allowfullscreen
+                scrolling="no"
+                loading="lazy"
+                title="Пример вертикального видео — Промышленный репортёр">
+              </iframe>
+            </div>
+            <div class="shortText">
+              <b>Короткий ролик для соцсетей</b>
+              <span>Сильный первый кадр, быстрый темп, понятная мысль и финальный вывод.</span>
+            </div>
+          </article>
+
+          <article class="shortCard">
+            <div class="shortFrame">
+              <iframe
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239179&autoplay=1"
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                frameborder="0"
+                allowfullscreen
+                scrolling="no"
+                loading="lazy"
+                title="Пример вертикального видео — Промышленный репортёр">
+              </iframe>
+            </div>
+            <div class="shortText">
+              <b>Видео под задачу бренда</b>
+              <span>Подходит для продукта, события, запуска, вакансии или имиджевой кампании.</span>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
 
     <section class="section" id="how" aria-label="КАК МЫ РАБОТАЕМ">
