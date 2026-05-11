@@ -714,7 +714,7 @@
         <a class="inner" id="heroLink" href="news.html">
           <div class="badge"><i></i> Главный материал</div>
           <h1 id="heroTitle">Загрузка…</h1>
-          <p class="lead" id="heroLead">Подтягиваем свежий материал из ленты новостей.</p>
+          <p class="lead" id="heroLead">Подтягиваем самый заметный материал из ленты новостей.</p>
           <div class="meta" id="heroMeta">
             <span>События</span><span>ВКонтакте</span><span>Сейчас</span>
           </div>
@@ -898,54 +898,198 @@
       el.classList.remove("is-empty");
     }
 
+    function hasKeyword(t, keyword){
+      if(keyword instanceof RegExp) return keyword.test(t);
+      return t.includes(keyword);
+    }
+
+    const CATEGORY_RULES = [
+      {
+        tab: "market",
+        rubric: "Рынок",
+        keywords: [
+          "рынок", "экспорт", "импорт", "цена", "цены", "подорожание", "снижение цен",
+          "контракт", "госконтракт", "договор", "тендер", "закупка", "поставка",
+          "отгрузка", "логистика", "транспортировка", "продажи", "выручка",
+          "прибыль", "убыток", "маржа", "инвестиции", "инвестпроект",
+          "финансирование", "кредит", "заем", "сделка", "партнерство",
+          "спрос", "предложение", "заказ", "портфель заказов", "млрд", "млн",
+          "рубл", "доллар", "евро", "банкротство", "акции", "дивиденды",
+          "субсидия", "льгота", "налог", "таможня", "пошлина", "импортер",
+          "экспортер", "потребитель", "поставщик", "дистрибьютор"
+        ]
+      },
+      {
+        tab: "technologies",
+        rubric: "Технологии",
+        keywords: [
+          "технолог", "робот", "роботизация", "автоматизация", "цифровизация",
+          "цифровой двойник", "станок", "чпу", "оборудование", "разработка",
+          "инновация", "инновационный", /\bии\b/u, /\bai\b/i,
+          "искусственный интеллект", "нейросет", "машинное зрение",
+          "компьютерное зрение", "платформа", "система", "софт",
+          "программное обеспечение", "модернизация", "датчик", "сенсор",
+          "беспилот", "дрон", "аддитив", "3d-печать", "3d печать",
+          "композит", "испытания", "лаборатория", "патент", "инжиниринг",
+          "асу тп", "erp", "mes", "scada", "промышленный интернет вещей",
+          "iiot", "энергоэффективность", "накопитель энергии", "водород",
+          "электролизер", "микроэлектроника", "полупроводник", "датасет",
+          "алгоритм", "модель", "прототип", "опытный образец", "серийное производство"
+        ]
+      },
+      {
+        tab: "appointments",
+        rubric: "Назначения",
+        keywords: [
+          "назначен", "назначена", "назначили", "назначение", "возглавил",
+          "возглавила", "стал директором", "стала директором", "новый директор",
+          "новая директор", "новый руководитель", "новая руководитель",
+          "гендиректор", "генеральный директор", "исполнительный директор",
+          "коммерческий директор", "технический директор", "директор по",
+          "руководитель", "председатель", "топ-менеджер", "заместитель",
+          "совет директоров", "правление", "наблюдательный совет",
+          "кадровые изменения", "кадровое назначение", "сменил", "сменила",
+          "покинул пост", "покинула пост", "ушел с поста", "ушла с поста",
+          "избран", "избрана", "переизбран", "переизбрана", "команда",
+          "персонал", "карьера", "биография", "интервью", "директор",
+          "инженер", "специалист", "кадры", "сотрудники", "работники"
+        ]
+      }
+    ];
+
     function detectCategory(text) {
       const t = String(text || "").toLowerCase();
 
-      const rules = [
-        {
-          tab: "market",
-          rubric: "Рынок",
-          keywords: [
-            "рынок", "экспорт", "импорт", "цена", "цены", "контракт", "поставка",
-            "логистика", "продажи", "выручка", "инвестиции", "инвестпроект",
-            "спрос", "предложение", "прибыль", "убыток", "сделка"
-          ]
-        },
-        {
-          tab: "tech",
-          rubric: "Тех",
-          keywords: [
-            "технолог", "технология", "робот", "роботизация", "автоматизация",
-            "цифровизация", "станок", "оборудование", "разработка", "инновация",
-            "ии", "искусственный интеллект", "платформа", "система", "модернизация"
-          ]
-        },
-        {
-          tab: "people",
-          rubric: "Люди",
-          keywords: [
-            "директор", "гендиректор", "руководитель", "инженер", "специалист",
-            "кадры", "сотрудники", "работники", "интервью", "назначение",
-            "команда", "персонал", "биография"
-          ]
-        },
-        {
-          tab: "opinion",
-          rubric: "Колонка",
-          keywords: [
-            "мнение", "колонка", "комментарий", "эксперт", "оценка",
-            "точка зрения", "авторская колонка", "разбор"
-          ]
-        }
-      ];
-
-      for (const rule of rules) {
-        if (rule.keywords.some(word => t.includes(word))) {
+      for (const rule of CATEGORY_RULES) {
+        if (rule.keywords.some(keyword => hasKeyword(t, keyword))) {
           return { tab: rule.tab, rubric: rule.rubric };
         }
       }
 
       return { tab: "events", rubric: "События" };
+    }
+
+    function normalizeCategory(tab, rubric, text){
+      const rawTab = String(tab || "").trim().toLowerCase();
+      const rawRubric = String(rubric || "").trim().toLowerCase();
+
+      const aliases = {
+        "market": { tab: "market", rubric: "Рынок" },
+        "рынок": { tab: "market", rubric: "Рынок" },
+
+        "tech": { tab: "technologies", rubric: "Технологии" },
+        "тех": { tab: "technologies", rubric: "Технологии" },
+        "technology": { tab: "technologies", rubric: "Технологии" },
+        "technologies": { tab: "technologies", rubric: "Технологии" },
+        "технологии": { tab: "technologies", rubric: "Технологии" },
+
+        "people": { tab: "appointments", rubric: "Назначения" },
+        "люди": { tab: "appointments", rubric: "Назначения" },
+        "appointments": { tab: "appointments", rubric: "Назначения" },
+        "appointment": { tab: "appointments", rubric: "Назначения" },
+        "назначения": { tab: "appointments", rubric: "Назначения" },
+        "назначение": { tab: "appointments", rubric: "Назначения" },
+
+        "events": { tab: "events", rubric: "События" },
+        "event": { tab: "events", rubric: "События" },
+        "события": { tab: "events", rubric: "События" },
+        "событие": { tab: "events", rubric: "События" }
+      };
+
+      if (rawTab === "opinion" || rawRubric === "колонка") {
+        return detectCategory(text);
+      }
+
+      return aliases[rawTab] || aliases[rawRubric] || detectCategory(text);
+    }
+
+    const HERO_KEYWORDS = [
+      "завод", "производство", "предприятие", "цех", "линия", "запуск",
+      "открытие", "строительство", "инвестиции", "инвестпроект", "млрд",
+      "миллиард", "млн", "миллион", "экспорт", "импортозамещение",
+      "санкции", "контракт", "госконтракт", "сделка", "тендер", "поставка",
+      "модернизация", "робот", "роботизация", "автоматизация", "цифровизация",
+      "искусственный интеллект", "нейросеть", "оборудование", "станок",
+      "авария", "чп", "пожар", "остановка", "дефицит", "рекорд",
+      "крупнейший", "первый", "впервые", "новый", "назначен", "назначена",
+      "возглавил", "возглавила", "рост", "снижение", "прибыль", "выручка",
+      "эксперимент", "испытания", "серийное производство", "разработка"
+    ];
+
+    const HERO_NEGATIVE_KEYWORDS = [
+      "поздравляем", "поздравление", "с праздником", "доброе утро",
+      "добрый вечер", "дайджест", "анонс", "афиша", "итоги недели",
+      "подборка", "напоминаем", "опрос", "голосование"
+    ];
+
+    function keywordHitCount(text, keywords){
+      return keywords.reduce((sum, word) => {
+        return sum + (text.includes(word) ? 1 : 0);
+      }, 0);
+    }
+
+    function scoreArticle(a){
+      const text = [
+        a.title,
+        a.lead,
+        Array.isArray(a.body) ? a.body.join(" ") : ""
+      ].join(" ").toLowerCase();
+
+      let score = 0;
+
+      // Ручной редакторский приоритет из JSON.
+      // featured / hero / main — закрепляет материал почти наверняка.
+      // priority — мягкий числовой вес.
+      if (a.featured) score += 1000;
+      if (a.priority) score += a.priority * 100;
+
+      // Фото почти всегда делает материал лучше для главного окна.
+      if (a.thumb) score += 18;
+
+      const titleLen = String(a.title || "").length;
+      const leadLen = String(a.lead || "").length;
+
+      if (titleLen >= 35 && titleLen <= 115) score += 10;
+      if (titleLen < 20) score -= 8;
+      if (leadLen >= 80) score += 6;
+
+      // Цифры, деньги и проценты часто означают предметную промышленную новость.
+      if (/\d/.test(text)) score += 8;
+      if (/(млрд|миллиард|млн|миллион|%|рубл|доллар|евро)/u.test(text)) score += 10;
+
+      score += Math.min(keywordHitCount(text, HERO_KEYWORDS) * 4, 40);
+      score -= keywordHitCount(text, HERO_NEGATIVE_KEYWORDS) * 14;
+
+      // Небольшой тематический бонус.
+      if (a.tab === "technologies") score += 7;
+      if (a.tab === "market") score += 6;
+      if (a.tab === "appointments") score += 3;
+
+      // Свежесть учитываем, но не даём ей полностью решать выбор.
+      if (a.ts) {
+        const ageHours = Math.max(0, (Date.now() - a.ts * 1000) / 36e5);
+
+        if (ageHours <= 6) score += 10;
+        else if (ageHours <= 24) score += 7;
+        else if (ageHours <= 72) score += 4;
+        else if (ageHours <= 168) score += 1;
+      }
+
+      return score;
+    }
+
+    function pickHeroArticle(items){
+      const filtered = items.filter(matchesQuery);
+      const pool = filtered.length ? filtered : items;
+
+      return pool
+        .slice()
+        .sort((a, b) => {
+          const byScore = scoreArticle(b) - scoreArticle(a);
+          if (byScore !== 0) return byScore;
+
+          return Number(b.ts || 0) - Number(a.ts || 0);
+        })[0] || null;
     }
 
     function buildNewsFromFeed(posts){
@@ -956,17 +1100,23 @@
         const parts = text.split("\n\n").map(x => x.trim()).filter(Boolean);
         const title = (parts[0] || text || "Новость").slice(0, 120);
         const lead = (parts[1] || parts[0] || "").slice(0, 220);
-        const category = detectCategory(text);
+        const category = normalizeCategory(p?.tab, p?.rubric, text);
 
         return {
           id: String(p?.id ?? idx),
-          tab: p?.tab || category.tab,
-          rubric: p?.rubric || category.rubric,
+          tab: category.tab,
+          rubric: category.rubric,
           title,
           lead,
           thumb: p?.photo || null,
           ts: p?.date || null,
-          body: parts.length ? parts : [text]
+          body: parts.length ? parts : [text],
+
+          // Необязательные ручные редакторские поля из feed.json:
+          // featured / hero / main закрепляют материал в главном окне,
+          // priority повышает его вес.
+          featured: Boolean(p?.featured || p?.hero || p?.main),
+          priority: Number(p?.priority || 0)
         };
       });
 
@@ -985,7 +1135,7 @@
     }
 
     function renderHero(){
-      const a = ARTICLES.find(matchesQuery) || ARTICLES[0];
+      const a = pickHeroArticle(ARTICLES);
       if(!a) return;
 
       heroLink.href = `news.html#${encodeURIComponent(a.id)}`;
