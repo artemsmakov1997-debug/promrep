@@ -3,9 +3,51 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Новости — Промышленный репортёр</title>
 
-  <script>
+  
+  <title>Новости промышленности — Промышленный репортёр</title>
+  <meta name="description" content="Свежие новости промышленности: события, рынок, технологии, назначения, предприятия, заводы и производственные проекты.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://promrep.ru/news.html">
+
+  <meta property="og:title" content="Новости промышленности — Промышленный репортёр">
+  <meta property="og:description" content="Свежие новости промышленности: события, рынок, технологии, назначения, предприятия и производственные проекты.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://promrep.ru/news.html">
+  <meta property="og:site_name" content="Промышленный репортёр">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:image" content="https://promrep.ru/log.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Новости промышленности — Промышленный репортёр">
+  <meta name="twitter:description" content="Свежие новости промышленности, технологий, рынка и назначений.">
+  <meta name="twitter:image" content="https://promrep.ru/log.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Новости промышленности — Промышленный репортёр",
+    "description": "Свежие новости промышленности: события, рынок, технологии, назначения, предприятия, заводы и производственные проекты.",
+    "url": "https://promrep.ru/news.html",
+    "inLanguage": "ru-RU",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Промышленный репортёр",
+      "url": "https://promrep.ru/"
+    },
+    "publisher": {
+      "@type": "NewsMediaOrganization",
+      "name": "Промышленный репортёр",
+      "url": "https://promrep.ru/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://promrep.ru/log.png"
+      }
+    }
+  }
+  </script>
+<script>
     (function () {
       const key = "theme";
       const saved = localStorage.getItem(key);
@@ -82,7 +124,6 @@
       text-rendering: geometricPrecision;
     }
     a{ color:inherit; text-decoration:none; }
-    button{ font-family:inherit; }
     .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
 
     html, body { transition: background-color .18s ease, color .18s ease; }
@@ -128,7 +169,6 @@
     .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
 
     .actions{ display:flex; align-items:center; gap:10px; min-width: 240px; justify-content:flex-end; }
-
     .search{
       width:min(260px, 34vw);
       border:1px solid var(--line2);
@@ -149,7 +189,6 @@
       font-size: 13px;
       cursor:pointer;
       transition:.14s ease;
-      white-space:nowrap;
       color: var(--ink);
     }
     .btn:hover{ transform: translateY(-1px); }
@@ -177,6 +216,18 @@
     @media (min-width: 721px){
       .themeLabel{ display:none; }
       .themeBtn{ padding: 10px 11px; }
+    }
+
+    main{ position:relative; z-index:1; padding: 24px 0 56px; }
+
+    .kicker{
+      display:flex; align-items:center; gap:10px;
+      font-size:12px; letter-spacing:1.4px; text-transform:uppercase;
+      color: var(--muted);
+    }
+    .kicker .dot{
+      width:9px; height:9px; border-radius: 3px;
+      background: var(--red);
     }
 
     .nav-desktop{
@@ -233,130 +284,110 @@
       background: rgba(11,11,12,.02);
     }
 
-    main{ position:relative; z-index:1; padding: 24px 0 56px; }
-
-    .kicker{
-      display:flex; align-items:center; gap:10px;
-      font-size:12px; letter-spacing:1.4px; text-transform:uppercase;
-      color: var(--muted);
-    }
-    .kicker .dot{
-      width:9px; height:9px; border-radius: 3px;
-      background: var(--red);
-    }
-
-    .layout{
+    .hero{
       margin-top: 14px;
       display:grid;
       grid-template-columns: 1.35fr .9fr;
       gap: 14px;
-      align-items:start;
-      grid-template-areas: "left feed";
+      align-items:stretch;
     }
-    .leftcol{ grid-area:left; }
-    .feed{ grid-area:feed; }
-
-    .controlbar{
-      background: var(--paper);
-      border: 1px solid var(--line);
+    .panel{
       border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      padding: 10px 12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom: 14px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: var(--shadow);
+      background: var(--panel);
+      color: var(--panelText);
+      position:relative;
     }
-    .tabs{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-    .tab{
-      font-size:13px;
-      color: var(--muted);
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      transition:.14s ease;
-      white-space:nowrap;
-    }
-    .tab:hover{ color: var(--ink); border-color: rgba(240,32,0,.18); background: rgba(240,32,0,.04); }
-    .tab.active{ color: var(--ink); border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); font-weight:900; }
-
-    .hint{ font-size:13px; color: var(--muted); }
-
-    .biglist{ display:flex; flex-direction:column; gap:14px; }
-
-    .bigcard{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      padding: 14px;
-      transition:.14s ease;
-      display:flex;
-      flex-direction:column;
-    }
-    .bigcard:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
-
-    .bigrow{
-      display:grid;
-      grid-template-columns: 240px 1fr;
-      gap: 14px;
-      align-items:start;
-    }
-
-    .thumb{
-      border-radius: var(--r);
-      border: 1px solid var(--line);
+    .panel:before{
+      content:"";
+      position:absolute; inset:0;
       background:
-        radial-gradient(560px 220px at 20% 15%, rgba(240,32,0,.14), transparent 60%),
-        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
-      aspect-ratio: 16/10;
-      box-shadow: var(--shadow2);
+        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.12), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.035), transparent 60%);
+      opacity:.95;
+      pointer-events:none;
+      z-index:1;
+    }
+
+    .panel-media{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.55));
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      transform: scale(1.01);
     }
 
-    .top{
-      display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted);
-      align-items:center;
-      flex-wrap:wrap;
+    .panel-media.is-empty{
+      background:
+        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.20), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.055), transparent 60%);
     }
-    .rubric{
+
+    .panel .inner{
+      position:relative;
+      z-index:2;
+      min-height: 360px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      padding: 20px;
+    }
+
+    .panel .inner#heroLink{
+      display:flex !important;
+      flex-direction:column;
+      gap:14px;
+      min-height: 360px;
+      padding: 20px;
+    }
+
+    .badge{
       display:inline-flex; align-items:center; gap:8px;
-      font-weight: 900; color: var(--ink);
-      letter-spacing:.2px;
-    }
-    .rubric:before{
-      content:""; width:8px; height:8px; border-radius:2px; background: var(--red);
-      display:inline-block;
-    }
-    .live{
-      font-size:10px;
-      font-weight:1000;
-      letter-spacing:.9px;
-      color: var(--red);
-      border: 1px solid rgba(240,32,0,.28);
-      background: rgba(240,32,0,.06);
-      padding: 2px 6px;
-      border-radius: 999px;
-      margin-left:auto;
-    }
-
-    .bigcard h3{ margin:10px 0 10px; font-size:16px; line-height:1.2; }
-    .desc{ margin:0; color: var(--muted); font-size:13px; line-height:1.55; }
-
-    .chips{ margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; }
-    .chip{
-      font-size: 11px;
+      width:fit-content;
       padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid var(--soft);
-      background: rgba(11,11,12,.02);
-      color: var(--muted);
+      border: 1px solid rgba(240,32,0,.28);
+      background: rgba(240,32,0,.10);
+      font-size: 12px;
+      color: var(--panelText);
+      backdrop-filter: blur(3px);
     }
-    .chip.hot{ border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); color: var(--ink); font-weight:800; }
+    .badge i{ width:7px; height:7px; border-radius: 2px; background: var(--red); display:inline-block; }
+
+    h1{
+      margin:0;
+      font-size: clamp(28px, 3.2vw, 44px);
+      line-height: 1.05;
+      letter-spacing: .15px;
+      text-shadow: 0 2px 16px rgba(0,0,0,.35);
+    }
+    .lead{
+      margin:0;
+      color: var(--panelMuted);
+      font-size: 15px;
+      line-height: 1.65;
+      max-width: 72ch;
+      text-shadow: 0 1px 12px rgba(0,0,0,.25);
+    }
+    .meta{
+      margin-top:auto;
+      display:flex; flex-wrap:wrap; gap:10px 12px;
+      font-size: 12px;
+      color: rgba(247,247,248,.78);
+    }
+    .meta span{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      backdrop-filter: blur(4px);
+    }
 
     .feed{
       background: var(--paper);
@@ -367,9 +398,6 @@
       display:flex;
       flex-direction:column;
       min-height: 360px;
-      position:sticky;
-      top: 78px;
-      max-height: calc(100vh - 96px);
     }
     .feed-head{
       padding: 12px 14px;
@@ -412,6 +440,7 @@
     .feed-list{
       padding: 6px 0;
       overflow:auto;
+      max-height: 360px;
     }
     .feed-item{
       display:grid;
@@ -420,36 +449,35 @@
       padding: 10px 14px;
       border-top: 1px solid rgba(11,11,12,.06);
       transition:.12s ease;
-      cursor:pointer;
     }
     .feed-item:first-child{ border-top:0; }
     .feed-item:hover{ background: rgba(11,11,12,.02); }
-
     .t-time{
       font-size:12px;
       color: var(--muted2);
       font-variant-numeric: tabular-nums;
       padding-top: 1px;
     }
-    .t-main{ display:flex; flex-direction:column; gap:4px; min-width:0; }
-    .t-top{ display:flex; align-items:center; gap:8px; font-size:12px; color: var(--muted); }
+    .t-main{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+    .t-top{
+      display:flex; align-items:center; gap:8px;
+      font-size:12px;
+      color: var(--muted);
+    }
     .t-dot{
       width:7px; height:7px; border-radius:2px;
       background: var(--red);
       display:inline-block;
       transform: translateY(1px);
     }
-    .t-rubric{ font-weight:800; color: var(--ink); }
-    .t-live{
-      margin-left:auto;
-      font-size:10px;
-      font-weight:1000;
-      letter-spacing:.9px;
-      color: var(--red);
-      border: 1px solid rgba(240,32,0,.28);
-      background: rgba(240,32,0,.06);
-      padding: 2px 6px;
-      border-radius: 999px;
+    .t-rubric{
+      font-weight:800;
+      color: var(--ink);
     }
     .t-title{
       font-size:13px;
@@ -462,103 +490,12 @@
       overflow:hidden;
     }
 
-    .article{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      padding: 16px;
+    .section{ margin-top: 22px; }
+    .section-head{
+      display:flex; justify-content:space-between; align-items:flex-end; gap:14px;
+      margin-bottom: 12px;
     }
-
-    .articleTitle{
-      margin: 0 0 14px;
-      font-size: clamp(28px, 3.0vw, 44px);
-      line-height: 1.05;
-      letter-spacing: .15px;
-      font-weight: 1000;
-    }
-
-    .articleMeta{
-      margin: -4px 0 14px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      font-size:12px;
-      color: var(--muted);
-    }
-
-    .articleMeta span{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--soft);
-      background: rgba(11,11,12,.02);
-      color: var(--muted);
-    }
-
-    .media{
-      margin-top: 10px;
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background:
-        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.20), transparent 60%),
-        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
-      aspect-ratio: 16/9;
-      box-shadow: var(--shadow2);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .media.is-empty::after{
-      content:"Фото отсутствует";
-      position:absolute;
-      right:12px;
-      bottom:12px;
-      font-size:12px;
-      color: var(--muted);
-      padding: 6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line2);
-      background: rgba(255,255,255,.78);
-    }
-
-    html[data-theme="dark"] .media.is-empty::after{
-      background: rgba(16,18,20,.86);
-      color: var(--muted);
-      border-color: var(--line2);
-    }
-
-    .caption{
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--muted2);
-      line-height: 1.55;
-    }
-
-    .body{
-      margin-top: 16px;
-      border-top: 1px solid rgba(11,11,12,.06);
-      padding-top: 16px;
-    }
-    .body p{
-      margin:0 0 12px;
-      font-size: 15px;
-      line-height: 1.75;
-      color: var(--ink);
-      max-width: 78ch;
-      white-space: pre-wrap;
-    }
-
-    .toolbar{
-      margin-top: 16px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
+    .section-head h2{ margin:0; font-size: 18px; letter-spacing:.2px; }
     .more{
       font-size: 13px;
       color: var(--red);
@@ -569,55 +506,141 @@
       background: rgba(240,32,0,.05);
       transition:.14s ease;
       white-space:nowrap;
-      cursor:pointer;
     }
     .more:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
 
-    .related{
-      margin-top: 18px;
-      border-top: 1px solid rgba(11,11,12,.06);
-      padding-top: 16px;
-    }
-
-    .relatedHead{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:14px;
-      margin-bottom: 12px;
-    }
-
-    .relatedHead h2{
-      margin:0;
-      font-size:18px;
-      letter-spacing:.2px;
-    }
-
-    .relatedHead p{
-      margin:0;
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    .relGrid{
+    .cards{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 14px;
-      margin-top: 12px;
     }
-    .relCard{
-      grid-column: span 6;
+    .card{
+      grid-column: span 4;
       background: var(--paper);
       border: 1px solid var(--line);
       border-radius: var(--r);
       padding: 14px;
       box-shadow: var(--shadow2);
       transition:.14s ease;
+      display:flex; flex-direction:column;
+      min-height: 210px;
+    }
+    .card:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
+    .card .top{ display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted); }
+    .card .rubric{
+      display:inline-flex; align-items:center; gap:8px;
+      font-weight: 900; color: var(--ink);
+      letter-spacing:.2px;
+    }
+    .card .rubric:before{
+      content:""; width:8px; height:8px; border-radius:2px; background: var(--red);
+      display:inline-block;
+    }
+    .card h3{ margin:10px 0 10px; font-size:16px; line-height:1.2; }
+    .card .desc{ margin:0; color: var(--muted); font-size:13px; line-height:1.55; }
+    .chips{ margin-top:auto; display:flex; flex-wrap:wrap; gap:8px; padding-top:12px; }
+    .chip{
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--soft);
+      background: rgba(11,11,12,.02);
+      color: var(--muted);
+    }
+    .chip.hot{ border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); color: var(--ink); font-weight:800; }
+
+    .card-thumb{
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line2);
+      background:
+        radial-gradient(420px 180px at 20% 15%, rgba(240,32,0,.10), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      margin: 10px 0 10px;
+      position: relative;
+    }
+
+    .card-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .card-thumb.is-empty::after{
+      content:"Нет фото";
+      position:absolute;
+      inset:auto 10px 10px auto;
+      font-size:11px;
+      color: var(--muted);
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.75);
+      border:1px solid var(--line2);
+    }
+
+    html[data-theme="dark"] .card-thumb.is-empty::after{
+      background: rgba(16,18,20,.86);
+      color: var(--muted);
+      border-color: var(--line2);
+    }
+
+    .video{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    .player{
+      border-radius: var(--r);
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(560px 220px at 20% 15%, rgba(240,32,0,.14), transparent 60%),
+        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      aspect-ratio: 16/9;
+      display:grid; place-items:center;
+      box-shadow: var(--shadow2);
       cursor:pointer;
     }
-    .relCard:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
-    .relCard .top{ display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted); }
-    .relCard h3{ margin:10px 0 10px; font-size:16px; line-height:1.2; }
+    .play{
+      width:74px; height:74px;
+      border-radius: 22px;
+      border: 1px solid rgba(240,32,0,.36);
+      background: rgba(240,32,0,.12);
+      cursor:pointer;
+      transition:.14s ease;
+      display:grid; place-items:center;
+    }
+    .play:hover{ transform: translateY(-2px) scale(1.02); }
+    .vside{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .vside b{ font-size: 15px; line-height:1.25; }
+    .vside p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
+
+    .teasers{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .teaser{
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+    }
+    .teaser h3{ margin:10px 0 8px; font-size: 15px; }
+    .teaser p{ margin:0; color: var(--muted); font-size:13px; line-height:1.6; }
 
     footer{
       margin-top: 34px;
@@ -632,47 +655,44 @@
     }
 
     @media (max-width: 980px){
-      .layout{
-        grid-template-columns: 1fr;
-        grid-template-areas:
-          "feed"
-          "left";
-      }
-      .feed{
-        position:relative;
-        top:auto;
-        max-height:none;
-        min-height:auto;
-      }
-
-      .feed-list{
-        max-height: 280px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
-        scrollbar-gutter: stable both-edges;
-      }
-
+      .hero{ grid-template-columns: 1fr; }
+      .feed-list{ max-height: 320px; }
+      .card{ grid-column: span 6; }
+      .video{ grid-template-columns: 1fr; }
+      .teasers{ grid-template-columns: 1fr; }
       .actions .search{ display:none; }
     }
 
-    @media (max-width: 980px){
-      .bigrow{ grid-template-columns: 1fr; }
-      .relCard{ grid-column: span 12; }
-    }
-
     @media (max-width: 720px){
+      .card{ grid-column: span 12; }
       .brand{ min-width:auto; }
+
       .nav-desktop{ display:none; }
       .nav-mobile{ display:block; }
+
       .actions .themeBtn{ display:none; }
       .actions{ min-width:auto; }
+
       .feed{ display:none; }
+      .vside{ display:none; }
+
+      .panel .inner#heroLink{
+        min-height: 300px;
+        padding: 16px;
+      }
+      .hero .panel h1{
+        font-size: clamp(24px, 7vw, 32px);
+        line-height: 1.08;
+      }
+      .hero .panel .lead{
+        font-size: 14px;
+        line-height: 1.5;
+      }
     }
 
     @media (prefers-reduced-motion: reduce){
       *{ transition:none !important; }
-      .feed-actions a:hover,.more:hover,.btn:hover,.bigcard:hover,.relCard:hover{ transform:none !important; }
+      .card:hover,.play:hover,.more:hover,.feed-actions a:hover,.btn:hover{ transform:none !important; }
     }
   </style>
 </head>
@@ -691,8 +711,8 @@
         </a>
 
         <nav class="nav-desktop" aria-label="Меню">
-          <a class="navlink" href="index.html">Главная</a>
-          <a class="navlink active" href="news.html">Новости</a>
+          <a class="navlink active" href="index.html">Главная</a>
+          <a class="navlink" href="news.html">Новости</a>
           <a class="navlink" href="tv.html">TV</a>
           <a class="navlink" href="production.html">Продакшн</a>
           <a class="navlink" href="editorial.html">Редакция</a>
@@ -702,8 +722,8 @@
           <summary class="burger" aria-label="Открыть меню"><span aria-hidden="true">≡</span></summary>
 
           <nav class="nav-panel" aria-label="Меню">
-            <a class="navlink" href="index.html">Главная</a>
-            <a class="navlink active" href="news.html">Новости</a>
+            <a class="navlink active" href="index.html">Главная</a>
+            <a class="navlink" href="news.html">Новости</a>
             <a class="navlink" href="tv.html">TV</a>
             <a class="navlink" href="production.html">Продакшн</a>
             <a class="navlink" href="editorial.html">Редакция</a>
@@ -716,7 +736,7 @@
         </details>
 
         <div class="actions">
-          <input class="search" id="headerSearch" placeholder="Поиск…" aria-label="Поиск по материалам и ленте" />
+          <input id="headerSearch" class="search" placeholder="Поиск…" />
           <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
             <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
             <span class="themeLabel">Тема</span>
@@ -727,36 +747,91 @@
   </header>
 
   <main class="container">
-    <div class="kicker"><span class="dot"></span><span id="pageTitle">Новости</span></div>
+    <div class="kicker"><span class="dot"></span><span>Главная</span></div>
 
-    <div class="layout">
-      <section class="leftcol" aria-label="Большие материалы">
-        <div class="controlbar">
-          <div class="tabs" role="tablist" aria-label="Рубрики">
-            <a class="tab active" href="#" data-tab="all">Все</a>
-            <a class="tab" href="#" data-tab="events">События</a>
-            <a class="tab" href="#" data-tab="market">Рынок</a>
-            <a class="tab" href="#" data-tab="technologies">Технологии</a>
-            <a class="tab" href="#" data-tab="appointments">Назначения</a>
+    <section class="hero" aria-label="Витрина дня">
+      <article class="panel">
+        <div class="panel-media is-empty" id="heroMedia" aria-hidden="true"></div>
+
+        <a class="inner" id="heroLink" href="news.html">
+          <div class="badge"><i></i> Главный материал</div>
+          <h1 id="heroTitle">Загрузка…</h1>
+          <p class="lead" id="heroLead">Подтягиваем самый заметный материал из ленты новостей.</p>
+          <div class="meta" id="heroMeta">
+            <span>События</span><span>ВКонтакте</span><span>Сейчас</span>
           </div>
-          <div class="hint" id="leftHint">Большие материалы · можно фильтровать</div>
-        </div>
-
-        <div id="listView" class="biglist" aria-label="Список материалов"></div>
-        <article id="articleView" class="article" style="display:none;" aria-label="Полная статья"></article>
-      </section>
+        </a>
+      </article>
 
       <aside class="feed" aria-label="Лента новостей">
         <div class="feed-head">
           <div class="feed-title"><span class="pulse"></span> Лента</div>
           <div class="feed-actions">
             <span id="feedStatus">обновляется</span>
-            <a href="#" id="liveToggle">Только LIVE</a>
+            <a href="news.html">Все новости</a>
           </div>
         </div>
+
         <div class="feed-list" id="feedList"></div>
       </aside>
-    </div>
+    </section>
+
+    <section class="section" aria-label="Сегодня">
+      <div class="section-head">
+        <div>
+          <h2>Сегодня</h2>
+        </div>
+        <a class="more" href="news.html">Смотреть ленту →</a>
+      </div>
+
+      <div class="cards" id="todayCards"></div>
+    </section>
+
+    <section class="section" aria-label="Видео-тизер">
+      <div class="section-head">
+        <div>
+          <h2>Видео дня</h2>
+        </div>
+      </div>
+
+      <div class="video">
+        <div class="player" id="vodPlayer" role="button" tabindex="0" aria-label="Смотреть видео дня">
+          <button class="play" id="vodPlay" type="button" aria-label="Смотреть видео дня">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+        <div class="vside">
+          <div class="kicker"><span class="dot"></span><span id="vodLen">—</span></div>
+          <b id="vodTitle">Видео дня загружается…</b>
+          <p id="vodDesc">Подтягиваем данные из TV-раздела.</p>
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
+            <button class="btn primary" id="vodOpen" type="button">Смотреть</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-label="Тизеры">
+      <div class="teasers">
+        <div class="teaser">
+          <div class="kicker"><span class="dot"></span><span>Продакшн</span></div>
+          <p>Видеоматериалы под ключ — от сценария до монтажа.</p>
+          <div style="margin-top:10px;">
+            <a class="btn primary" href="https://promrep.ru/production" target="_blank" rel="noopener">Кейсы →</a>
+          </div>
+        </div>
+
+        <div class="teaser">
+          <div class="kicker"><span class="dot"></span><span>Редакция</span></div>
+          <p>Если у вас есть тема, цифры или хороший кейс — пишите.</p>
+          <div style="margin-top:10px;">
+            <a class="btn primary" href="https://promrep.ru/editorial" target="_blank" rel="noopener">Написать →</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <footer>
       <div>© <span id="y"></span> Промышленный репортёр</div>
@@ -764,600 +839,569 @@
     </footer>
   </main>
 
-<script>
-  let ARTICLES = [];
-  let feedItems = [];
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
 
-  let state = { tab: "all", liveOnly: false, query: "", selectedId: null };
+    const feedList = document.getElementById('feedList');
+    const feedStatus = document.getElementById('feedStatus');
+    const todayCards = document.getElementById('todayCards');
+    const headerSearch = document.getElementById('headerSearch');
 
-  document.getElementById("y").textContent = new Date().getFullYear();
+    const heroLink = document.getElementById('heroLink');
+    const heroMedia = document.getElementById('heroMedia');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroLead = document.getElementById('heroLead');
+    const heroMeta = document.getElementById('heroMeta');
 
-  const listView = document.getElementById("listView");
-  const articleView = document.getElementById("articleView");
-  const pageTitle = document.getElementById("pageTitle");
-  const leftHint = document.getElementById("leftHint");
+    const vodPlayer = document.getElementById('vodPlayer');
+    const vodPlay = document.getElementById('vodPlay');
+    const vodOpen = document.getElementById('vodOpen');
+    const vodTitle = document.getElementById('vodTitle');
+    const vodDesc = document.getElementById('vodDesc');
+    const vodLen = document.getElementById('vodLen');
 
-  const feedList = document.getElementById("feedList");
-  const feedStatus = document.getElementById("feedStatus");
-  const liveToggle = document.getElementById("liveToggle");
+    let ARTICLES = [];
+    let feedItems = [];
+    let allVideos = [];
+    let shortsItems = [];
+    let videoOfDay = null;
 
-  const headerSearch = document.getElementById("headerSearch");
+    let state = { q: "" };
 
-  function formatTime(ts){
-    if (!ts) return "";
-    const d = new Date(ts * 1000);
-    if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleTimeString("ru-RU", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
-  }
-
-  function formatDate(ts){
-    if (!ts) return "";
-    const d = new Date(ts * 1000);
-    if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric"
-    });
-  }
-
-  function formatDateTime(ts){
-    if (!ts) return "";
-    const d = new Date(ts * 1000);
-    if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
-    });
-  }
-
-  function relTime(ts){
-    if(!ts) return "";
-    const diff = Math.max(0, Date.now() - (ts * 1000));
-    const m = Math.floor(diff / 60000);
-    if (m < 1) return "сейчас";
-    if (m < 60) return `${m} мин`;
-    const h = Math.floor(m / 60);
-    if (h < 24) return `${h} ч`;
-    const d = Math.floor(h / 24);
-    return d === 1 ? "вчера" : `${d} дн`;
-  }
-
-  function escapeHtml(s){
-    return String(s ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
-
-  function normalizeMediaUrl(url){
-    if(!url) return null;
-    let s = String(url).trim();
-    if(!s) return null;
-
-    if (s.startsWith("//")) s = window.location.protocol + s;
-    if (s.startsWith("/")) s = new URL(s, window.location.origin).href;
-    if (window.location.protocol === "https:" && s.startsWith("http://")) {
-      s = "https://" + s.slice(7);
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
     }
 
-    return s;
-  }
-
-  function cssBgUrl(url){
-    const src = normalizeMediaUrl(url);
-    if(!src) return "";
-    return encodeURI(src)
-      .replace(/"/g, "%22")
-      .replace(/'/g, "%27");
-  }
-
-  function hasKeyword(t, keyword){
-    if(keyword instanceof RegExp) return keyword.test(t);
-    return t.includes(keyword);
-  }
-
-  // Unicode-aware границы слова для русских текстов.
-  // В JS \b корректно работает в основном для ASCII, поэтому русские слова
-  // вроде "стал", "назначен", "возглавил" могут не находиться.
-  function wordRu(pattern){
-    return new RegExp(`(^|[^\\p{L}\\p{N}_])(?:${pattern})(?=$|[^\\p{L}\\p{N}_])`, "iu");
-  }
-
-  function isAppointmentMaterial(text){
-    const t = String(text || "").toLowerCase();
-
-    const appointmentAction = [
-      wordRu("назначен(?:а|ы)?"),
-      wordRu("назначили"),
-      wordRu("назначение"),
-      wordRu("возглавил(?:а)?"),
-      wordRu("избран(?:а)?"),
-      wordRu("переизбран(?:а)?"),
-      wordRu("утвержд[её]н(?:а|ы)?"),
-      wordRu("стал(?:а)?"),
-      wordRu("станет"),
-      wordRu("займ[её]т\\s+должность"),
-      wordRu("занял(?:а)?\\s+должность"),
-      wordRu("вступил(?:а)?\\s+в\\s+должность"),
-      wordRu("приступил(?:а)?\\s+к\\s+обязанностям"),
-      wordRu("сменил(?:а)?\\s+на\\s+посту"),
-      wordRu("сменил(?:а)?\\s+в\\s+должности"),
-      wordRu("покинул(?:а)?\\s+пост"),
-      wordRu("уш[её]л\\s+с\\s+поста"),
-      wordRu("ушла\\s+с\\s+поста"),
-      wordRu("переш[её]л\\s+на\\s+должность"),
-      wordRu("перешла\\s+на\\s+должность"),
-
-      // Частые формулировки в заголовках и лидах.
-      /смен[аи]л[ао]сь\s+руководств[ооа]/iu,
-      /смена\s+руководств[ао]/iu,
-      /нов(?:ым|ой|ого|ая)?\s+[^.]{0,80}?\s+стал(?:а)?/iu,
-      /кадров(?:ые|ая|ое|ых)\s+назначени[ея]/iu
-    ];
-
-    const roleContext = [
-      "генеральный директор",
-      "генеральным директором",
-      "генерального директора",
-      "новый генеральный директор",
-      "новым генеральным директором",
-      "гендиректор",
-      "гендиректором",
-      "исполнительный директор",
-      "исполнительным директором",
-      "коммерческий директор",
-      "коммерческим директором",
-      "финансовый директор",
-      "финансовым директором",
-      "технический директор",
-      "техническим директором",
-      "операционный директор",
-      "операционным директором",
-      "директор по",
-      "директором по",
-      "управляющий директор",
-      "управляющим директором",
-      "директор завода",
-      "директором завода",
-      "директор предприятия",
-      "директором предприятия",
-      "руководитель",
-      "руководителем",
-      "руководство",
-      "руководства",
-      "глава компании",
-      "главой компании",
-      "глава предприятия",
-      "главой предприятия",
-      "глава завода",
-      "главой завода",
-      "председатель",
-      "председателем",
-      "председатель совета директоров",
-      "член совета директоров",
-      "совет директоров",
-      "правление",
-      "наблюдательный совет",
-      "заместитель",
-      "заместителем",
-      "вице-президент",
-      "вице-президентом",
-      "президент компании",
-      "президентом компании",
-      "топ-менеджер",
-      "топ-менеджером",
-      "советник генерального директора",
-      "ceo",
-      "cfo",
-      "cto",
-      "coo"
-    ];
-
-    const companyContext = [
-      "компания", "компании", "предприятие", "предприятия", "предприятием",
-      "завод", "завода", "заводе", "холдинг", "холдинга", "группа", "группы",
-      "корпорация", "корпорации", "концерн", "концерна", "производитель",
-      "производителя", "оператор", "оператора", "поставщик", "поставщика",
-      "дивизион", "дивизиона", "филиал", "филиала", "департамент",
-      "департамента", "совет директоров", "правление", "оао", "пао", "ао",
-      "ооо", "зао", "гк", "хк"
-    ];
-
-    const hasAction = appointmentAction.some(pattern => pattern.test(t));
-    const hasRole = roleContext.some(word => t.includes(word));
-    const hasCompany = companyContext.some(word => t.includes(word));
-
-    return hasAction && hasRole && hasCompany;
-  }
-
-  const CATEGORY_RULES = [
-    {
-      tab: "market",
-      rubric: "Рынок",
-      keywords: [
-        "рынок", "экспорт", "импорт", "цена", "цены", "подорожание", "снижение цен",
-        "контракт", "госконтракт", "договор", "тендер", "закупка", "поставка",
-        "отгрузка", "логистика", "транспортировка", "продажи", "выручка",
-        "прибыль", "убыток", "маржа", "инвестиции", "инвестпроект",
-        "финансирование", "кредит", "заем", "сделка", "партнерство",
-        "спрос", "предложение", "заказ", "портфель заказов", "млрд", "млн",
-        "рубл", "доллар", "евро", "банкротство", "акции", "дивиденды",
-        "субсидия", "льгота", "налог", "таможня", "пошлина", "импортер",
-        "экспортер", "поставщик", "потребитель", "дистрибьютор"
-      ]
-    },
-    {
-      tab: "technologies",
-      rubric: "Технологии",
-      keywords: [
-        "технолог", "робот", "роботизация", "автоматизация", "цифровизация",
-        "цифровой двойник", "станок", "чпу", "оборудование", "разработка",
-        "инновация", "инновационный", /\bии\b/u, /\bai\b/i,
-        "искусственный интеллект", "нейросет", "машинное зрение",
-        "компьютерное зрение", "платформа", "система", "софт",
-        "программное обеспечение", "модернизация", "датчик", "сенсор",
-        "беспилот", "дрон", "аддитив", "3d-печать", "3d печать",
-        "композит", "испытания", "лаборатория", "патент", "инжиниринг",
-        "асу тп", "erp", "mes", "scada", "промышленный интернет вещей",
-        "iiot", "энергоэффективность", "накопитель энергии", "водород",
-        "электролизер", "микроэлектроника", "полупроводник", "датасет",
-        "алгоритм", "модель", "прототип", "опытный образец", "серийное производство"
-      ]
-    }
-  ];
-
-  function detectCategory(text) {
-    const t = String(text || "").toLowerCase();
-
-    if (isAppointmentMaterial(t)) {
-      return { tab: "appointments", rubric: "Назначения" };
+    function fmtDate(ts){
+      if(!ts) return "";
+      const d = new Date(ts * 1000);
+      if (Number.isNaN(d.getTime())) return "";
+      return d.toLocaleDateString("ru-RU", { day:"2-digit", month:"2-digit", year:"numeric" });
     }
 
-    for (const rule of CATEGORY_RULES) {
-      if (rule.keywords.some(keyword => hasKeyword(t, keyword))) {
-        return { tab: rule.tab, rubric: rule.rubric };
+    function fmtDur(sec){
+      const s = Math.max(0, Number(sec || 0));
+      const h = Math.floor(s/3600);
+      const m = Math.floor((s%3600)/60);
+      const r = Math.floor(s%60);
+      if(h) return `${h}:${String(m).padStart(2,"0")}:${String(r).padStart(2,"0")}`;
+      return `${m}:${String(r).padStart(2,"0")}`;
+    }
+
+    function relTime(ts){
+      if(!ts) return "";
+      const diff = Math.max(0, Date.now() - (ts * 1000));
+      const m = Math.floor(diff / 60000);
+      if (m < 1) return "сейчас";
+      if (m < 60) return `${m} мин`;
+      const h = Math.floor(m / 60);
+      if (h < 24) return `${h} ч`;
+      const d = Math.floor(h / 24);
+      return d === 1 ? "вчера" : `${d} дн`;
+    }
+
+    function normalizeMediaUrl(url){
+      if(!url) return null;
+      let s = String(url).trim();
+      if(!s) return null;
+
+      if (s.startsWith("//")) s = window.location.protocol + s;
+      if (s.startsWith("/")) s = new URL(s, window.location.origin).href;
+      if (window.location.protocol === "https:" && s.startsWith("http://")) {
+        s = "https://" + s.slice(7);
+      }
+      return s;
+    }
+
+    function setBgCover(el, url, overlay = "dark"){
+      if(!el) return;
+      const src = normalizeMediaUrl(url);
+
+      if(!src){
+        el.style.backgroundImage = "";
+        el.classList.add("is-empty");
+        return;
+      }
+
+      const safe = encodeURI(src).replace(/"/g, "%22").replace(/'/g, "%27");
+      const overlayCss = overlay === "soft"
+        ? "linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.32))"
+        : "linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.55))";
+
+      el.style.backgroundImage = `${overlayCss}, url("${safe}")`;
+      el.style.backgroundSize = "cover";
+      el.style.backgroundPosition = "center";
+      el.style.backgroundRepeat = "no-repeat";
+      el.classList.remove("is-empty");
+    }
+
+    function hasKeyword(t, keyword){
+      if(keyword instanceof RegExp) return keyword.test(t);
+      return t.includes(keyword);
+    }
+
+    function isAppointmentMaterial(text){
+      const t = String(text || "").toLowerCase();
+
+      const appointmentAction = [
+        /\bназначен(?:а|ы)?\b/u,
+        /\bназначили\b/u,
+        /\bназначение\b/u,
+        /\bвозглавил(?:а)?\b/u,
+        /\bизбран(?:а)?\b/u,
+        /\bпереизбран(?:а)?\b/u,
+        /\bутвержден(?:а|ы)?\b/u,
+        /\bутверждён(?:а|ы)?\b/u,
+        /\bстал(?:а)?\b/u,
+        /\bзаймет должность\b/u,
+        /\bзаймёт должность\b/u,
+        /\bзанял(?:а)?\s+должность\b/u,
+        /\bвступил(?:а)?\s+в\s+должность\b/u,
+        /\bприступил(?:а)?\s+к\s+обязанностям\b/u,
+        /\bсменил(?:а)?\s+на\s+посту\b/u,
+        /\bсменил(?:а)?\s+в\s+должности\b/u,
+        /\bпокинул(?:а)?\s+пост\b/u,
+        /\bуш[её]л\s+с\s+поста\b/u,
+        /\bушла\s+с\s+поста\b/u,
+        /\bпереш[её]л\s+на\s+должность\b/u,
+        /\bперешла\s+на\s+должность\b/u
+      ];
+
+      const roleContext = [
+        "генеральный директор",
+        "гендиректор",
+        "исполнительный директор",
+        "коммерческий директор",
+        "финансовый директор",
+        "технический директор",
+        "операционный директор",
+        "директор по",
+        "управляющий директор",
+        "директор завода",
+        "директор предприятия",
+        "руководитель",
+        "руководителем",
+        "глава компании",
+        "главой компании",
+        "глава предприятия",
+        "главой предприятия",
+        "глава завода",
+        "главой завода",
+        "председатель",
+        "председателем",
+        "председатель совета директоров",
+        "член совета директоров",
+        "совет директоров",
+        "правление",
+        "наблюдательный совет",
+        "заместитель",
+        "заместителем",
+        "вице-президент",
+        "президент компании",
+        "топ-менеджер",
+        "руководство",
+        "ceo",
+        "cfo",
+        "cto",
+        "coo"
+      ];
+
+      const companyContext = [
+        "компания", "компании", "предприятие", "предприятия", "завод", "завода",
+        "холдинг", "холдинга", "группа", "группы", "корпорация", "корпорации",
+        "концерн", "концерна", "производитель", "производителя", "оператор",
+        "оператора", "поставщик", "поставщика", "дивизион", "дивизиона",
+        "филиал", "филиала", "департамент", "департамента", "совет директоров",
+        "правление", "оао", "пао", "ао", "ооо", "зао", "гк", "хк"
+      ];
+
+      const hasAction = appointmentAction.some(pattern => pattern.test(t));
+      const hasRole = roleContext.some(word => t.includes(word));
+      const hasCompany = companyContext.some(word => t.includes(word));
+
+      return hasAction && hasRole && hasCompany;
+    }
+
+    const CATEGORY_RULES = [
+      {
+        tab: "market",
+        rubric: "Рынок",
+        keywords: [
+          "рынок", "экспорт", "импорт", "цена", "цены", "подорожание", "снижение цен",
+          "контракт", "госконтракт", "договор", "тендер", "закупка", "поставка",
+          "отгрузка", "логистика", "транспортировка", "продажи", "выручка",
+          "прибыль", "убыток", "маржа", "инвестиции", "инвестпроект",
+          "финансирование", "кредит", "заем", "сделка", "партнерство",
+          "спрос", "предложение", "заказ", "портфель заказов", "млрд", "млн",
+          "рубл", "доллар", "евро", "банкротство", "акции", "дивиденды",
+          "субсидия", "льгота", "налог", "таможня", "пошлина", "импортер",
+          "экспортер", "потребитель", "поставщик", "дистрибьютор"
+        ]
+      },
+      {
+        tab: "technologies",
+        rubric: "Технологии",
+        keywords: [
+          "технолог", "робот", "роботизация", "автоматизация", "цифровизация",
+          "цифровой двойник", "станок", "чпу", "оборудование", "разработка",
+          "инновация", "инновационный", /\bии\b/u, /\bai\b/i,
+          "искусственный интеллект", "нейросет", "машинное зрение",
+          "компьютерное зрение", "платформа", "система", "софт",
+          "программное обеспечение", "модернизация", "датчик", "сенсор",
+          "беспилот", "дрон", "аддитив", "3d-печать", "3d печать",
+          "композит", "испытания", "лаборатория", "патент", "инжиниринг",
+          "асу тп", "erp", "mes", "scada", "промышленный интернет вещей",
+          "iiot", "энергоэффективность", "накопитель энергии", "водород",
+          "электролизер", "микроэлектроника", "полупроводник", "датасет",
+          "алгоритм", "модель", "прототип", "опытный образец", "серийное производство"
+        ]
+      }
+    ];
+
+    function detectCategory(text) {
+      const t = String(text || "").toLowerCase();
+
+      if (isAppointmentMaterial(t)) {
+        return { tab: "appointments", rubric: "Назначения" };
+      }
+
+      for (const rule of CATEGORY_RULES) {
+        if (rule.keywords.some(keyword => hasKeyword(t, keyword))) {
+          return { tab: rule.tab, rubric: rule.rubric };
+        }
+      }
+
+      return { tab: "events", rubric: "События" };
+    }
+
+    function normalizeCategory(tab, rubric, text){
+      const rawTab = String(tab || "").trim().toLowerCase();
+      const rawRubric = String(rubric || "").trim().toLowerCase();
+
+      const aliases = {
+        "market": { tab: "market", rubric: "Рынок" },
+        "рынок": { tab: "market", rubric: "Рынок" },
+
+        "tech": { tab: "technologies", rubric: "Технологии" },
+        "тех": { tab: "technologies", rubric: "Технологии" },
+        "technology": { tab: "technologies", rubric: "Технологии" },
+        "technologies": { tab: "technologies", rubric: "Технологии" },
+        "технологии": { tab: "technologies", rubric: "Технологии" },
+
+        "events": { tab: "events", rubric: "События" },
+        "event": { tab: "events", rubric: "События" },
+        "события": { tab: "events", rubric: "События" },
+        "событие": { tab: "events", rubric: "События" }
+      };
+
+      const wantsAppointments =
+        rawTab === "people" ||
+        rawTab === "appointments" ||
+        rawRubric === "люди" ||
+        rawRubric === "назначения" ||
+        rawRubric === "назначение";
+
+      if (wantsAppointments) {
+        return isAppointmentMaterial(text)
+          ? { tab: "appointments", rubric: "Назначения" }
+          : detectCategory(text);
+      }
+
+      if (rawTab === "opinion" || rawRubric === "колонка") {
+        return detectCategory(text);
+      }
+
+      return aliases[rawTab] || aliases[rawRubric] || detectCategory(text);
+    }
+
+    const HERO_KEYWORDS = [
+      "завод", "производство", "предприятие", "цех", "линия", "запуск",
+      "открытие", "строительство", "инвестиции", "инвестпроект", "млрд",
+      "миллиард", "млн", "миллион", "экспорт", "импортозамещение",
+      "санкции", "контракт", "госконтракт", "сделка", "тендер", "поставка",
+      "модернизация", "робот", "роботизация", "автоматизация", "цифровизация",
+      "искусственный интеллект", "нейросеть", "оборудование", "станок",
+      "авария", "чп", "пожар", "остановка", "дефицит", "рекорд",
+      "крупнейший", "первый", "впервые", "новый", "рост", "снижение",
+      "прибыль", "выручка", "эксперимент", "испытания",
+      "серийное производство", "разработка"
+    ];
+
+    const HERO_NEGATIVE_KEYWORDS = [
+      "поздравляем", "поздравление", "с праздником", "доброе утро",
+      "добрый вечер", "дайджест", "анонс", "афиша", "итоги недели",
+      "подборка", "напоминаем", "опрос", "голосование"
+    ];
+
+    function keywordHitCount(text, keywords){
+      return keywords.reduce((sum, word) => {
+        return sum + (text.includes(word) ? 1 : 0);
+      }, 0);
+    }
+
+    function scoreArticle(a){
+      const text = [
+        a.title,
+        a.lead,
+        Array.isArray(a.body) ? a.body.join(" ") : ""
+      ].join(" ").toLowerCase();
+
+      let score = 0;
+
+      if (a.featured) score += 1000;
+      if (a.priority) score += a.priority * 100;
+
+      if (a.thumb) score += 18;
+
+      const titleLen = String(a.title || "").length;
+      const leadLen = String(a.lead || "").length;
+
+      if (titleLen >= 35 && titleLen <= 115) score += 10;
+      if (titleLen < 20) score -= 8;
+      if (leadLen >= 80) score += 6;
+
+      if (/\d/.test(text)) score += 8;
+      if (/(млрд|миллиард|млн|миллион|%|рубл|доллар|евро)/u.test(text)) score += 10;
+
+      score += Math.min(keywordHitCount(text, HERO_KEYWORDS) * 4, 40);
+      score -= keywordHitCount(text, HERO_NEGATIVE_KEYWORDS) * 14;
+
+      if (a.tab === "technologies") score += 7;
+      if (a.tab === "market") score += 6;
+      if (a.tab === "appointments") score += 3;
+
+      if (a.ts) {
+        const ageHours = Math.max(0, (Date.now() - a.ts * 1000) / 36e5);
+
+        if (ageHours <= 6) score += 10;
+        else if (ageHours <= 24) score += 7;
+        else if (ageHours <= 72) score += 4;
+        else if (ageHours <= 168) score += 1;
+      }
+
+      return score;
+    }
+
+    function pickHeroArticle(items){
+      const filtered = items.filter(matchesQuery);
+      const pool = filtered.length ? filtered : items;
+
+      return pool
+        .slice()
+        .sort((a, b) => {
+          const byScore = scoreArticle(b) - scoreArticle(a);
+          if (byScore !== 0) return byScore;
+
+          return Number(b.ts || 0) - Number(a.ts || 0);
+        })[0] || null;
+    }
+
+    function buildNewsFromFeed(posts){
+      const sorted = Array.isArray(posts) ? posts.slice().reverse() : [];
+
+      ARTICLES = sorted.map((p, idx) => {
+        const text = p?.text || "";
+        const parts = text.split("\n\n").map(x => x.trim()).filter(Boolean);
+        const title = (parts[0] || text || "Новость").slice(0, 120);
+        const lead = (parts[1] || parts[0] || "").slice(0, 220);
+        const category = normalizeCategory(p?.tab, p?.rubric, text);
+
+        return {
+          id: String(p?.id ?? idx),
+          tab: category.tab,
+          rubric: category.rubric,
+          title,
+          lead,
+          thumb: p?.photo || null,
+          ts: p?.date || null,
+          body: parts.length ? parts : [text],
+
+          featured: Boolean(p?.featured || p?.hero || p?.main),
+          priority: Number(p?.priority || 0)
+        };
+      });
+
+      feedItems = ARTICLES.map(a => ({
+        id: a.id,
+        time: a.ts ? relTime(a.ts) : "",
+        rubric: a.rubric,
+        title: a.title
+      }));
+    }
+
+    function matchesQuery(a){
+      const q = state.q.trim().toLowerCase();
+      if(!q) return true;
+      return [a.title, a.lead, a.rubric].some(v => (v || "").toLowerCase().includes(q));
+    }
+
+    function renderHero(){
+      const a = pickHeroArticle(ARTICLES);
+      if(!a) return;
+
+      heroLink.href = `news.html#${encodeURIComponent(a.id)}`;
+      heroLink.removeAttribute("target");
+      heroLink.removeAttribute("rel");
+
+      heroTitle.textContent = a.title || "Главный материал";
+      heroLead.textContent = a.lead || "Откройте новостной раздел для полного текста.";
+      heroMeta.innerHTML = [
+        `<span>${escapeHtml(a.rubric || "События")}</span>`,
+        `<span>ВКонтакте</span>`,
+        `<span>${escapeHtml(a.ts ? fmtDate(a.ts) : "Сегодня")}</span>`
+      ].join("");
+
+      setBgCover(heroMedia, a.thumb, "dark");
+    }
+
+    function renderTodayCards(){
+      const items = ARTICLES.filter(matchesQuery).slice(0, 6);
+
+      if(items.length === 0){
+        todayCards.innerHTML = `<div class="card"><h3>Ничего не найдено</h3><p class="desc">Попробуйте другой запрос в поиске.</p></div>`;
+        return;
+      }
+
+      todayCards.innerHTML = items.map((a, i) => {
+        const thumb = normalizeMediaUrl(a.thumb);
+        const href = `news.html#${encodeURIComponent(a.id)}`;
+        const thumbHtml = thumb
+          ? `
+            <div class="card-thumb">
+              <img
+                src="${escapeHtml(thumb)}"
+                alt=""
+                loading="lazy"
+                decoding="async"
+                referrerpolicy="no-referrer"
+                onerror="this.closest('.card-thumb') && this.closest('.card-thumb').classList.add('is-empty'); this.remove();"
+              />
+            </div>
+          `
+          : `<div class="card-thumb is-empty" aria-hidden="true"></div>`;
+
+        return `
+          <a class="card" href="${href}" aria-label="Открыть новость: ${escapeHtml(a.title)}">
+            <div class="top"><span class="rubric">${escapeHtml(a.rubric)}</span><span>${escapeHtml(a.ts ? relTime(a.ts) : "сегодня")}</span></div>
+            ${thumbHtml}
+            <h3>${escapeHtml(a.title)}</h3>
+            <p class="desc">${escapeHtml(a.lead || "")}</p>
+            <div class="chips">
+              <span class="chip ${i===0 ? "hot" : ""}">${a.ts ? escapeHtml(fmtDate(a.ts)) : "Лента"}</span>
+              <span class="chip">${a.thumb ? "Фото" : "Материал"}</span>
+            </div>
+          </a>
+        `;
+      }).join("");
+    }
+
+    function renderFeed(){
+      const q = state.q.trim().toLowerCase();
+      const show = feedItems
+        .filter(i => !q || (i.title || "").toLowerCase().includes(q))
+        .slice(0, 12);
+
+      feedList.innerHTML = show.map((n)=>`
+        <a class="feed-item" href="news.html#${encodeURIComponent(n.id)}" aria-label="${escapeHtml(n.title)}">
+          <div class="t-time">${escapeHtml(n.time || "")}</div>
+          <div class="t-main">
+            <div class="t-top">
+              <span class="t-dot"></span>
+              <span class="t-rubric">${escapeHtml(n.rubric || "События")}</span>
+            </div>
+            <div class="t-title">${escapeHtml(n.title || "")}</div>
+          </div>
+        </a>
+      `).join("");
+    }
+
+    function applyVodPlayerCover(item){
+      const src = normalizeMediaUrl(item?.thumb);
+      if(src){
+        setBgCover(vodPlayer, src, "soft");
       }
     }
 
-    return { tab: "events", rubric: "События" };
-  }
-
-  function normalizeCategory(tab, rubric, text){
-    const rawTab = String(tab || "").trim().toLowerCase();
-    const rawRubric = String(rubric || "").trim().toLowerCase();
-
-    const aliases = {
-      "market": { tab: "market", rubric: "Рынок" },
-      "рынок": { tab: "market", rubric: "Рынок" },
-
-      "tech": { tab: "technologies", rubric: "Технологии" },
-      "тех": { tab: "technologies", rubric: "Технологии" },
-      "technology": { tab: "technologies", rubric: "Технологии" },
-      "technologies": { tab: "technologies", rubric: "Технологии" },
-      "технологии": { tab: "technologies", rubric: "Технологии" },
-
-      "events": { tab: "events", rubric: "События" },
-      "event": { tab: "events", rubric: "События" },
-      "события": { tab: "events", rubric: "События" },
-      "событие": { tab: "events", rubric: "События" }
-    };
-
-    const wantsAppointments =
-      rawTab === "people" ||
-      rawTab === "appointments" ||
-      rawRubric === "люди" ||
-      rawRubric === "назначения" ||
-      rawRubric === "назначение";
-
-    if (wantsAppointments) {
-      return isAppointmentMaterial(text)
-        ? { tab: "appointments", rubric: "Назначения" }
-        : detectCategory(text);
+    function openVideo(){
+      window.location.href = "tv.html";
     }
 
-    if (rawTab === "opinion" || rawRubric === "колонка") {
-      return detectCategory(text);
-    }
+    function renderVideoOfDay(){
+      const v = videoOfDay || allVideos[0] || null;
+      if(!v){
+        vodTitle.textContent = "Видео дня пока недоступно";
+        vodDesc.textContent = "Проверьте /content/home/videoOfDay.json и /content/tv/videos.json";
+        vodLen.textContent = "—";
+        return;
+      }
 
-    return aliases[rawTab] || aliases[rawRubric] || detectCategory(text);
-  }
+      vodTitle.textContent = v.title || "Видео дня";
+      vodDesc.textContent = v.description || "Открыть в разделе TV";
+      vodLen.textContent = fmtDur(v.duration);
+      applyVodPlayerCover(v);
 
-  function matchesFilter(a){
-    const tabOk = (state.tab === "all") || (a.tab === state.tab);
-    const liveOk = !state.liveOnly || a.live;
-    const q = state.query.trim().toLowerCase();
-    const qOk = !q || (
-      (a.title || "").toLowerCase().includes(q) ||
-      (a.lead || "").toLowerCase().includes(q) ||
-      (a.rubric || "").toLowerCase().includes(q) ||
-      (Array.isArray(a.body) ? a.body.join(" ").toLowerCase().includes(q) : false)
-    );
-    return tabOk && liveOk && qOk;
-  }
-
-  function relatedFor(article){
-    const sameTab = ARTICLES
-      .filter(a => a.id !== article.id && a.tab === article.tab);
-
-    const fallback = ARTICLES
-      .filter(a => a.id !== article.id && a.tab !== article.tab);
-
-    return [...sameTab, ...fallback].slice(0, 4);
-  }
-
-  function buildFromFeed(posts){
-    const sorted = Array.isArray(posts) ? posts.slice().reverse() : [];
-
-    ARTICLES = sorted.map((p, idx) => {
-      const text = p?.text || "";
-      const parts = text
-        .split("\n\n")
-        .map(x => x.trim())
-        .filter(Boolean);
-
-      const title = (parts[0] || text || "Новость").slice(0, 120);
-      const lead = (parts[1] || parts[0] || "").slice(0, 220);
-      const category = normalizeCategory(p?.tab, p?.rubric, text);
-
-      const bodyParts = parts.length > 1
-        ? parts.slice(1)
-        : [text].filter(Boolean);
-
-      return {
-        id: String(p?.id ?? idx),
-        tab: category.tab,
-        rubric: category.rubric,
-        thumb: p?.photo || null,
-        when: p?.date ? formatDate(p.date) : "",
-        age: p?.date ? relTime(p.date) : "",
-        live: Boolean(p?.live),
-        title,
-        lead,
-        tags: [],
-        author: "ВКонтакте",
-        updated: p?.date ? formatDateTime(p.date) : "",
-        caption: "Источник: сообщество ВКонтакте",
-        body: bodyParts.length ? bodyParts : [lead || title],
-        ts: p?.date || null
+      vodPlay.onclick = openVideo;
+      vodOpen.onclick = openVideo;
+      vodPlayer.onclick = (e) => {
+        if (e.target === vodPlay || vodPlay.contains(e.target)) return;
+        openVideo();
       };
-    });
-
-    feedItems = ARTICLES.map(a => ({
-      id: a.id,
-      time: a.ts ? formatTime(a.ts) : "",
-      rubric: a.rubric,
-      title: a.title,
-      live: a.live
-    }));
-  }
-
-  function renderList(){
-    const items = ARTICLES.filter(matchesFilter);
-
-    pageTitle.textContent = state.selectedId ? "Статья" : "Новости";
-    leftHint.textContent = state.selectedId
-      ? "Полная статья"
-      : `Большие материалы · ${items.length} шт.`;
-
-    if(state.selectedId){
-      listView.style.display = "none";
-      articleView.style.display = "block";
-      renderArticle(state.selectedId);
-      return;
+      vodPlayer.onkeydown = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openVideo();
+        }
+      };
     }
 
-    articleView.style.display = "none";
-    listView.style.display = "flex";
-
-    if(items.length === 0){
-      listView.innerHTML = `<div class="bigcard"><h3>Пока нет новостей</h3></div>`;
-      return;
+    function syncAll(){
+      renderHero();
+      renderTodayCards();
+      renderFeed();
+      renderVideoOfDay();
     }
 
-    listView.innerHTML = items.map(a => {
-      const thumb = cssBgUrl(a.thumb);
-      const thumbStyle = thumb ? `background-image:url('${thumb}');` : "";
-
-      return `
-        <a class="bigcard" href="#${encodeURIComponent(a.id)}" data-open="${escapeHtml(a.id)}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
-          <div class="bigrow">
-            <div class="thumb" aria-hidden="true" style="${thumbStyle}"></div>
-            <div>
-              <div class="top">
-                <span class="rubric">${escapeHtml(a.rubric)}</span>
-                <span>${escapeHtml(a.when || "")}</span>
-                ${a.live ? `<span class="live">LIVE</span>` : ``}
-              </div>
-              <h3>${escapeHtml(a.title)}</h3>
-              <p class="desc">${escapeHtml(a.lead || "")}</p>
-              <div class="chips">
-                <span class="chip hot">${escapeHtml(a.ts ? formatDate(a.ts) : "Лента")}</span>
-                <span class="chip">${a.thumb ? "Фото" : "Материал"}</span>
-              </div>
-            </div>
-          </div>
-        </a>
-      `;
-    }).join("");
-
-    listView.querySelectorAll("[data-open]").forEach(el=>{
-      el.addEventListener("click",(e)=>{
-        e.preventDefault();
-        openArticle(el.dataset.open);
-      });
-    });
-  }
-
-  function renderArticle(id){
-    const a = ARTICLES.find(x => x.id === id);
-    if(!a) return;
-
-    const related = relatedFor(a);
-    const thumb = cssBgUrl(a.thumb);
-
-    articleView.innerHTML = `
-      <h1 class="articleTitle">${escapeHtml(a.title)}</h1>
-
-      <div class="articleMeta">
-        <span>${escapeHtml(a.rubric || "События")}</span>
-        ${a.updated ? `<span>${escapeHtml(a.updated)}</span>` : ``}
-        ${a.author ? `<span>${escapeHtml(a.author)}</span>` : ``}
-      </div>
-
-      <div class="media ${thumb ? "" : "is-empty"}" style="${thumb ? `background-image:url('${thumb}');` : ""}"></div>
-      ${a.thumb && a.caption ? `<div class="caption">${escapeHtml(a.caption)}</div>` : ``}
-
-      <div class="body">
-        ${a.body.map(p => `<p>${escapeHtml(p)}</p>`).join("")}
-      </div>
-
-      <div class="toolbar">
-        <button class="more" id="backBtn" type="button">← К списку</button>
-      </div>
-
-      ${related.length ? `
-        <div class="related">
-          <div class="relatedHead">
-            <div>
-              <h2>Ещё по теме</h2>
-              <p>Похожие материалы из ленты</p>
-            </div>
-          </div>
-
-          <div class="relGrid">
-            ${related.map(r => `
-              <a class="relCard" href="#${encodeURIComponent(r.id)}" data-open-related="${escapeHtml(r.id)}">
-                <div class="top">
-                  <span class="rubric">${escapeHtml(r.rubric)}</span>
-                  <span>${escapeHtml(r.when || "")}</span>
-                </div>
-                <h3>${escapeHtml(r.title)}</h3>
-                <p class="desc">${escapeHtml(r.lead || "")}</p>
-              </a>
-            `).join("")}
-          </div>
-        </div>
-      ` : ``}
-    `;
-
-    const back = () => {
-      state.selectedId = null;
-      history.replaceState(null, "", "news.html");
-      renderList();
-      window.scrollTo({top: 0, behavior: "smooth"});
-    };
-
-    articleView.querySelector("#backBtn")?.addEventListener("click", back);
-
-    articleView.querySelectorAll("[data-open-related]").forEach(el => {
-      el.addEventListener("click", (e) => {
-        e.preventDefault();
-        openArticle(el.dataset.openRelated);
-      });
-    });
-  }
-
-  function openArticle(id){
-    state.selectedId = id;
-    history.replaceState(null, "", `news.html#${encodeURIComponent(id)}`);
-    renderList();
-    window.scrollTo({top: 0, behavior: "smooth"});
-  }
-
-  function renderFeed(){
-    const q = state.query.trim().toLowerCase();
-
-    const show = (state.liveOnly ? feedItems.filter(i => i.live) : feedItems)
-      .filter(i => !q || (i.title || "").toLowerCase().includes(q));
-
-    feedList.innerHTML = show.map(n => `
-      <div class="feed-item" data-open="${escapeHtml(n.id)}">
-        <div class="t-time">${escapeHtml(n.time || "")}</div>
-        <div class="t-main">
-          <div class="t-top">
-            <span class="t-dot"></span>
-            <span class="t-rubric">${escapeHtml(n.rubric)}</span>
-            ${n.live ? `<span class="t-live">LIVE</span>` : ``}
-          </div>
-          <div class="t-title">${escapeHtml(n.title)}</div>
-        </div>
-      </div>
-    `).join("");
-
-    feedList.querySelectorAll("[data-open]").forEach(el=>{
-      el.addEventListener("click", ()=> openArticle(el.dataset.open));
-    });
-  }
-
-  document.querySelectorAll(".tab").forEach(el=>{
-    el.addEventListener("click",(e)=>{
-      e.preventDefault();
-      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-      el.classList.add("active");
-      state.tab = el.dataset.tab;
-      state.selectedId = null;
-      history.replaceState(null, "", "news.html");
-      renderList();
-      renderFeed();
-    });
-  });
-
-  liveToggle.addEventListener("click",(e)=>{
-    e.preventDefault();
-    state.liveOnly = !state.liveOnly;
-    liveToggle.textContent = state.liveOnly ? "Все" : "Только LIVE";
-    renderFeed();
-    if(!state.selectedId) renderList();
-  });
-
-  headerSearch.addEventListener("input",(e)=>{
-    state.query = e.target.value || "";
-    if(!state.selectedId) renderList();
-    renderFeed();
-  });
-
-  function openFromHash(){
-    const raw = window.location.hash.replace(/^#/, "").trim();
-    if (!raw) {
-      state.selectedId = null;
-      renderList();
-      renderFeed();
-      return;
+    async function loadJson(url){
+      const r = await fetch(url, { cache: "no-store" });
+      if(!r.ok) throw new Error(`Failed to load ${url}: ${r.status}`);
+      return r.json();
     }
 
-    const id = decodeURIComponent(raw);
-    const exists = ARTICLES.some(a => a.id === id);
-
-    state.selectedId = exists ? id : null;
-    renderList();
-    renderFeed();
-  }
-
-  fetch("content/news/feed.json", { cache: "no-store" })
-    .then(r => r.json())
-    .then(data => {
-      buildFromFeed(data);
-      openFromHash();
-      feedStatus.textContent = "обновлено";
-    })
-    .catch(err => {
-      console.error("Feed load error:", err);
-      feedStatus.textContent = "ошибка загрузки";
-      renderList();
-      renderFeed();
+    headerSearch?.addEventListener("input", (e)=>{
+      state.q = e.target.value || "";
+      syncAll();
     });
 
-  window.addEventListener("hashchange", openFromHash);
-</script>
+    async function initHome(){
+      try{
+        const [newsFeed, tvData, shortsData, vodData] = await Promise.all([
+          loadJson("content/news/feed.json"),
+          loadJson("/content/tv/videos.json").catch(()=>loadJson("content/tv/videos.json")),
+          loadJson("/content/home/shorts.json").catch(()=>loadJson("content/home/shorts.json")),
+          loadJson("/content/home/videoOfDay.json").catch(()=>loadJson("content/home/videoOfDay.json"))
+        ]);
+
+        buildNewsFromFeed(newsFeed);
+        allVideos = Array.isArray(tvData?.items) ? tvData.items : [];
+        shortsItems = Array.isArray(shortsData?.items) ? shortsData.items : [];
+        videoOfDay = vodData?.item || null;
+
+        syncAll();
+        feedStatus.textContent = "обновлено";
+      }catch(err){
+        console.error("Home content load error:", err);
+        feedStatus.textContent = "ошибка загрузки";
+        syncAll();
+      }
+    }
+
+    initHome();
+  </script>
 
   <script>
     (function(){
@@ -1403,7 +1447,7 @@
 
         const label = btn.querySelector(".themeLabel");
         if(label){
-          label.textContent = isDark ? "Свет" : "Тема";
+          label.textContent = isDark ? "Свет" : (label.textContent || "Тема");
         }
       }
 
