@@ -1126,6 +1126,16 @@
       "подборка", "напоминаем", "опрос", "голосование"
     ];
 
+    const TOPIC_OF_DAY_HASHTAG_RE = /\s*#темадня\s*$/iu;
+
+    function hasTopicOfDayHashtag(text){
+      return TOPIC_OF_DAY_HASHTAG_RE.test(String(text || ""));
+    }
+
+    function stripTopicOfDayHashtag(text){
+      return String(text || "").replace(TOPIC_OF_DAY_HASHTAG_RE, "").trim();
+    }
+
     function keywordHitCount(text, keywords){
       return keywords.reduce((sum, word) => {
         return sum + (text.includes(word) ? 1 : 0);
@@ -1141,6 +1151,7 @@
 
       let score = 0;
 
+      if (a.topicOfDay) score += 100000;
       if (a.featured) score += 1000;
       if (a.priority) score += a.priority * 100;
 
@@ -1178,6 +1189,18 @@
     function pickHeroArticle(items){
       const filtered = items.filter(matchesQuery);
       const pool = filtered.length ? filtered : items;
+      const topicOfDayItems = pool.filter(a => a.topicOfDay);
+
+      if (topicOfDayItems.length) {
+        return topicOfDayItems
+          .slice()
+          .sort((a, b) => {
+            const byPriority = Number(b.priority || 0) - Number(a.priority || 0);
+            if (byPriority !== 0) return byPriority;
+
+            return Number(b.ts || 0) - Number(a.ts || 0);
+          })[0] || null;
+      }
 
       return pool
         .slice()
@@ -1193,7 +1216,9 @@
       const sorted = Array.isArray(posts) ? posts.slice().reverse() : [];
 
       ARTICLES = sorted.map((p, idx) => {
-        const text = p?.text || "";
+        const rawText = p?.text || "";
+        const topicOfDay = hasTopicOfDayHashtag(rawText);
+        const text = stripTopicOfDayHashtag(rawText);
         const parts = text.split("\n\n").map(x => x.trim()).filter(Boolean);
         const title = (parts[0] || text || "Новость").slice(0, 120);
         const lead = (parts[1] || parts[0] || "").slice(0, 220);
@@ -1209,8 +1234,9 @@
           ts: p?.date || null,
           body: parts.length ? parts : [text],
 
-          featured: Boolean(p?.featured || p?.hero || p?.main),
-          priority: Number(p?.priority || 0)
+          topicOfDay,
+          featured: Boolean(topicOfDay || p?.featured || p?.hero || p?.main),
+          priority: Number(p?.priority || (topicOfDay ? 100 : 0))
         };
       });
 
