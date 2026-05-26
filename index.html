@@ -1132,16 +1132,6 @@
       }, 0);
     }
 
-    const DAY_TOPIC_TAG_RE = /(?:^|\s)#темадня\s*$/iu;
-
-    function isTopicOfDay(text){
-      return DAY_TOPIC_TAG_RE.test(String(text || ""));
-    }
-
-    function stripTopicOfDayTag(text){
-      return String(text || "").replace(DAY_TOPIC_TAG_RE, "").trim();
-    }
-
     function scoreArticle(a){
       const text = [
         a.title,
@@ -1203,10 +1193,7 @@
       const sorted = Array.isArray(posts) ? posts.slice().reverse() : [];
 
       ARTICLES = sorted.map((p, idx) => {
-        const rawText = p?.text || "";
-        const isDayTopic = isTopicOfDay(rawText);
-        const text = stripTopicOfDayTag(rawText);
-
+        const text = p?.text || "";
         const parts = text.split("\n\n").map(x => x.trim()).filter(Boolean);
         const title = (parts[0] || text || "Новость").slice(0, 120);
         const lead = (parts[1] || parts[0] || "").slice(0, 220);
@@ -1222,8 +1209,8 @@
           ts: p?.date || null,
           body: parts.length ? parts : [text],
 
-          featured: Boolean(p?.featured || p?.hero || p?.main || isDayTopic),
-          priority: Number(p?.priority || 0) + (isDayTopic ? 100 : 0)
+          featured: Boolean(p?.featured || p?.hero || p?.main),
+          priority: Number(p?.priority || 0)
         };
       });
 
