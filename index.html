@@ -4,19 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Промышленный репортёр — новости промышленности, производства и технологий</title>
-  <!-- Favicon -->
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#ef2b1a">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#ef2b1a">
   <meta name="description" content="Источник свежих новостей о промышленности и технологиях.">
   <meta name="robots" content="index, follow">
   <meta name="author" content="Промышленный репортёр">
   <link rel="canonical" href="https://promrep.ru/">
-  <link rel="icon" href="https://promrep.ru/favicon.ico" type="image/x-icon">
-
   <meta property="og:title" content="Промышленный репортёр — новости промышленности">
   <meta property="og:description" content="Новости промышленности, производства, технологий, рынка и назначений в российских компаниях.">
   <meta property="og:type" content="website">
@@ -24,7 +21,6 @@
   <meta property="og:site_name" content="Промышленный репортёр">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:image" content="https://promrep.ru/log.png">
-
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Промышленный репортёр — новости промышленности">
   <meta name="twitter:description" content="Новости промышленности, производства, технологий, рынка и назначений.">
@@ -40,7 +36,6 @@
     "sameAs": []
   }
   </script>
-
 
   <script>
     (function () {
@@ -76,10 +71,11 @@
       --r:16px;
       --r2:12px;
 
-      --shadow: 0 14px 26px rgba(11,11,12,.08);
-      --shadow2: 0 10px 18px rgba(11,11,12,.06);
+      /* [УЛУЧШЕНИЕ] Чуть мягче тени */
+      --shadow: 0 8px 20px rgba(11,11,12,.07);
+      --shadow2: 0 4px 12px rgba(11,11,12,.05);
 
-      --headerBg: rgba(244,245,246,.92);
+      --headerBg: rgba(244,245,246,.94);
       --grid1: rgba(0,0,0,.028);
       --grid2: rgba(0,0,0,.024);
     }
@@ -95,16 +91,16 @@
       --line2:rgba(255,255,255,.08);
       --soft:rgba(255,255,255,.06);
 
-      --red:#ff2a2a;
+      --red:#ff3a1a;
 
       --panel:#0b0b0c;
       --panelText:#f7f7f8;
       --panelMuted:rgba(247,247,248,.72);
 
-      --shadow: 0 14px 26px rgba(0,0,0,.40);
-      --shadow2: 0 10px 18px rgba(0,0,0,.32);
+      --shadow: 0 8px 24px rgba(0,0,0,.36);
+      --shadow2: 0 4px 14px rgba(0,0,0,.28);
 
-      --headerBg: rgba(11,11,12,.72);
+      --headerBg: rgba(11,11,12,.80);
       --grid1: rgba(255,255,255,.06);
       --grid2: rgba(255,255,255,.05);
     }
@@ -136,7 +132,8 @@
     header{
       position:sticky; top:0; z-index:10;
       background: var(--headerBg);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--line);
     }
     .topbar{
@@ -147,7 +144,16 @@
       display:flex; align-items:center; gap:12px;
       min-width: 260px;
     }
-    .brand img{ width:44px; height:44px; object-fit:contain; display:block; }
+    /* [ИСПРАВЛЕНИЕ] Логотип: инверсия в тёмной теме */
+    .brand img{
+      width:44px; height:44px; object-fit:contain; display:block;
+      transition: filter .18s ease, opacity .18s ease;
+    }
+    html[data-theme="dark"] .brand img{
+      filter: invert(1) brightness(2);
+    }
+    .brand:hover img{ opacity:.85; }
+
     .brand .t{ display:flex; flex-direction:column; line-height:1.05; }
     .brand .t strong{ text-transform:uppercase; font-size:13px; letter-spacing:1.7px; }
     .brand .t span{ font-size:12px; color: var(--muted); }
@@ -164,17 +170,24 @@
     .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
 
     .actions{ display:flex; align-items:center; gap:10px; min-width: 240px; justify-content:flex-end; }
+
+    /* [УЛУЧШЕНИЕ] Поиск — чуть заметнее фокус */
     .search{
       width:min(260px, 34vw);
       border:1px solid var(--line2);
       background: var(--paper);
       border-radius: 999px;
-      padding: 10px 12px;
+      padding: 9px 14px 9px 36px;
       font-size: 13px;
       outline:none;
       transition:.14s ease;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237a7a83' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 12px center;
+      color: var(--ink);
     }
-    .search:focus{ border-color: rgba(240,32,0,.40); box-shadow: 0 0 0 4px rgba(240,32,0,.08); }
+    .search::placeholder{ color: var(--muted2); }
+    .search:focus{ border-color: rgba(240,32,0,.40); box-shadow: 0 0 0 3px rgba(240,32,0,.07); }
 
     .btn{
       border:1px solid var(--ink);
@@ -432,11 +445,18 @@
     }
     .feed-actions a:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
 
+    /* [УЛУЧШЕНИЕ] Кастомный скроллбар в ленте */
     .feed-list{
       padding: 6px 0;
-      overflow:auto;
+      overflow-y: auto;
       max-height: 360px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(240,32,0,.20) transparent;
     }
+    .feed-list::-webkit-scrollbar{ width:4px; }
+    .feed-list::-webkit-scrollbar-thumb{ background: rgba(240,32,0,.20); border-radius:4px; }
+    .feed-list::-webkit-scrollbar-track{ background: transparent; }
+
     .feed-item{
       display:grid;
       grid-template-columns: 56px 1fr;
@@ -445,8 +465,11 @@
       border-top: 1px solid rgba(11,11,12,.06);
       transition:.12s ease;
     }
+    html[data-theme="dark"] .feed-item{ border-top-color: rgba(255,255,255,.05); }
     .feed-item:first-child{ border-top:0; }
     .feed-item:hover{ background: rgba(11,11,12,.02); }
+    html[data-theme="dark"] .feed-item:hover{ background: rgba(255,255,255,.03); }
+
     .t-time{
       font-size:12px;
       color: var(--muted2);
@@ -516,11 +539,16 @@
       border-radius: var(--r);
       padding: 14px;
       box-shadow: var(--shadow2);
-      transition:.14s ease;
+      transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
       display:flex; flex-direction:column;
       min-height: 210px;
     }
-    .card:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
+    /* [УЛУЧШЕНИЕ] Более выразительный hover у карточек */
+    .card:hover{
+      transform: translateY(-3px);
+      border-color: rgba(240,32,0,.26);
+      box-shadow: 0 10px 28px rgba(240,32,0,.08), var(--shadow2);
+    }
     .card .top{ display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted); }
     .card .rubric{
       display:inline-flex; align-items:center; gap:8px;
@@ -599,7 +627,22 @@
       display:grid; place-items:center;
       box-shadow: var(--shadow2);
       cursor:pointer;
+      overflow: hidden;
+      position: relative;
+      background-size: cover;
+      background-position: center;
     }
+    /* [УЛУЧШЕНИЕ] Затемняющий оверлей на превью видео при наведении */
+    .player::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: rgba(0,0,0,0);
+      transition: background .2s ease;
+      pointer-events: none;
+    }
+    .player:hover::after{ background: rgba(0,0,0,.08); }
+
     .play{
       width:74px; height:74px;
       border-radius: 22px;
@@ -608,8 +651,10 @@
       cursor:pointer;
       transition:.14s ease;
       display:grid; place-items:center;
+      position: relative;
+      z-index:1;
     }
-    .play:hover{ transform: translateY(-2px) scale(1.02); }
+    .play:hover{ transform: translateY(-2px) scale(1.04); background: rgba(240,32,0,.20); }
     .vside{
       background: var(--paper);
       border: 1px solid var(--line);
@@ -879,12 +924,14 @@
       return d.toLocaleDateString("ru-RU", { day:"2-digit", month:"2-digit", year:"numeric" });
     }
 
+    /* [ИСПРАВЛЕНИЕ] fmtDur — убрана причина NaN:NaN */
     function fmtDur(sec){
-      const s = Math.max(0, Number(sec || 0));
-      const h = Math.floor(s/3600);
-      const m = Math.floor((s%3600)/60);
-      const r = Math.floor(s%60);
-      if(h) return `${h}:${String(m).padStart(2,"0")}:${String(r).padStart(2,"0")}`;
+      const s = Number(sec);
+      if (!s || Number.isNaN(s) || s <= 0) return "";
+      const h = Math.floor(s / 3600);
+      const m = Math.floor((s % 3600) / 60);
+      const r = Math.floor(s % 60);
+      if (h) return `${h}:${String(m).padStart(2,"0")}:${String(r).padStart(2,"0")}`;
       return `${m}:${String(r).padStart(2,"0")}`;
     }
 
@@ -968,51 +1015,25 @@
       ];
 
       const roleContext = [
-        "генеральный директор",
-        "гендиректор",
-        "исполнительный директор",
-        "коммерческий директор",
-        "финансовый директор",
-        "технический директор",
-        "операционный директор",
-        "директор по",
-        "управляющий директор",
-        "директор завода",
-        "директор предприятия",
-        "руководитель",
-        "руководителем",
-        "глава компании",
-        "главой компании",
-        "глава предприятия",
-        "главой предприятия",
-        "глава завода",
-        "главой завода",
-        "председатель",
-        "председателем",
-        "председатель совета директоров",
-        "член совета директоров",
-        "совет директоров",
-        "правление",
-        "наблюдательный совет",
-        "заместитель",
-        "заместителем",
-        "вице-президент",
-        "президент компании",
-        "топ-менеджер",
-        "руководство",
-        "ceo",
-        "cfo",
-        "cto",
-        "coo"
+        "генеральный директор","гендиректор","исполнительный директор",
+        "коммерческий директор","финансовый директор","технический директор",
+        "операционный директор","директор по","управляющий директор",
+        "директор завода","директор предприятия","руководитель","руководителем",
+        "глава компании","главой компании","глава предприятия","главой предприятия",
+        "глава завода","главой завода","председатель","председателем",
+        "председатель совета директоров","член совета директоров","совет директоров",
+        "правление","наблюдательный совет","заместитель","заместителем",
+        "вице-президент","президент компании","топ-менеджер","руководство",
+        "ceo","cfo","cto","coo"
       ];
 
       const companyContext = [
-        "компания", "компании", "предприятие", "предприятия", "завод", "завода",
-        "холдинг", "холдинга", "группа", "группы", "корпорация", "корпорации",
-        "концерн", "концерна", "производитель", "производителя", "оператор",
-        "оператора", "поставщик", "поставщика", "дивизион", "дивизиона",
-        "филиал", "филиала", "департамент", "департамента", "совет директоров",
-        "правление", "оао", "пао", "ао", "ооо", "зао", "гк", "хк"
+        "компания","компании","предприятие","предприятия","завод","завода",
+        "холдинг","холдинга","группа","группы","корпорация","корпорации",
+        "концерн","концерна","производитель","производителя","оператор",
+        "оператора","поставщик","поставщика","дивизион","дивизиона",
+        "филиал","филиала","департамент","департамента","совет директоров",
+        "правление","оао","пао","ао","ооо","зао","гк","хк"
       ];
 
       const hasAction = appointmentAction.some(pattern => pattern.test(t));
@@ -1027,50 +1048,45 @@
         tab: "market",
         rubric: "Рынок",
         keywords: [
-          "рынок", "экспорт", "импорт", "цена", "цены", "подорожание", "снижение цен",
-          "контракт", "госконтракт", "договор", "тендер", "закупка", "поставка",
-          "отгрузка", "логистика", "транспортировка", "продажи", "выручка",
-          "прибыль", "убыток", "маржа", "инвестиции", "инвестпроект",
-          "финансирование", "кредит", "заем", "сделка", "партнерство",
-          "спрос", "предложение", "заказ", "портфель заказов", "млрд", "млн",
-          "рубл", "доллар", "евро", "банкротство", "акции", "дивиденды",
-          "субсидия", "льгота", "налог", "таможня", "пошлина", "импортер",
-          "экспортер", "потребитель", "поставщик", "дистрибьютор"
+          "рынок","экспорт","импорт","цена","цены","подорожание","снижение цен",
+          "контракт","госконтракт","договор","тендер","закупка","поставка",
+          "отгрузка","логистика","транспортировка","продажи","выручка",
+          "прибыль","убыток","маржа","инвестиции","инвестпроект",
+          "финансирование","кредит","заем","сделка","партнерство",
+          "спрос","предложение","заказ","портфель заказов","млрд","млн",
+          "рубл","доллар","евро","банкротство","акции","дивиденды",
+          "субсидия","льгота","налог","таможня","пошлина","импортер",
+          "экспортер","потребитель","поставщик","дистрибьютор"
         ]
       },
       {
         tab: "technologies",
         rubric: "Технологии",
         keywords: [
-          "технолог", "робот", "роботизация", "автоматизация", "цифровизация",
-          "цифровой двойник", "станок", "чпу", "оборудование", "разработка",
-          "инновация", "инновационный", /\bии\b/u, /\bai\b/i,
-          "искусственный интеллект", "нейросет", "машинное зрение",
-          "компьютерное зрение", "платформа", "система", "софт",
-          "программное обеспечение", "модернизация", "датчик", "сенсор",
-          "беспилот", "дрон", "аддитив", "3d-печать", "3d печать",
-          "композит", "испытания", "лаборатория", "патент", "инжиниринг",
-          "асу тп", "erp", "mes", "scada", "промышленный интернет вещей",
-          "iiot", "энергоэффективность", "накопитель энергии", "водород",
-          "электролизер", "микроэлектроника", "полупроводник", "датасет",
-          "алгоритм", "модель", "прототип", "опытный образец", "серийное производство"
+          "технолог","робот","роботизация","автоматизация","цифровизация",
+          "цифровой двойник","станок","чпу","оборудование","разработка",
+          "инновация","инновационный",/\bии\b/u,/\bai\b/i,
+          "искусственный интеллект","нейросет","машинное зрение",
+          "компьютерное зрение","платформа","система","софт",
+          "программное обеспечение","модернизация","датчик","сенсор",
+          "беспилот","дрон","аддитив","3d-печать","3d печать",
+          "композит","испытания","лаборатория","патент","инжиниринг",
+          "асу тп","erp","mes","scada","промышленный интернет вещей",
+          "iiot","энергоэффективность","накопитель энергии","водород",
+          "электролизер","микроэлектроника","полупроводник","датасет",
+          "алгоритм","модель","прототип","опытный образец","серийное производство"
         ]
       }
     ];
 
     function detectCategory(text) {
       const t = String(text || "").toLowerCase();
-
-      if (isAppointmentMaterial(t)) {
-        return { tab: "appointments", rubric: "Назначения" };
-      }
-
+      if (isAppointmentMaterial(t)) return { tab: "appointments", rubric: "Назначения" };
       for (const rule of CATEGORY_RULES) {
         if (rule.keywords.some(keyword => hasKeyword(t, keyword))) {
           return { tab: rule.tab, rubric: rule.rubric };
         }
       }
-
       return { tab: "events", rubric: "События" };
     }
 
@@ -1081,13 +1097,11 @@
       const aliases = {
         "market": { tab: "market", rubric: "Рынок" },
         "рынок": { tab: "market", rubric: "Рынок" },
-
         "tech": { tab: "technologies", rubric: "Технологии" },
         "тех": { tab: "technologies", rubric: "Технологии" },
         "technology": { tab: "technologies", rubric: "Технологии" },
         "technologies": { tab: "technologies", rubric: "Технологии" },
         "технологии": { tab: "technologies", rubric: "Технологии" },
-
         "events": { tab: "events", rubric: "События" },
         "event": { tab: "events", rubric: "События" },
         "события": { tab: "events", rubric: "События" },
@@ -1095,11 +1109,8 @@
       };
 
       const wantsAppointments =
-        rawTab === "people" ||
-        rawTab === "appointments" ||
-        rawRubric === "люди" ||
-        rawRubric === "назначения" ||
-        rawRubric === "назначение";
+        rawTab === "people" || rawTab === "appointments" ||
+        rawRubric === "люди" || rawRubric === "назначения" || rawRubric === "назначение";
 
       if (wantsAppointments) {
         return isAppointmentMaterial(text)
@@ -1107,61 +1118,46 @@
           : detectCategory(text);
       }
 
-      if (rawTab === "opinion" || rawRubric === "колонка") {
-        return detectCategory(text);
-      }
+      if (rawTab === "opinion" || rawRubric === "колонка") return detectCategory(text);
 
       return aliases[rawTab] || aliases[rawRubric] || detectCategory(text);
     }
 
     const HERO_KEYWORDS = [
-      "завод", "производство", "предприятие", "цех", "линия", "запуск",
-      "открытие", "строительство", "инвестиции", "инвестпроект", "млрд",
-      "миллиард", "млн", "миллион", "экспорт", "импортозамещение",
-      "санкции", "контракт", "госконтракт", "сделка", "тендер", "поставка",
-      "модернизация", "робот", "роботизация", "автоматизация", "цифровизация",
-      "искусственный интеллект", "нейросеть", "оборудование", "станок",
-      "авария", "чп", "пожар", "остановка", "дефицит", "рекорд",
-      "крупнейший", "первый", "впервые", "новый", "рост", "снижение",
-      "прибыль", "выручка", "эксперимент", "испытания",
-      "серийное производство", "разработка"
+      "завод","производство","предприятие","цех","линия","запуск",
+      "открытие","строительство","инвестиции","инвестпроект","млрд",
+      "миллиард","млн","миллион","экспорт","импортозамещение",
+      "санкции","контракт","госконтракт","сделка","тендер","поставка",
+      "модернизация","робот","роботизация","автоматизация","цифровизация",
+      "искусственный интеллект","нейросеть","оборудование","станок",
+      "авария","чп","пожар","остановка","дефицит","рекорд",
+      "крупнейший","первый","впервые","новый","рост","снижение",
+      "прибыль","выручка","эксперимент","испытания",
+      "серийное производство","разработка"
     ];
 
     const HERO_NEGATIVE_KEYWORDS = [
-      "поздравляем", "поздравление", "с праздником", "доброе утро",
-      "добрый вечер", "дайджест", "анонс", "афиша", "итоги недели",
-      "подборка", "напоминаем", "опрос", "голосование"
+      "поздравляем","поздравление","с праздником","доброе утро",
+      "добрый вечер","дайджест","анонс","афиша","итоги недели",
+      "подборка","напоминаем","опрос","голосование"
     ];
 
     const TOPIC_OF_DAY_HASHTAG_RE = /\s*#темадня\s*$/iu;
 
-    function hasTopicOfDayHashtag(text){
-      return TOPIC_OF_DAY_HASHTAG_RE.test(String(text || ""));
-    }
-
-    function stripTopicOfDayHashtag(text){
-      return String(text || "").replace(TOPIC_OF_DAY_HASHTAG_RE, "").trim();
-    }
+    function hasTopicOfDayHashtag(text){ return TOPIC_OF_DAY_HASHTAG_RE.test(String(text || "")); }
+    function stripTopicOfDayHashtag(text){ return String(text || "").replace(TOPIC_OF_DAY_HASHTAG_RE, "").trim(); }
 
     function keywordHitCount(text, keywords){
-      return keywords.reduce((sum, word) => {
-        return sum + (text.includes(word) ? 1 : 0);
-      }, 0);
+      return keywords.reduce((sum, word) => sum + (text.includes(word) ? 1 : 0), 0);
     }
 
     function scoreArticle(a){
-      const text = [
-        a.title,
-        a.lead,
-        Array.isArray(a.body) ? a.body.join(" ") : ""
-      ].join(" ").toLowerCase();
-
+      const text = [a.title, a.lead, Array.isArray(a.body) ? a.body.join(" ") : ""].join(" ").toLowerCase();
       let score = 0;
 
       if (a.topicOfDay) score += 100000;
       if (a.featured) score += 1000;
       if (a.priority) score += a.priority * 100;
-
       if (a.thumb) score += 18;
 
       const titleLen = String(a.title || "").length;
@@ -1183,7 +1179,6 @@
 
       if (a.ts) {
         const ageHours = Math.max(0, (Date.now() - a.ts * 1000) / 36e5);
-
         if (ageHours <= 6) score += 10;
         else if (ageHours <= 24) score += 7;
         else if (ageHours <= 72) score += 4;
@@ -1199,24 +1194,18 @@
       const topicOfDayItems = pool.filter(a => a.topicOfDay);
 
       if (topicOfDayItems.length) {
-        return topicOfDayItems
-          .slice()
-          .sort((a, b) => {
-            const byPriority = Number(b.priority || 0) - Number(a.priority || 0);
-            if (byPriority !== 0) return byPriority;
-
-            return Number(b.ts || 0) - Number(a.ts || 0);
-          })[0] || null;
-      }
-
-      return pool
-        .slice()
-        .sort((a, b) => {
-          const byScore = scoreArticle(b) - scoreArticle(a);
-          if (byScore !== 0) return byScore;
-
+        return topicOfDayItems.slice().sort((a, b) => {
+          const byPriority = Number(b.priority || 0) - Number(a.priority || 0);
+          if (byPriority !== 0) return byPriority;
           return Number(b.ts || 0) - Number(a.ts || 0);
         })[0] || null;
+      }
+
+      return pool.slice().sort((a, b) => {
+        const byScore = scoreArticle(b) - scoreArticle(a);
+        if (byScore !== 0) return byScore;
+        return Number(b.ts || 0) - Number(a.ts || 0);
+      })[0] || null;
     }
 
     function buildNewsFromFeed(posts){
@@ -1240,7 +1229,6 @@
           thumb: p?.photo || null,
           ts: p?.date || null,
           body: parts.length ? parts : [text],
-
           topicOfDay,
           featured: Boolean(topicOfDay || p?.featured || p?.hero || p?.main),
           priority: Number(p?.priority || (topicOfDay ? 100 : 0))
@@ -1292,18 +1280,7 @@
         const thumb = normalizeMediaUrl(a.thumb);
         const href = `news.html#${encodeURIComponent(a.id)}`;
         const thumbHtml = thumb
-          ? `
-            <div class="card-thumb">
-              <img
-                src="${escapeHtml(thumb)}"
-                alt=""
-                loading="lazy"
-                decoding="async"
-                referrerpolicy="no-referrer"
-                onerror="this.closest('.card-thumb') && this.closest('.card-thumb').classList.add('is-empty'); this.remove();"
-              />
-            </div>
-          `
+          ? `<div class="card-thumb"><img src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.card-thumb') && this.closest('.card-thumb').classList.add('is-empty'); this.remove();"/></div>`
           : `<div class="card-thumb is-empty" aria-hidden="true"></div>`;
 
         return `
@@ -1327,7 +1304,7 @@
         .filter(i => !q || (i.title || "").toLowerCase().includes(q))
         .slice(0, 12);
 
-      feedList.innerHTML = show.map((n)=>`
+      feedList.innerHTML = show.map((n) => `
         <a class="feed-item" href="news.html#${encodeURIComponent(n.id)}" aria-label="${escapeHtml(n.title)}">
           <div class="t-time">${escapeHtml(n.time || "")}</div>
           <div class="t-main">
@@ -1343,14 +1320,10 @@
 
     function applyVodPlayerCover(item){
       const src = normalizeMediaUrl(item?.thumb);
-      if(src){
-        setBgCover(vodPlayer, src, "soft");
-      }
+      if(src){ setBgCover(vodPlayer, src, "soft"); }
     }
 
-    function openVideo(){
-      window.location.href = "tv.html";
-    }
+    function openVideo(){ window.location.href = "tv.html"; }
 
     function renderVideoOfDay(){
       const v = videoOfDay || allVideos[0] || null;
@@ -1363,7 +1336,8 @@
 
       vodTitle.textContent = v.title || "Видео дня";
       vodDesc.textContent = v.description || "Открыть в разделе TV";
-      vodLen.textContent = fmtDur(v.duration);
+      /* [ИСПРАВЛЕНИЕ] Показываем "—" если длительность отсутствует или 0 */
+      vodLen.textContent = fmtDur(v.duration) || "—";
       applyVodPlayerCover(v);
 
       vodPlay.onclick = openVideo;
@@ -1373,10 +1347,7 @@
         openVideo();
       };
       vodPlayer.onkeydown = (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          openVideo();
-        }
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openVideo(); }
       };
     }
 
@@ -1393,7 +1364,7 @@
       return r.json();
     }
 
-    headerSearch?.addEventListener("input", (e)=>{
+    headerSearch?.addEventListener("input", (e) => {
       state.q = e.target.value || "";
       syncAll();
     });
@@ -1402,9 +1373,9 @@
       try{
         const [newsFeed, tvData, shortsData, vodData] = await Promise.all([
           loadJson("content/news/feed.json"),
-          loadJson("/content/tv/videos.json").catch(()=>loadJson("content/tv/videos.json")),
-          loadJson("/content/home/shorts.json").catch(()=>loadJson("content/home/shorts.json")),
-          loadJson("/content/home/videoOfDay.json").catch(()=>loadJson("content/home/videoOfDay.json"))
+          loadJson("/content/tv/videos.json").catch(() => loadJson("content/tv/videos.json")),
+          loadJson("/content/home/shorts.json").catch(() => loadJson("content/home/shorts.json")),
+          loadJson("/content/home/videoOfDay.json").catch(() => loadJson("content/home/videoOfDay.json"))
         ]);
 
         buildNewsFromFeed(newsFeed);
@@ -1429,17 +1400,15 @@
       const d = document.querySelector('.nav-mobile');
       if(!d) return;
 
-      d.querySelectorAll('a').forEach(a=>{
-        a.addEventListener('click', ()=> d.removeAttribute('open'));
+      d.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => d.removeAttribute('open'));
       });
 
-      document.addEventListener('click', (e)=>{
-        if(d.hasAttribute('open') && !d.contains(e.target)){
-          d.removeAttribute('open');
-        }
+      document.addEventListener('click', (e) => {
+        if(d.hasAttribute('open') && !d.contains(e.target)) d.removeAttribute('open');
       });
 
-      document.addEventListener('keydown', (e)=>{
+      document.addEventListener('keydown', (e) => {
         if(e.key === 'Escape') d.removeAttribute('open');
       });
     })();
@@ -1461,21 +1430,16 @@
       function setIconAndLabel(btn, theme){
         const svg = btn.querySelector("svg");
         if (!svg) return;
-
         const isDark = theme === "dark";
         svg.innerHTML = isDark ? ICON_SUN : ICON_MOON;
         btn.setAttribute("aria-label", isDark ? "Включить светлую тему" : "Включить тёмную тему");
-
         const label = btn.querySelector(".themeLabel");
-        if(label){
-          label.textContent = isDark ? "Свет" : (label.textContent || "Тема");
-        }
+        if(label){ label.textContent = isDark ? "Свет" : (label.textContent || "Тема"); }
       }
 
       function apply(theme) {
         if (theme === "dark") root.setAttribute("data-theme", "dark");
         else root.removeAttribute("data-theme");
-
         toggles.forEach(btn => {
           const isDark = theme === "dark";
           btn.setAttribute("aria-pressed", isDark ? "true" : "false");
