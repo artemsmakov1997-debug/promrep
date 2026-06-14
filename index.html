@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -76,6 +77,8 @@
       --shadow2: 0 4px 12px rgba(11,11,12,.05);
 
       --headerBg: rgba(244,245,246,.94);
+      --logoPlateBg: transparent;
+      --logoPlateShadow: none;
       --grid1: rgba(0,0,0,.028);
       --grid2: rgba(0,0,0,.024);
     }
@@ -101,6 +104,10 @@
       --shadow2: 0 4px 14px rgba(0,0,0,.28);
 
       --headerBg: rgba(11,11,12,.80);
+      --logoPlateBg: #f4f5f6;
+      --logoPlateShadow:
+        0 0 0 1px rgba(255,255,255,.10),
+        0 8px 20px rgba(0,0,0,.30);
       --grid1: rgba(255,255,255,.06);
       --grid2: rgba(255,255,255,.05);
     }
@@ -144,14 +151,34 @@
       display:flex; align-items:center; gap:12px;
       min-width: 260px;
     }
-    /* [ИСПРАВЛЕНИЕ] Логотип: инверсия в тёмной теме */
+    /* [ИСПРАВЛЕНИЕ] Логотип: без инверсии, с подложкой в тёмной теме */
+    .logoPlate{
+      width:52px;
+      height:44px;
+      display:inline-grid;
+      place-items:center;
+      flex:0 0 auto;
+      border-radius:12px;
+      background: var(--logoPlateBg);
+      box-shadow: var(--logoPlateShadow);
+      transition:
+        background-color .18s ease,
+        box-shadow .18s ease;
+    }
+
     .brand img{
-      width:44px; height:44px; object-fit:contain; display:block;
-      transition: filter .18s ease, opacity .18s ease;
+      width:44px;
+      height:44px;
+      object-fit:contain;
+      display:block;
+      filter:none;
+      transition: opacity .18s ease;
     }
+
     html[data-theme="dark"] .brand img{
-      filter: invert(1) brightness(2);
+      filter:none;
     }
+
     .brand:hover img{ opacity:.85; }
 
     .brand .t{ display:flex; flex-direction:column; line-height:1.05; }
@@ -744,7 +771,9 @@
     <div class="container">
       <div class="topbar">
         <a class="brand" href="index.html">
-          <img src="log.png" alt="Промышленный репортёр" />
+          <span class="logoPlate">
+            <img src="log.png" alt="Промышленный репортёр" />
+          </span>
           <div class="t">
             <strong>Промышленный репортёр</strong>
           </div>
