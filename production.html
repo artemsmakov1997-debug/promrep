@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ru">
 <head>
@@ -171,11 +172,42 @@
       min-width: 260px;
     }
 
+    .logoPlate{
+      width:52px;
+      height:44px;
+      display:inline-grid;
+      place-items:center;
+      flex:0 0 auto;
+      border-radius:12px;
+      background:transparent;
+      transition:
+        background-color .18s ease,
+        box-shadow .18s ease,
+        border-color .18s ease;
+    }
+
+    html[data-theme="dark"] .logoPlate{
+      background:#f4f5f6;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.10),
+        0 8px 20px rgba(0,0,0,.30);
+    }
+
     .brand img{
       width:44px;
       height:44px;
       object-fit:contain;
       display:block;
+      filter:none;
+      transition: opacity .18s ease;
+    }
+
+    html[data-theme="dark"] .brand img{
+      filter:none;
+    }
+
+    .brand:hover img{
+      opacity:.85;
     }
 
     .brand .t{
@@ -916,7 +948,9 @@
     <div class="container">
       <div class="topbar">
         <a class="brand" href="index.html">
-          <img src="log.png" alt="Промышленный репортёр" />
+          <span class="logoPlate">
+            <img src="log.png" alt="Промышленный репортёр" />
+          </span>
           <div class="t">
             <strong>Промышленный репортёр</strong>
           </div>
@@ -1017,7 +1051,7 @@
           <article class="shortCard">
             <div class="shortFrame">
               <iframe
-                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239816&autoplay=1&muted=1"
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239816&autoplay=1&muted=1&mute=1&volume=0"
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                 frameborder="0"
                 allowfullscreen
@@ -1031,7 +1065,7 @@
           <article class="shortCard">
             <div class="shortFrame">
               <iframe
-                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239576&autoplay=1&muted=1"
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239576&autoplay=1&muted=1&mute=1&volume=0"
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                 frameborder="0"
                 allowfullscreen
@@ -1045,7 +1079,7 @@
           <article class="shortCard">
             <div class="shortFrame">
               <iframe
-                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239179&autoplay=1&muted=1"
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239179&autoplay=1&muted=1&mute=1&volume=0"
                 allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
                 frameborder="0"
                 allowfullscreen
@@ -1197,6 +1231,31 @@ ${brief || '—'}
 
       window.location.href = `mailto:info@promrep.ru?subject=${subject}&body=${body}`;
     });
+  </script>
+
+  <script>
+    (function () {
+      const verticalVideoFrames = document.querySelectorAll('#vertical-videos .shortFrame iframe');
+
+      verticalVideoFrames.forEach((frame) => {
+        const rawSrc = frame.getAttribute('src');
+        if (!rawSrc) return;
+
+        try {
+          const url = new URL(rawSrc, window.location.href);
+          url.searchParams.set('autoplay', '1');
+          url.searchParams.set('muted', '1');
+          url.searchParams.set('mute', '1');
+          url.searchParams.set('volume', '0');
+
+          const nextSrc = url.toString();
+          if (frame.src !== nextSrc) frame.src = nextSrc;
+          frame.setAttribute('data-muted-on-load', 'true');
+        } catch (err) {
+          console.warn('Vertical video mute params error:', err);
+        }
+      });
+    })();
   </script>
 
   <script>
