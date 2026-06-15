@@ -160,18 +160,7 @@
     .navlink:hover{ color: var(--ink); border-bottom-color: rgba(240,32,0,.28); }
     .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
 
-    .actions{ display:flex; align-items:center; gap:10px; min-width: 240px; justify-content:flex-end; }
-    .search{
-      width:min(260px, 34vw);
-      border:1px solid var(--line2);
-      background: var(--paper);
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-size: 13px;
-      outline:none;
-      transition:.14s ease;
-    }
-    .search:focus{ border-color: rgba(240,32,0,.40); box-shadow: 0 0 0 4px rgba(240,32,0,.08); }
+    .actions{ display:flex; align-items:center; gap:10px; min-width:auto; justify-content:flex-end; }
 
     .btn{
       border:1px solid var(--ink);
@@ -414,9 +403,6 @@
     }
 
     /* Responsive */
-    @media (max-width: 980px){
-      .actions .search{ display:none; }
-    }
     @media (max-width: 720px){
       .brand{ min-width:auto; }
       .nav-desktop{ display:none; }
@@ -474,7 +460,6 @@
 
         <!-- ШАПКА (ПК) -->
         <div class="actions">
-          <input class="search" placeholder="Поиск…" aria-label="Поиск" />
           <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
             <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
             <span class="themeLabel">Тема</span>
@@ -625,4 +610,3 @@
   </script>
 </body>
 </html>
-
