@@ -352,14 +352,17 @@
     .thumb{
       border-radius: var(--r);
       border: 1px solid var(--line);
-      background:
-        radial-gradient(560px 220px at 20% 15%, rgba(240,32,0,.14), transparent 60%),
-        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      background: transparent;
       aspect-ratio: 16/10;
       box-shadow: var(--shadow2);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
+      overflow:hidden;
+    }
+
+    .thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
 
     .top{
@@ -544,16 +547,18 @@
       margin-top: 10px;
       border-radius: var(--r);
       border: 1px solid var(--line);
-      background:
-        radial-gradient(760px 300px at 22% 12%, rgba(240,32,0,.20), transparent 60%),
-        linear-gradient(180deg, rgba(11,11,12,.05), rgba(11,11,12,.015));
+      background: transparent;
       aspect-ratio: 16/9;
       box-shadow: var(--shadow2);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
       position:relative;
       overflow:hidden;
+    }
+
+    .media img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
 
     .media.is-empty::after{
@@ -1156,6 +1161,106 @@
     return aliases[rawTab] || aliases[rawRubric] || detectCategory(text);
   }
 
+  function normalizeTitleForCompare(s){
+    return String(s || "")
+      .toLowerCase()
+      .replaceAll("ё", "е")
+      .replace(/[^\p{L}\p{N}]+/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function getPostTitleText(p){
+    const text = String(p?.text || p?.title || "");
+    const parts = text
+      .split("\n\n")
+      .map(x => x.trim())
+      .filter(Boolean);
+    return parts[0] || text;
+  }
+
+  function hasVideoMarker(value, depth = 0){
+    if(!value || depth > 6) return false;
+
+    if(typeof value === "string"){
+      return /(youtube\.com|youtu\.be|rutube\.ru|vk\.com\/video|vkvideo|video_ext|video)/i.test(value);
+    }
+
+    if(Array.isArray(value)){
+      return value.some(item => hasVideoMarker(item, depth + 1));
+    }
+
+    if(typeof value === "object"){
+      const typeText = [
+        value.type,
+        value.kind,
+        value.format,
+        value.media_type,
+        value.mediaType,
+        value.attachment_type,
+        value.attachmentType,
+        value.section,
+        value.source
+      ].join(" ").toLowerCase();
+
+      if(/(^|[\s_-])(video|videos|видео|ролик|clip|clips|клип|vkvideo|rutube|youtube)([\s_-]|$)/i.test(typeText)){
+        return true;
+      }
+
+      const directVideoKeys = [
+        "video", "videos", "videoUrl", "video_url", "video_url_external",
+        "vkVideo", "vk_video", "youtube", "youtubeUrl", "youtube_url",
+        "rutube", "rutubeUrl", "rutube_url", "embed", "player",
+        "movie", "clip", "clips"
+      ];
+
+      if(directVideoKeys.some(key => Boolean(value[key]))){
+        return true;
+      }
+
+      const nestedKeys = [
+        "attachments", "attachment", "items", "media", "medias",
+        "content", "contents", "object", "payload"
+      ];
+
+      return nestedKeys.some(key => hasVideoMarker(value[key], depth + 1));
+    }
+
+    return false;
+  }
+
+  function getVideoTitleSet(videos){
+    const titles = new Set();
+
+    (Array.isArray(videos) ? videos : []).forEach(v => {
+      [v?.title, v?.name, v?.headline].forEach(value => {
+        const normalized = normalizeTitleForCompare(value);
+        if(normalized) titles.add(normalized);
+      });
+    });
+
+    return titles;
+  }
+
+  function isVideoLikePost(p, videoTitleSet = new Set()){
+    if(hasVideoMarker(p)) return true;
+
+    const normalizedTitle = normalizeTitleForCompare(getPostTitleText(p));
+    if(normalizedTitle && videoTitleSet.has(normalizedTitle)) return true;
+
+    const rawText = String(p?.text || "");
+    const normalizedText = normalizeTitleForCompare(rawText);
+    if(normalizedText && videoTitleSet.has(normalizedText)) return true;
+
+    const markers = [p?.type, p?.kind, p?.format, p?.tab, p?.rubric, p?.section, p?.source]
+      .join(" ")
+      .toLowerCase();
+
+    if(/(^|\s)(tv|video|видео|ролик|clip|клип)(\s|$)/iu.test(markers)) return true;
+
+    return false;
+  }
+
   function matchesFilter(a){
     const tabOk = (state.tab === "all") || (a.tab === state.tab);
     const liveOk = !state.liveOnly || a.live;
@@ -1179,8 +1284,11 @@
     return [...sameTab, ...fallback].slice(0, 4);
   }
 
-  function buildFromFeed(posts){
-    const sorted = Array.isArray(posts) ? posts.slice().reverse() : [];
+  function buildFromFeed(posts, videos = []){
+    const videoTitleSet = getVideoTitleSet(videos);
+    const sorted = Array.isArray(posts)
+      ? posts.slice().reverse().filter(p => !isVideoLikePost(p, videoTitleSet))
+      : [];
 
     ARTICLES = sorted.map((p, idx) => {
       const text = p?.text || "";
@@ -1256,9 +1364,9 @@
     }
 
     listView.innerHTML = items.map(a => {
-      const thumb = cssBgUrl(a.thumb);
+      const thumb = normalizeMediaUrl(a.thumb);
       const thumbHtml = thumb
-        ? `<div class="thumb" aria-hidden="true" style="background-image:url('${thumb}');"></div>`
+        ? `<div class="thumb" aria-hidden="true"><img src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async" onerror="const row=this.closest('.bigrow'); row?.classList.add('no-thumb'); this.closest('.thumb')?.remove();" /></div>`
         : "";
       const rowClass = thumb ? "bigrow" : "bigrow no-thumb";
 
@@ -1297,7 +1405,7 @@
     if(!a) return;
 
     const related = relatedFor(a);
-    const thumb = cssBgUrl(a.thumb);
+    const thumb = normalizeMediaUrl(a.thumb);
 
     articleView.innerHTML = `
       <h1 class="articleTitle">${escapeHtml(a.title)}</h1>
@@ -1308,7 +1416,7 @@
         ${a.author ? `<span>${escapeHtml(a.author)}</span>` : ``}
       </div>
 
-      ${thumb ? `<div class="media" style="background-image:url('${thumb}');"></div>` : ``}
+      ${thumb ? `<div class="media"><img src="${escapeHtml(thumb)}" alt="" decoding="async" onerror="const media=this.closest('.media'); const caption=media?.nextElementSibling; if(caption?.classList.contains('caption')) caption.remove(); media?.remove();" /></div>` : ``}
       ${thumb && a.caption ? `<div class="caption">${escapeHtml(a.caption)}</div>` : ``}
 
       <div class="body">
@@ -1449,12 +1557,36 @@
     return r.json();
   }
 
+  async function loadJsonOptional(urls, fallback){
+    const list = Array.isArray(urls) ? urls : [urls];
+
+    for(const url of list){
+      try{
+        return await loadJson(url);
+      }catch(_){
+        // Пробуем следующий путь: на разных хостингах относительные и абсолютные пути ведут себя по-разному.
+      }
+    }
+
+    return fallback;
+  }
+
   async function refreshNewsContent(silent = false){
     try{
       if(!silent) feedStatus.textContent = "обновляется";
 
-      const data = await loadJson("content/news/feed.json");
-      buildFromFeed(data);
+      const [data, tvData, vodData] = await Promise.all([
+        loadJson("content/news/feed.json"),
+        loadJsonOptional(["/content/tv/videos.json", "content/tv/videos.json"], { items: [] }),
+        loadJsonOptional(["/content/home/videoOfDay.json", "content/home/videoOfDay.json"], { item: null })
+      ]);
+
+      const videos = [
+        vodData?.item,
+        ...(Array.isArray(tvData?.items) ? tvData.items : [])
+      ].filter(Boolean);
+
+      buildFromFeed(data, videos);
       openFromHash();
 
       const stamp = new Date().toLocaleTimeString("ru-RU", {
