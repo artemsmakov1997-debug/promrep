@@ -428,6 +428,21 @@
       max-width: 66ch;
     }
 
+    /* Скрываем дублирующий текст поверх обложки видео дня: текст уже есть в самой обложке */
+    .videoHero h1,
+    .videoHero .lead,
+    .videoHero .meta{
+      display: none !important;
+    }
+
+    .videoHero .inner{
+      justify-content: space-between;
+    }
+
+    .videoHero .heroPlay{
+      margin: auto;
+    }
+
     .badge{
       display:inline-flex; align-items:center; gap:8px;
       width:fit-content;
@@ -1302,8 +1317,57 @@
       })[0] || null;
     }
 
-    function buildNewsFromFeed(posts){
-      const sorted = Array.isArray(posts) ? posts.slice().reverse() : [];
+    function normalizeTitleForCompare(s){
+      return String(s || "")
+        .toLowerCase()
+        .replaceAll("ё", "е")
+        .replace(/[^\p{L}\p{N}]+/gu, " ")
+        .trim();
+    }
+
+    function isVideoLikePost(p, videos = []){
+      const rawText = String(p?.text || "");
+      const cleanText = stripTopicOfDayHashtag(rawText);
+      const firstBlock = cleanText.split("\n\n").map(x => x.trim()).filter(Boolean)[0] || cleanText;
+      const postTitle = normalizeTitleForCompare(firstBlock);
+
+      const videoTitles = new Set(
+        videos
+          .map(v => normalizeTitleForCompare(v?.title))
+          .filter(Boolean)
+      );
+
+      const markers = [
+        p?.type,
+        p?.kind,
+        p?.format,
+        p?.tab,
+        p?.rubric,
+        p?.source,
+        p?.section
+      ].join(" ").toLowerCase();
+
+      const hasVideoField = Boolean(
+        p?.video ||
+        p?.youtube ||
+        p?.youtubeUrl ||
+        p?.vkVideo ||
+        p?.rutube ||
+        p?.embed ||
+        p?.video_url ||
+        p?.videoUrl
+      );
+
+      const markedAsVideo = /(^|\s)(tv|video|видео|ролик)(\s|$)/iu.test(markers);
+      const duplicatesVideoTitle = postTitle && videoTitles.has(postTitle);
+
+      return hasVideoField || markedAsVideo || duplicatesVideoTitle;
+    }
+
+    function buildNewsFromFeed(posts, videos = []){
+      const sorted = Array.isArray(posts)
+        ? posts.slice().reverse().filter(p => !isVideoLikePost(p, videos))
+        : [];
 
       ARTICLES = sorted.map((p, idx) => {
         const rawText = p?.text || "";
@@ -1409,8 +1473,8 @@
         const thumb = pickImageUrl(a.thumb);
         const href = `news.html#${encodeURIComponent(a.id)}`;
         const thumbHtml = thumb
-          ? `<div class="card-thumb"><img src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async" onerror="this.closest('.card-thumb') && this.closest('.card-thumb').classList.add('is-empty'); this.remove();"/></div>`
-          : `<div class="card-thumb is-empty" aria-hidden="true"></div>`;
+          ? `<div class="card-thumb"><img src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async" onerror="this.closest('.card-thumb') && this.closest('.card-thumb').remove();"/></div>`
+          : "";
 
         return `
           <a class="card" href="${href}" aria-label="Открыть новость: ${escapeHtml(a.title)}">
@@ -1486,10 +1550,11 @@
           loadJson("/content/home/videoOfDay.json").catch(() => loadJson("content/home/videoOfDay.json"))
         ]);
 
-        buildNewsFromFeed(newsFeed);
         allVideos = Array.isArray(tvData?.items) ? tvData.items : [];
         shortsItems = Array.isArray(shortsData?.items) ? shortsData.items : [];
         videoOfDay = vodData?.item || null;
+
+        buildNewsFromFeed(newsFeed, [videoOfDay, ...allVideos].filter(Boolean));
 
         syncAll();
         const stamp = new Date().toLocaleTimeString("ru-RU", { hour:"2-digit", minute:"2-digit" });
