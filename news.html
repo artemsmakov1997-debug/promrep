@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ru">
 <head>
@@ -344,6 +343,10 @@
       grid-template-columns: 240px 1fr;
       gap: 14px;
       align-items:start;
+    }
+
+    .bigrow.no-thumb{
+      grid-template-columns: 1fr;
     }
 
     .thumb{
@@ -813,6 +816,10 @@
 
   let state = { tab: "all", liveOnly: false, query: "", selectedId: null };
 
+  const CONTENT_REFRESH_MS = 5 * 60 * 1000;
+  let refreshTimer = null;
+  let visibilityRefreshBound = false;
+
   document.getElementById("y").textContent = new Date().getFullYear();
 
   const listView = document.getElementById("listView");
@@ -893,6 +900,41 @@
     }
 
     return s;
+  }
+
+  function pickImageUrl(value){
+    if(!value) return null;
+
+    if(typeof value === "string") return normalizeMediaUrl(value);
+
+    if(Array.isArray(value)){
+      const candidates = value
+        .map(item => {
+          const url = pickImageUrl(item);
+          const area = Number(item?.width || item?.w || 0) * Number(item?.height || item?.h || 0);
+          return { url, area };
+        })
+        .filter(item => item.url);
+
+      candidates.sort((a, b) => b.area - a.area);
+      return candidates[0]?.url || null;
+    }
+
+    if(typeof value === "object"){
+      if(Array.isArray(value.sizes)) return pickImageUrl(value.sizes);
+      if(Array.isArray(value.photo?.sizes)) return pickImageUrl(value.photo.sizes);
+      if(Array.isArray(value.attachments)) return pickImageUrl(value.attachments);
+
+      const keys = ["url", "src", "href", "image", "photo", "thumb", "thumbnail", "cover", "preview", "picture"];
+      for(const key of keys){
+        if(value[key]){
+          const url = pickImageUrl(value[key]);
+          if(url) return url;
+        }
+      }
+    }
+
+    return null;
   }
 
   function cssBgUrl(url){
@@ -1159,7 +1201,14 @@
         id: String(p?.id ?? idx),
         tab: category.tab,
         rubric: category.rubric,
-        thumb: p?.photo || null,
+        thumb:
+          pickImageUrl(p?.photo) ||
+          pickImageUrl(p?.thumb) ||
+          pickImageUrl(p?.image) ||
+          pickImageUrl(p?.cover) ||
+          pickImageUrl(p?.preview) ||
+          pickImageUrl(p?.attachments) ||
+          null,
         when: p?.date ? formatDate(p.date) : "",
         age: p?.date ? relTime(p.date) : "",
         live: Boolean(p?.live),
@@ -1208,12 +1257,15 @@
 
     listView.innerHTML = items.map(a => {
       const thumb = cssBgUrl(a.thumb);
-      const thumbStyle = thumb ? `background-image:url('${thumb}');` : "";
+      const thumbHtml = thumb
+        ? `<div class="thumb" aria-hidden="true" style="background-image:url('${thumb}');"></div>`
+        : "";
+      const rowClass = thumb ? "bigrow" : "bigrow no-thumb";
 
       return `
         <a class="bigcard" href="#${encodeURIComponent(a.id)}" data-open="${escapeHtml(a.id)}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
-          <div class="bigrow">
-            <div class="thumb" aria-hidden="true" style="${thumbStyle}"></div>
+          <div class="${rowClass}">
+            ${thumbHtml}
             <div>
               <div class="top">
                 <span class="rubric">${escapeHtml(a.rubric)}</span>
@@ -1256,8 +1308,8 @@
         ${a.author ? `<span>${escapeHtml(a.author)}</span>` : ``}
       </div>
 
-      <div class="media ${thumb ? "" : "is-empty"}" style="${thumb ? `background-image:url('${thumb}');` : ""}"></div>
-      ${a.thumb && a.caption ? `<div class="caption">${escapeHtml(a.caption)}</div>` : ``}
+      ${thumb ? `<div class="media" style="background-image:url('${thumb}');"></div>` : ``}
+      ${thumb && a.caption ? `<div class="caption">${escapeHtml(a.caption)}</div>` : ``}
 
       <div class="body">
         ${a.body.map(p => `<p>${escapeHtml(p)}</p>`).join("")}
@@ -1385,20 +1437,54 @@
     renderFeed();
   }
 
-  fetch("content/news/feed.json", { cache: "no-store" })
-    .then(r => r.json())
-    .then(data => {
+  function cacheBust(url){
+    const u = new URL(url, window.location.href);
+    u.searchParams.set("_", String(Date.now()));
+    return u.href;
+  }
+
+  async function loadJson(url){
+    const r = await fetch(cacheBust(url), { cache: "no-store" });
+    if(!r.ok) throw new Error(`Failed to load ${url}: ${r.status}`);
+    return r.json();
+  }
+
+  async function refreshNewsContent(silent = false){
+    try{
+      if(!silent) feedStatus.textContent = "обновляется";
+
+      const data = await loadJson("content/news/feed.json");
       buildFromFeed(data);
       openFromHash();
-      feedStatus.textContent = "обновлено";
-    })
-    .catch(err => {
+
+      const stamp = new Date().toLocaleTimeString("ru-RU", {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+      feedStatus.textContent = `обновлено ${stamp}`;
+    }catch(err){
       console.error("Feed load error:", err);
-      feedStatus.textContent = "ошибка загрузки";
+      feedStatus.textContent = silent ? "нет новых данных" : "ошибка загрузки";
       renderList();
       renderFeed();
-    });
+    }
+  }
 
+  async function initNews(){
+    await refreshNewsContent(false);
+
+    if(refreshTimer) clearInterval(refreshTimer);
+    refreshTimer = setInterval(() => refreshNewsContent(true), CONTENT_REFRESH_MS);
+
+    if(!visibilityRefreshBound){
+      visibilityRefreshBound = true;
+      document.addEventListener("visibilitychange", () => {
+        if(!document.hidden) refreshNewsContent(true);
+      });
+    }
+  }
+
+  initNews();
   window.addEventListener("hashchange", openFromHash);
 </script>
 
