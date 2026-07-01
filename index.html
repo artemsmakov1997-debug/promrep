@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ru">
 <head>
@@ -380,6 +379,53 @@
       gap:14px;
       min-height: 360px;
       padding: 20px;
+    }
+
+
+    .videoHero .inner{
+      isolation:isolate;
+    }
+
+    .videoHero .inner::after{
+      content:"";
+      position:absolute;
+      inset:14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.13);
+      pointer-events:none;
+      opacity:.72;
+    }
+
+    .videoHero .badge{
+      border-color: rgba(255,255,255,.22);
+      background: rgba(240,32,0,.22);
+      box-shadow: 0 12px 34px rgba(240,32,0,.16);
+      font-weight:900;
+    }
+
+    .heroPlay{
+      width:76px;
+      height:76px;
+      border-radius: 24px;
+      display:grid;
+      place-items:center;
+      margin-top:auto;
+      margin-bottom: 2px;
+      color:#fff;
+      background: rgba(240,32,0,.24);
+      border: 1px solid rgba(255,255,255,.26);
+      box-shadow: 0 18px 46px rgba(0,0,0,.30);
+      backdrop-filter: blur(7px);
+      transition: transform .16s ease, background .16s ease;
+    }
+
+    .videoHero:hover .heroPlay{
+      transform: translateY(-2px) scale(1.04);
+      background: rgba(240,32,0,.34);
+    }
+
+    .videoHero .lead{
+      max-width: 66ch;
     }
 
     .badge{
@@ -819,15 +865,20 @@
     <div class="kicker"><span class="dot"></span><span>Главная</span></div>
 
     <section class="hero" aria-label="Витрина дня">
-      <article class="panel">
+      <article class="panel videoHero">
         <div class="panel-media is-empty" id="heroMedia" aria-hidden="true"></div>
 
-        <a class="inner" id="heroLink" href="news.html">
-          <div class="badge"><i></i> Главный материал</div>
-          <h1 id="heroTitle">Загрузка…</h1>
-          <p class="lead" id="heroLead">Подтягиваем самый заметный материал из ленты новостей.</p>
+        <a class="inner" id="heroLink" href="tv.html" aria-label="Смотреть видео дня">
+          <div class="badge"><i></i> Видео дня</div>
+          <span class="heroPlay" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+              <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
+            </svg>
+          </span>
+          <h1 id="heroTitle">Видео дня загружается…</h1>
+          <p class="lead" id="heroLead">Подтягиваем ролик из TV-раздела.</p>
           <div class="meta" id="heroMeta">
-            <span>События</span><span>ВКонтакте</span><span>Сейчас</span>
+            <span>TV</span><span>Видео</span><span>Смотреть</span>
           </div>
         </a>
       </article>
@@ -854,32 +905,6 @@
       </div>
 
       <div class="cards" id="todayCards"></div>
-    </section>
-
-    <section class="section" aria-label="Видео-тизер">
-      <div class="section-head">
-        <div>
-          <h2>Видео дня</h2>
-        </div>
-      </div>
-
-      <div class="video">
-        <div class="player" id="vodPlayer" role="button" tabindex="0" aria-label="Смотреть видео дня">
-          <button class="play" id="vodPlay" type="button" aria-label="Смотреть видео дня">
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M9 7v10l9-5-9-5Z" fill="currentColor"/>
-            </svg>
-          </button>
-        </div>
-        <div class="vside">
-          <div class="kicker"><span class="dot"></span><span id="vodLen">—</span></div>
-          <b id="vodTitle">Видео дня загружается…</b>
-          <p id="vodDesc">Подтягиваем данные из TV-раздела.</p>
-          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;">
-            <button class="btn primary" id="vodOpen" type="button">Смотреть</button>
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="section" aria-label="Тизеры">
@@ -935,6 +960,10 @@
     let shortsItems = [];
     let videoOfDay = null;
 
+    const CONTENT_REFRESH_MS = 5 * 60 * 1000;
+    let refreshTimer = null;
+    let visibilityRefreshBound = false;
+
     let state = { q: "" };
 
     function escapeHtml(s){
@@ -987,6 +1016,42 @@
         s = "https://" + s.slice(7);
       }
       return s;
+    }
+
+
+    function pickImageUrl(value){
+      if(!value) return null;
+
+      if(typeof value === "string") return normalizeMediaUrl(value);
+
+      if(Array.isArray(value)){
+        const candidates = value
+          .map(item => {
+            const url = pickImageUrl(item);
+            const area = Number(item?.width || item?.w || 0) * Number(item?.height || item?.h || 0);
+            return { url, area };
+          })
+          .filter(item => item.url);
+
+        candidates.sort((a, b) => b.area - a.area);
+        return candidates[0]?.url || null;
+      }
+
+      if(typeof value === "object"){
+        if(Array.isArray(value.sizes)) return pickImageUrl(value.sizes);
+        if(Array.isArray(value.photo?.sizes)) return pickImageUrl(value.photo.sizes);
+        if(Array.isArray(value.attachments)) return pickImageUrl(value.attachments);
+
+        const keys = ["url", "src", "href", "image", "photo", "thumb", "thumbnail", "cover", "preview", "picture"];
+        for(const key of keys){
+          if(value[key]){
+            const url = pickImageUrl(value[key]);
+            if(url) return url;
+          }
+        }
+      }
+
+      return null;
     }
 
     function setBgCover(el, url, overlay = "dark"){
@@ -1249,13 +1314,15 @@
         const lead = (parts[1] || parts[0] || "").slice(0, 220);
         const category = normalizeCategory(p?.tab, p?.rubric, text);
 
+        const thumb = pickImageUrl(p?.photo) || pickImageUrl(p?.thumb) || pickImageUrl(p?.image) || pickImageUrl(p?.cover) || pickImageUrl(p?.attachments);
+
         return {
           id: String(p?.id ?? idx),
           tab: category.tab,
           rubric: category.rubric,
           title,
           lead,
-          thumb: p?.photo || null,
+          thumb,
           ts: p?.date || null,
           body: parts.length ? parts : [text],
           topicOfDay,
@@ -1278,23 +1345,56 @@
       return [a.title, a.lead, a.rubric].some(v => (v || "").toLowerCase().includes(q));
     }
 
+    function getVideoHref(v){
+      const raw = v?.pageUrl || v?.page_url || v?.url || v?.link || v?.href || "";
+      if(typeof raw === "string" && raw.trim()) return raw.trim();
+      return v?.id ? `tv.html#${encodeURIComponent(v.id)}` : "tv.html";
+    }
+
+    function tuneExternalLink(link, href){
+      try{
+        const u = new URL(href, window.location.href);
+        if(u.origin !== window.location.origin){
+          link.setAttribute("target", "_blank");
+          link.setAttribute("rel", "noopener");
+        }else{
+          link.removeAttribute("target");
+          link.removeAttribute("rel");
+        }
+      }catch(_){
+        link.removeAttribute("target");
+        link.removeAttribute("rel");
+      }
+    }
+
     function renderHero(){
-      const a = pickHeroArticle(ARTICLES);
-      if(!a) return;
+      const v = videoOfDay || allVideos[0] || null;
 
-      heroLink.href = `news.html#${encodeURIComponent(a.id)}`;
-      heroLink.removeAttribute("target");
-      heroLink.removeAttribute("rel");
+      if(!v){
+        heroLink.href = "tv.html";
+        heroLink.removeAttribute("target");
+        heroLink.removeAttribute("rel");
+        heroTitle.textContent = "Видео дня скоро появится";
+        heroLead.textContent = "Добавьте ролик в /content/home/videoOfDay.json или /content/tv/videos.json.";
+        heroMeta.innerHTML = `<span>TV</span><span>Видео</span><span>—</span>`;
+        setBgCover(heroMedia, null, "dark");
+        return;
+      }
 
-      heroTitle.textContent = a.title || "Главный материал";
-      heroLead.textContent = a.lead || "Откройте новостной раздел для полного текста.";
+      const href = getVideoHref(v);
+      heroLink.href = href;
+      tuneExternalLink(heroLink, href);
+
+      heroTitle.textContent = v.title || "Видео дня";
+      heroLead.textContent = v.description || v.desc || "Открыть в разделе TV.";
       heroMeta.innerHTML = [
-        `<span>${escapeHtml(a.rubric || "События")}</span>`,
-        `<span>ВКонтакте</span>`,
-        `<span>${escapeHtml(a.ts ? fmtDate(a.ts) : "Сегодня")}</span>`
+        `<span>Видео дня</span>`,
+        `<span>${escapeHtml(fmtDur(v.duration) || v.length || v.len || "TV")}</span>`,
+        `<span>Смотреть</span>`
       ].join("");
 
-      setBgCover(heroMedia, a.thumb, "dark");
+      const cover = pickImageUrl(v.thumb) || pickImageUrl(v.cover) || pickImageUrl(v.image) || pickImageUrl(v.photo) || pickImageUrl(v.preview);
+      setBgCover(heroMedia, cover, "dark");
     }
 
     function renderTodayCards(){
@@ -1306,10 +1406,10 @@
       }
 
       todayCards.innerHTML = items.map((a, i) => {
-        const thumb = normalizeMediaUrl(a.thumb);
+        const thumb = pickImageUrl(a.thumb);
         const href = `news.html#${encodeURIComponent(a.id)}`;
         const thumbHtml = thumb
-          ? `<div class="card-thumb"><img src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.closest('.card-thumb') && this.closest('.card-thumb').classList.add('is-empty'); this.remove();"/></div>`
+          ? `<div class="card-thumb"><img src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async" onerror="this.closest('.card-thumb') && this.closest('.card-thumb').classList.add('is-empty'); this.remove();"/></div>`
           : `<div class="card-thumb is-empty" aria-hidden="true"></div>`;
 
         return `
@@ -1347,37 +1447,8 @@
       `).join("");
     }
 
-    function applyVodPlayerCover(item){
-      const src = normalizeMediaUrl(item?.thumb);
-      if(src){ setBgCover(vodPlayer, src, "soft"); }
-    }
-
-    function openVideo(){ window.location.href = "tv.html"; }
-
     function renderVideoOfDay(){
-      const v = videoOfDay || allVideos[0] || null;
-      if(!v){
-        vodTitle.textContent = "Видео дня пока недоступно";
-        vodDesc.textContent = "Проверьте /content/home/videoOfDay.json и /content/tv/videos.json";
-        vodLen.textContent = "—";
-        return;
-      }
-
-      vodTitle.textContent = v.title || "Видео дня";
-      vodDesc.textContent = v.description || "Открыть в разделе TV";
-      /* [ИСПРАВЛЕНИЕ] Показываем "—" если длительность отсутствует или 0 */
-      vodLen.textContent = fmtDur(v.duration) || "—";
-      applyVodPlayerCover(v);
-
-      vodPlay.onclick = openVideo;
-      vodOpen.onclick = openVideo;
-      vodPlayer.onclick = (e) => {
-        if (e.target === vodPlay || vodPlay.contains(e.target)) return;
-        openVideo();
-      };
-      vodPlayer.onkeydown = (e) => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openVideo(); }
-      };
+      // Видео дня теперь живёт в верхнем hero-блоке, поэтому отдельный нижний блок не рендерим.
     }
 
     function syncAll(){
@@ -1387,8 +1458,14 @@
       renderVideoOfDay();
     }
 
+    function cacheBust(url){
+      const u = new URL(url, window.location.href);
+      u.searchParams.set("_", String(Date.now()));
+      return u.href;
+    }
+
     async function loadJson(url){
-      const r = await fetch(url, { cache: "no-store" });
+      const r = await fetch(cacheBust(url), { cache: "no-store" });
       if(!r.ok) throw new Error(`Failed to load ${url}: ${r.status}`);
       return r.json();
     }
@@ -1398,8 +1475,10 @@
       syncAll();
     });
 
-    async function initHome(){
+    async function refreshHomeContent(silent = false){
       try{
+        if(!silent) feedStatus.textContent = "обновляется";
+
         const [newsFeed, tvData, shortsData, vodData] = await Promise.all([
           loadJson("content/news/feed.json"),
           loadJson("/content/tv/videos.json").catch(() => loadJson("content/tv/videos.json")),
@@ -1413,11 +1492,26 @@
         videoOfDay = vodData?.item || null;
 
         syncAll();
-        feedStatus.textContent = "обновлено";
+        const stamp = new Date().toLocaleTimeString("ru-RU", { hour:"2-digit", minute:"2-digit" });
+        feedStatus.textContent = `обновлено ${stamp}`;
       }catch(err){
         console.error("Home content load error:", err);
-        feedStatus.textContent = "ошибка загрузки";
+        feedStatus.textContent = silent ? "нет новых данных" : "ошибка загрузки";
         syncAll();
+      }
+    }
+
+    async function initHome(){
+      await refreshHomeContent(false);
+
+      if(refreshTimer) clearInterval(refreshTimer);
+      refreshTimer = setInterval(() => refreshHomeContent(true), CONTENT_REFRESH_MS);
+
+      if(!visibilityRefreshBound){
+        visibilityRefreshBound = true;
+        document.addEventListener("visibilitychange", () => {
+          if(!document.hidden) refreshHomeContent(true);
+        });
       }
     }
 
