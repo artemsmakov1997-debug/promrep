@@ -804,9 +804,42 @@
       .feed{ display:none; }
       .vside{ display:none; }
 
-      .panel .inner#heroLink{
-        min-height: 300px;
-        padding: 16px;
+      /* Мобильная версия: не растягиваем hero по высоте, иначе 16:9-обложка видео обрезается по бокам */
+      .hero .videoHero{
+        aspect-ratio: 16 / 9;
+        min-height: 0;
+      }
+
+      .hero .videoHero .panel-media{
+        transform: none;
+        background-size: 100% 100%, contain !important;
+        background-position: center, center !important;
+        background-repeat: no-repeat, no-repeat !important;
+        background-color: #050607;
+      }
+
+      .hero .videoHero .inner#heroLink{
+        min-height: 0 !important;
+        height: 100%;
+        padding: 14px;
+      }
+
+      .hero .videoHero .inner::after{
+        inset: 10px;
+        border-radius: 14px;
+      }
+
+      .hero .videoHero .badge{
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        z-index: 3;
+      }
+
+      .hero .videoHero .heroPlay{
+        width: 64px;
+        height: 64px;
+        border-radius: 20px;
       }
       .hero .panel h1{
         font-size: clamp(24px, 7vw, 32px);
