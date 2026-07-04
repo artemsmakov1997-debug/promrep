@@ -804,10 +804,19 @@
       .feed{ display:none; }
       .vside{ display:none; }
 
-      /* Мобильная версия: не растягиваем hero по высоте, иначе 16:9-обложка видео обрезается по бокам */
+      /* Мобильная версия hero/video: фикс схлопывания блока на телефонах.
+         Фон .panel-media абсолютный, поэтому размер родителю должен задаваться явно. */
+      .hero{
+        display: block;
+        width: 100%;
+      }
+
       .hero .videoHero{
+        width: 100%;
+        max-width: none;
+        min-height: clamp(180px, 52vw, 240px);
         aspect-ratio: 16 / 9;
-        min-height: 0;
+        justify-self: stretch;
       }
 
       .hero .videoHero .panel-media{
@@ -819,7 +828,7 @@
       }
 
       .hero .videoHero .inner#heroLink{
-        min-height: 0 !important;
+        min-height: inherit !important;
         height: 100%;
         padding: 14px;
       }
