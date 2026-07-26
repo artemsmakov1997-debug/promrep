@@ -474,9 +474,27 @@
       position:relative;
       z-index:2;
 
-      display:block;
+      width:100%;
       min-height:360px;
       padding:20px;
+
+      display:grid;
+      place-items:center;
+
+      border:0;
+      background:transparent;
+      color:inherit;
+      font:inherit;
+      cursor:pointer;
+    }
+
+    .panel .inner:disabled{
+      cursor:default;
+    }
+
+    .panel .inner:focus-visible{
+      outline:3px solid rgba(240,32,0,.55);
+      outline-offset:-5px;
     }
 
     .badge{
@@ -509,6 +527,41 @@
       height:7px;
       border-radius:2px;
       background:var(--red);
+    }
+
+    .heroPlay{
+      position:relative;
+      z-index:2;
+
+      width:76px;
+      height:76px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:24px;
+      color:#fff;
+
+      background:rgba(240,32,0,.28);
+      border:1px solid rgba(255,255,255,.34);
+      box-shadow:0 18px 46px rgba(0,0,0,.30);
+
+      backdrop-filter:blur(7px);
+      -webkit-backdrop-filter:blur(7px);
+
+      transition:
+        transform .14s ease,
+        background-color .14s ease;
+    }
+
+    .panel .inner:not(:disabled):hover .heroPlay{
+      transform:translateY(-2px) scale(1.04);
+      background:rgba(240,32,0,.40);
+    }
+
+    .heroPlay svg{
+      width:34px;
+      height:34px;
     }
 
     .feed{
@@ -811,10 +864,15 @@
       position:relative;
       overflow:hidden;
 
+      width:100%;
       aspect-ratio:16/9;
+      padding:0;
 
       display:grid;
       place-items:center;
+
+      color:inherit;
+      font:inherit;
 
       border-radius:var(--r);
       border:1px solid var(--line);
@@ -937,6 +995,97 @@
       font-size:12px;
     }
 
+    body.modal-open{
+      overflow:hidden;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:999;
+
+      display:none;
+      align-items:center;
+      justify-content:center;
+
+      padding:22px;
+      background:rgba(0,0,0,.68);
+    }
+
+    .modal.open{
+      display:flex;
+    }
+
+    .modal-card{
+      width:min(980px, 100%);
+      overflow:hidden;
+
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:18px;
+      box-shadow:0 22px 60px rgba(0,0,0,.40);
+    }
+
+    .modal-head{
+      padding:10px 12px;
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+
+      border-bottom:1px solid var(--line2);
+    }
+
+    .modal-head b{
+      min-width:0;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      font-size:13px;
+    }
+
+    .modal-close{
+      flex:0 0 auto;
+      padding:8px 10px;
+
+      border:1px solid var(--line2);
+      border-radius:999px;
+
+      background:var(--paper);
+      color:var(--ink);
+
+      cursor:pointer;
+    }
+
+    .modal-player{
+      position:relative;
+      aspect-ratio:16/9;
+      background:#000;
+    }
+
+    .modal-player iframe{
+      position:absolute;
+      inset:0;
+
+      width:100%;
+      height:100%;
+
+      border:0;
+    }
+
+    .modal-error{
+      min-height:100%;
+      padding:24px;
+
+      display:grid;
+      place-items:center;
+
+      color:#fff;
+      text-align:center;
+      line-height:1.55;
+    }
+
     @media (min-width:721px){
       .themeLabel{
         display:none;
@@ -1016,6 +1165,10 @@
     @media (prefers-reduced-motion:reduce){
       *{
         transition:none !important;
+      }
+
+      .panel .inner:hover .heroPlay{
+        transform:none !important;
       }
     }
   </style>
@@ -1108,17 +1261,26 @@
           aria-hidden="true"
         ></div>
 
-        <a
+        <button
           class="inner"
           id="heroLink"
-          href="tv.html"
-          aria-label="Открыть видео дня"
+          type="button"
+          aria-label="Смотреть видео дня"
         >
           <span class="badge">
             <i></i>
             Видео дня
           </span>
-        </a>
+
+          <span class="heroPlay" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M8 5.5v13l10-6.5-10-6.5Z"
+              />
+            </svg>
+          </span>
+        </button>
       </article>
 
       <aside class="feed" aria-label="Лента новостей">
@@ -1155,11 +1317,11 @@
       </div>
 
       <div class="video">
-        <a
+        <button
           class="player"
           id="dayPlayer"
-          href="tv.html"
-          aria-label="Открыть видео дня"
+          type="button"
+          aria-label="Смотреть видео дня"
         >
           <span class="play" aria-hidden="true">
             <svg viewBox="0 0 24 24">
@@ -1169,7 +1331,7 @@
               />
             </svg>
           </span>
-        </a>
+        </button>
 
         <div class="vside">
           <span class="rubric">TV</span>
@@ -1182,13 +1344,13 @@
             Репортажи, интервью и материалы о производстве и технологиях.
           </p>
 
-          <a
+          <button
             class="more video-link"
             id="dayLink"
-            href="tv.html"
+            type="button"
           >
             Смотреть →
-          </a>
+          </button>
         </div>
       </div>
     </section>
@@ -1211,6 +1373,36 @@
       </div>
     </footer>
   </main>
+
+  <div
+    class="modal"
+    id="videoModal"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="videoModalTitle"
+    >
+      <div class="modal-head">
+        <b id="videoModalTitle">Видео</b>
+
+        <button
+          class="modal-close"
+          id="videoModalClose"
+          type="button"
+        >
+          Закрыть
+        </button>
+      </div>
+
+      <div
+        class="modal-player"
+        id="videoModalPlayer"
+      ></div>
+    </div>
+  </div>
 
   <script>
     "use strict";
@@ -1273,6 +1465,20 @@
     const dayLink =
       document.getElementById("dayLink");
 
+    const videoModal =
+      document.getElementById("videoModal");
+
+    const videoModalTitle =
+      document.getElementById("videoModalTitle");
+
+    const videoModalPlayer =
+      document.getElementById("videoModalPlayer");
+
+    const videoModalClose =
+      document.getElementById("videoModalClose");
+
+    let modalReturnFocus = null;
+
     document.getElementById("year").textContent =
       new Date().getFullYear();
 
@@ -1284,6 +1490,189 @@
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
     }
+
+    function escapeAttribute(value){
+      return escapeHtml(value);
+    }
+
+    function pickEmbedUrl(item){
+      const candidates = [
+        item?.embedUrl,
+        item?.embed_url,
+        item?.playerUrl,
+        item?.player_url,
+        item?.iframeUrl,
+        item?.iframe_url,
+        item?.embed,
+        item?.player
+      ];
+
+      for(const value of candidates){
+        if(
+          typeof value === "string" &&
+          value.trim()
+        ){
+          return value.trim();
+        }
+      }
+
+      return "";
+    }
+
+    function withAutoplay(url){
+      try{
+        const playerUrl =
+          new URL(url, window.location.href);
+
+        playerUrl.searchParams.set(
+          "autoplay",
+          "1"
+        );
+
+        return playerUrl.href;
+      }catch(error){
+        const separator =
+          String(url).includes("?")
+            ? "&"
+            : "?";
+
+        return `${url}${separator}autoplay=1`;
+      }
+    }
+
+    function openVideo(item, trigger){
+      if(!item){
+        return;
+      }
+
+      modalReturnFocus =
+        trigger instanceof HTMLElement
+          ? trigger
+          : document.activeElement;
+
+      videoModalTitle.textContent =
+        String(
+          item?.title ||
+          item?.name ||
+          item?.headline ||
+          "Видео"
+        );
+
+      const embedUrl =
+        pickEmbedUrl(item);
+
+      if(embedUrl){
+        videoModalPlayer.innerHTML = `
+          <iframe
+            src="${escapeAttribute(withAutoplay(embedUrl))}"
+            title="${escapeAttribute(videoModalTitle.textContent)}"
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        `;
+      }else{
+        videoModalPlayer.innerHTML = `
+          <div class="modal-error">
+            Видеоплеер временно недоступен.
+          </div>
+        `;
+      }
+
+      videoModal.classList.add("open");
+      videoModal.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+      document.body.classList.add(
+        "modal-open"
+      );
+
+      videoModalClose.focus();
+    }
+
+    function closeVideoModal(){
+      if(!videoModal.classList.contains("open")){
+        return;
+      }
+
+      videoModal.classList.remove("open");
+      videoModal.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+      document.body.classList.remove(
+        "modal-open"
+      );
+
+      videoModalPlayer.innerHTML = "";
+
+      if(
+        modalReturnFocus &&
+        typeof modalReturnFocus.focus === "function"
+      ){
+        modalReturnFocus.focus();
+      }
+
+      modalReturnFocus = null;
+    }
+
+    videoModalClose.addEventListener(
+      "click",
+      closeVideoModal
+    );
+
+    videoModal.addEventListener(
+      "click",
+      event => {
+        if(event.target === videoModal){
+          closeVideoModal();
+        }
+      }
+    );
+
+    document.addEventListener(
+      "keydown",
+      event => {
+        if(
+          event.key === "Escape" &&
+          videoModal.classList.contains("open")
+        ){
+          closeVideoModal();
+        }
+      }
+    );
+
+    heroLink.addEventListener(
+      "click",
+      () => {
+        openVideo(
+          getCurrentVideo(),
+          heroLink
+        );
+      }
+    );
+
+    dayPlayer.addEventListener(
+      "click",
+      () => {
+        openVideo(
+          getCurrentVideo(),
+          dayPlayer
+        );
+      }
+    );
+
+    dayLink.addEventListener(
+      "click",
+      () => {
+        openVideo(
+          getCurrentVideo(),
+          dayLink
+        );
+      }
+    );
 
     function normalizeMediaUrl(url){
       if(!url){
@@ -2101,10 +2490,10 @@
         heroMedia.classList.add("is-empty");
         heroMedia.style.backgroundImage = "";
 
-        heroLink.href = "tv.html";
+        heroLink.disabled = true;
         heroLink.setAttribute(
           "aria-label",
-          "Открыть раздел с видео"
+          "Видео дня пока недоступно"
         );
 
         return;
@@ -2118,9 +2507,6 @@
         pickImageUrl(video?.poster) ||
         null;
 
-      const link =
-        videoPageUrl(video);
-
       const title =
         String(
           video?.title ||
@@ -2129,10 +2515,10 @@
           "Видео дня"
         );
 
-      heroLink.href = link;
+      heroLink.disabled = false;
       heroLink.setAttribute(
         "aria-label",
-        `Открыть видео дня: ${title}`
+        `Смотреть видео дня: ${title}`
       );
 
       if(cover){
@@ -2150,7 +2536,7 @@
         getCurrentVideo();
 
       if(!video){
-        dayPlayer.href = "tv.html";
+        dayPlayer.disabled = true;
         dayPlayer.style.backgroundImage = "";
 
         dayTitle.textContent =
@@ -2159,7 +2545,7 @@
         dayDescription.textContent =
           "Репортажи, интервью и материалы о производстве и технологиях.";
 
-        dayLink.href = "tv.html";
+        dayLink.disabled = true;
         return;
       }
 
@@ -2171,11 +2557,8 @@
         pickImageUrl(video?.poster) ||
         null;
 
-      const link =
-        videoPageUrl(video);
-
-      dayPlayer.href = link;
-      dayLink.href = link;
+      dayPlayer.disabled = false;
+      dayLink.disabled = false;
 
       dayTitle.textContent =
         String(
