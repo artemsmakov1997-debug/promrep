@@ -3,22 +3,32 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <title>Редакция — Промышленный репортёр</title>
-<!-- Favicon -->
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#ef2b1a">
-  <!-- Применяем тему ДО отрисовки, чтобы не было "мигания" -->
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <meta name="theme-color" content="#ef2b1a">
+
   <script>
     (function () {
-      const key = "theme"; // "light" | "dark"
+      const key = "theme";
       const saved = localStorage.getItem(key);
-      const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const theme = saved || (systemDark ? "dark" : "light");
-      if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+
+      const systemDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      const theme =
+        saved || (systemDark ? "dark" : "light");
+
+      if (theme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
     })();
   </script>
 
@@ -36,30 +46,26 @@
 
       --red:#f02000;
 
-      --panel:#0b0b0c;
-      --panelText:#f7f7f8;
-      --panelMuted:rgba(247,247,248,.72);
-
       --max:1160px;
       --pad:22px;
 
       --r:16px;
       --r2:12px;
 
-      --shadow: 0 14px 26px rgba(11,11,12,.08);
-      --shadow2: 0 10px 18px rgba(11,11,12,.06);
+      --shadow:0 14px 26px rgba(11,11,12,.08);
+      --shadow2:0 10px 18px rgba(11,11,12,.06);
 
-      /* как на главной */
-      --headerBg: rgba(244,245,246,.92);
-      --grid1: rgba(0,0,0,.028);
-      --grid2: rgba(0,0,0,.024);
+      --headerBg:rgba(244,245,246,.92);
+
+      --grid1:rgba(0,0,0,.028);
+      --grid2:rgba(0,0,0,.024);
     }
 
-    /* тёмная тема (как на главной) */
     html[data-theme="dark"]{
       --bg:#0b0b0c;
       --paper:#101214;
       --ink:#f4f5f6;
+
       --muted:rgba(244,245,246,.70);
       --muted2:rgba(244,245,246,.58);
 
@@ -69,459 +75,982 @@
 
       --red:#ff2a2a;
 
-      --panel:#0b0b0c;
-      --panelText:#f7f7f8;
-      --panelMuted:rgba(247,247,248,.72);
+      --shadow:0 14px 26px rgba(0,0,0,.40);
+      --shadow2:0 10px 18px rgba(0,0,0,.32);
 
-      --shadow: 0 14px 26px rgba(0,0,0,.40);
-      --shadow2: 0 10px 18px rgba(0,0,0,.32);
+      --headerBg:rgba(11,11,12,.72);
 
-      --headerBg: rgba(11,11,12,.72);
-      --grid1: rgba(255,255,255,.06);
-      --grid2: rgba(255,255,255,.05);
+      --grid1:rgba(255,255,255,.06);
+      --grid2:rgba(255,255,255,.05);
     }
 
-    *{ box-sizing:border-box; }
+    *{
+      box-sizing:border-box;
+    }
+
+    html,
+    body{
+      transition:
+        background-color .18s ease,
+        color .18s ease;
+    }
+
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      letter-spacing:.15px;
-      text-rendering: geometricPrecision;
-    }
-    a{ color:inherit; text-decoration:none; }
-    button, input{ font-family:inherit; }
-    .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
 
-    html, body { transition: background-color .18s ease, color .18s ease; }
-    *{ transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+      font-family:
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        "Noto Sans",
+        "Helvetica Neue",
+        sans-serif;
+
+      background:var(--bg);
+      color:var(--ink);
+
+      letter-spacing:.15px;
+      text-rendering:geometricPrecision;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input{
+      font-family:inherit;
+    }
+
+    .container{
+      width:min(
+        var(--max),
+        calc(100% - var(--pad) * 2)
+      );
+
+      margin:0 auto;
+    }
 
     .grid{
-      position:fixed; inset:0; pointer-events:none; z-index:0;
+      position:fixed;
+      inset:0;
+      z-index:0;
+
+      pointer-events:none;
+
       background:
-        linear-gradient(to right, var(--grid1) 1px, transparent 1px) 0 0/ 84px 84px,
-        linear-gradient(to bottom, var(--grid2) 1px, transparent 1px) 0 0/ 84px 84px;
-      mask-image: radial-gradient(ellipse at 50% 0%, black 32%, transparent 72%);
+        linear-gradient(
+          to right,
+          var(--grid1) 1px,
+          transparent 1px
+        ) 0 0 / 84px 84px,
+
+        linear-gradient(
+          to bottom,
+          var(--grid2) 1px,
+          transparent 1px
+        ) 0 0 / 84px 84px;
+
+      mask-image:
+        radial-gradient(
+          ellipse at 50% 0%,
+          black 32%,
+          transparent 72%
+        );
+
       opacity:.45;
     }
 
-    /* Header (как на главной) */
-    header{
-      position:sticky; top:0; z-index:10;
-      background: var(--headerBg);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-    }
-    .topbar{
-      display:flex; align-items:center; justify-content:space-between; gap:16px;
-      padding: 14px 0;
-    }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-      min-width: 260px;
-    }
-    .brand img{ width:44px; height:44px; object-fit:contain; display:block; }
+    /* =========================
+       ШАПКА
+       ========================= */
 
-    /* Подложка под логотип только в тёмной теме */
-    .brand{ position:relative; }
-    .brand img,
-    .brand .t{
-      position:relative;
-      z-index:1;
+    header{
+      position:sticky;
+      top:0;
+      z-index:10;
+
+      background:var(--headerBg);
+
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+
+      border-bottom:1px solid var(--line);
     }
-    html[data-theme="dark"] .brand::before{
-      content:"";
-      position:absolute;
-      left:-4px;
-      top:50%;
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+
+      gap:16px;
+      padding:14px 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+
+      min-width:260px;
+    }
+
+    .logoPlate{
       width:52px;
-      height:52px;
-      transform:translateY(-50%);
+      height:44px;
+
+      display:inline-grid;
+      place-items:center;
+      flex:0 0 auto;
+
       border-radius:12px;
+      background:transparent;
+
+      transition:
+        background-color .18s ease,
+        box-shadow .18s ease;
+    }
+
+    .brand img{
+      width:44px;
+      height:44px;
+
+      object-fit:contain;
+      display:block;
+
+      filter:none;
+      transition:opacity .18s ease;
+    }
+
+    html[data-theme="dark"] .logoPlate{
       background:#f4f5f6;
+
       box-shadow:
         0 0 0 1px rgba(255,255,255,.10),
         0 8px 20px rgba(0,0,0,.30);
-      pointer-events:none;
     }
-    .brand .t{ display:flex; flex-direction:column; line-height:1.05; }
-    .brand .t strong{ text-transform:uppercase; font-size:13px; letter-spacing:1.7px; }
-    .brand .t span{ font-size:12px; color: var(--muted); }
 
-    .navlink{
+    .brand:hover img{
+      opacity:.85;
+    }
+
+    .brand .t{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+    }
+
+    .brand .t strong{
+      text-transform:uppercase;
       font-size:13px;
-      color: var(--muted);
-      padding: 8px 0;
-      border-bottom: 2px solid transparent;
-      transition:.14s ease;
-      white-space:nowrap;
-    }
-    .navlink:hover{ color: var(--ink); border-bottom-color: rgba(240,32,0,.28); }
-    .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
-
-    .actions{ display:flex; align-items:center; gap:10px; min-width:auto; justify-content:flex-end; }
-
-    .btn{
-      border:1px solid var(--ink);
-      background: transparent;
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-size: 13px;
-      cursor:pointer;
-      transition:.14s ease;
-      color: var(--ink);
-      white-space:nowrap;
-    }
-    .btn:hover{ transform: translateY(-1px); }
-
-    /* кнопка темы (как на главной) */
-    .themeBtn{
-      border-color: var(--line2);
-      background: var(--paper);
-      color: var(--ink);
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding: 10px 12px;
-      white-space:nowrap;
-    }
-    .themeBtn:hover{ transform: translateY(-1px); }
-    .themeIcon{ width:18px; height:18px; display:block; }
-    .themeLabel{
-      font-weight:900;
-      letter-spacing:.4px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-    @media (min-width: 721px){
-      .themeLabel{ display:none; }
-      .themeBtn{ padding: 10px 11px; }
+      letter-spacing:1.7px;
     }
 
-    /* ===== БУРГЕР-МЕНЮ (как на главной) ===== */
     .nav-desktop{
       display:flex;
       align-items:center;
       gap:18px;
     }
+
+    .navlink{
+      padding:8px 0;
+
+      color:var(--muted);
+      font-size:13px;
+      white-space:nowrap;
+
+      border-bottom:2px solid transparent;
+
+      transition:
+        color .14s ease,
+        border-color .14s ease;
+    }
+
+    .navlink:hover{
+      color:var(--ink);
+      border-bottom-color:rgba(240,32,0,.28);
+    }
+
+    .navlink.active{
+      color:var(--ink);
+      border-bottom-color:var(--red);
+    }
+
+    /*
+     * Та же ширина правой части шапки,
+     * что на остальных страницах сайта.
+     */
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+
+      gap:10px;
+      min-width:240px;
+    }
+
+    .btn{
+      padding:10px 12px;
+
+      border:1px solid var(--ink);
+      border-radius:999px;
+
+      background:transparent;
+      color:var(--ink);
+
+      font-size:13px;
+      white-space:nowrap;
+
+      cursor:pointer;
+      transition:.14s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .themeBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+
+      padding:10px 12px;
+
+      border-color:var(--line2);
+      background:var(--paper);
+      color:var(--ink);
+    }
+
+    .themeIcon{
+      width:18px;
+      height:18px;
+      display:block;
+    }
+
+    .themeLabel{
+      color:var(--muted);
+
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.4px;
+    }
+
+    @media (min-width:721px){
+      .themeLabel{
+        display:none;
+      }
+
+      .themeBtn{
+        padding:10px 11px;
+      }
+    }
+
+    /* =========================
+       МОБИЛЬНОЕ МЕНЮ
+       ========================= */
+
     .nav-mobile{
       display:none;
       position:relative;
     }
+
     .burger{
+      padding:8px 10px;
+
+      border:1px solid var(--line2);
+      border-radius:12px;
+
+      background:var(--paper);
+      color:var(--ink);
+
+      font-weight:900;
+      line-height:1;
+
       cursor:pointer;
       user-select:none;
-      padding: 8px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--line2);
-      background: var(--paper);
-      color: var(--ink);
-      font-weight: 900;
-      line-height: 1;
     }
-    .burger::-webkit-details-marker{ display:none; }
-    .burger::marker{ content:""; }
+
+    .burger::-webkit-details-marker{
+      display:none;
+    }
+
+    .burger::marker{
+      content:"";
+    }
 
     .nav-panel{
       display:none;
-      position:absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      min-width: min(320px, 92vw);
 
-      padding: 12px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.18);
-      z-index: 50;
+      position:absolute;
+      top:calc(100% + 10px);
+      right:0;
+      z-index:50;
+
+      min-width:min(320px, 92vw);
+      padding:12px;
 
       flex-direction:column;
       gap:10px;
+
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:16px;
+
+      box-shadow:
+        0 18px 40px rgba(0,0,0,.18);
     }
-    .nav-mobile[open] .nav-panel{ display:flex; }
+
+    .nav-mobile[open] .nav-panel{
+      display:flex;
+    }
 
     .nav-panel .navlink{
-      color: var(--ink);
-      padding: 10px 8px;
-      border-bottom: 1px solid rgba(11,11,12,.06);
+      padding:10px 8px;
+
+      color:var(--ink);
+      border-bottom:1px solid var(--line2);
     }
-    .nav-panel .navlink:last-child{ border-bottom: 0; }
+
+    .nav-panel .navlink:last-of-type{
+      border-bottom:0;
+    }
 
     .nav-panel .themeBtn{
       width:100%;
       justify-content:center;
-      border-color: var(--line2);
-      background: rgba(11,11,12,.02);
+
+      border-color:var(--line2);
+      background:rgba(11,11,12,.02);
     }
 
-    main{ position:relative; z-index:1; padding: 26px 0 56px; }
+    /* =========================
+       ОСНОВНОЙ КОНТЕНТ
+       ========================= */
 
-    /* HERO */
-    .hero{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      overflow:hidden;
+    main{
       position:relative;
+      z-index:1;
+
+      padding:26px 0 56px;
     }
-    .hero:before{
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+
+      background:var(--paper);
+
+      border:1px solid var(--line);
+      border-radius:var(--r);
+
+      box-shadow:var(--shadow);
+    }
+
+    .hero::before{
       content:"";
-      position:absolute; inset:-1px;
+
+      position:absolute;
+      inset:-1px;
+
       background:
-        radial-gradient(760px 320px at 16% 0%, rgba(240,32,0,.14), transparent 60%),
-        linear-gradient(180deg, rgba(11,11,12,.02), transparent 60%);
+        radial-gradient(
+          760px 320px at 16% 0%,
+          rgba(240,32,0,.14),
+          transparent 60%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(11,11,12,.02),
+          transparent 60%
+        );
+
       pointer-events:none;
     }
+
     .hero .inner{
       position:relative;
-      padding: 22px;
+
+      padding:22px;
+
       display:flex;
       flex-direction:column;
       gap:10px;
     }
+
     .kicker{
-      display:flex; align-items:center; gap:10px;
-      font-size:12px; letter-spacing:1.4px; text-transform:uppercase;
-      color: var(--muted);
-    }
-    .kicker .dot{
-      width:9px; height:9px; border-radius: 3px;
-      background: var(--red);
-    }
-    h1{
-      margin:0;
-      font-size: clamp(28px, 3vw, 44px);
-      line-height: 1.04;
-      letter-spacing: .1px;
-    }
-    .lead{
-      margin:0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.7;
-      max-width: 84ch;
+      display:flex;
+      align-items:center;
+      gap:10px;
+
+      color:var(--muted);
+
+      font-size:12px;
+      letter-spacing:1.4px;
+      text-transform:uppercase;
     }
 
-    /* ==== НОВЫЙ АККУРАТНЫЙ БЛОК: контакты + соцсети ==== */
-    .contactGrid{
-      margin-top: 16px;
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      align-items:start;
+    .kicker .dot{
+      width:9px;
+      height:9px;
+
+      border-radius:3px;
+      background:var(--red);
     }
-    @media (max-width: 980px){
-      .contactGrid{ grid-template-columns: 1fr; }
+
+    h1{
+      margin:0;
+
+      font-size:clamp(28px, 3vw, 44px);
+      line-height:1.04;
+      letter-spacing:.1px;
+    }
+
+    .lead{
+      max-width:84ch;
+      margin:0;
+
+      color:var(--muted);
+
+      font-size:15px;
+      line-height:1.7;
+    }
+
+    /* =========================
+       КОНТАКТЫ И СОЦСЕТИ
+       ========================= */
+
+    .contactGrid{
+      margin-top:16px;
+
+      display:grid;
+      grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+      gap:14px;
+
+      /*
+       * Обе карточки растягиваются
+       * до одинаковой высоты.
+       */
+      align-items:stretch;
     }
 
     .card{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      padding: 14px;
-    }
-    .card h3{ margin:0 0 10px; font-size: 16px; }
+      height:100%;
+      min-width:0;
+      padding:14px;
 
-    .row{
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      align-items:flex-start;
-      padding: 10px 12px;
-      border-radius: var(--r2);
-      border: 1px solid rgba(11,11,12,.08);
-      background: rgba(11,11,12,.015);
-      margin-top: 10px;
-    }
-    .row b{ font-size: 12px; letter-spacing:1.1px; text-transform:uppercase; }
-    .row .v{
-      margin-left:auto;
       display:flex;
       flex-direction:column;
-      gap:6px;
-      align-items:flex-end;
-      text-align:right;
-      font-size: 13px;
-      color: var(--ink);
+
+      background:var(--paper);
+
+      border:1px solid var(--line);
+      border-radius:var(--r);
+
+      box-shadow:var(--shadow2);
     }
-    .muted{ color: var(--muted); }
+
+    .card h3{
+      margin:0 0 10px;
+      font-size:16px;
+    }
 
     .hint{
-      margin: 0;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.65;
+      margin:0 0 12px;
+
+      color:var(--muted);
+
+      font-size:13px;
+      line-height:1.65;
     }
 
-    /* Social buttons */
-    .socials{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+    .row{
+      min-height:72px;
+      margin-top:auto;
+      padding:10px 12px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+
+      border:1px solid var(--line2);
+      border-radius:var(--r2);
+
+      background:rgba(11,11,12,.015);
     }
-    @media (max-width: 520px){
-      .socials{ grid-template-columns: 1fr; }
+
+    html[data-theme="dark"] .row{
+      background:rgba(255,255,255,.025);
+    }
+
+    .row b{
+      font-size:12px;
+      letter-spacing:1.1px;
+      text-transform:uppercase;
+    }
+
+    .row .v{
+      margin-left:auto;
+
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:6px;
+
+      color:var(--ink);
+
+      font-size:13px;
+      text-align:right;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .socials{
+      margin-top:auto;
+
+      display:grid;
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap:10px;
     }
 
     .sbtn{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(11,11,12,.10);
-      background: rgba(11,11,12,.02);
-      font-size: 13px;
-      color: var(--muted);
-      transition:.14s ease;
+      width:100%;
+      min-width:0;
+      padding:10px 12px;
+
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+
+      border:1px solid var(--line2);
+      border-radius:999px;
+
+      background:rgba(11,11,12,.02);
+      color:var(--muted);
+
+      font-size:13px;
       white-space:nowrap;
 
-      width:100%;
-      justify-content:center;
+      transition:
+        transform .14s ease,
+        color .14s ease,
+        border-color .14s ease,
+        background-color .14s ease;
     }
+
+    html[data-theme="dark"] .sbtn{
+      background:rgba(255,255,255,.025);
+    }
+
     .sbtn:hover{
-      transform: translateY(-1px);
-      border-color: rgba(240,32,0,.22);
-      background: rgba(240,32,0,.05);
-      color: var(--ink);
+      transform:translateY(-1px);
+
+      color:var(--ink);
+
+      border-color:rgba(240,32,0,.22);
+      background:rgba(240,32,0,.05);
     }
-    .sbtn svg{ width:16px; height:16px; display:block; }
+
+    .sbtn svg{
+      width:16px;
+      height:16px;
+
+      display:block;
+      flex:0 0 auto;
+    }
 
     footer{
-      margin-top: 34px;
-      border-top: 1px solid var(--line);
-      padding: 18px 0;
-      color: var(--muted);
-      font-size: 12px;
+      margin-top:34px;
+      padding:18px 0;
+
       display:flex;
       justify-content:space-between;
-      gap:14px;
       flex-wrap:wrap;
+      gap:14px;
+
+      border-top:1px solid var(--line);
+
+      color:var(--muted);
+      font-size:12px;
     }
 
-    /* Responsive */
-    @media (max-width: 720px){
-      .brand{ min-width:auto; }
-      .nav-desktop{ display:none; }
-      .nav-mobile{ display:block; }
-      .actions .themeBtn{ display:none; }
-      .actions{ min-width:auto; }
+    /* =========================
+       АДАПТИВ
+       ========================= */
+
+    @media (max-width:980px){
+      .contactGrid{
+        grid-template-columns:1fr;
+      }
+
+      .socials{
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+      }
     }
 
-    @media (prefers-reduced-motion: reduce){
-      *{ transition:none !important; }
-      .sbtn:hover,.btn:hover{ transform:none !important; }
+    @media (max-width:720px){
+      :root{
+        --pad:14px;
+      }
+
+      .brand{
+        min-width:auto;
+      }
+
+      .nav-desktop{
+        display:none;
+      }
+
+      .nav-mobile{
+        display:block;
+      }
+
+      .actions{
+        min-width:auto;
+      }
+
+      .actions .themeBtn{
+        display:none;
+      }
+
+      main{
+        padding-top:18px;
+      }
+
+      .hero .inner{
+        padding:18px;
+      }
+    }
+
+    @media (max-width:560px){
+      .socials{
+        grid-template-columns:1fr;
+      }
+
+      .row{
+        align-items:flex-start;
+      }
+
+      .row .v{
+        max-width:70%;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *{
+        transition:none !important;
+      }
+
+      .sbtn:hover,
+      .btn:hover{
+        transform:none !important;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="grid" aria-hidden="true"></div>
+  <div
+    class="grid"
+    aria-hidden="true"
+  ></div>
 
   <header>
     <div class="container">
       <div class="topbar">
-        <a class="brand" href="index.html">
-          <img src="log.png" alt="Промышленный репортёр" />
+        <a
+          class="brand"
+          href="index.html"
+        >
+          <span class="logoPlate">
+            <img
+              src="log.png"
+              alt="Промышленный репортёр"
+            />
+          </span>
+
           <div class="t">
-            <strong>Промышленный репортёр</strong>
+            <strong>
+              Промышленный репортёр
+            </strong>
           </div>
         </a>
 
-        <!-- ДЕСКТОП-МЕНЮ (ПК) -->
-        <nav class="nav-desktop" aria-label="Меню">
-          <a class="navlink" href="index.html">Главная</a>
-          <a class="navlink" href="news.html">Новости</a>
-          <a class="navlink" href="tv.html">TV</a>
-          <a class="navlink" href="production.html">Продакшн</a>
-          <a class="navlink active" href="editorial.html">Редакция</a>
+        <nav
+          class="nav-desktop"
+          aria-label="Меню"
+        >
+          <a
+            class="navlink"
+            href="index.html"
+          >
+            Главная
+          </a>
+
+          <a
+            class="navlink"
+            href="news.html"
+          >
+            Новости
+          </a>
+
+          <a
+            class="navlink"
+            href="tv.html"
+          >
+            TV
+          </a>
+
+          <a
+            class="navlink"
+            href="production.html"
+          >
+            Продакшн
+          </a>
+
+          <a
+            class="navlink active"
+            href="editorial.html"
+          >
+            Редакция
+          </a>
         </nav>
 
-        <!-- МОБИЛЬНОЕ МЕНЮ (бургер) -->
         <details class="nav-mobile">
-          <summary class="burger" aria-label="Открыть меню"><span aria-hidden="true">≡</span></summary>
+          <summary
+            class="burger"
+            aria-label="Открыть меню"
+          >
+            <span aria-hidden="true">≡</span>
+          </summary>
 
-          <nav class="nav-panel" aria-label="Меню">
-            <a class="navlink" href="index.html">Главная</a>
-            <a class="navlink" href="news.html">Новости</a>
-            <a class="navlink" href="tv.html">TV</a>
-            <a class="navlink" href="production.html">Продакшн</a>
-            <a class="navlink active" href="editorial.html">Редакция</a>
+          <nav
+            class="nav-panel"
+            aria-label="Меню"
+          >
+            <a
+              class="navlink"
+              href="index.html"
+            >
+              Главная
+            </a>
 
-            <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
-              <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
-              <span class="themeLabel"></span>
+            <a
+              class="navlink"
+              href="news.html"
+            >
+              Новости
+            </a>
+
+            <a
+              class="navlink"
+              href="tv.html"
+            >
+              TV
+            </a>
+
+            <a
+              class="navlink"
+              href="production.html"
+            >
+              Продакшн
+            </a>
+
+            <a
+              class="navlink active"
+              href="editorial.html"
+            >
+              Редакция
+            </a>
+
+            <button
+              class="btn themeBtn"
+              type="button"
+              data-theme-toggle
+              aria-pressed="false"
+              aria-label="Переключить тему"
+            >
+              <svg
+                class="themeIcon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              ></svg>
+
+              <span class="themeLabel">
+                Тема
+              </span>
             </button>
           </nav>
         </details>
 
-        <!-- ШАПКА (ПК) -->
         <div class="actions">
-          <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
-            <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
-            <span class="themeLabel">Тема</span>
+          <button
+            class="btn themeBtn"
+            type="button"
+            data-theme-toggle
+            aria-pressed="false"
+            aria-label="Переключить тему"
+          >
+            <svg
+              class="themeIcon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            ></svg>
+
+            <span class="themeLabel">
+              Тема
+            </span>
           </button>
         </div>
-
       </div>
     </div>
   </header>
 
   <main class="container">
-    <!-- Введение -->
-    <section class="hero" aria-label="Заголовок страницы">
+    <section
+      class="hero"
+      aria-label="Заголовок страницы"
+    >
       <div class="inner">
-        <div class="kicker"><span class="dot"></span><span>Редакция</span></div>
-        <h1>Контакты редакции</h1>
+        <div class="kicker">
+          <span class="dot"></span>
+          <span>Редакция</span>
+        </div>
+
+        <h1>
+          Контакты редакции
+        </h1>
+
         <p class="lead">
-          Если у вас есть тема, цифры или хороший кейс — пишите.
-          Мы читаем входящие и отвечаем по делу.
+          Если у вас есть тема, цифры или хороший кейс —
+          пишите. Мы читаем входящие и отвечаем по делу.
         </p>
       </div>
     </section>
 
-    <!-- Контакты + соцсети (аккуратно в 2 колонки) -->
-    <section class="contactGrid" aria-label="Контакты и соцсети">
+    <section
+      class="contactGrid"
+      aria-label="Контакты и социальные сети"
+    >
       <div class="card">
-        <h3>Контакты</h3>
-        <p class="hint">Темы, фактура, комментарии, уточнения по материалам.</p>
+        <h3>
+          Контакты
+        </h3>
+
+        <p class="hint">
+          Темы, фактура, комментарии, уточнения по материалам.
+        </p>
 
         <div class="row">
-          <b>Почта</b>
+          <b>
+            Почта
+          </b>
+
           <div class="v">
-            <a href="mailto:info@promrep.ru">info@promrep.ru</a>
-            <span class="muted">ответим, — возьмём в работу</span>
+            <a href="mailto:info@promrep.ru">
+              info@promrep.ru
+            </a>
+
+            <span class="muted">
+              ответим — возьмём в работу
+            </span>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <h3>Социальные сети</h3>
-        <p class="hint">Оперативные обновления и видео — здесь.</p>
+        <h3>
+          Социальные сети
+        </h3>
+
+        <p class="hint">
+          Оперативные обновления и видео — здесь.
+        </p>
 
         <div class="socials">
-          <a class="sbtn" href="https://t.me/promreporter" target="_blank" rel="noreferrer" aria-label="Telegram">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M20.5 4.6 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.1c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.2-2.1 4.6 3.4c.8.4 1.4.2 1.6-.8l3-14c.2-1.2-.4-1.7-1.5-1.2Z" fill="currentColor" opacity=".85"/>
+          <a
+            class="sbtn"
+            href="https://t.me/promreporter"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Telegram"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M20.5 4.6 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.1c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.2-2.1 4.6 3.4c.8.4 1.4.2 1.6-.8l3-14c.2-1.2-.4-1.7-1.5-1.2Z"
+                fill="currentColor"
+                opacity=".85"
+              />
             </svg>
+
             Telegram
           </a>
 
-          <a class="sbtn" href="https://vk.com/promrep" target="_blank" rel="noreferrer" aria-label="VK">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12.6 18.7h1.5s.5-.1.8-.4c.2-.2.2-.6.2-.6s0-1.8.8-2c.8-.2 1.8 1.7 2.9 2.5.8.6 1.4.5 1.4.5h2.8s1.5-.1.8-1.3c-.1-.1-.6-1.2-2.9-3.4-2.4-2.3-2.1-2 .8-6.1.2-.3.3-.5.2-.7-.1-.3-.6-.2-.6-.2h-3.1s-.2 0-.4.1c-.2.1-.3.3-.3.3s-.5 1.2-1.2 2.3c-1.4 2.4-2 2.5-2.2 2.4-.5-.3-.4-1.4-.4-2.1 0-2.3.3-3.2-.7-3.5-.3-.1-.5-.1-1.3-.2-.9-.1-3.3 0-4.2.4-.6.3-1 .9-.7 1 0 0 .5.1.7.5.3.5.3 1.7.3 1.7s.2 2.7-.5 3c-.5.2-1.2-.2-2.6-2.5-.7-1.1-1.2-2.4-1.2-2.4s-.1-.2-.3-.3c-.2-.1-.5-.2-.5-.2H2s-.4 0-.6.2c-.2.2 0 .5 0 .5s2.1 5 4.6 7.5c2.3 2.4 5 2.2 5 2.2Z" fill="currentColor" opacity=".85"/>
+          <a
+            class="sbtn"
+            href="https://vk.com/promrep"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="VK"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M12.6 18.7h1.5s.5-.1.8-.4c.2-.2.2-.6.2-.6s0-1.8.8-2c.8-.2 1.8 1.7 2.9 2.5.8.6 1.4.5 1.4.5h2.8s1.5-.1.8-1.3c-.1-.1-.6-1.2-2.9-3.4-2.4-2.3-2.1-2 .8-6.1.2-.3.3-.5.2-.7-.1-.3-.6-.2-.6-.2h-3.1s-.2 0-.4.1c-.2.1-.3.3-.3.3s-.5 1.2-1.2 2.3c-1.4 2.4-2 2.5-2.2 2.4-.5-.3-.4-1.4-.4-2.1 0-2.3.3-3.2-.7-3.5-.3-.1-.5-.1-1.3-.2-.9-.1-3.3 0-4.2.4-.6.3-1 .9-.7 1 0 0 .5.1.7.5.3.5.3 1.7.3 1.7s.2 2.7-.5 3c-.5.2-1.2-.2-2.6-2.5-.7-1.1-1.2-2.4-1.2-2.4s-.1-.2-.3-.3c-.2-.1-.5-.2-.5-.2H2s-.4 0-.6.2c-.2.2 0 .5 0 .5s2.1 5 4.6 7.5c2.3 2.4 5 2.2 5 2.2Z"
+                fill="currentColor"
+                opacity=".85"
+              />
             </svg>
+
             VK
           </a>
 
-          <a class="sbtn" href="https://www.youtube.com/@Promrep" target="_blank" rel="noreferrer" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M21.6 7.1c.2.8.3 2.2.3 4.9s-.1 4.1-.3 4.9c-.2.9-.9 1.6-1.8 1.8-1.6.4-7.8.4-7.8.4s-6.2 0-7.8-.4c-.9-.2-1.6-.9-1.8-1.8C2.2 16.1 2.1 14.7 2.1 12s.1-4.1.3-4.9c.2-.9.9-1.6 1.8-1.8C5.8 4.9 12 4.9 12 4.9s6.2 0 7.8.4c.9.2 1.6.9 1.8 1.8Z" fill="currentColor" opacity=".85"/>
-              <path d="M10.2 15.2V8.8L15.8 12l-5.6 3.2Z" fill="white" opacity=".9"/>
+          <a
+            class="sbtn"
+            href="https://www.youtube.com/@Promrep"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M21.6 7.1c.2.8.3 2.2.3 4.9s-.1 4.1-.3 4.9c-.2.9-.9 1.6-1.8 1.8-1.6.4-7.8.4-7.8.4s-6.2 0-7.8-.4c-.9-.2-1.6-.9-1.8-1.8C2.2 16.1 2.1 14.7 2.1 12s.1-4.1.3-4.9c.2-.9.9-1.6 1.8-1.8C5.8 4.9 12 4.9 12 4.9s6.2 0 7.8.4c.9.2 1.6.9 1.8 1.8Z"
+                fill="currentColor"
+                opacity=".85"
+              />
+
+              <path
+                d="M10.2 15.2V8.8L15.8 12l-5.6 3.2Z"
+                fill="white"
+                opacity=".9"
+              />
             </svg>
+
             YouTube
           </a>
         </div>
@@ -529,83 +1058,173 @@
     </section>
 
     <footer>
-      <div>© <span id="y"></span> Промышленный репортёр</div>
-      <div>Контакты · Реклама · Политика</div>
+      <div>
+        © <span id="y"></span>
+        Промышленный репортёр
+      </div>
+
+      <div>
+        Контакты · Реклама · Политика
+      </div>
     </footer>
   </main>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    "use strict";
 
-    // закрытие бургер-меню: клик по пункту / клик вне / Esc
-    (function(){
-      const d = document.querySelector('.nav-mobile');
-      if(!d) return;
+    document.getElementById("y").textContent =
+      new Date().getFullYear();
 
-      d.querySelectorAll('a').forEach(a=>{
-        a.addEventListener('click', ()=> d.removeAttribute('open'));
-      });
+    /*
+     * Закрытие мобильного меню:
+     * по ссылке, клику снаружи и Escape.
+     */
+    (function () {
+      const navigation =
+        document.querySelector(".nav-mobile");
 
-      document.addEventListener('click', (e)=>{
-        if(d.hasAttribute('open') && !d.contains(e.target)){
-          d.removeAttribute('open');
+      if (!navigation) {
+        return;
+      }
+
+      navigation
+        .querySelectorAll("a")
+        .forEach(link => {
+          link.addEventListener(
+            "click",
+            () => {
+              navigation.removeAttribute("open");
+            }
+          );
+        });
+
+      document.addEventListener(
+        "click",
+        event => {
+          if (
+            navigation.hasAttribute("open") &&
+            !navigation.contains(event.target)
+          ) {
+            navigation.removeAttribute("open");
+          }
         }
-      });
+      );
 
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape') d.removeAttribute('open');
-      });
+      document.addEventListener(
+        "keydown",
+        event => {
+          if (event.key === "Escape") {
+            navigation.removeAttribute("open");
+          }
+        }
+      );
     })();
   </script>
 
-  <!-- Переключатель темы (как на главной) -->
   <script>
     (function () {
       const KEY = "theme";
-      const root = document.documentElement;
-      const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
 
-      const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 0 1 1-2 0v-1.2a1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 0 1 1-1.4 1.4l-.8-.8a1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 0 1 1-1.4-1.4l.8-.8a1 0 0 1 1.4 0Z"/>`;
+      const root =
+        document.documentElement;
+
+      const toggles =
+        Array.from(
+          document.querySelectorAll(
+            "[data-theme-toggle]"
+          )
+        );
+
+      const ICON_MOON = `
+        <path
+          fill="currentColor"
+          d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"
+        />
+      `;
+
+      const ICON_SUN = `
+        <path
+          fill="currentColor"
+          d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0Z"
+        />
+      `;
 
       function currentTheme() {
-        return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
-      }
-
-      function setIconAndLabel(btn, theme){
-        const svg = btn.querySelector("svg");
-        if (!svg) return;
-
-        const isDark = theme === "dark";
-        svg.innerHTML = isDark ? ICON_SUN : ICON_MOON;
-        btn.setAttribute("aria-label", isDark ? "Включить светлую тему" : "Включить тёмную тему");
-
-        const label = btn.querySelector(".themeLabel");
-        if(label){
-          label.textContent = isDark ? "Свет" : "Тема";
-        }
+        return (
+          root.getAttribute("data-theme") === "dark"
+            ? "dark"
+            : "light"
+        );
       }
 
       function apply(theme) {
-        if (theme === "dark") root.setAttribute("data-theme", "dark");
-        else root.removeAttribute("data-theme");
+        if (theme === "dark") {
+          root.setAttribute("data-theme", "dark");
+        } else {
+          root.removeAttribute("data-theme");
+        }
 
-        toggles.forEach(btn => {
-          const isDark = theme === "dark";
-          btn.setAttribute("aria-pressed", isDark ? "true" : "false");
-          setIconAndLabel(btn, theme);
+        toggles.forEach(button => {
+          const isDark =
+            theme === "dark";
+
+          button.setAttribute(
+            "aria-pressed",
+            isDark ? "true" : "false"
+          );
+
+          button.setAttribute(
+            "aria-label",
+            isDark
+              ? "Включить светлую тему"
+              : "Включить тёмную тему"
+          );
+
+          const svg =
+            button.querySelector("svg");
+
+          if (svg) {
+            svg.innerHTML =
+              isDark
+                ? ICON_SUN
+                : ICON_MOON;
+          }
+
+          const label =
+            button.querySelector(".themeLabel");
+
+          if (label) {
+            label.textContent =
+              isDark
+                ? "Свет"
+                : "Тема";
+          }
         });
       }
 
-      toggles.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const next = currentTheme() === "dark" ? "light" : "dark";
-          localStorage.setItem(KEY, next);
-          apply(next);
-        });
+      toggles.forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            const next =
+              currentTheme() === "dark"
+                ? "light"
+                : "dark";
+
+            localStorage.setItem(
+              KEY,
+              next
+            );
+
+            apply(next);
+          }
+        );
       });
 
-      apply(localStorage.getItem(KEY) || currentTheme());
+      apply(
+        localStorage.getItem(KEY) ||
+        currentTheme()
+      );
     })();
   </script>
 </body>
