@@ -5,29 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Продакшн — Промышленный репортёр</title>
-  <!-- Favicon -->
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#ef2b1a">
-  <meta name="description" content="Промышленный видеопродакшн под ключ: сценарий, съёмка заводов и производств, интервью, репортажи, корпоративные фильмы, графика, монтаж и версии под разные площадки.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://promrep.ru/production.html">
 
-  <meta property="og:title" content="Продакшн — Промышленный репортёр">
-  <meta property="og:description" content="Видеопродакшн для промышленных компаний: сценарий, съёмка производств, заводов, интервью, корпоративных фильмов, репортажей и видеокейсов.">
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+
+  <meta name="theme-color" content="#ef2b1a">
+
+  <meta
+    name="description"
+    content="Промышленный видеопродакшн под ключ: сценарий, съёмка заводов и производств, интервью, репортажи, корпоративные фильмы, графика, монтаж и версии под разные площадки."
+  >
+
+  <meta name="robots" content="index, follow">
+
+  <link
+    rel="canonical"
+    href="https://promrep.ru/production.html"
+  >
+
+  <meta
+    property="og:title"
+    content="Продакшн — Промышленный репортёр"
+  >
+
+  <meta
+    property="og:description"
+    content="Видеопродакшн для промышленных компаний: сценарий, съёмка производств, заводов, интервью, корпоративных фильмов, репортажей и видеокейсов."
+  >
+
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://promrep.ru/production.html">
-  <meta property="og:image" content="https://promrep.ru/log.png">
-  <meta property="og:site_name" content="Промышленный репортёр">
+
+  <meta
+    property="og:url"
+    content="https://promrep.ru/production.html"
+  >
+
+  <meta
+    property="og:image"
+    content="https://promrep.ru/log.png"
+  >
+
+  <meta
+    property="og:site_name"
+    content="Промышленный репортёр"
+  >
+
   <meta property="og:locale" content="ru_RU">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Продакшн — Промышленный репортёр">
-  <meta name="twitter:description" content="Промышленный видеопродакшн: съёмка заводов, производств, интервью, фильмов и кейсов под ключ.">
-  <meta name="twitter:image" content="https://promrep.ru/log.png">
+
+  <meta
+    name="twitter:title"
+    content="Продакшн — Промышленный репортёр"
+  >
+
+  <meta
+    name="twitter:description"
+    content="Промышленный видеопродакшн: съёмка заводов, производств, интервью, фильмов и кейсов под ключ."
+  >
+
+  <meta
+    name="twitter:image"
+    content="https://promrep.ru/log.png"
+  >
 
   <script type="application/ld+json">
   {
@@ -62,9 +105,23 @@
     (function () {
       const key = "theme";
       const saved = localStorage.getItem(key);
-      const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const theme = saved || (systemDark ? "dark" : "light");
-      if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+
+      const systemDark =
+        window.matchMedia &&
+        window.matchMedia(
+          "(prefers-color-scheme: dark)"
+        ).matches;
+
+      const theme =
+        saved ||
+        (systemDark ? "dark" : "light");
+
+      if (theme === "dark") {
+        document.documentElement.setAttribute(
+          "data-theme",
+          "dark"
+        );
+      }
     })();
   </script>
 
@@ -74,111 +131,230 @@
       --paper:#ffffff;
       --ink:#0b0b0c;
       --muted:#5a5a61;
+
       --line:rgba(11,11,12,.12);
       --line2:rgba(11,11,12,.08);
+
       --red:#f02000;
+
       --max:1160px;
       --pad:22px;
       --r:16px;
-      --shadow: 0 14px 26px rgba(11,11,12,.08);
-      --shadow2: 0 10px 18px rgba(11,11,12,.06);
-      --headerBg: rgba(244,245,246,.92);
-      --grid1: rgba(0,0,0,.028);
-      --grid2: rgba(0,0,0,.024);
-      --panelBg: #0b0b0c;
-      --panelText: #f7f7f8;
-      --panelMuted: rgba(247,247,248,.76);
-      --panelLine: rgba(255,255,255,.10);
-      --panelFieldBg: rgba(0,0,0,.18);
-      --panelFieldLine: rgba(255,255,255,.16);
-      --glassBg: rgba(11,11,12,.015);
-      --glassLine: rgba(11,11,12,.10);
-      --glassFill: rgba(11,11,12,.02);
+
+      --shadow:
+        0 14px 26px rgba(11,11,12,.08);
+
+      --shadow2:
+        0 10px 18px rgba(11,11,12,.06);
+
+      --headerBg:
+        rgba(244,245,246,.92);
+
+      --grid1:
+        rgba(0,0,0,.028);
+
+      --grid2:
+        rgba(0,0,0,.024);
+
+      --panelBg:#0b0b0c;
+      --panelText:#f7f7f8;
+
+      --panelMuted:
+        rgba(247,247,248,.76);
+
+      --panelLine:
+        rgba(255,255,255,.10);
+
+      --panelFieldBg:
+        rgba(0,0,0,.18);
+
+      --panelFieldLine:
+        rgba(255,255,255,.16);
+
+      --glassBg:
+        rgba(11,11,12,.015);
+
+      --glassLine:
+        rgba(11,11,12,.10);
+
+      --glassFill:
+        rgba(11,11,12,.02);
     }
 
     html[data-theme="dark"]{
       --bg:#0b0b0c;
       --paper:#101214;
       --ink:#f4f5f6;
-      --muted:rgba(244,245,246,.70);
-      --line:rgba(255,255,255,.12);
-      --line2:rgba(255,255,255,.08);
+
+      --muted:
+        rgba(244,245,246,.70);
+
+      --line:
+        rgba(255,255,255,.12);
+
+      --line2:
+        rgba(255,255,255,.08);
+
       --red:#ff2a2a;
-      --shadow: 0 14px 26px rgba(0,0,0,.40);
-      --shadow2: 0 10px 18px rgba(0,0,0,.32);
-      --headerBg: rgba(11,11,12,.72);
-      --grid1: rgba(255,255,255,.06);
-      --grid2: rgba(255,255,255,.05);
-      --glassBg: rgba(255,255,255,.06);
-      --glassLine: rgba(255,255,255,.12);
-      --glassFill: rgba(255,255,255,.05);
+
+      --shadow:
+        0 14px 26px rgba(0,0,0,.40);
+
+      --shadow2:
+        0 10px 18px rgba(0,0,0,.32);
+
+      --headerBg:
+        rgba(11,11,12,.72);
+
+      --grid1:
+        rgba(255,255,255,.06);
+
+      --grid2:
+        rgba(255,255,255,.05);
+
+      --glassBg:
+        rgba(255,255,255,.06);
+
+      --glassLine:
+        rgba(255,255,255,.12);
+
+      --glassFill:
+        rgba(255,255,255,.05);
     }
 
-    *{ box-sizing:border-box; }
-    html, body { transition: background-color .18s ease, color .18s ease; }
-    *{ transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+    *{
+      box-sizing:border-box;
+    }
+
+    html,
+    body{
+      transition:
+        background-color .18s ease,
+        color .18s ease;
+    }
+
+    *{
+      transition:
+        background-color .18s ease,
+        color .18s ease,
+        border-color .18s ease;
+    }
 
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      background: var(--bg);
-      color: var(--ink);
+
+      font-family:
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        "Noto Sans",
+        "Helvetica Neue",
+        sans-serif;
+
+      background:var(--bg);
+      color:var(--ink);
+
       letter-spacing:.15px;
-      text-rendering: geometricPrecision;
+      text-rendering:geometricPrecision;
     }
 
-    a{ color:inherit; text-decoration:none; }
-    button, input, textarea{ font-family:inherit; }
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input,
+    textarea{
+      font-family:inherit;
+    }
 
     .container{
-      width:min(var(--max), calc(100% - var(--pad)*2));
+      width:min(
+        var(--max),
+        calc(100% - var(--pad) * 2)
+      );
+
       margin:0 auto;
     }
 
     .grid{
       position:fixed;
       inset:0;
-      pointer-events:none;
       z-index:0;
+      pointer-events:none;
+
       background:
-        linear-gradient(to right, var(--grid1) 1px, transparent 1px) 0 0/ 84px 84px,
-        linear-gradient(to bottom, var(--grid2) 1px, transparent 1px) 0 0/ 84px 84px;
-      mask-image: radial-gradient(ellipse at 50% 0%, black 32%, transparent 72%);
+        linear-gradient(
+          to right,
+          var(--grid1) 1px,
+          transparent 1px
+        ) 0 0 / 84px 84px,
+
+        linear-gradient(
+          to bottom,
+          var(--grid2) 1px,
+          transparent 1px
+        ) 0 0 / 84px 84px;
+
+      mask-image:
+        radial-gradient(
+          ellipse at 50% 0%,
+          black 32%,
+          transparent 72%
+        );
+
       opacity:.45;
     }
+
+    /* =========================
+       ШАПКА
+       ========================= */
 
     header{
       position:sticky;
       top:0;
       z-index:10;
-      background: var(--headerBg);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
+
+      background:var(--headerBg);
+
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
+
+      border-bottom:1px solid var(--line);
     }
 
     .topbar{
       display:flex;
       align-items:center;
       justify-content:space-between;
+
       gap:16px;
-      padding: 14px 0;
+      padding:14px 0;
     }
 
     .brand{
       display:flex;
       align-items:center;
       gap:12px;
-      min-width: 260px;
+
+      min-width:260px;
     }
 
     .logoPlate{
       width:52px;
       height:44px;
+
       display:inline-grid;
       place-items:center;
       flex:0 0 auto;
+
       border-radius:12px;
       background:transparent;
+
       transition:
         background-color .18s ease,
         box-shadow .18s ease,
@@ -187,6 +363,7 @@
 
     html[data-theme="dark"] .logoPlate{
       background:#f4f5f6;
+
       box-shadow:
         0 0 0 1px rgba(255,255,255,.10),
         0 8px 20px rgba(0,0,0,.30);
@@ -195,10 +372,12 @@
     .brand img{
       width:44px;
       height:44px;
+
       object-fit:contain;
       display:block;
+
       filter:none;
-      transition: opacity .18s ease;
+      transition:opacity .18s ease;
     }
 
     html[data-theme="dark"] .brand img{
@@ -223,92 +402,7 @@
 
     .brand .t span{
       font-size:12px;
-      color: var(--muted);
-    }
-
-    .navlink{
-      font-size:13px;
-      color: var(--muted);
-      padding: 8px 0;
-      border-bottom: 2px solid transparent;
-      transition:.14s ease;
-      white-space:nowrap;
-    }
-
-    .navlink:hover{
-      color: var(--ink);
-      border-bottom-color: rgba(240,32,0,.28);
-    }
-
-    .navlink.active{
-      color: var(--ink);
-      border-bottom-color: var(--red);
-    }
-
-    .actions{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width:auto;
-      justify-content:flex-end;
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      border:1px solid var(--ink);
-      background: transparent;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 13px;
-      cursor:pointer;
-      transition:.14s ease;
-      white-space:nowrap;
-      user-select:none;
-      color: var(--ink);
-    }
-
-    .btn:hover{ transform: translateY(-1px); }
-
-    .btn.primary{
-      border-color: var(--red);
-      color: var(--red);
-      font-weight: 900;
-      background: rgba(240,32,0,.04);
-    }
-
-    .btn.ghost{
-      border-color: rgba(11,11,12,0);
-      background: rgba(11,11,12,.02);
-      color: var(--muted);
-    }
-
-    .themeBtn{
-      border-color: var(--line2);
-      background: var(--paper);
-      color: var(--ink);
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding: 10px 12px;
-      white-space:nowrap;
-    }
-
-    .themeIcon{ width:18px; height:18px; display:block; }
-
-    .themeLabel{
-      font-weight:900;
-      letter-spacing:.4px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    @media (min-width: 721px){
-      .themeLabel{ display:none; }
-      .themeBtn{ padding: 10px 11px; }
+      color:var(--muted);
     }
 
     .nav-desktop{
@@ -316,6 +410,127 @@
       align-items:center;
       gap:18px;
     }
+
+    .navlink{
+      font-size:13px;
+      color:var(--muted);
+
+      padding:8px 0;
+
+      border-bottom:
+        2px solid transparent;
+
+      transition:.14s ease;
+      white-space:nowrap;
+    }
+
+    .navlink:hover{
+      color:var(--ink);
+
+      border-bottom-color:
+        rgba(240,32,0,.28);
+    }
+
+    .navlink.active{
+      color:var(--ink);
+      border-bottom-color:var(--red);
+    }
+
+    /*
+     * Правый блок имеет ту же ширину,
+     * что на index.html и news.html.
+     *
+     * Благодаря этому центральное меню
+     * не смещается на странице Продакшн.
+     */
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:flex-end;
+
+      gap:10px;
+      min-width:240px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+
+      border:1px solid var(--ink);
+      background:transparent;
+      color:var(--ink);
+
+      border-radius:999px;
+      padding:10px 14px;
+
+      font-size:13px;
+      cursor:pointer;
+
+      transition:.14s ease;
+      white-space:nowrap;
+      user-select:none;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn.primary{
+      border-color:var(--red);
+      color:var(--red);
+
+      font-weight:900;
+      background:rgba(240,32,0,.04);
+    }
+
+    .btn.ghost{
+      border-color:rgba(11,11,12,0);
+      background:rgba(11,11,12,.02);
+      color:var(--muted);
+    }
+
+    .themeBtn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+
+      border-color:var(--line2);
+      background:var(--paper);
+      color:var(--ink);
+
+      padding:10px 12px;
+      white-space:nowrap;
+    }
+
+    .themeIcon{
+      width:18px;
+      height:18px;
+      display:block;
+    }
+
+    .themeLabel{
+      font-weight:900;
+      letter-spacing:.4px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    @media (min-width:721px){
+      .themeLabel{
+        display:none;
+      }
+
+      .themeBtn{
+        padding:10px 11px;
+      }
+    }
+
+    /* =========================
+       МОБИЛЬНОЕ МЕНЮ
+       ========================= */
 
     .nav-mobile{
       display:none;
@@ -325,78 +540,118 @@
     .burger{
       cursor:pointer;
       user-select:none;
-      padding: 8px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--line2);
-      background: var(--paper);
-      color: var(--ink);
-      font-weight: 900;
-      line-height: 1;
+
+      padding:8px 10px;
+
+      border-radius:12px;
+      border:1px solid var(--line2);
+
+      background:var(--paper);
+      color:var(--ink);
+
+      font-weight:900;
+      line-height:1;
     }
 
-    .burger::-webkit-details-marker{ display:none; }
-    .burger::marker{ content:""; }
+    .burger::-webkit-details-marker{
+      display:none;
+    }
+
+    .burger::marker{
+      content:"";
+    }
 
     .nav-panel{
       display:none;
       position:absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      min-width: min(320px, 92vw);
-      padding: 12px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.18);
-      z-index: 50;
+
+      top:calc(100% + 10px);
+      right:0;
+      z-index:50;
+
+      min-width:min(320px, 92vw);
+      padding:12px;
+
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:16px;
+
+      box-shadow:
+        0 18px 40px rgba(0,0,0,.18);
+
       flex-direction:column;
       gap:10px;
     }
 
-    .nav-mobile[open] .nav-panel{ display:flex; }
-
-    .nav-panel .navlink{
-      color: var(--ink);
-      padding: 10px 8px;
-      border-bottom: 1px solid rgba(11,11,12,.06);
+    .nav-mobile[open] .nav-panel{
+      display:flex;
     }
 
-    html[data-theme="dark"] .nav-panel .navlink{ border-bottom-color: rgba(255,255,255,.08); }
-    .nav-panel .navlink:last-child{ border-bottom: 0; }
-    .nav-panel .themeBtn{ width:100%; justify-content:center; }
+    .nav-panel .navlink{
+      color:var(--ink);
+      padding:10px 8px;
+
+      border-bottom:
+        1px solid rgba(11,11,12,.06);
+    }
+
+    html[data-theme="dark"]
+    .nav-panel .navlink{
+      border-bottom-color:
+        rgba(255,255,255,.08);
+    }
+
+    .nav-panel .navlink:last-of-type{
+      border-bottom:0;
+    }
+
+    .nav-panel .themeBtn{
+      width:100%;
+      justify-content:center;
+    }
+
+    /* =========================
+       ОСНОВНОЙ КОНТЕНТ
+       ========================= */
 
     main{
       position:relative;
       z-index:1;
-      padding: 26px 0 56px;
+
+      padding:26px 0 56px;
     }
 
     .kicker{
       display:flex;
       align-items:center;
       gap:10px;
+
       font-size:12px;
       letter-spacing:1.4px;
       text-transform:uppercase;
-      color: var(--muted);
+      color:var(--muted);
     }
 
     .kicker .dot{
       width:9px;
       height:9px;
+
       border-radius:3px;
-      background: var(--red);
+      background:var(--red);
     }
 
-    .section{ margin-top: 18px; }
+    .section{
+      margin-top:18px;
+    }
 
     .sectionTitle{
       display:flex;
       justify-content:space-between;
       align-items:flex-end;
-      gap:14px;
-      margin: 18px 2px 10px;
       flex-wrap:wrap;
+
+      gap:14px;
+      margin:18px 2px 10px;
     }
 
     .sectionTitle h2{
@@ -408,43 +663,68 @@
     .sectionTitle p{
       margin:0;
       font-size:13px;
-      color: var(--muted);
+      color:var(--muted);
     }
+
+    /* =========================
+       HERO
+       ========================= */
 
     .hero{
       display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 14px;
+
+      grid-template-columns:
+        1.1fr .9fr;
+
+      gap:14px;
       align-items:stretch;
     }
 
-    .hero > *{ min-width: 0; }
-
-    .panel{
-      background: var(--panelBg);
-      color: var(--panelText);
-      border-radius: var(--r);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-      border: 1px solid rgba(255,255,255,.08);
+    .hero > *{
+      min-width:0;
     }
 
-    .panel:before{
+    .panel{
+      position:relative;
+      overflow:hidden;
+
+      background:var(--panelBg);
+      color:var(--panelText);
+
+      border-radius:var(--r);
+      border:1px solid rgba(255,255,255,.08);
+
+      box-shadow:var(--shadow);
+    }
+
+    .panel::before{
       content:"";
+
       position:absolute;
       inset:0;
+
       background:
-        radial-gradient(860px 320px at 18% 10%, rgba(240,32,0,.22), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.06), transparent 60%);
+        radial-gradient(
+          860px 320px at 18% 10%,
+          rgba(240,32,0,.22),
+          transparent 62%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.06),
+          transparent 60%
+        );
+
       pointer-events:none;
       opacity:.95;
     }
 
     .panel .inner{
       position:relative;
-      padding: 18px;
-      min-height: 320px;
+
+      min-height:320px;
+      padding:18px;
+
       display:flex;
       flex-direction:column;
       gap:12px;
@@ -452,522 +732,983 @@
 
     h1{
       margin:0;
-      font-size: clamp(28px, 3vw, 44px);
-      line-height: 1.04;
-      letter-spacing: .1px;
+
+      font-size:
+        clamp(28px, 3vw, 44px);
+
+      line-height:1.04;
+      letter-spacing:.1px;
     }
 
     .lead{
       margin:0;
-      color: var(--panelMuted);
-      font-size: 15px;
-      line-height: 1.7;
-      max-width: 86ch;
+
+      color:var(--panelMuted);
+      font-size:15px;
+      line-height:1.7;
+
+      max-width:86ch;
     }
 
     .meta{
       margin-top:auto;
+
       display:flex;
       flex-wrap:wrap;
       gap:10px;
-      font-size: 12px;
-      color: rgba(247,247,248,.82);
+
+      font-size:12px;
+      color:rgba(247,247,248,.82);
     }
 
     .meta span{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
+      padding:6px 10px;
+
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+
+      background:rgba(0,0,0,.18);
     }
 
     .poster{
-      border-radius: var(--r);
-      overflow: hidden;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow2);
-      background: #000;
-      position: relative;
-      aspect-ratio: 16 / 9;
-      min-height: 320px;
-      width: 100%;
-      max-width: 100%;
-      min-width: 0;
+      position:relative;
+      overflow:hidden;
+
+      width:100%;
+      max-width:100%;
+      min-width:0;
+      min-height:320px;
+
+      aspect-ratio:16 / 9;
+
+      border-radius:var(--r);
+      border:1px solid var(--line);
+
+      background:#000;
+      box-shadow:var(--shadow2);
     }
 
     .videoEmbed{
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      min-width: 0;
+      position:absolute;
+      inset:0;
+
+      width:100%;
+      height:100%;
+      min-width:0;
     }
 
     .videoEmbed iframe{
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      display: block;
-      border: 0;
-      min-width: 0;
+      width:100%;
+      height:100%;
+      max-width:100%;
+      min-width:0;
+
+      display:block;
+      border:0;
     }
+
+    /* =========================
+       ВЕРТИКАЛЬНЫЕ ВИДЕО
+       ========================= */
 
     .verticalCases{
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background: var(--paper);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
       position:relative;
-      padding: 14px;
+      overflow:hidden;
+
+      padding:14px;
+
+      border-radius:var(--r);
+      border:1px solid var(--line);
+
+      background:var(--paper);
+      box-shadow:var(--shadow2);
     }
 
-    .verticalCases:before{
+    .verticalCases::before{
       content:"";
+
       position:absolute;
       inset:-1px;
+
       background:
-        radial-gradient(780px 300px at 18% 0%, rgba(240,32,0,.10), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.04), transparent 70%);
+        radial-gradient(
+          780px 300px at 18% 0%,
+          rgba(240,32,0,.10),
+          transparent 62%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.04),
+          transparent 70%
+        );
+
       pointer-events:none;
     }
 
     .shorts{
       position:relative;
       z-index:1;
+
       display:grid;
-      grid-template-columns: repeat(3, minmax(0, 340px));
-      gap: 14px;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 340px));
+
+      gap:14px;
+
       justify-content:center;
       align-items:start;
     }
 
     .shortCard{
-      min-width:0;
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background: var(--paper);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      padding: 12px;
       position:relative;
+      overflow:hidden;
+      min-width:0;
+
+      padding:12px;
+
+      border-radius:var(--r);
+      border:1px solid var(--line);
+
+      background:var(--paper);
+      box-shadow:var(--shadow2);
     }
 
-    .shortCard:before{
+    .shortCard::before{
       content:"";
+
       position:absolute;
       inset:-1px;
-      background: radial-gradient(420px 220px at 20% 0%, rgba(240,32,0,.08), transparent 62%);
+
+      background:
+        radial-gradient(
+          420px 220px at 20% 0%,
+          rgba(240,32,0,.08),
+          transparent 62%
+        );
+
       pointer-events:none;
     }
 
     .shortFrame{
       position:relative;
       z-index:1;
+
       width:100%;
-      aspect-ratio: 325 / 646;
-      border-radius: 14px;
+      aspect-ratio:325 / 646;
+
       overflow:hidden;
+
+      border-radius:14px;
+      border:1px solid var(--line2);
+
       background:#000;
-      border: 1px solid var(--line2);
     }
 
     .shortFrame iframe{
       position:absolute;
       inset:0;
+
       width:100%;
       height:100%;
+
       display:block;
       border:0;
       background:#000;
     }
 
+    /* =========================
+       КАК МЫ РАБОТАЕМ
+       ========================= */
+
     .howWrap{
       display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
+      grid-template-columns:1fr;
+      gap:14px;
     }
 
     .conveyor{
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background: var(--paper);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
       position:relative;
-      padding: 14px;
+      overflow:hidden;
+
+      padding:14px;
+
+      border-radius:var(--r);
+      border:1px solid var(--line);
+
+      background:var(--paper);
+      box-shadow:var(--shadow2);
     }
 
-    .conveyor:before{
+    .conveyor::before{
       content:"";
+
       position:absolute;
       inset:-1px;
-      background: radial-gradient(820px 300px at 18% 0%, rgba(240,32,0,.08), transparent 62%);
+
+      background:
+        radial-gradient(
+          820px 300px at 18% 0%,
+          rgba(240,32,0,.08),
+          transparent 62%
+        );
+
       pointer-events:none;
     }
 
     .belt{
       position:relative;
-      height: 112px;
-      border-radius: 14px;
-      border: 1px solid var(--glassLine);
-      background:
-        linear-gradient(180deg, var(--glassFill), var(--glassBg)),
-        radial-gradient(360px 160px at 18% 0%, rgba(240,32,0,.08), transparent 60%);
-      overflow:hidden;
+
+      height:112px;
+      padding:18px 14px;
+
       display:flex;
       align-items:center;
       justify-content:center;
-      padding: 18px 14px;
+      overflow:hidden;
+
+      border-radius:14px;
+      border:1px solid var(--glassLine);
+
+      background:
+        linear-gradient(
+          180deg,
+          var(--glassFill),
+          var(--glassBg)
+        ),
+        radial-gradient(
+          360px 160px at 18% 0%,
+          rgba(240,32,0,.08),
+          transparent 60%
+        );
     }
 
-    .belt:after{
+    .belt::after{
       content:"";
+
       position:absolute;
       inset:0;
+
       background:
         repeating-linear-gradient(
           90deg,
-          rgba(11,11,12,.06) 0px,
+          rgba(11,11,12,.06) 0,
           rgba(11,11,12,.06) 10px,
           rgba(11,11,12,.02) 10px,
           rgba(11,11,12,.02) 22px
         );
+
       opacity:.28;
-      transform: translateX(0);
-      animation: beltMove 2.2s linear infinite;
+      transform:translateX(0);
+
+      animation:
+        beltMove 2.2s linear infinite;
+
       pointer-events:none;
-      mask-image: linear-gradient(90deg, transparent, black 12%, black 88%, transparent);
+
+      mask-image:
+        linear-gradient(
+          90deg,
+          transparent,
+          black 12%,
+          black 88%,
+          transparent
+        );
     }
 
-    html[data-theme="dark"] .belt:after{
+    html[data-theme="dark"] .belt::after{
       background:
         repeating-linear-gradient(
           90deg,
-          rgba(255,255,255,.10) 0px,
+          rgba(255,255,255,.10) 0,
           rgba(255,255,255,.10) 10px,
           rgba(255,255,255,.04) 10px,
           rgba(255,255,255,.04) 22px
         );
+
       opacity:.18;
     }
 
-    @keyframes beltMove{ to{ transform: translateX(-44px); } }
+    @keyframes beltMove{
+      to{
+        transform:translateX(-44px);
+      }
+    }
 
     .stations{
       position:relative;
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      width:100%;
-      max-width: 980px;
       z-index:1;
+
+      width:100%;
+      max-width:980px;
+
+      display:grid;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap:12px;
     }
 
     .station{
-      border-radius: 14px;
-      border: 1px solid var(--glassLine);
-      background: var(--glassBg);
-      backdrop-filter: blur(10px);
-      padding: 12px;
-      min-height: 72px;
+      position:relative;
+      overflow:hidden;
+
+      min-height:72px;
+      padding:12px;
+
       display:flex;
       flex-direction:column;
       gap:6px;
-      position:relative;
-      overflow:hidden;
-      transition: .2s ease;
+
+      border-radius:14px;
+      border:1px solid var(--glassLine);
+
+      background:var(--glassBg);
+      backdrop-filter:blur(10px);
+
+      transition:.2s ease;
     }
 
     .station b{
-      font-size: 12px;
-      letter-spacing:1.1px;
-      text-transform:uppercase;
-      color: var(--muted);
       display:flex;
       align-items:center;
       gap:8px;
+
+      font-size:12px;
+      letter-spacing:1.1px;
+      text-transform:uppercase;
+      color:var(--muted);
     }
 
-    .station b:before{
+    .station b::before{
       content:"";
+
       width:8px;
       height:8px;
-      border-radius:2px;
-      background: var(--red);
+
       display:inline-block;
+
+      border-radius:2px;
+      background:var(--red);
     }
 
     .station span{
-      font-size: 13px;
-      color: var(--ink);
+      font-size:13px;
+      color:var(--ink);
       line-height:1.45;
     }
 
     .carrier{
       position:absolute;
-      top: 50%;
-      left: 8%;
-      transform: translate(-50%, -50%);
-      width: 38px;
-      height: 38px;
-      border-radius: 16px;
-      border: 1px solid rgba(240,32,0,.28);
-      background:
-        radial-gradient(120px 60px at 30% 20%, rgba(240,32,0,.18), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.84), rgba(255,255,255,.55));
-      box-shadow: 0 14px 24px rgba(11,11,12,.14);
+
+      top:50%;
+      left:8%;
+
       z-index:2;
-      animation: carrier 6.6s ease-in-out infinite;
+
+      width:38px;
+      height:38px;
+
+      transform:
+        translate(-50%, -50%);
+
+      border-radius:16px;
+      border:1px solid rgba(240,32,0,.28);
+
+      background:
+        radial-gradient(
+          120px 60px at 30% 20%,
+          rgba(240,32,0,.18),
+          transparent 60%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.84),
+          rgba(255,255,255,.55)
+        );
+
+      box-shadow:
+        0 14px 24px rgba(11,11,12,.14);
+
+      animation:
+        carrier 6.6s ease-in-out infinite;
     }
 
     html[data-theme="dark"] .carrier{
       background:
-        radial-gradient(120px 60px at 30% 20%, rgba(240,32,0,.18), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.06));
-      box-shadow: 0 14px 24px rgba(0,0,0,.45);
+        radial-gradient(
+          120px 60px at 30% 20%,
+          rgba(240,32,0,.18),
+          transparent 60%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.12),
+          rgba(255,255,255,.06)
+        );
+
+      box-shadow:
+        0 14px 24px rgba(0,0,0,.45);
     }
 
-    .carrier:after{
+    .carrier::after{
       content:"";
+
       position:absolute;
-      inset: 11px;
-      border-radius: 10px;
-      background: rgba(11,11,12,.08);
+      inset:11px;
+
+      border-radius:10px;
+      background:rgba(11,11,12,.08);
     }
 
-    html[data-theme="dark"] .carrier:after{ background: rgba(0,0,0,.28); }
+    html[data-theme="dark"] .carrier::after{
+      background:rgba(0,0,0,.28);
+    }
 
     @keyframes carrier{
-      0%   { left: 10%; }
-      18%  { left: 10%; }
-      34%  { left: 50%; }
-      52%  { left: 50%; }
-      68%  { left: 90%; }
-      86%  { left: 90%; }
-      100% { left: 10%; }
+      0%{
+        left:10%;
+      }
+
+      18%{
+        left:10%;
+      }
+
+      34%{
+        left:50%;
+      }
+
+      52%{
+        left:50%;
+      }
+
+      68%{
+        left:90%;
+      }
+
+      86%{
+        left:90%;
+      }
+
+      100%{
+        left:10%;
+      }
     }
 
-    .station:nth-child(1){ animation: stage1 6.6s ease-in-out infinite; }
-    .station:nth-child(2){ animation: stage2 6.6s ease-in-out infinite; }
-    .station:nth-child(3){ animation: stage3 6.6s ease-in-out infinite; }
+    .station:nth-child(1){
+      animation:
+        stage1 6.6s ease-in-out infinite;
+    }
+
+    .station:nth-child(2){
+      animation:
+        stage2 6.6s ease-in-out infinite;
+    }
+
+    .station:nth-child(3){
+      animation:
+        stage3 6.6s ease-in-out infinite;
+    }
 
     @keyframes stage1{
-      0%,18%{ border-color: rgba(240,32,0,.32); box-shadow: 0 14px 26px rgba(240,32,0,.08); transform: translateY(-1px); }
-      22%,100%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
+      0%,
+      18%{
+        border-color:
+          rgba(240,32,0,.32);
+
+        box-shadow:
+          0 14px 26px rgba(240,32,0,.08);
+
+        transform:translateY(-1px);
+      }
+
+      22%,
+      100%{
+        border-color:var(--glassLine);
+        box-shadow:none;
+        transform:none;
+      }
     }
 
     @keyframes stage2{
-      0%,30%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
-      34%,52%{ border-color: rgba(240,32,0,.32); box-shadow: 0 14px 26px rgba(240,32,0,.08); transform: translateY(-1px); }
-      56%,100%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
+      0%,
+      30%{
+        border-color:var(--glassLine);
+        box-shadow:none;
+        transform:none;
+      }
+
+      34%,
+      52%{
+        border-color:
+          rgba(240,32,0,.32);
+
+        box-shadow:
+          0 14px 26px rgba(240,32,0,.08);
+
+        transform:translateY(-1px);
+      }
+
+      56%,
+      100%{
+        border-color:var(--glassLine);
+        box-shadow:none;
+        transform:none;
+      }
     }
 
     @keyframes stage3{
-      0%,64%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
-      68%,86%{ border-color: rgba(240,32,0,.32); box-shadow: 0 14px 26px rgba(240,32,0,.08); transform: translateY(-1px); }
-      90%,100%{ border-color: var(--glassLine); box-shadow:none; transform:none; }
+      0%,
+      64%{
+        border-color:var(--glassLine);
+        box-shadow:none;
+        transform:none;
+      }
+
+      68%,
+      86%{
+        border-color:
+          rgba(240,32,0,.32);
+
+        box-shadow:
+          0 14px 26px rgba(240,32,0,.08);
+
+        transform:translateY(-1px);
+      }
+
+      90%,
+      100%{
+        border-color:var(--glassLine);
+        box-shadow:none;
+        transform:none;
+      }
     }
+
+    /* =========================
+       ФОРМА
+       ========================= */
 
     .cta{
-      border-radius: var(--r);
-      border: 1px solid var(--panelLine);
-      box-shadow: var(--shadow);
-      background: var(--panelBg);
-      color: var(--panelText);
-      overflow:hidden;
       position:relative;
+      overflow:hidden;
+
+      border-radius:var(--r);
+      border:1px solid var(--panelLine);
+
+      box-shadow:var(--shadow);
+
+      background:var(--panelBg);
+      color:var(--panelText);
     }
 
-    .cta:before{
+    .cta::before{
       content:"";
+
       position:absolute;
       inset:0;
+
       background:
-        radial-gradient(820px 320px at 20% 0%, rgba(240,32,0,.20), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.055), transparent 65%);
+        radial-gradient(
+          820px 320px at 20% 0%,
+          rgba(240,32,0,.20),
+          transparent 62%
+        ),
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.055),
+          transparent 65%
+        );
+
       pointer-events:none;
       opacity:.95;
     }
 
     .cta .inner{
       position:relative;
-      padding: 18px;
+
+      padding:18px;
+
       display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap: 14px;
+
+      grid-template-columns:
+        1.05fr .95fr;
+
+      gap:14px;
       align-items:start;
     }
 
     .cta h2{
       margin:0;
-      font-size: 20px;
+      font-size:20px;
       letter-spacing:.2px;
     }
 
     .cta p{
-      margin: 8px 0 0;
-      color: rgba(247,247,248,.78);
-      font-size: 13px;
+      margin:8px 0 0;
+
+      color:rgba(247,247,248,.78);
+      font-size:13px;
       line-height:1.65;
     }
 
     .form{
-      background: rgba(255,255,255,.06);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: var(--r);
-      padding: 12px;
+      padding:12px;
+
       display:flex;
       flex-direction:column;
       gap:10px;
+
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:var(--r);
     }
 
     .field{
       display:flex;
-      gap:10px;
       flex-wrap:wrap;
+      gap:10px;
     }
 
     .input,
     textarea{
-      width: 100%;
-      border: 1px solid var(--panelFieldLine);
-      background: var(--panelFieldBg);
-      color: var(--panelText);
-      border-radius: 12px;
-      padding: 10px 12px;
-      font-size: 13px;
+      width:100%;
+
+      border:
+        1px solid var(--panelFieldLine);
+
+      background:var(--panelFieldBg);
+      color:var(--panelText);
+
+      border-radius:12px;
+      padding:10px 12px;
+
+      font-size:13px;
       outline:none;
+
       transition:.14s ease;
     }
 
     .input::placeholder,
-    textarea::placeholder{ color: rgba(247,247,248,.55); }
+    textarea::placeholder{
+      color:rgba(247,247,248,.55);
+    }
 
     .input:focus,
     textarea:focus{
-      border-color: rgba(240,32,0,.45);
-      box-shadow: 0 0 0 4px rgba(240,32,0,.12);
+      border-color:
+        rgba(240,32,0,.45);
+
+      box-shadow:
+        0 0 0 4px rgba(240,32,0,.12);
     }
 
     textarea{
-      min-height: 110px;
-      resize: vertical;
+      min-height:110px;
+      resize:vertical;
     }
 
     .ctaActions{
+      margin-top:2px;
+
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:10px;
       flex-wrap:wrap;
-      margin-top: 2px;
+
+      gap:10px;
     }
+
+    /* =========================
+       FOOTER
+       ========================= */
 
     footer{
-      margin-top: 34px;
-      border-top: 1px solid var(--line);
-      padding: 18px 0;
-      color: var(--muted);
-      font-size: 12px;
+      margin-top:34px;
+      padding:18px 0;
+
       display:flex;
       justify-content:space-between;
-      gap:14px;
       flex-wrap:wrap;
+      gap:14px;
+
+      border-top:1px solid var(--line);
+
+      color:var(--muted);
+      font-size:12px;
     }
 
-    @media (max-width: 980px){
-      .hero{ grid-template-columns: 1fr; }
-      .cta .inner{ grid-template-columns: 1fr; }
-      .verticalCases{ padding: 10px 0; }
+    /* =========================
+       АДАПТИВ
+       ========================= */
+
+    @media (max-width:980px){
+      .hero{
+        grid-template-columns:1fr;
+      }
+
+      .cta .inner{
+        grid-template-columns:1fr;
+      }
+
+      .verticalCases{
+        padding:10px 0;
+      }
+
       .shorts{
         display:flex;
         justify-content:flex-start;
+
         overflow-x:auto;
+
         gap:10px;
-        padding: 2px 10px 10px;
+        padding:2px 10px 10px;
+
         scroll-snap-type:x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+        -webkit-overflow-scrolling:touch;
+
+        scrollbar-width:none;
       }
-      .shorts::-webkit-scrollbar{ display:none; }
+
+      .shorts::-webkit-scrollbar{
+        display:none;
+      }
+
       .shortCard{
-        flex: 0 0 clamp(140px, 46vw, 210px);
+        flex:
+          0 0 clamp(140px, 46vw, 210px);
+
         scroll-snap-align:start;
-        padding: 7px;
-        border-radius: 14px;
+
+        padding:7px;
+        border-radius:14px;
       }
-      .shortFrame{ border-radius: 10px; }
-      .stations{ grid-template-columns: 1fr; }
-      .belt{ height:auto; padding: 12px; }
-      .carrier{ display:none; }
-      .belt:after{ animation-duration: 3.2s; }
+
+      .shortFrame{
+        border-radius:10px;
+      }
+
+      .stations{
+        grid-template-columns:1fr;
+      }
+
+      .belt{
+        height:auto;
+        padding:12px;
+      }
+
+      .carrier{
+        display:none;
+      }
+
+      .belt::after{
+        animation-duration:3.2s;
+      }
     }
 
-    @media (max-width: 720px){
-      .nav-desktop{ display:none; }
-      .nav-mobile{ display:block; }
-      .brand{ min-width:auto; }
-      .actions{ min-width:auto; }
-      .actions .themeBtn{ display:none; }
-      .panel .inner{ min-height: auto; padding: 16px; }
-      .poster{ min-height: auto; aspect-ratio: 16 / 9; }
-      .shortCard{ flex-basis: clamp(130px, 44vw, 190px); }
+    @media (max-width:720px){
+      .nav-desktop{
+        display:none;
+      }
+
+      .nav-mobile{
+        display:block;
+      }
+
+      .brand{
+        min-width:auto;
+      }
+
+      .actions{
+        min-width:auto;
+      }
+
+      .actions .themeBtn{
+        display:none;
+      }
+
+      .panel .inner{
+        min-height:auto;
+        padding:16px;
+      }
+
+      .poster{
+        min-height:auto;
+        aspect-ratio:16 / 9;
+      }
+
+      .shortCard{
+        flex-basis:
+          clamp(130px, 44vw, 190px);
+      }
     }
 
-    @media (prefers-reduced-motion: reduce){
-      *{ transition:none !important; animation:none !important; }
-      .btn:hover{ transform:none !important; }
+    @media (prefers-reduced-motion:reduce){
+      *{
+        transition:none !important;
+        animation:none !important;
+      }
+
+      .btn:hover{
+        transform:none !important;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="grid" aria-hidden="true"></div>
+  <div
+    class="grid"
+    aria-hidden="true"
+  ></div>
 
   <header>
     <div class="container">
       <div class="topbar">
-        <a class="brand" href="index.html">
+        <a
+          class="brand"
+          href="index.html"
+        >
           <span class="logoPlate">
-            <img src="log.png" alt="Промышленный репортёр" />
+            <img
+              src="log.png"
+              alt="Промышленный репортёр"
+            />
           </span>
+
           <div class="t">
-            <strong>Промышленный репортёр</strong>
+            <strong>
+              Промышленный репортёр
+            </strong>
           </div>
         </a>
 
-        <nav class="nav-desktop" aria-label="Меню">
-          <a class="navlink" href="index.html">Главная</a>
-          <a class="navlink" href="news.html">Новости</a>
-          <a class="navlink" href="tv.html">TV</a>
-          <a class="navlink active" href="production.html">Продакшн</a>
-          <a class="navlink" href="editorial.html">Редакция</a>
+        <nav
+          class="nav-desktop"
+          aria-label="Меню"
+        >
+          <a
+            class="navlink"
+            href="index.html"
+          >
+            Главная
+          </a>
+
+          <a
+            class="navlink"
+            href="news.html"
+          >
+            Новости
+          </a>
+
+          <a
+            class="navlink"
+            href="tv.html"
+          >
+            TV
+          </a>
+
+          <a
+            class="navlink active"
+            href="production.html"
+          >
+            Продакшн
+          </a>
+
+          <a
+            class="navlink"
+            href="editorial.html"
+          >
+            Редакция
+          </a>
         </nav>
 
         <details class="nav-mobile">
-          <summary class="burger" aria-label="Открыть меню">
-            <span aria-hidden="true">≡</span>
+          <summary
+            class="burger"
+            aria-label="Открыть меню"
+          >
+            <span aria-hidden="true">
+              ≡
+            </span>
           </summary>
 
-          <nav class="nav-panel" aria-label="Меню">
-            <a class="navlink" href="index.html">Главная</a>
-            <a class="navlink" href="news.html">Новости</a>
-            <a class="navlink" href="tv.html">TV</a>
-            <a class="navlink active" href="production.html">Продакшн</a>
-            <a class="navlink" href="editorial.html">Редакция</a>
+          <nav
+            class="nav-panel"
+            aria-label="Меню"
+          >
+            <a
+              class="navlink"
+              href="index.html"
+            >
+              Главная
+            </a>
 
-            <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
-              <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
-              <span class="themeLabel">Тема</span>
+            <a
+              class="navlink"
+              href="news.html"
+            >
+              Новости
+            </a>
+
+            <a
+              class="navlink"
+              href="tv.html"
+            >
+              TV
+            </a>
+
+            <a
+              class="navlink active"
+              href="production.html"
+            >
+              Продакшн
+            </a>
+
+            <a
+              class="navlink"
+              href="editorial.html"
+            >
+              Редакция
+            </a>
+
+            <button
+              class="btn themeBtn"
+              type="button"
+              data-theme-toggle
+              aria-pressed="false"
+              aria-label="Переключить тему"
+            >
+              <svg
+                class="themeIcon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              ></svg>
+
+              <span class="themeLabel">
+                Тема
+              </span>
             </button>
           </nav>
         </details>
 
         <div class="actions">
-          <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
-            <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
-            <span class="themeLabel">Тема</span>
+          <button
+            class="btn themeBtn"
+            type="button"
+            data-theme-toggle
+            aria-pressed="false"
+            aria-label="Переключить тему"
+          >
+            <svg
+              class="themeIcon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            ></svg>
+
+            <span class="themeLabel">
+              Тема
+            </span>
           </button>
         </div>
       </div>
@@ -975,25 +1716,60 @@
   </header>
 
   <main class="container">
-    <section class="hero" aria-label="Продакшн под ключ">
+    <section
+      class="hero"
+      aria-label="Продакшн под ключ"
+    >
       <article class="panel">
         <div class="inner">
-          <div class="kicker" style="color: rgba(247,247,248,.72);">
+          <div
+            class="kicker"
+            style="
+              color:rgba(247,247,248,.72);
+            "
+          >
             <span class="dot"></span>
             <span>Продакшн</span>
           </div>
 
-          <h1>Видеоматериалы под ключ — от сценария до монтажа</h1>
+          <h1>
+            Видеоматериалы под ключ — от сценария до монтажа
+          </h1>
 
           <p class="lead">
-            Мы умеем делать видео так же, как делаем тексты: с фактами, логикой и пониманием индустрии.
-            Возьмём на себя весь цикл — сценарий, съёмку, звук, графику, монтаж и версии под площадки.
+            Мы умеем делать видео так же, как делаем тексты:
+            с фактами, логикой и пониманием индустрии.
+            Возьмём на себя весь цикл — сценарий, съёмку,
+            звук, графику, монтаж и версии под площадки.
           </p>
 
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <a class="btn primary" href="#cta">Обсудить проект</a>
-            <a class="btn ghost" href="#vertical-videos">Вертикальные видео</a>
-            <a class="btn ghost" href="#how">Как мы работаем</a>
+          <div
+            style="
+              display:flex;
+              gap:10px;
+              flex-wrap:wrap;
+            "
+          >
+            <a
+              class="btn primary"
+              href="#cta"
+            >
+              Обсудить проект
+            </a>
+
+            <a
+              class="btn ghost"
+              href="#vertical-videos"
+            >
+              Вертикальные видео
+            </a>
+
+            <a
+              class="btn ghost"
+              href="#how"
+            >
+              Как мы работаем
+            </a>
           </div>
 
           <div class="meta">
@@ -1006,23 +1782,32 @@
         </div>
       </article>
 
-      <aside class="poster" aria-label="Видео">
+      <aside
+        class="poster"
+        aria-label="Видео"
+      >
         <div class="videoEmbed">
           <iframe
             src="https://vkvideo.ru/video_ext.php?oid=-234602001&id=456239555&hash=8338bbed914f53e4&hd=3"
-            allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+            allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
             frameborder="0"
             allowfullscreen
             loading="lazy"
-            title="Видео Промышленный репортёр">
-          </iframe>
+            title="Видео Промышленный репортёр"
+          ></iframe>
         </div>
       </aside>
     </section>
 
-    <section class="section" id="vertical-videos" aria-label="Вертикальные видео под ключ">
+    <section
+      class="section"
+      id="vertical-videos"
+      aria-label="Вертикальные видео под ключ"
+    >
       <div class="sectionTitle">
-        <h2>ВЕРТИКАЛЬНЫЕ ВИДЕО ПОД КЛЮЧ</h2>
+        <h2>
+          ВЕРТИКАЛЬНЫЕ ВИДЕО ПОД КЛЮЧ
+        </h2>
       </div>
 
       <div class="verticalCases">
@@ -1030,122 +1815,217 @@
           <article class="shortCard">
             <div class="shortFrame">
               <iframe
-                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239816&autoplay=1&muted=1&mute=1&volume=0"
-                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239816&autoplay=1&muted=1&mute=1&volume=0&playsinline=1"
+                data-muted-video
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
                 frameborder="0"
                 allowfullscreen
                 scrolling="no"
                 loading="lazy"
-                title="Вертикальное видео под ключ — Промышленный репортёр">
-              </iframe>
+                referrerpolicy="strict-origin-when-cross-origin"
+                title="Вертикальное видео под ключ — Промышленный репортёр"
+              ></iframe>
             </div>
           </article>
 
           <article class="shortCard">
             <div class="shortFrame">
               <iframe
-                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239576&autoplay=1&muted=1&mute=1&volume=0"
-                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239576&autoplay=1&muted=1&mute=1&volume=0&playsinline=1"
+                data-muted-video
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
                 frameborder="0"
                 allowfullscreen
                 scrolling="no"
                 loading="lazy"
-                title="Вертикальное видео под ключ — Промышленный репортёр">
-              </iframe>
+                referrerpolicy="strict-origin-when-cross-origin"
+                title="Вертикальное видео под ключ — Промышленный репортёр"
+              ></iframe>
             </div>
           </article>
 
           <article class="shortCard">
             <div class="shortFrame">
               <iframe
-                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239179&autoplay=1&muted=1&mute=1&volume=0"
-                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239179&autoplay=1&muted=1&mute=1&volume=0&playsinline=1"
+                data-muted-video
+                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
                 frameborder="0"
                 allowfullscreen
                 scrolling="no"
                 loading="lazy"
-                title="Вертикальное видео под ключ — Промышленный репортёр">
-              </iframe>
+                referrerpolicy="strict-origin-when-cross-origin"
+                title="Вертикальное видео под ключ — Промышленный репортёр"
+              ></iframe>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section" id="how" aria-label="КАК МЫ РАБОТАЕМ">
+    <section
+      class="section"
+      id="how"
+      aria-label="Как мы работаем"
+    >
       <div class="sectionTitle">
-        <h2>КАК МЫ РАБОТАЕМ</h2>
+        <h2>
+          КАК МЫ РАБОТАЕМ
+        </h2>
       </div>
 
       <div class="howWrap">
         <div class="conveyor">
-          <div class="belt" aria-label="Конвейер процесса">
-            <div class="carrier" aria-hidden="true"></div>
+          <div
+            class="belt"
+            aria-label="Конвейер процесса"
+          >
+            <div
+              class="carrier"
+              aria-hidden="true"
+            ></div>
 
             <div class="stations">
               <div class="station">
                 <b>Этап 1</b>
-                <span>Досконально изучаем ваш продукт</span>
+
+                <span>
+                  Досконально изучаем ваш продукт
+                </span>
               </div>
 
               <div class="station">
                 <b>Этап 2</b>
-                <span>Пишем сценарий и выезжаем на съёмки</span>
+
+                <span>
+                  Пишем сценарий и выезжаем на съёмки
+                </span>
               </div>
 
               <div class="station">
                 <b>Этап 3</b>
-                <span>Монтируем, согласовываем, публикуем</span>
+
+                <span>
+                  Монтируем, согласовываем, публикуем
+                </span>
               </div>
             </div>
           </div>
 
-          <div style="margin-top:12px; color: var(--muted); font-size:13px; line-height:1.65;">
-            <b style="color:var(--ink);">На практике:</b>
-            сначала разбираемся в фактуре (цифры, ограничения, что важно подчеркнуть),
-            потом собираем историю и снимаем только то, что работает на смысл,
-            а финалом — монтаж, согласование и версии под площадки.
+          <div
+            style="
+              margin-top:12px;
+              color:var(--muted);
+              font-size:13px;
+              line-height:1.65;
+            "
+          >
+            <b style="color:var(--ink);">
+              На практике:
+            </b>
+
+            сначала разбираемся в фактуре — цифрах,
+            ограничениях и ключевых акцентах. Затем
+            собираем историю и снимаем только то, что
+            работает на смысл. Финальный этап — монтаж,
+            согласование и версии под разные площадки.
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" id="cta" aria-label="Обсудить проект">
+    <section
+      class="section"
+      id="cta"
+      aria-label="Обсудить проект"
+    >
       <div class="cta">
         <div class="inner">
           <div>
-            <div class="kicker" style="color: rgba(247,247,248,.78);">
+            <div
+              class="kicker"
+              style="
+                color:rgba(247,247,248,.78);
+              "
+            >
               <span class="dot"></span>
               <span>Обсудить проект</span>
             </div>
 
-            <h2>Расскажите задачу — предложим формат и план</h2>
+            <h2>
+              Расскажите задачу — предложим формат и план
+            </h2>
 
             <p>
-              Достаточно 5–7 предложений: что снимаем, кому показываем, какие сроки и ограничения.
-              Если есть референсы — прикрепите ссылками в тексте.
+              Достаточно 5–7 предложений: что снимаем,
+              кому показываем, какие сроки и ограничения.
+              Референсы можно прикрепить ссылками в тексте.
             </p>
 
             <p style="margin-top:10px;">
               Почта:
-              <a href="mailto:info@promrep.ru" style="text-decoration:underline; text-underline-offset:3px;">info@promrep.ru</a>
+
+              <a
+                href="mailto:info@promrep.ru"
+                style="
+                  text-decoration:underline;
+                  text-underline-offset:3px;
+                "
+              >
+                info@promrep.ru
+              </a>
             </p>
           </div>
 
-          <form class="form" id="prodForm">
+          <form
+            class="form"
+            id="prodForm"
+          >
             <div class="field">
-              <input class="input" id="name" placeholder="Имя" autocomplete="name" />
+              <input
+                class="input"
+                id="name"
+                placeholder="Имя"
+                autocomplete="name"
+              />
             </div>
 
-            <div class="field" style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-              <input class="input" id="company" placeholder="Компания" autocomplete="organization" />
-              <input class="input" id="email" placeholder="Контакт" autocomplete="email" inputmode="email" />
+            <div
+              class="field"
+              style="
+                display:grid;
+                grid-template-columns:1fr 1fr;
+                gap:10px;
+              "
+            >
+              <input
+                class="input"
+                id="company"
+                placeholder="Компания"
+                autocomplete="organization"
+              />
+
+              <input
+                class="input"
+                id="email"
+                placeholder="Контакт"
+                autocomplete="email"
+                inputmode="email"
+              />
             </div>
 
-            <textarea id="brief" placeholder="Коротко о задаче: формат/тема/целевая аудитория/сроки/ограничения"></textarea>
+            <textarea
+              id="brief"
+              placeholder="Коротко о задаче: формат, тема, целевая аудитория, сроки и ограничения"
+            ></textarea>
 
             <div class="ctaActions">
-              <button class="btn primary" type="submit">Отправить</button>
+              <button
+                class="btn primary"
+                type="submit"
+              >
+                Отправить
+              </button>
             </div>
           </form>
         </div>
@@ -1153,9 +2033,19 @@
     </section>
 
     <footer>
-      <div>© <span id="y"></span> Промышленный репортёр</div>
       <div>
-        <a href="https://promrep.ru/editorial" style="text-decoration:underline; text-underline-offset:3px;">
+        © <span id="y"></span>
+        Промышленный репортёр
+      </div>
+
+      <div>
+        <a
+          href="https://promrep.ru/editorial"
+          style="
+            text-decoration:underline;
+            text-underline-offset:3px;
+          "
+        >
           Контакты · Реклама · Политика
         </a>
       </div>
@@ -1163,168 +2053,520 @@
   </main>
 
   <script>
-    document.getElementById('y').textContent = new Date().getFullYear();
+    "use strict";
 
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', (e) => {
-        const id = a.getAttribute('href');
-        const el = document.querySelector(id);
-        if(!el) return;
-        e.preventDefault();
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById("y").textContent =
+      new Date().getFullYear();
+
+    document
+      .querySelectorAll('a[href^="#"]')
+      .forEach(link => {
+        link.addEventListener(
+          "click",
+          event => {
+            const selector =
+              link.getAttribute("href");
+
+            if (
+              !selector ||
+              selector === "#"
+            ) {
+              return;
+            }
+
+            const element =
+              document.querySelector(selector);
+
+            if (!element) {
+              return;
+            }
+
+            event.preventDefault();
+
+            element.scrollIntoView({
+              behavior:"smooth",
+              block:"start"
+            });
+          }
+        );
       });
-    });
 
-    const form = document.getElementById('prodForm');
+    const form =
+      document.getElementById("prodForm");
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+    form.addEventListener(
+      "submit",
+      event => {
+        event.preventDefault();
 
-      const name = (document.getElementById('name').value || '').trim();
-      const company = (document.getElementById('company').value || '').trim();
-      const email = (document.getElementById('email').value || '').trim();
-      const brief = (document.getElementById('brief').value || '').trim();
+        const name =
+          (
+            document
+              .getElementById("name")
+              .value || ""
+          ).trim();
 
-      const subject = encodeURIComponent('Запрос на продакшн (Промышленный репортёр)');
-      const body = encodeURIComponent(
+        const company =
+          (
+            document
+              .getElementById("company")
+              .value || ""
+          ).trim();
+
+        const email =
+          (
+            document
+              .getElementById("email")
+              .value || ""
+          ).trim();
+
+        const brief =
+          (
+            document
+              .getElementById("brief")
+              .value || ""
+          ).trim();
+
+        const subject =
+          encodeURIComponent(
+            "Запрос на продакшн (Промышленный репортёр)"
+          );
+
+        const body =
+          encodeURIComponent(
 `Здравствуйте!
 
 Хочу обсудить видеопроект.
 
-Имя: ${name || '—'}
-Компания: ${company || '—'}
-Почта: ${email || '—'}
+Имя: ${name || "—"}
+Компания: ${company || "—"}
+Почта: ${email || "—"}
 
 Задача / тема:
-${brief || '—'}
+${brief || "—"}
 
 Желаемые сроки:
 —
 
-Площадки (YouTube / соцсети / внутренняя презентация):
+Площадки:
 —
 
-Ограничения (NDA / нельзя показывать / др.):
+Ограничения:
 —`
-      );
+          );
 
-      window.location.href = `mailto:info@promrep.ru?subject=${subject}&body=${body}`;
-    });
+        window.location.href =
+          `mailto:info@promrep.ru?subject=${subject}&body=${body}`;
+      }
+    );
   </script>
 
   <script>
+    /*
+     * Принудительная подготовка вертикальных VK-видео
+     * к беззвучному воспроизведению.
+     *
+     * Добавляются все распространённые параметры:
+     * muted=1, mute=1, volume=0 и playsinline=1.
+     */
     (function () {
-      const verticalVideoFrames = document.querySelectorAll('#vertical-videos .shortFrame iframe');
+      "use strict";
 
-      verticalVideoFrames.forEach((frame) => {
-        const rawSrc = frame.getAttribute('src');
-        if (!rawSrc) return;
+      const MUTED_PARAMETERS = {
+        autoplay:"1",
+        muted:"1",
+        mute:"1",
+        volume:"0",
+        playsinline:"1"
+      };
+
+      function createMutedUrl(rawUrl){
+        const url =
+          new URL(
+            rawUrl,
+            window.location.href
+          );
+
+        Object
+          .entries(MUTED_PARAMETERS)
+          .forEach(([name, value]) => {
+            url.searchParams.set(
+              name,
+              value
+            );
+          });
+
+        return url.href;
+      }
+
+      function enforceMutedFrame(frame){
+        const rawSource =
+          frame.getAttribute("src") ||
+          frame.dataset.src;
+
+        if (!rawSource) {
+          return;
+        }
 
         try {
-          const url = new URL(rawSrc, window.location.href);
-          url.searchParams.set('autoplay', '1');
-          url.searchParams.set('muted', '1');
-          url.searchParams.set('mute', '1');
-          url.searchParams.set('volume', '0');
+          const mutedSource =
+            createMutedUrl(rawSource);
 
-          const nextSrc = url.toString();
-          if (frame.src !== nextSrc) frame.src = nextSrc;
-          frame.setAttribute('data-muted-on-load', 'true');
-        } catch (err) {
-          console.warn('Vertical video mute params error:', err);
+          frame.dataset.src =
+            mutedSource;
+
+          /*
+           * Меняем src только тогда, когда он
+           * действительно отличается, чтобы
+           * не перезагружать iframe бесконечно.
+           */
+          if (frame.src !== mutedSource) {
+            frame.src = mutedSource;
+          }
+
+          frame.setAttribute(
+            "data-muted-on-load",
+            "true"
+          );
+
+          frame.setAttribute(
+            "playsinline",
+            ""
+          );
+
+          frame.setAttribute(
+            "allowfullscreen",
+            ""
+          );
+
+          frame.setAttribute(
+            "allow",
+            "autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
+          );
+        } catch (error) {
+          console.warn(
+            "Не удалось подготовить вертикальное видео:",
+            error
+          );
         }
-      });
+      }
+
+      function enforceAllVerticalVideos(){
+        document
+          .querySelectorAll(
+            "#vertical-videos iframe[data-muted-video]"
+          )
+          .forEach(enforceMutedFrame);
+      }
+
+      enforceAllVerticalVideos();
+
+      document.addEventListener(
+        "DOMContentLoaded",
+        enforceAllVerticalVideos
+      );
+
+      window.addEventListener(
+        "pageshow",
+        enforceAllVerticalVideos
+      );
+
+      window.addEventListener(
+        "focus",
+        enforceAllVerticalVideos
+      );
+
+      const observer =
+        new MutationObserver(
+          mutations => {
+            mutations.forEach(
+              mutation => {
+                if (
+                  mutation.type === "attributes" &&
+                  mutation.target.matches?.(
+                    "#vertical-videos iframe[data-muted-video]"
+                  )
+                ) {
+                  enforceMutedFrame(
+                    mutation.target
+                  );
+
+                  return;
+                }
+
+                mutation.addedNodes.forEach(
+                  node => {
+                    if (
+                      !(node instanceof Element)
+                    ) {
+                      return;
+                    }
+
+                    if (
+                      node.matches?.(
+                        "#vertical-videos iframe[data-muted-video]"
+                      )
+                    ) {
+                      enforceMutedFrame(node);
+                    }
+
+                    node
+                      .querySelectorAll?.(
+                        "#vertical-videos iframe[data-muted-video]"
+                      )
+                      .forEach(
+                        enforceMutedFrame
+                      );
+                  }
+                );
+              }
+            );
+          }
+        );
+
+      observer.observe(
+        document.documentElement,
+        {
+          childList:true,
+          subtree:true,
+          attributes:true,
+          attributeFilter:["src"]
+        }
+      );
     })();
   </script>
 
   <script>
-    (function(){
-      const d = document.querySelector('.nav-mobile');
-      if(!d) return;
+    (function () {
+      const navigation =
+        document.querySelector(
+          ".nav-mobile"
+        );
 
-      d.querySelectorAll('a').forEach(a=>{
-        a.addEventListener('click', ()=> d.removeAttribute('open'));
-      });
+      if (!navigation) {
+        return;
+      }
 
-      document.addEventListener('click', (e)=>{
-        if(d.hasAttribute('open') && !d.contains(e.target)){
-          d.removeAttribute('open');
+      navigation
+        .querySelectorAll("a")
+        .forEach(link => {
+          link.addEventListener(
+            "click",
+            () => {
+              navigation.removeAttribute(
+                "open"
+              );
+            }
+          );
+        });
+
+      document.addEventListener(
+        "click",
+        event => {
+          if (
+            navigation.hasAttribute("open") &&
+            !navigation.contains(event.target)
+          ) {
+            navigation.removeAttribute(
+              "open"
+            );
+          }
         }
-      });
+      );
 
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape') d.removeAttribute('open');
-      });
+      document.addEventListener(
+        "keydown",
+        event => {
+          if (event.key === "Escape") {
+            navigation.removeAttribute(
+              "open"
+            );
+          }
+        }
+      );
     })();
   </script>
 
   <script>
     (function () {
       const KEY = "theme";
-      const root = document.documentElement;
-      const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
 
-      const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN  = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0Z"/>`;
+      const root =
+        document.documentElement;
 
-      function currentTheme() {
-        return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      const toggles =
+        Array.from(
+          document.querySelectorAll(
+            "[data-theme-toggle]"
+          )
+        );
+
+      const ICON_MOON = `
+        <path
+          fill="currentColor"
+          d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"
+        />
+      `;
+
+      const ICON_SUN = `
+        <path
+          fill="currentColor"
+          d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0Z"
+        />
+      `;
+
+      function currentTheme(){
+        return (
+          root.getAttribute(
+            "data-theme"
+          ) === "dark"
+            ? "dark"
+            : "light"
+        );
       }
 
-      function setIcon(btn, theme){
-        const svg = btn.querySelector("svg");
-        if (!svg) return;
-        svg.innerHTML = (theme === "dark") ? ICON_SUN : ICON_MOON;
-      }
+      function apply(theme){
+        if (theme === "dark") {
+          root.setAttribute(
+            "data-theme",
+            "dark"
+          );
+        } else {
+          root.removeAttribute(
+            "data-theme"
+          );
+        }
 
-      function apply(theme) {
-        if (theme === "dark") root.setAttribute("data-theme", "dark");
-        else root.removeAttribute("data-theme");
+        toggles.forEach(button => {
+          const isDark =
+            theme === "dark";
 
-        toggles.forEach(btn => {
-          const isDark = theme === "dark";
-          btn.setAttribute("aria-pressed", isDark ? "true" : "false");
-          setIcon(btn, theme);
+          button.setAttribute(
+            "aria-pressed",
+            isDark
+              ? "true"
+              : "false"
+          );
+
+          button.setAttribute(
+            "aria-label",
+            isDark
+              ? "Включить светлую тему"
+              : "Включить тёмную тему"
+          );
+
+          const svg =
+            button.querySelector("svg");
+
+          if (svg) {
+            svg.innerHTML =
+              isDark
+                ? ICON_SUN
+                : ICON_MOON;
+          }
+
+          const label =
+            button.querySelector(
+              ".themeLabel"
+            );
+
+          if (label) {
+            label.textContent =
+              isDark
+                ? "Свет"
+                : "Тема";
+          }
         });
       }
 
-      toggles.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const next = currentTheme() === "dark" ? "light" : "dark";
-          localStorage.setItem(KEY, next);
-          apply(next);
-        });
+      toggles.forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            const next =
+              currentTheme() === "dark"
+                ? "light"
+                : "dark";
+
+            localStorage.setItem(
+              KEY,
+              next
+            );
+
+            apply(next);
+          }
+        );
       });
 
-      apply(localStorage.getItem(KEY) || currentTheme());
+      apply(
+        localStorage.getItem(KEY) ||
+        currentTheme()
+      );
     })();
   </script>
 
   <script>
+    /*
+     * На экранах до 980 px переносим основное видео
+     * внутрь текстового блока после заголовка.
+     */
     (function () {
-      const mq = window.matchMedia("(max-width: 980px)");
-      const poster = document.querySelector(".poster");
-      const lead = document.querySelector(".panel .inner .lead");
-      if (!poster || !lead) return;
+      const mediaQuery =
+        window.matchMedia(
+          "(max-width: 980px)"
+        );
 
-      const originalParent = poster.parentNode;
-      const originalNext = poster.nextSibling;
+      const poster =
+        document.querySelector(".poster");
 
-      function apply() {
-        if (mq.matches) {
-          lead.parentNode.insertBefore(poster, lead);
+      const lead =
+        document.querySelector(
+          ".panel .inner .lead"
+        );
+
+      if (!poster || !lead) {
+        return;
+      }
+
+      const originalParent =
+        poster.parentNode;
+
+      const originalNext =
+        poster.nextSibling;
+
+      function apply(){
+        if (mediaQuery.matches) {
+          lead.parentNode.insertBefore(
+            poster,
+            lead
+          );
+        } else if (originalNext) {
+          originalParent.insertBefore(
+            poster,
+            originalNext
+          );
         } else {
-          if (originalNext) originalParent.insertBefore(poster, originalNext);
-          else originalParent.appendChild(poster);
+          originalParent.appendChild(
+            poster
+          );
         }
       }
 
       apply();
 
-      if (mq.addEventListener) mq.addEventListener("change", apply);
-      else mq.addListener(apply);
+      if (mediaQuery.addEventListener) {
+        mediaQuery.addEventListener(
+          "change",
+          apply
+        );
+      } else {
+        mediaQuery.addListener(apply);
+      }
 
-      window.addEventListener("orientationchange", apply);
+      window.addEventListener(
+        "orientationchange",
+        apply
+      );
     })();
   </script>
 </body>
