@@ -445,26 +445,6 @@
       box-shadow:var(--shadow);
     }
 
-    .panel::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      z-index:1;
-      pointer-events:none;
-
-      background:
-        radial-gradient(
-          760px 300px at 22% 12%,
-          rgba(240,32,0,.12),
-          transparent 60%
-        ),
-        linear-gradient(
-          180deg,
-          rgba(255,255,255,.035),
-          transparent 60%
-        );
-    }
-
     .panel-media{
       position:absolute;
       inset:0;
@@ -494,12 +474,9 @@
       position:relative;
       z-index:2;
 
+      display:block;
       min-height:360px;
       padding:20px;
-
-      display:flex;
-      flex-direction:column;
-      gap:14px;
     }
 
     .badge{
@@ -512,11 +489,19 @@
       border-radius:999px;
 
       border:1px solid rgba(255,255,255,.22);
-      background:rgba(240,32,0,.22);
+      background:rgba(240,32,0,.42);
 
       font-size:12px;
       color:var(--panelText);
-      backdrop-filter:blur(3px);
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+    }
+
+    .panel .badge{
+      position:absolute;
+      top:20px;
+      right:20px;
+      z-index:3;
     }
 
     .badge i{
@@ -524,61 +509,6 @@
       height:7px;
       border-radius:2px;
       background:var(--red);
-    }
-
-    .heroPlay{
-      width:76px;
-      height:76px;
-      margin:auto;
-
-      display:grid;
-      place-items:center;
-
-      border-radius:24px;
-      color:#fff;
-
-      background:rgba(240,32,0,.24);
-      border:1px solid rgba(255,255,255,.26);
-      box-shadow:0 18px 46px rgba(0,0,0,.30);
-
-      backdrop-filter:blur(7px);
-    }
-
-    .heroPlay svg{
-      width:34px;
-      height:34px;
-    }
-
-    .hero-title{
-      margin:0;
-      font-size:clamp(28px, 3.2vw, 44px);
-      line-height:1.05;
-      text-shadow:0 2px 16px rgba(0,0,0,.35);
-    }
-
-    .hero-lead{
-      margin:0;
-      color:var(--panelMuted);
-      font-size:15px;
-      line-height:1.65;
-      text-shadow:0 1px 12px rgba(0,0,0,.25);
-    }
-
-    .hero-meta{
-      margin-top:auto;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-
-      font-size:12px;
-      color:rgba(247,247,248,.78);
-    }
-
-    .hero-meta span{
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.22);
     }
 
     .feed{
@@ -1077,16 +1007,9 @@
         min-height:clamp(190px, 54vw, 250px);
       }
 
-      .hero-title,
-      .hero-lead,
-      .hero-meta{
-        display:none;
-      }
-
-      .heroPlay{
-        width:64px;
-        height:64px;
-        border-radius:20px;
+      .panel .badge{
+        top:14px;
+        right:14px;
       }
     }
 
@@ -1189,32 +1112,12 @@
           class="inner"
           id="heroLink"
           href="tv.html"
+          aria-label="Открыть видео дня"
         >
           <span class="badge">
             <i></i>
             Видео дня
           </span>
-
-          <span class="heroPlay" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path
-                fill="currentColor"
-                d="M8 5.5v13l10-6.5-10-6.5Z"
-              />
-            </svg>
-          </span>
-
-          <h1 class="hero-title" id="heroTitle">
-            Промышленный репортёр
-          </h1>
-
-          <p class="hero-lead" id="heroLead">
-            Новости промышленности, производства и технологий
-          </p>
-
-          <div class="hero-meta" id="heroMeta">
-            <span>Видео</span>
-          </div>
         </a>
       </article>
 
@@ -1357,15 +1260,6 @@
 
     const heroLink =
       document.getElementById("heroLink");
-
-    const heroTitle =
-      document.getElementById("heroTitle");
-
-    const heroLead =
-      document.getElementById("heroLead");
-
-    const heroMeta =
-      document.getElementById("heroMeta");
 
     const dayPlayer =
       document.getElementById("dayPlayer");
@@ -1513,29 +1407,105 @@
       return null;
     }
 
-    function pickVideoLink(item){
-      const candidates = [
-        item?.url,
+    function isInternalVideoPageUrl(value){
+      if(
+        typeof value !== "string" ||
+        !value.trim()
+      ){
+        return false;
+      }
+
+      const url = value.trim();
+
+      /*
+       * Относительные ссылки всегда ведут внутри сайта.
+       */
+      if(
+        !/^[a-z][a-z0-9+.-]*:/i.test(url) &&
+        !url.startsWith("//")
+      ){
+        return true;
+      }
+
+      try{
+        return new URL(
+          url,
+          window.location.href
+        ).origin === window.location.origin;
+      }catch(error){
+        return false;
+      }
+    }
+
+    function videoPageUrl(item){
+      /*
+       * Сначала используем явно заданную внутреннюю страницу видео.
+       * Внешние ссылки (включая VK) намеренно игнорируются:
+       * пользователь всегда остаётся на сайте.
+       */
+      const pageCandidates = [
+        item?.pageUrl,
+        item?.page_url,
+        item?.internalUrl,
+        item?.internal_url,
+        item?.detailUrl,
+        item?.detail_url,
+        item?.siteUrl,
+        item?.site_url,
         item?.href,
         item?.link,
+        item?.url
+      ];
+
+      for(const value of pageCandidates){
+        if(isInternalVideoPageUrl(value)){
+          return String(value).trim();
+        }
+      }
+
+      const externalCandidates = [
         item?.videoUrl,
         item?.video_url,
         item?.vkUrl,
         item?.vk_url,
         item?.sourceUrl,
-        item?.source_url
+        item?.source_url,
+        item?.url,
+        item?.href,
+        item?.link
       ];
 
-      for(const value of candidates){
-        if(
-          typeof value === "string" &&
-          value.trim()
-        ){
-          return value.trim();
+      /*
+       * Если в данных есть только VK-ссылка, переносим её идентификатор
+       * в hash внутренней TV-страницы. Даже без обработки hash на tv.html
+       * посетитель всё равно останется внутри сайта.
+       */
+      for(const value of externalCandidates){
+        if(typeof value !== "string"){
+          continue;
+        }
+
+        const match = value.match(
+          /video(-?\d+)_(\d+)/i
+        );
+
+        if(match){
+          return `tv.html#video${encodeURIComponent(match[1])}_${encodeURIComponent(match[2])}`;
         }
       }
 
-      return "tv.html";
+      const id =
+        item?.slug ??
+        item?.id ??
+        item?.videoId ??
+        item?.video_id ??
+        item?.postId ??
+        item?.post_id ??
+        null;
+
+      return id !== null && id !== ""
+        ? `tv.html#${encodeURIComponent(String(id))}`
+        : "tv.html";
     }
 
     function formatDate(timestamp){
@@ -2132,14 +2102,10 @@
         heroMedia.style.backgroundImage = "";
 
         heroLink.href = "tv.html";
-        heroTitle.textContent =
-          "Промышленный репортёр";
-
-        heroLead.textContent =
-          "Новости промышленности, производства и технологий";
-
-        heroMeta.innerHTML =
-          "<span>Видео</span>";
+        heroLink.setAttribute(
+          "aria-label",
+          "Открыть раздел с видео"
+        );
 
         return;
       }
@@ -2153,7 +2119,7 @@
         null;
 
       const link =
-        pickVideoLink(video);
+        videoPageUrl(video);
 
       const title =
         String(
@@ -2163,38 +2129,16 @@
           "Видео дня"
         );
 
-      const description =
-        String(
-          video?.description ||
-          video?.lead ||
-          video?.text ||
-          "Репортаж Промышленного репортёра"
-        );
-
       heroLink.href = link;
-      heroTitle.textContent = title;
-      heroLead.textContent = description;
-
-      heroMeta.innerHTML = `
-        <span>Видео дня</span>
-        ${
-          video?.date
-            ? `<span>${escapeHtml(formatDate(video.date))}</span>`
-            : ""
-        }
-      `;
+      heroLink.setAttribute(
+        "aria-label",
+        `Открыть видео дня: ${title}`
+      );
 
       if(cover){
         heroMedia.classList.remove("is-empty");
-
-        heroMedia.style.backgroundImage = `
-          linear-gradient(
-            180deg,
-            rgba(0,0,0,.08),
-            rgba(0,0,0,.58)
-          ),
-          url("${cssUrl(cover)}")
-        `;
+        heroMedia.style.backgroundImage =
+          `url("${cssUrl(cover)}")`;
       }else{
         heroMedia.classList.add("is-empty");
         heroMedia.style.backgroundImage = "";
@@ -2228,7 +2172,7 @@
         null;
 
       const link =
-        pickVideoLink(video);
+        videoPageUrl(video);
 
       dayPlayer.href = link;
       dayLink.href = link;
