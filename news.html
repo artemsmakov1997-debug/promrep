@@ -4,20 +4,28 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Новости — Промышленный репортёр</title>
-<!-- Favicon -->
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#ef2b1a">
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#ef2b1a">
+
   <script>
     (function () {
       const key = "theme";
       const saved = localStorage.getItem(key);
-      const systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const systemDark =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
       const theme = saved || (systemDark ? "dark" : "light");
-      if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+
+      if (theme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
     })();
   </script>
 
@@ -45,12 +53,12 @@
       --r:16px;
       --r2:12px;
 
-      --shadow: 0 14px 26px rgba(11,11,12,.08);
-      --shadow2: 0 10px 18px rgba(11,11,12,.06);
+      --shadow:0 14px 26px rgba(11,11,12,.08);
+      --shadow2:0 10px 18px rgba(11,11,12,.06);
 
-      --headerBg: rgba(244,245,246,.92);
-      --grid1: rgba(0,0,0,.028);
-      --grid2: rgba(0,0,0,.024);
+      --headerBg:rgba(244,245,246,.92);
+      --grid1:rgba(0,0,0,.028);
+      --grid2:rgba(0,0,0,.024);
     }
 
     html[data-theme="dark"]{
@@ -70,53 +78,113 @@
       --panelText:#f7f7f8;
       --panelMuted:rgba(247,247,248,.72);
 
-      --shadow: 0 14px 26px rgba(0,0,0,.40);
-      --shadow2: 0 10px 18px rgba(0,0,0,.32);
+      --shadow:0 14px 26px rgba(0,0,0,.40);
+      --shadow2:0 10px 18px rgba(0,0,0,.32);
 
-      --headerBg: rgba(11,11,12,.72);
-      --grid1: rgba(255,255,255,.06);
-      --grid2: rgba(255,255,255,.05);
+      --headerBg:rgba(11,11,12,.72);
+      --grid1:rgba(255,255,255,.06);
+      --grid2:rgba(255,255,255,.05);
     }
 
-    *{ box-sizing:border-box; }
+    *{
+      box-sizing:border-box;
+    }
+
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
-      background: var(--bg);
-      color: var(--ink);
+      font-family:
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        "Noto Sans",
+        "Helvetica Neue",
+        sans-serif;
+      background:var(--bg);
+      color:var(--ink);
       letter-spacing:.15px;
-      text-rendering: geometricPrecision;
+      text-rendering:geometricPrecision;
     }
-    a{ color:inherit; text-decoration:none; }
-    button{ font-family:inherit; }
-    .container{ width:min(var(--max), calc(100% - var(--pad)*2)); margin:0 auto; }
 
-    html, body { transition: background-color .18s ease, color .18s ease; }
-    *{ transition: background-color .18s ease, color .18s ease, border-color .18s ease; }
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button{
+      font-family:inherit;
+    }
+
+    .container{
+      width:min(var(--max), calc(100% - var(--pad) * 2));
+      margin:0 auto;
+    }
+
+    html,
+    body{
+      transition:
+        background-color .18s ease,
+        color .18s ease;
+    }
+
+    *{
+      transition:
+        background-color .18s ease,
+        color .18s ease,
+        border-color .18s ease;
+    }
 
     .grid{
-      position:fixed; inset:0; pointer-events:none; z-index:0;
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
       background:
-        linear-gradient(to right, var(--grid1) 1px, transparent 1px) 0 0/ 84px 84px,
-        linear-gradient(to bottom, var(--grid2) 1px, transparent 1px) 0 0/ 84px 84px;
-      mask-image: radial-gradient(ellipse at 50% 0%, black 32%, transparent 72%);
+        linear-gradient(
+          to right,
+          var(--grid1) 1px,
+          transparent 1px
+        ) 0 0 / 84px 84px,
+        linear-gradient(
+          to bottom,
+          var(--grid2) 1px,
+          transparent 1px
+        ) 0 0 / 84px 84px;
+      mask-image:
+        radial-gradient(
+          ellipse at 50% 0%,
+          black 32%,
+          transparent 72%
+        );
       opacity:.45;
     }
 
     header{
-      position:sticky; top:0; z-index:10;
-      background: var(--headerBg);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:var(--headerBg);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--line);
     }
+
     .topbar{
-      display:flex; align-items:center; justify-content:space-between; gap:16px;
-      padding: 14px 0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 0;
     }
+
     .brand{
-      display:flex; align-items:center; gap:12px;
-      min-width: 260px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:260px;
     }
+
     .logoPlate{
       width:52px;
       height:44px;
@@ -137,7 +205,7 @@
       object-fit:contain;
       display:block;
       filter:none;
-      transition: opacity .18s ease;
+      transition:opacity .18s ease;
     }
 
     html[data-theme="dark"] .brand img{
@@ -151,72 +219,130 @@
         0 8px 20px rgba(0,0,0,.30);
     }
 
-    .brand:hover img{ opacity:.85; }
-    .brand .t{ display:flex; flex-direction:column; line-height:1.05; }
-    .brand .t strong{ text-transform:uppercase; font-size:13px; letter-spacing:1.7px; }
-    .brand .t span{ font-size:12px; color: var(--muted); }
+    .brand:hover img{
+      opacity:.85;
+    }
+
+    .brand .t{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+    }
+
+    .brand .t strong{
+      text-transform:uppercase;
+      font-size:13px;
+      letter-spacing:1.7px;
+    }
+
+    .brand .t span{
+      font-size:12px;
+      color:var(--muted);
+    }
 
     .navlink{
       font-size:13px;
-      color: var(--muted);
-      padding: 8px 0;
-      border-bottom: 2px solid transparent;
+      color:var(--muted);
+      padding:8px 0;
+      border-bottom:2px solid transparent;
       transition:.14s ease;
       white-space:nowrap;
     }
-    .navlink:hover{ color: var(--ink); border-bottom-color: rgba(240,32,0,.28); }
-    .navlink.active{ color: var(--ink); border-bottom-color: var(--red); }
 
-    .actions{ display:flex; align-items:center; gap:10px; min-width: 240px; justify-content:flex-end; }
+    .navlink:hover{
+      color:var(--ink);
+      border-bottom-color:rgba(240,32,0,.28);
+    }
+
+    .navlink.active{
+      color:var(--ink);
+      border-bottom-color:var(--red);
+    }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:240px;
+      justify-content:flex-end;
+    }
 
     .search{
       width:min(260px, 34vw);
       border:1px solid var(--line2);
-      background: var(--paper);
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-size: 13px;
+      background:var(--paper);
+      color:var(--ink);
+      border-radius:999px;
+      padding:10px 12px;
+      font-size:13px;
       outline:none;
       transition:.14s ease;
     }
-    .search:focus{ border-color: rgba(240,32,0,.40); box-shadow: 0 0 0 4px rgba(240,32,0,.08); }
+
+    .search:focus{
+      border-color:rgba(240,32,0,.40);
+      box-shadow:0 0 0 4px rgba(240,32,0,.08);
+    }
 
     .btn{
       border:1px solid var(--ink);
-      background: transparent;
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-size: 13px;
+      background:transparent;
+      border-radius:999px;
+      padding:10px 12px;
+      font-size:13px;
       cursor:pointer;
       transition:.14s ease;
       white-space:nowrap;
-      color: var(--ink);
+      color:var(--ink);
     }
-    .btn:hover{ transform: translateY(-1px); }
-    .btn.primary{ border-color: var(--red); color: var(--red); font-weight:800; }
+
+    .btn:hover{
+      transform:translateY(-1px);
+    }
+
+    .btn.primary{
+      border-color:var(--red);
+      color:var(--red);
+      font-weight:800;
+    }
 
     .themeBtn{
-      border-color: var(--line2);
-      background: var(--paper);
-      color: var(--ink);
+      border-color:var(--line2);
+      background:var(--paper);
+      color:var(--ink);
       display:inline-flex;
       align-items:center;
       justify-content:center;
       gap:8px;
-      padding: 10px 12px;
+      padding:10px 12px;
       white-space:nowrap;
     }
-    .themeBtn:hover{ transform: translateY(-1px); }
-    .themeIcon{ width:18px; height:18px; display:block; }
+
+    .themeBtn:hover{
+      transform:translateY(-1px);
+    }
+
+    .themeIcon{
+      width:18px;
+      height:18px;
+      display:block;
+    }
+
     .themeLabel{
       font-weight:900;
       letter-spacing:.4px;
-      font-size: 12px;
-      color: var(--muted);
+      font-size:12px;
+      color:var(--muted);
     }
-    @media (min-width: 721px){
-      .themeLabel{ display:none; }
-      .themeBtn{ padding: 10px 11px; }
+
+    @media (min-width:721px){
+      .themeLabel{
+        display:none;
+      }
+
+      .themeBtn{
+        padding:10px 11px;
+      }
     }
 
     .nav-desktop{
@@ -224,137 +350,197 @@
       align-items:center;
       gap:18px;
     }
+
     .nav-mobile{
       display:none;
       position:relative;
     }
+
     .burger{
       cursor:pointer;
       user-select:none;
-      padding: 8px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--line2);
-      background: var(--paper);
-      color: var(--ink);
-      font-weight: 900;
-      line-height: 1;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid var(--line2);
+      background:var(--paper);
+      color:var(--ink);
+      font-weight:900;
+      line-height:1;
     }
-    .burger::-webkit-details-marker{ display:none; }
-    .burger::marker{ content:""; }
+
+    .burger::-webkit-details-marker{
+      display:none;
+    }
+
+    .burger::marker{
+      content:"";
+    }
 
     .nav-panel{
       display:none;
       position:absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      min-width: min(320px, 92vw);
-      padding: 12px;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      box-shadow: 0 18px 40px rgba(0,0,0,.18);
-      z-index: 50;
+      top:calc(100% + 10px);
+      right:0;
+      min-width:min(320px, 92vw);
+      padding:12px;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:16px;
+      box-shadow:0 18px 40px rgba(0,0,0,.18);
+      z-index:50;
       flex-direction:column;
       gap:10px;
     }
-    .nav-mobile[open] .nav-panel{ display:flex; }
+
+    .nav-mobile[open] .nav-panel{
+      display:flex;
+    }
 
     .nav-panel .navlink{
-      color: var(--ink);
-      padding: 10px 8px;
-      border-bottom: 1px solid rgba(11,11,12,.06);
+      color:var(--ink);
+      padding:10px 8px;
+      border-bottom:1px solid rgba(11,11,12,.06);
     }
-    .nav-panel .navlink:last-child{ border-bottom: 0; }
+
+    .nav-panel .navlink:last-child{
+      border-bottom:0;
+    }
 
     .nav-panel .themeBtn{
       width:100%;
       justify-content:center;
-      border-color: var(--line2);
-      background: rgba(11,11,12,.02);
+      border-color:var(--line2);
+      background:rgba(11,11,12,.02);
     }
 
-    main{ position:relative; z-index:1; padding: 24px 0 56px; }
+    main{
+      position:relative;
+      z-index:1;
+      padding:24px 0 56px;
+    }
 
     .kicker{
-      display:flex; align-items:center; gap:10px;
-      font-size:12px; letter-spacing:1.4px; text-transform:uppercase;
-      color: var(--muted);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:12px;
+      letter-spacing:1.4px;
+      text-transform:uppercase;
+      color:var(--muted);
     }
+
     .kicker .dot{
-      width:9px; height:9px; border-radius: 3px;
-      background: var(--red);
+      width:9px;
+      height:9px;
+      border-radius:3px;
+      background:var(--red);
     }
 
     .layout{
-      margin-top: 14px;
+      margin-top:14px;
       display:grid;
-      grid-template-columns: 1.35fr .9fr;
-      gap: 14px;
+      grid-template-columns:1.35fr .9fr;
+      gap:14px;
       align-items:start;
-      grid-template-areas: "left feed";
+      grid-template-areas:"left feed";
     }
-    .leftcol{ grid-area:left; }
-    .feed{ grid-area:feed; }
+
+    .leftcol{
+      grid-area:left;
+    }
+
+    .feed{
+      grid-area:feed;
+    }
 
     .controlbar{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      padding: 10px 12px;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow2);
+      padding:10px 12px;
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap:12px;
       flex-wrap:wrap;
-      margin-bottom: 14px;
+      margin-bottom:14px;
     }
-    .tabs{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+
+    .tabs{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
     .tab{
       font-size:13px;
-      color: var(--muted);
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid transparent;
+      color:var(--muted);
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid transparent;
       transition:.14s ease;
       white-space:nowrap;
     }
-    .tab:hover{ color: var(--ink); border-color: rgba(240,32,0,.18); background: rgba(240,32,0,.04); }
-    .tab.active{ color: var(--ink); border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); font-weight:900; }
 
-    .hint{ font-size:13px; color: var(--muted); }
+    .tab:hover{
+      color:var(--ink);
+      border-color:rgba(240,32,0,.18);
+      background:rgba(240,32,0,.04);
+    }
 
-    .biglist{ display:flex; flex-direction:column; gap:14px; }
+    .tab.active{
+      color:var(--ink);
+      border-color:rgba(240,32,0,.22);
+      background:rgba(240,32,0,.05);
+      font-weight:900;
+    }
+
+    .hint{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .biglist{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
 
     .bigcard{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
-      padding: 14px;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow2);
+      padding:14px;
       transition:.14s ease;
       display:flex;
       flex-direction:column;
     }
-    .bigcard:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
+
+    .bigcard:hover{
+      transform:translateY(-2px);
+      border-color:rgba(240,32,0,.22);
+    }
 
     .bigrow{
       display:grid;
-      grid-template-columns: 240px 1fr;
-      gap: 14px;
+      grid-template-columns:240px 1fr;
+      gap:14px;
       align-items:start;
     }
 
     .bigrow.no-thumb{
-      grid-template-columns: 1fr;
+      grid-template-columns:1fr;
     }
 
     .thumb{
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background: transparent;
-      aspect-ratio: 16/10;
-      box-shadow: var(--shadow2);
+      border-radius:var(--r);
+      border:1px solid var(--line);
+      background:transparent;
+      aspect-ratio:16/10;
+      box-shadow:var(--shadow2);
       overflow:hidden;
     }
 
@@ -366,190 +552,275 @@
     }
 
     .top{
-      display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size:12px;
+      color:var(--muted);
       align-items:center;
       flex-wrap:wrap;
     }
+
     .rubric{
-      display:inline-flex; align-items:center; gap:8px;
-      font-weight: 900; color: var(--ink);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:900;
+      color:var(--ink);
       letter-spacing:.2px;
     }
-    .rubric:before{
-      content:""; width:8px; height:8px; border-radius:2px; background: var(--red);
+
+    .rubric::before{
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:2px;
+      background:var(--red);
       display:inline-block;
     }
+
     .live{
       font-size:10px;
       font-weight:1000;
       letter-spacing:.9px;
-      color: var(--red);
-      border: 1px solid rgba(240,32,0,.28);
-      background: rgba(240,32,0,.06);
-      padding: 2px 6px;
-      border-radius: 999px;
+      color:var(--red);
+      border:1px solid rgba(240,32,0,.28);
+      background:rgba(240,32,0,.06);
+      padding:2px 6px;
+      border-radius:999px;
       margin-left:auto;
     }
 
-    .bigcard h3{ margin:10px 0 10px; font-size:16px; line-height:1.2; }
-    .desc{ margin:0; color: var(--muted); font-size:13px; line-height:1.55; }
-
-    .chips{ margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; }
-    .chip{
-      font-size: 11px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--soft);
-      background: rgba(11,11,12,.02);
-      color: var(--muted);
+    .bigcard h3{
+      margin:10px 0;
+      font-size:16px;
+      line-height:1.2;
     }
-    .chip.hot{ border-color: rgba(240,32,0,.22); background: rgba(240,32,0,.05); color: var(--ink); font-weight:800; }
+
+    .desc{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+
+    .chips{
+      margin-top:12px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .chip{
+      font-size:11px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--soft);
+      background:rgba(11,11,12,.02);
+      color:var(--muted);
+    }
+
+    .chip.hot{
+      border-color:rgba(240,32,0,.22);
+      background:rgba(240,32,0,.05);
+      color:var(--ink);
+      font-weight:800;
+    }
 
     .feed{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow2);
       overflow:hidden;
       display:flex;
       flex-direction:column;
-      min-height: 360px;
+      min-height:360px;
       position:sticky;
-      top: 78px;
-      max-height: calc(100vh - 96px);
+      top:78px;
+      max-height:calc(100vh - 96px);
     }
+
     .feed-head{
-      padding: 12px 14px;
+      padding:12px 14px;
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap:12px;
-      border-bottom: 1px solid var(--line2);
-      background: linear-gradient(180deg, rgba(11,11,12,.018), transparent);
+      border-bottom:1px solid var(--line2);
+      background:
+        linear-gradient(
+          180deg,
+          rgba(11,11,12,.018),
+          transparent
+        );
     }
+
     .feed-title{
-      display:flex; align-items:center; gap:10px;
+      display:flex;
+      align-items:center;
+      gap:10px;
       font-weight:900;
       letter-spacing:1.2px;
       text-transform:uppercase;
       font-size:12px;
     }
+
     .feed-title .pulse{
-      width:9px; height:9px; border-radius:3px;
-      background: var(--red);
-      box-shadow: 0 0 0 6px rgba(240,32,0,.08);
+      width:9px;
+      height:9px;
+      border-radius:3px;
+      background:var(--red);
+      box-shadow:0 0 0 6px rgba(240,32,0,.08);
     }
+
     .feed-actions{
-      display:flex; gap:8px; align-items:center;
+      display:flex;
+      gap:8px;
+      align-items:center;
       font-size:12px;
-      color: var(--muted);
+      color:var(--muted);
       white-space:nowrap;
     }
+
     .feed-actions a{
       padding:6px 10px;
       border-radius:999px;
       border:1px solid rgba(240,32,0,.20);
-      background: rgba(240,32,0,.05);
-      color: var(--red);
+      background:rgba(240,32,0,.05);
+      color:var(--red);
       font-weight:900;
       transition:.14s ease;
     }
-    .feed-actions a:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
+
+    .feed-actions a:hover{
+      transform:translateY(-1px);
+      background:rgba(240,32,0,.08);
+    }
 
     .feed-list{
-      padding: 6px 0;
+      padding:6px 0;
       overflow:auto;
     }
+
     .feed-item{
       display:grid;
-      grid-template-columns: 56px 1fr;
-      gap: 10px;
-      padding: 10px 14px;
-      border-top: 1px solid rgba(11,11,12,.06);
+      grid-template-columns:56px 1fr;
+      gap:10px;
+      padding:10px 14px;
+      border-top:1px solid rgba(11,11,12,.06);
       transition:.12s ease;
       cursor:pointer;
     }
-    .feed-item:first-child{ border-top:0; }
-    .feed-item:hover{ background: rgba(11,11,12,.02); }
+
+    .feed-item:first-child{
+      border-top:0;
+    }
+
+    .feed-item:hover{
+      background:rgba(11,11,12,.02);
+    }
 
     .t-time{
       font-size:12px;
-      color: var(--muted2);
-      font-variant-numeric: tabular-nums;
-      padding-top: 1px;
+      color:var(--muted2);
+      font-variant-numeric:tabular-nums;
+      padding-top:1px;
     }
-    .t-main{ display:flex; flex-direction:column; gap:4px; min-width:0; }
-    .t-top{ display:flex; align-items:center; gap:8px; font-size:12px; color: var(--muted); }
+
+    .t-main{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+
+    .t-top{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
     .t-dot{
-      width:7px; height:7px; border-radius:2px;
-      background: var(--red);
+      width:7px;
+      height:7px;
+      border-radius:2px;
+      background:var(--red);
       display:inline-block;
-      transform: translateY(1px);
+      transform:translateY(1px);
     }
-    .t-rubric{ font-weight:800; color: var(--ink); }
+
+    .t-rubric{
+      font-weight:800;
+      color:var(--ink);
+    }
+
     .t-live{
       margin-left:auto;
       font-size:10px;
       font-weight:1000;
       letter-spacing:.9px;
-      color: var(--red);
-      border: 1px solid rgba(240,32,0,.28);
-      background: rgba(240,32,0,.06);
-      padding: 2px 6px;
-      border-radius: 999px;
+      color:var(--red);
+      border:1px solid rgba(240,32,0,.28);
+      background:rgba(240,32,0,.06);
+      padding:2px 6px;
+      border-radius:999px;
     }
+
     .t-title{
       font-size:13px;
       line-height:1.35;
-      color: var(--ink);
+      color:var(--ink);
       font-weight:700;
       display:-webkit-box;
       -webkit-line-clamp:2;
-      -webkit-box-orient: vertical;
+      -webkit-box-orient:vertical;
       overflow:hidden;
     }
 
     .article{
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      box-shadow: var(--shadow2);
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow2);
       overflow:hidden;
-      padding: 16px;
+      padding:16px;
     }
 
     .articleTitle{
-      margin: 0 0 14px;
-      font-size: clamp(28px, 3.0vw, 44px);
-      line-height: 1.05;
-      letter-spacing: .15px;
-      font-weight: 1000;
+      margin:0 0 14px;
+      font-size:clamp(28px, 3vw, 44px);
+      line-height:1.05;
+      letter-spacing:.15px;
+      font-weight:1000;
     }
 
     .articleMeta{
-      margin: -4px 0 14px;
+      margin:-4px 0 14px;
       display:flex;
       flex-wrap:wrap;
       gap:8px;
       font-size:12px;
-      color: var(--muted);
+      color:var(--muted);
     }
 
     .articleMeta span{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--soft);
-      background: rgba(11,11,12,.02);
-      color: var(--muted);
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--soft);
+      background:rgba(11,11,12,.02);
+      color:var(--muted);
     }
 
     .media{
-      margin-top: 10px;
-      border-radius: var(--r);
-      border: 1px solid var(--line);
-      background: transparent;
-      aspect-ratio: 16/9;
-      box-shadow: var(--shadow2);
+      margin-top:10px;
+      border-radius:var(--r);
+      border:1px solid var(--line);
+      background:transparent;
+      aspect-ratio:16/9;
+      box-shadow:var(--shadow2);
       position:relative;
       overflow:hidden;
     }
@@ -561,71 +832,57 @@
       display:block;
     }
 
-    .media.is-empty::after{
-      content:"Фото отсутствует";
-      position:absolute;
-      right:12px;
-      bottom:12px;
-      font-size:12px;
-      color: var(--muted);
-      padding: 6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line2);
-      background: rgba(255,255,255,.78);
-    }
-
-    html[data-theme="dark"] .media.is-empty::after{
-      background: rgba(16,18,20,.86);
-      color: var(--muted);
-      border-color: var(--line2);
-    }
-
     .caption{
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--muted2);
-      line-height: 1.55;
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted2);
+      line-height:1.55;
     }
 
     .body{
-      margin-top: 16px;
-      border-top: 1px solid rgba(11,11,12,.06);
-      padding-top: 16px;
+      margin-top:16px;
+      border-top:1px solid rgba(11,11,12,.06);
+      padding-top:16px;
     }
+
     .body p{
       margin:0 0 12px;
-      font-size: 15px;
-      line-height: 1.75;
-      color: var(--ink);
-      max-width: 78ch;
-      white-space: pre-wrap;
+      font-size:15px;
+      line-height:1.75;
+      color:var(--ink);
+      max-width:78ch;
+      white-space:pre-wrap;
     }
 
     .toolbar{
-      margin-top: 16px;
+      margin-top:16px;
       display:flex;
       gap:10px;
       flex-wrap:wrap;
     }
 
     .more{
-      font-size: 13px;
-      color: var(--red);
-      font-weight: 900;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(240,32,0,.22);
-      background: rgba(240,32,0,.05);
+      font-size:13px;
+      color:var(--red);
+      font-weight:900;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(240,32,0,.22);
+      background:rgba(240,32,0,.05);
       transition:.14s ease;
       white-space:nowrap;
       cursor:pointer;
     }
-    .more:hover{ transform: translateY(-1px); background: rgba(240,32,0,.08); }
+
+    .more:hover{
+      transform:translateY(-1px);
+      background:rgba(240,32,0,.08);
+    }
 
     .related{
-      margin-top: 18px;
-      border-top: 1px solid rgba(11,11,12,.06);
-      padding-top: 16px;
+      margin-top:18px;
+      border-top:1px solid rgba(11,11,12,.06);
+      padding-top:16px;
     }
 
     .relatedHead{
@@ -633,7 +890,7 @@
       justify-content:space-between;
       align-items:flex-end;
       gap:14px;
-      margin-bottom: 12px;
+      margin-bottom:12px;
     }
 
     .relatedHead h2{
@@ -650,43 +907,61 @@
 
     .relGrid{
       display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 14px;
-      margin-top: 12px;
+      grid-template-columns:repeat(12, 1fr);
+      gap:14px;
+      margin-top:12px;
     }
+
     .relCard{
-      grid-column: span 6;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: var(--r);
-      padding: 14px;
-      box-shadow: var(--shadow2);
+      grid-column:span 6;
+      background:var(--paper);
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      padding:14px;
+      box-shadow:var(--shadow2);
       transition:.14s ease;
       cursor:pointer;
     }
-    .relCard:hover{ transform: translateY(-2px); border-color: rgba(240,32,0,.22); }
-    .relCard .top{ display:flex; justify-content:space-between; gap:10px; font-size:12px; color:var(--muted); }
-    .relCard h3{ margin:10px 0 10px; font-size:16px; line-height:1.2; }
+
+    .relCard:hover{
+      transform:translateY(-2px);
+      border-color:rgba(240,32,0,.22);
+    }
+
+    .relCard .top{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .relCard h3{
+      margin:10px 0;
+      font-size:16px;
+      line-height:1.2;
+    }
 
     footer{
-      margin-top: 34px;
-      border-top: 1px solid var(--line);
-      padding: 18px 0;
-      color: var(--muted);
-      font-size: 12px;
+      margin-top:34px;
+      border-top:1px solid var(--line);
+      padding:18px 0;
+      color:var(--muted);
+      font-size:12px;
       display:flex;
       justify-content:space-between;
       gap:14px;
       flex-wrap:wrap;
     }
 
-    @media (max-width: 980px){
+    @media (max-width:980px){
       .layout{
-        grid-template-columns: 1fr;
+        grid-template-columns:1fr;
         grid-template-areas:
           "feed"
           "left";
       }
+
       .feed{
         position:relative;
         top:auto;
@@ -695,33 +970,64 @@
       }
 
       .feed-list{
-        max-height: 280px;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
-        scrollbar-gutter: stable both-edges;
+        max-height:280px;
+        overflow-y:auto;
+        -webkit-overflow-scrolling:touch;
+        overscroll-behavior:contain;
+        scrollbar-gutter:stable both-edges;
       }
 
-      .actions .search{ display:none; }
+      .actions .search{
+        display:none;
+      }
+
+      .bigrow{
+        grid-template-columns:1fr;
+      }
+
+      .relCard{
+        grid-column:span 12;
+      }
     }
 
-    @media (max-width: 980px){
-      .bigrow{ grid-template-columns: 1fr; }
-      .relCard{ grid-column: span 12; }
+    @media (max-width:720px){
+      .brand{
+        min-width:auto;
+      }
+
+      .nav-desktop{
+        display:none;
+      }
+
+      .nav-mobile{
+        display:block;
+      }
+
+      .actions .themeBtn{
+        display:none;
+      }
+
+      .actions{
+        min-width:auto;
+      }
+
+      .feed{
+        display:none;
+      }
     }
 
-    @media (max-width: 720px){
-      .brand{ min-width:auto; }
-      .nav-desktop{ display:none; }
-      .nav-mobile{ display:block; }
-      .actions .themeBtn{ display:none; }
-      .actions{ min-width:auto; }
-      .feed{ display:none; }
-    }
+    @media (prefers-reduced-motion:reduce){
+      *{
+        transition:none !important;
+      }
 
-    @media (prefers-reduced-motion: reduce){
-      *{ transition:none !important; }
-      .feed-actions a:hover,.more:hover,.btn:hover,.bigcard:hover,.relCard:hover{ transform:none !important; }
+      .feed-actions a:hover,
+      .more:hover,
+      .btn:hover,
+      .bigcard:hover,
+      .relCard:hover{
+        transform:none !important;
+      }
     }
   </style>
 </head>
@@ -734,8 +1040,12 @@
       <div class="topbar">
         <a class="brand" href="index.html">
           <span class="logoPlate">
-            <img src="log.png" alt="Промышленный репортёр" />
+            <img
+              src="log.png"
+              alt="Промышленный репортёр"
+            />
           </span>
+
           <div class="t">
             <strong>Промышленный репортёр</strong>
           </div>
@@ -750,7 +1060,12 @@
         </nav>
 
         <details class="nav-mobile">
-          <summary class="burger" aria-label="Открыть меню"><span aria-hidden="true">≡</span></summary>
+          <summary
+            class="burger"
+            aria-label="Открыть меню"
+          >
+            <span aria-hidden="true">≡</span>
+          </summary>
 
           <nav class="nav-panel" aria-label="Меню">
             <a class="navlink" href="index.html">Главная</a>
@@ -759,17 +1074,45 @@
             <a class="navlink" href="production.html">Продакшн</a>
             <a class="navlink" href="editorial.html">Редакция</a>
 
-            <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
-              <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+            <button
+              class="btn themeBtn"
+              type="button"
+              data-theme-toggle
+              aria-pressed="false"
+              aria-label="Переключить тему"
+            >
+              <svg
+                class="themeIcon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              ></svg>
+
               <span class="themeLabel"></span>
             </button>
           </nav>
         </details>
 
         <div class="actions">
-          <input class="search" id="headerSearch" placeholder="Поиск…" aria-label="Поиск по материалам и ленте" />
-          <button class="btn themeBtn" type="button" data-theme-toggle aria-pressed="false" aria-label="Переключить тему">
-            <svg class="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+          <input
+            class="search"
+            id="headerSearch"
+            placeholder="Поиск…"
+            aria-label="Поиск по материалам и ленте"
+          />
+
+          <button
+            class="btn themeBtn"
+            type="button"
+            data-theme-toggle
+            aria-pressed="false"
+            aria-label="Переключить тему"
+          >
+            <svg
+              class="themeIcon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            ></svg>
+
             <span class="themeLabel">Тема</span>
           </button>
         </div>
@@ -778,916 +1121,1859 @@
   </header>
 
   <main class="container">
-    <div class="kicker"><span class="dot"></span><span id="pageTitle">Новости</span></div>
+    <div class="kicker">
+      <span class="dot"></span>
+      <span id="pageTitle">Новости</span>
+    </div>
 
     <div class="layout">
-      <section class="leftcol" aria-label="Большие материалы">
+      <section
+        class="leftcol"
+        aria-label="Большие материалы"
+      >
         <div class="controlbar">
-          <div class="tabs" role="tablist" aria-label="Рубрики">
-            <a class="tab active" href="#" data-tab="all">Все</a>
-            <a class="tab" href="#" data-tab="events">События</a>
-            <a class="tab" href="#" data-tab="market">Рынок</a>
-            <a class="tab" href="#" data-tab="technologies">Технологии</a>
-            <a class="tab" href="#" data-tab="appointments">Назначения</a>
+          <div
+            class="tabs"
+            role="tablist"
+            aria-label="Рубрики"
+          >
+            <a class="tab active" href="#" data-tab="all">
+              Все
+            </a>
+
+            <a class="tab" href="#" data-tab="events">
+              События
+            </a>
+
+            <a class="tab" href="#" data-tab="market">
+              Рынок
+            </a>
+
+            <a class="tab" href="#" data-tab="technologies">
+              Технологии
+            </a>
+
+            <a class="tab" href="#" data-tab="appointments">
+              Назначения
+            </a>
           </div>
-          <div class="hint" id="leftHint">Большие материалы · можно фильтровать</div>
+
+          <div class="hint" id="leftHint">
+            Большие материалы · можно фильтровать
+          </div>
         </div>
 
-        <div id="listView" class="biglist" aria-label="Список материалов"></div>
-        <article id="articleView" class="article" style="display:none;" aria-label="Полная статья"></article>
+        <div
+          id="listView"
+          class="biglist"
+          aria-label="Список материалов"
+        ></div>
+
+        <article
+          id="articleView"
+          class="article"
+          style="display:none;"
+          aria-label="Полная статья"
+        ></article>
       </section>
 
       <aside class="feed" aria-label="Лента новостей">
         <div class="feed-head">
-          <div class="feed-title"><span class="pulse"></span> Лента</div>
+          <div class="feed-title">
+            <span class="pulse"></span>
+            Лента
+          </div>
+
           <div class="feed-actions">
             <span id="feedStatus">обновляется</span>
             <a href="#" id="liveToggle">Только LIVE</a>
           </div>
         </div>
+
         <div class="feed-list" id="feedList"></div>
       </aside>
     </div>
 
     <footer>
-      <div>© <span id="y"></span> Промышленный репортёр</div>
-      <div>Контакты · Реклама · Политика</div>
+      <div>
+        © <span id="y"></span> Промышленный репортёр
+      </div>
+
+      <div>
+        Контакты · Реклама · Политика
+      </div>
     </footer>
   </main>
 
-<script>
-  let ARTICLES = [];
-  let feedItems = [];
+  <script>
+    "use strict";
 
-  let state = { tab: "all", liveOnly: false, query: "", selectedId: null };
+    let ARTICLES = [];
+    let feedItems = [];
 
-  const CONTENT_REFRESH_MS = 5 * 60 * 1000;
-  let refreshTimer = null;
-  let visibilityRefreshBound = false;
-
-  document.getElementById("y").textContent = new Date().getFullYear();
-
-  const listView = document.getElementById("listView");
-  const articleView = document.getElementById("articleView");
-  const pageTitle = document.getElementById("pageTitle");
-  const leftHint = document.getElementById("leftHint");
-
-  const feedList = document.getElementById("feedList");
-  const feedStatus = document.getElementById("feedStatus");
-  const liveToggle = document.getElementById("liveToggle");
-
-  const headerSearch = document.getElementById("headerSearch");
-
-  function formatTime(ts){
-    if (!ts) return "";
-    const d = new Date(ts * 1000);
-    if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleTimeString("ru-RU", {
-      hour: "2-digit",
-      minute: "2-digit"
-    });
-  }
-
-  function formatDate(ts){
-    if (!ts) return "";
-    const d = new Date(ts * 1000);
-    if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleDateString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric"
-    });
-  }
-
-  function formatDateTime(ts){
-    if (!ts) return "";
-    const d = new Date(ts * 1000);
-    if (Number.isNaN(d.getTime())) return "";
-    return d.toLocaleString("ru-RU", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
-    });
-  }
-
-  function relTime(ts){
-    if(!ts) return "";
-    const diff = Math.max(0, Date.now() - (ts * 1000));
-    const m = Math.floor(diff / 60000);
-    if (m < 1) return "сейчас";
-    if (m < 60) return `${m} мин`;
-    const h = Math.floor(m / 60);
-    if (h < 24) return `${h} ч`;
-    const d = Math.floor(h / 24);
-    return d === 1 ? "вчера" : `${d} дн`;
-  }
-
-  function escapeHtml(s){
-    return String(s ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
-
-  function normalizeMediaUrl(url){
-    if(!url) return null;
-    let s = String(url).trim();
-    if(!s) return null;
-
-    if (s.startsWith("//")) s = window.location.protocol + s;
-    if (s.startsWith("/")) s = new URL(s, window.location.origin).href;
-    if (window.location.protocol === "https:" && s.startsWith("http://")) {
-      s = "https://" + s.slice(7);
-    }
-
-    return s;
-  }
-
-  function pickImageUrl(value){
-    if(!value) return null;
-
-    if(typeof value === "string") return normalizeMediaUrl(value);
-
-    if(Array.isArray(value)){
-      const candidates = value
-        .map(item => {
-          const url = pickImageUrl(item);
-          const area = Number(item?.width || item?.w || 0) * Number(item?.height || item?.h || 0);
-          return { url, area };
-        })
-        .filter(item => item.url);
-
-      candidates.sort((a, b) => b.area - a.area);
-      return candidates[0]?.url || null;
-    }
-
-    if(typeof value === "object"){
-      if(Array.isArray(value.sizes)) return pickImageUrl(value.sizes);
-      if(Array.isArray(value.photo?.sizes)) return pickImageUrl(value.photo.sizes);
-      if(Array.isArray(value.attachments)) return pickImageUrl(value.attachments);
-
-      const keys = ["url", "src", "href", "image", "photo", "thumb", "thumbnail", "cover", "preview", "picture"];
-      for(const key of keys){
-        if(value[key]){
-          const url = pickImageUrl(value[key]);
-          if(url) return url;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  function cssBgUrl(url){
-    const src = normalizeMediaUrl(url);
-    if(!src) return "";
-    return encodeURI(src)
-      .replace(/"/g, "%22")
-      .replace(/'/g, "%27");
-  }
-
-  function hasKeyword(t, keyword){
-    if(keyword instanceof RegExp) return keyword.test(t);
-    return t.includes(keyword);
-  }
-
-  // Unicode-aware границы слова для русских текстов.
-  // В JS \b корректно работает в основном для ASCII, поэтому русские слова
-  // вроде "стал", "назначен", "возглавил" могут не находиться.
-  function wordRu(pattern){
-    return new RegExp(`(^|[^\\p{L}\\p{N}_])(?:${pattern})(?=$|[^\\p{L}\\p{N}_])`, "iu");
-  }
-
-  function isAppointmentMaterial(text){
-    const t = String(text || "").toLowerCase();
-
-    const appointmentAction = [
-      wordRu("назначен(?:а|ы)?"),
-      wordRu("назначили"),
-      wordRu("назначение"),
-      wordRu("возглавил(?:а)?"),
-      wordRu("избран(?:а)?"),
-      wordRu("переизбран(?:а)?"),
-      wordRu("утвержд[её]н(?:а|ы)?"),
-      wordRu("стал(?:а)?"),
-      wordRu("станет"),
-      wordRu("займ[её]т\\s+должность"),
-      wordRu("занял(?:а)?\\s+должность"),
-      wordRu("вступил(?:а)?\\s+в\\s+должность"),
-      wordRu("приступил(?:а)?\\s+к\\s+обязанностям"),
-      wordRu("сменил(?:а)?\\s+на\\s+посту"),
-      wordRu("сменил(?:а)?\\s+в\\s+должности"),
-      wordRu("покинул(?:а)?\\s+пост"),
-      wordRu("уш[её]л\\s+с\\s+поста"),
-      wordRu("ушла\\s+с\\s+поста"),
-      wordRu("переш[её]л\\s+на\\s+должность"),
-      wordRu("перешла\\s+на\\s+должность"),
-
-      // Частые формулировки в заголовках и лидах.
-      /смен[аи]л[ао]сь\s+руководств[ооа]/iu,
-      /смена\s+руководств[ао]/iu,
-      /нов(?:ым|ой|ого|ая)?\s+[^.]{0,80}?\s+стал(?:а)?/iu,
-      /кадров(?:ые|ая|ое|ых)\s+назначени[ея]/iu
-    ];
-
-    const roleContext = [
-      "генеральный директор",
-      "генеральным директором",
-      "генерального директора",
-      "новый генеральный директор",
-      "новым генеральным директором",
-      "гендиректор",
-      "гендиректором",
-      "исполнительный директор",
-      "исполнительным директором",
-      "коммерческий директор",
-      "коммерческим директором",
-      "финансовый директор",
-      "финансовым директором",
-      "технический директор",
-      "техническим директором",
-      "операционный директор",
-      "операционным директором",
-      "директор по",
-      "директором по",
-      "управляющий директор",
-      "управляющим директором",
-      "директор завода",
-      "директором завода",
-      "директор предприятия",
-      "директором предприятия",
-      "руководитель",
-      "руководителем",
-      "руководство",
-      "руководства",
-      "глава компании",
-      "главой компании",
-      "глава предприятия",
-      "главой предприятия",
-      "глава завода",
-      "главой завода",
-      "председатель",
-      "председателем",
-      "председатель совета директоров",
-      "член совета директоров",
-      "совет директоров",
-      "правление",
-      "наблюдательный совет",
-      "заместитель",
-      "заместителем",
-      "вице-президент",
-      "вице-президентом",
-      "президент компании",
-      "президентом компании",
-      "топ-менеджер",
-      "топ-менеджером",
-      "советник генерального директора",
-      "ceo",
-      "cfo",
-      "cto",
-      "coo"
-    ];
-
-    const companyContext = [
-      "компания", "компании", "предприятие", "предприятия", "предприятием",
-      "завод", "завода", "заводе", "холдинг", "холдинга", "группа", "группы",
-      "корпорация", "корпорации", "концерн", "концерна", "производитель",
-      "производителя", "оператор", "оператора", "поставщик", "поставщика",
-      "дивизион", "дивизиона", "филиал", "филиала", "департамент",
-      "департамента", "совет директоров", "правление", "оао", "пао", "ао",
-      "ооо", "зао", "гк", "хк"
-    ];
-
-    const hasAction = appointmentAction.some(pattern => pattern.test(t));
-    const hasRole = roleContext.some(word => t.includes(word));
-    const hasCompany = companyContext.some(word => t.includes(word));
-
-    return hasAction && hasRole && hasCompany;
-  }
-
-  const CATEGORY_RULES = [
-    {
-      tab: "market",
-      rubric: "Рынок",
-      keywords: [
-        "рынок", "экспорт", "импорт", "цена", "цены", "подорожание", "снижение цен",
-        "контракт", "госконтракт", "договор", "тендер", "закупка", "поставка",
-        "отгрузка", "логистика", "транспортировка", "продажи", "выручка",
-        "прибыль", "убыток", "маржа", "инвестиции", "инвестпроект",
-        "финансирование", "кредит", "заем", "сделка", "партнерство",
-        "спрос", "предложение", "заказ", "портфель заказов", "млрд", "млн",
-        "рубл", "доллар", "евро", "банкротство", "акции", "дивиденды",
-        "субсидия", "льгота", "налог", "таможня", "пошлина", "импортер",
-        "экспортер", "поставщик", "потребитель", "дистрибьютор"
-      ]
-    },
-    {
-      tab: "technologies",
-      rubric: "Технологии",
-      keywords: [
-        "технолог", "робот", "роботизация", "автоматизация", "цифровизация",
-        "цифровой двойник", "станок", "чпу", "оборудование", "разработка",
-        "инновация", "инновационный", /\bии\b/u, /\bai\b/i,
-        "искусственный интеллект", "нейросет", "машинное зрение",
-        "компьютерное зрение", "платформа", "система", "софт",
-        "программное обеспечение", "модернизация", "датчик", "сенсор",
-        "беспилот", "дрон", "аддитив", "3d-печать", "3d печать",
-        "композит", "испытания", "лаборатория", "патент", "инжиниринг",
-        "асу тп", "erp", "mes", "scada", "промышленный интернет вещей",
-        "iiot", "энергоэффективность", "накопитель энергии", "водород",
-        "электролизер", "микроэлектроника", "полупроводник", "датасет",
-        "алгоритм", "модель", "прототип", "опытный образец", "серийное производство"
-      ]
-    }
-  ];
-
-  function detectCategory(text) {
-    const t = String(text || "").toLowerCase();
-
-    if (isAppointmentMaterial(t)) {
-      return { tab: "appointments", rubric: "Назначения" };
-    }
-
-    for (const rule of CATEGORY_RULES) {
-      if (rule.keywords.some(keyword => hasKeyword(t, keyword))) {
-        return { tab: rule.tab, rubric: rule.rubric };
-      }
-    }
-
-    return { tab: "events", rubric: "События" };
-  }
-
-  function normalizeCategory(tab, rubric, text){
-    const rawTab = String(tab || "").trim().toLowerCase();
-    const rawRubric = String(rubric || "").trim().toLowerCase();
-
-    const aliases = {
-      "market": { tab: "market", rubric: "Рынок" },
-      "рынок": { tab: "market", rubric: "Рынок" },
-
-      "tech": { tab: "technologies", rubric: "Технологии" },
-      "тех": { tab: "technologies", rubric: "Технологии" },
-      "technology": { tab: "technologies", rubric: "Технологии" },
-      "technologies": { tab: "technologies", rubric: "Технологии" },
-      "технологии": { tab: "technologies", rubric: "Технологии" },
-
-      "events": { tab: "events", rubric: "События" },
-      "event": { tab: "events", rubric: "События" },
-      "события": { tab: "events", rubric: "События" },
-      "событие": { tab: "events", rubric: "События" }
+    let state = {
+      tab: "all",
+      liveOnly: false,
+      query: "",
+      selectedId: null
     };
 
-    const wantsAppointments =
-      rawTab === "people" ||
-      rawTab === "appointments" ||
-      rawRubric === "люди" ||
-      rawRubric === "назначения" ||
-      rawRubric === "назначение";
+    /*
+     * Исправление:
+     * раньше обновление выполнялось каждые пять минут.
+     * Теперь файл ленты проверяется каждые 30 секунд.
+     */
+    const CONTENT_REFRESH_MS = 30 * 1000;
 
-    if (wantsAppointments) {
-      return isAppointmentMaterial(text)
-        ? { tab: "appointments", rubric: "Назначения" }
-        : detectCategory(text);
-    }
+    let refreshTimer = null;
+    let visibilityRefreshBound = false;
+    let refreshInProgress = false;
 
-    if (rawTab === "opinion" || rawRubric === "колонка") {
-      return detectCategory(text);
-    }
+    document.getElementById("y").textContent =
+      new Date().getFullYear();
 
-    return aliases[rawTab] || aliases[rawRubric] || detectCategory(text);
-  }
+    const listView =
+      document.getElementById("listView");
 
-  function normalizeTitleForCompare(s){
-    return String(s || "")
-      .toLowerCase()
-      .replaceAll("ё", "е")
-      .replace(/[^\p{L}\p{N}]+/gu, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-  }
+    const articleView =
+      document.getElementById("articleView");
 
-  function getPostTitleText(p){
-    const text = String(p?.text || p?.title || "");
-    const parts = text
-      .split("\n\n")
-      .map(x => x.trim())
-      .filter(Boolean);
-    return parts[0] || text;
-  }
+    const pageTitle =
+      document.getElementById("pageTitle");
 
-  function hasVideoMarker(value, depth = 0){
-    if(!value || depth > 6) return false;
+    const leftHint =
+      document.getElementById("leftHint");
 
-    if(typeof value === "string"){
-      return /(youtube\.com|youtu\.be|rutube\.ru|vk\.com\/video|vkvideo|video_ext|video)/i.test(value);
-    }
+    const feedList =
+      document.getElementById("feedList");
 
-    if(Array.isArray(value)){
-      return value.some(item => hasVideoMarker(item, depth + 1));
-    }
+    const feedStatus =
+      document.getElementById("feedStatus");
 
-    if(typeof value === "object"){
-      const typeText = [
-        value.type,
-        value.kind,
-        value.format,
-        value.media_type,
-        value.mediaType,
-        value.attachment_type,
-        value.attachmentType,
-        value.section,
-        value.source
-      ].join(" ").toLowerCase();
+    const liveToggle =
+      document.getElementById("liveToggle");
 
-      if(/(^|[\s_-])(video|videos|видео|ролик|clip|clips|клип|vkvideo|rutube|youtube)([\s_-]|$)/i.test(typeText)){
-        return true;
+    const headerSearch =
+      document.getElementById("headerSearch");
+
+    function formatTime(ts){
+      if (!ts) {
+        return "";
       }
 
-      const directVideoKeys = [
-        "video", "videos", "videoUrl", "video_url", "video_url_external",
-        "vkVideo", "vk_video", "youtube", "youtubeUrl", "youtube_url",
-        "rutube", "rutubeUrl", "rutube_url", "embed", "player",
-        "movie", "clip", "clips"
-      ];
+      const d = new Date(Number(ts) * 1000);
 
-      if(directVideoKeys.some(key => Boolean(value[key]))){
-        return true;
+      if (Number.isNaN(d.getTime())) {
+        return "";
       }
 
-      const nestedKeys = [
-        "attachments", "attachment", "items", "media", "medias",
-        "content", "contents", "object", "payload"
-      ];
-
-      return nestedKeys.some(key => hasVideoMarker(value[key], depth + 1));
-    }
-
-    return false;
-  }
-
-  function getVideoTitleSet(videos){
-    const titles = new Set();
-
-    (Array.isArray(videos) ? videos : []).forEach(v => {
-      [v?.title, v?.name, v?.headline].forEach(value => {
-        const normalized = normalizeTitleForCompare(value);
-        if(normalized) titles.add(normalized);
-      });
-    });
-
-    return titles;
-  }
-
-  function isVideoLikePost(p, videoTitleSet = new Set()){
-    if(hasVideoMarker(p)) return true;
-
-    const normalizedTitle = normalizeTitleForCompare(getPostTitleText(p));
-    if(normalizedTitle && videoTitleSet.has(normalizedTitle)) return true;
-
-    const rawText = String(p?.text || "");
-    const normalizedText = normalizeTitleForCompare(rawText);
-    if(normalizedText && videoTitleSet.has(normalizedText)) return true;
-
-    const markers = [p?.type, p?.kind, p?.format, p?.tab, p?.rubric, p?.section, p?.source]
-      .join(" ")
-      .toLowerCase();
-
-    if(/(^|\s)(tv|video|видео|ролик|clip|клип)(\s|$)/iu.test(markers)) return true;
-
-    return false;
-  }
-
-  function matchesFilter(a){
-    const tabOk = (state.tab === "all") || (a.tab === state.tab);
-    const liveOk = !state.liveOnly || a.live;
-    const q = state.query.trim().toLowerCase();
-    const qOk = !q || (
-      (a.title || "").toLowerCase().includes(q) ||
-      (a.lead || "").toLowerCase().includes(q) ||
-      (a.rubric || "").toLowerCase().includes(q) ||
-      (Array.isArray(a.body) ? a.body.join(" ").toLowerCase().includes(q) : false)
-    );
-    return tabOk && liveOk && qOk;
-  }
-
-  function relatedFor(article){
-    const sameTab = ARTICLES
-      .filter(a => a.id !== article.id && a.tab === article.tab);
-
-    const fallback = ARTICLES
-      .filter(a => a.id !== article.id && a.tab !== article.tab);
-
-    return [...sameTab, ...fallback].slice(0, 4);
-  }
-
-  function buildFromFeed(posts, videos = []){
-    const videoTitleSet = getVideoTitleSet(videos);
-    const sorted = Array.isArray(posts)
-      ? posts.slice().reverse().filter(p => !isVideoLikePost(p, videoTitleSet))
-      : [];
-
-    ARTICLES = sorted.map((p, idx) => {
-      const text = p?.text || "";
-      const parts = text
-        .split("\n\n")
-        .map(x => x.trim())
-        .filter(Boolean);
-
-      const title = (parts[0] || text || "Новость").slice(0, 120);
-      const lead = (parts[1] || parts[0] || "").slice(0, 220);
-      const category = normalizeCategory(p?.tab, p?.rubric, text);
-
-      const bodyParts = parts.length > 1
-        ? parts.slice(1)
-        : [text].filter(Boolean);
-
-      return {
-        id: String(p?.id ?? idx),
-        tab: category.tab,
-        rubric: category.rubric,
-        thumb:
-          pickImageUrl(p?.photo) ||
-          pickImageUrl(p?.thumb) ||
-          pickImageUrl(p?.image) ||
-          pickImageUrl(p?.cover) ||
-          pickImageUrl(p?.preview) ||
-          pickImageUrl(p?.attachments) ||
-          null,
-        when: p?.date ? formatDate(p.date) : "",
-        age: p?.date ? relTime(p.date) : "",
-        live: Boolean(p?.live),
-        title,
-        lead,
-        tags: [],
-        author: "ВКонтакте",
-        updated: p?.date ? formatDateTime(p.date) : "",
-        caption: "Источник: сообщество ВКонтакте",
-        body: bodyParts.length ? bodyParts : [lead || title],
-        ts: p?.date || null
-      };
-    });
-
-    feedItems = ARTICLES.map(a => ({
-      id: a.id,
-      time: a.ts ? formatTime(a.ts) : "",
-      rubric: a.rubric,
-      title: a.title,
-      live: a.live
-    }));
-  }
-
-  function renderList(){
-    const items = ARTICLES.filter(matchesFilter);
-
-    pageTitle.textContent = state.selectedId ? "Статья" : "Новости";
-    leftHint.textContent = state.selectedId
-      ? "Полная статья"
-      : `Большие материалы · ${items.length} шт.`;
-
-    if(state.selectedId){
-      listView.style.display = "none";
-      articleView.style.display = "block";
-      renderArticle(state.selectedId);
-      return;
-    }
-
-    articleView.style.display = "none";
-    listView.style.display = "flex";
-
-    if(items.length === 0){
-      listView.innerHTML = `<div class="bigcard"><h3>Пока нет новостей</h3></div>`;
-      return;
-    }
-
-    listView.innerHTML = items.map(a => {
-      const thumb = normalizeMediaUrl(a.thumb);
-      const thumbHtml = thumb
-        ? `<div class="thumb" aria-hidden="true"><img src="${escapeHtml(thumb)}" alt="" loading="lazy" decoding="async" onerror="const row=this.closest('.bigrow'); row?.classList.add('no-thumb'); this.closest('.thumb')?.remove();" /></div>`
-        : "";
-      const rowClass = thumb ? "bigrow" : "bigrow no-thumb";
-
-      return `
-        <a class="bigcard" href="#${encodeURIComponent(a.id)}" data-open="${escapeHtml(a.id)}" aria-label="Открыть материал: ${escapeHtml(a.title)}">
-          <div class="${rowClass}">
-            ${thumbHtml}
-            <div>
-              <div class="top">
-                <span class="rubric">${escapeHtml(a.rubric)}</span>
-                <span>${escapeHtml(a.when || "")}</span>
-                ${a.live ? `<span class="live">LIVE</span>` : ``}
-              </div>
-              <h3>${escapeHtml(a.title)}</h3>
-              <p class="desc">${escapeHtml(a.lead || "")}</p>
-              <div class="chips">
-                <span class="chip hot">${escapeHtml(a.ts ? formatDate(a.ts) : "Лента")}</span>
-                <span class="chip">${a.thumb ? "Фото" : "Материал"}</span>
-              </div>
-            </div>
-          </div>
-        </a>
-      `;
-    }).join("");
-
-    listView.querySelectorAll("[data-open]").forEach(el=>{
-      el.addEventListener("click",(e)=>{
-        e.preventDefault();
-        openArticle(el.dataset.open);
-      });
-    });
-  }
-
-  function renderArticle(id){
-    const a = ARTICLES.find(x => x.id === id);
-    if(!a) return;
-
-    const related = relatedFor(a);
-    const thumb = normalizeMediaUrl(a.thumb);
-
-    articleView.innerHTML = `
-      <h1 class="articleTitle">${escapeHtml(a.title)}</h1>
-
-      <div class="articleMeta">
-        <span>${escapeHtml(a.rubric || "События")}</span>
-        ${a.updated ? `<span>${escapeHtml(a.updated)}</span>` : ``}
-        ${a.author ? `<span>${escapeHtml(a.author)}</span>` : ``}
-      </div>
-
-      ${thumb ? `<div class="media"><img src="${escapeHtml(thumb)}" alt="" decoding="async" onerror="const media=this.closest('.media'); const caption=media?.nextElementSibling; if(caption?.classList.contains('caption')) caption.remove(); media?.remove();" /></div>` : ``}
-      ${thumb && a.caption ? `<div class="caption">${escapeHtml(a.caption)}</div>` : ``}
-
-      <div class="body">
-        ${a.body.map(p => `<p>${escapeHtml(p)}</p>`).join("")}
-      </div>
-
-      <div class="toolbar">
-        <button class="more" id="backBtn" type="button">← К списку</button>
-      </div>
-
-      ${related.length ? `
-        <div class="related">
-          <div class="relatedHead">
-            <div>
-              <h2>Ещё по теме</h2>
-              <p>Похожие материалы из ленты</p>
-            </div>
-          </div>
-
-          <div class="relGrid">
-            ${related.map(r => `
-              <a class="relCard" href="#${encodeURIComponent(r.id)}" data-open-related="${escapeHtml(r.id)}">
-                <div class="top">
-                  <span class="rubric">${escapeHtml(r.rubric)}</span>
-                  <span>${escapeHtml(r.when || "")}</span>
-                </div>
-                <h3>${escapeHtml(r.title)}</h3>
-                <p class="desc">${escapeHtml(r.lead || "")}</p>
-              </a>
-            `).join("")}
-          </div>
-        </div>
-      ` : ``}
-    `;
-
-    const back = () => {
-      state.selectedId = null;
-      history.replaceState(null, "", "news.html");
-      renderList();
-      window.scrollTo({top: 0, behavior: "smooth"});
-    };
-
-    articleView.querySelector("#backBtn")?.addEventListener("click", back);
-
-    articleView.querySelectorAll("[data-open-related]").forEach(el => {
-      el.addEventListener("click", (e) => {
-        e.preventDefault();
-        openArticle(el.dataset.openRelated);
-      });
-    });
-  }
-
-  function openArticle(id){
-    state.selectedId = id;
-    history.replaceState(null, "", `news.html#${encodeURIComponent(id)}`);
-    renderList();
-    window.scrollTo({top: 0, behavior: "smooth"});
-  }
-
-  function renderFeed(){
-    const q = state.query.trim().toLowerCase();
-
-    const show = (state.liveOnly ? feedItems.filter(i => i.live) : feedItems)
-      .filter(i => !q || (i.title || "").toLowerCase().includes(q));
-
-    feedList.innerHTML = show.map(n => `
-      <div class="feed-item" data-open="${escapeHtml(n.id)}">
-        <div class="t-time">${escapeHtml(n.time || "")}</div>
-        <div class="t-main">
-          <div class="t-top">
-            <span class="t-dot"></span>
-            <span class="t-rubric">${escapeHtml(n.rubric)}</span>
-            ${n.live ? `<span class="t-live">LIVE</span>` : ``}
-          </div>
-          <div class="t-title">${escapeHtml(n.title)}</div>
-        </div>
-      </div>
-    `).join("");
-
-    feedList.querySelectorAll("[data-open]").forEach(el=>{
-      el.addEventListener("click", ()=> openArticle(el.dataset.open));
-    });
-  }
-
-  document.querySelectorAll(".tab").forEach(el=>{
-    el.addEventListener("click",(e)=>{
-      e.preventDefault();
-      document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-      el.classList.add("active");
-      state.tab = el.dataset.tab;
-      state.selectedId = null;
-      history.replaceState(null, "", "news.html");
-      renderList();
-      renderFeed();
-    });
-  });
-
-  liveToggle.addEventListener("click",(e)=>{
-    e.preventDefault();
-    state.liveOnly = !state.liveOnly;
-    liveToggle.textContent = state.liveOnly ? "Все" : "Только LIVE";
-    renderFeed();
-    if(!state.selectedId) renderList();
-  });
-
-  headerSearch.addEventListener("input",(e)=>{
-    state.query = e.target.value || "";
-    if(!state.selectedId) renderList();
-    renderFeed();
-  });
-
-  function openFromHash(){
-    const raw = window.location.hash.replace(/^#/, "").trim();
-    if (!raw) {
-      state.selectedId = null;
-      renderList();
-      renderFeed();
-      return;
-    }
-
-    const id = decodeURIComponent(raw);
-    const exists = ARTICLES.some(a => a.id === id);
-
-    state.selectedId = exists ? id : null;
-    renderList();
-    renderFeed();
-  }
-
-  function cacheBust(url){
-    const u = new URL(url, window.location.href);
-    u.searchParams.set("_", String(Date.now()));
-    return u.href;
-  }
-
-  async function loadJson(url){
-    const r = await fetch(cacheBust(url), { cache: "no-store" });
-    if(!r.ok) throw new Error(`Failed to load ${url}: ${r.status}`);
-    return r.json();
-  }
-
-  async function loadJsonOptional(urls, fallback){
-    const list = Array.isArray(urls) ? urls : [urls];
-
-    for(const url of list){
-      try{
-        return await loadJson(url);
-      }catch(_){
-        // Пробуем следующий путь: на разных хостингах относительные и абсолютные пути ведут себя по-разному.
-      }
-    }
-
-    return fallback;
-  }
-
-  async function refreshNewsContent(silent = false){
-    try{
-      if(!silent) feedStatus.textContent = "обновляется";
-
-      const [data, tvData, vodData] = await Promise.all([
-        loadJson("content/news/feed.json"),
-        loadJsonOptional(["/content/tv/videos.json", "content/tv/videos.json"], { items: [] }),
-        loadJsonOptional(["/content/home/videoOfDay.json", "content/home/videoOfDay.json"], { item: null })
-      ]);
-
-      const videos = [
-        vodData?.item,
-        ...(Array.isArray(tvData?.items) ? tvData.items : [])
-      ].filter(Boolean);
-
-      buildFromFeed(data, videos);
-      openFromHash();
-
-      const stamp = new Date().toLocaleTimeString("ru-RU", {
+      return d.toLocaleTimeString("ru-RU", {
         hour: "2-digit",
         minute: "2-digit"
       });
-      feedStatus.textContent = `обновлено ${stamp}`;
-    }catch(err){
-      console.error("Feed load error:", err);
-      feedStatus.textContent = silent ? "нет новых данных" : "ошибка загрузки";
+    }
+
+    function formatDate(ts){
+      if (!ts) {
+        return "";
+      }
+
+      const d = new Date(Number(ts) * 1000);
+
+      if (Number.isNaN(d.getTime())) {
+        return "";
+      }
+
+      return d.toLocaleDateString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+    }
+
+    function formatDateTime(ts){
+      if (!ts) {
+        return "";
+      }
+
+      const d = new Date(Number(ts) * 1000);
+
+      if (Number.isNaN(d.getTime())) {
+        return "";
+      }
+
+      return d.toLocaleString("ru-RU", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function relTime(ts){
+      if (!ts) {
+        return "";
+      }
+
+      const diff = Math.max(
+        0,
+        Date.now() - Number(ts) * 1000
+      );
+
+      const minutes = Math.floor(diff / 60000);
+
+      if (minutes < 1) {
+        return "сейчас";
+      }
+
+      if (minutes < 60) {
+        return `${minutes} мин`;
+      }
+
+      const hours = Math.floor(minutes / 60);
+
+      if (hours < 24) {
+        return `${hours} ч`;
+      }
+
+      const days = Math.floor(hours / 24);
+
+      return days === 1
+        ? "вчера"
+        : `${days} дн`;
+    }
+
+    function escapeHtml(value){
+      return String(value ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function normalizeMediaUrl(url){
+      if (!url) {
+        return null;
+      }
+
+      let value = String(url).trim();
+
+      if (!value) {
+        return null;
+      }
+
+      if (value.startsWith("//")) {
+        value = window.location.protocol + value;
+      }
+
+      if (value.startsWith("/")) {
+        value = new URL(
+          value,
+          window.location.origin
+        ).href;
+      }
+
+      if (
+        window.location.protocol === "https:" &&
+        value.startsWith("http://")
+      ) {
+        value = "https://" + value.slice(7);
+      }
+
+      return value;
+    }
+
+    function pickImageUrl(value){
+      if (!value) {
+        return null;
+      }
+
+      if (typeof value === "string") {
+        return normalizeMediaUrl(value);
+      }
+
+      if (Array.isArray(value)) {
+        const candidates = value
+          .map(item => {
+            const url = pickImageUrl(item);
+
+            const area =
+              Number(item?.width || item?.w || 0) *
+              Number(item?.height || item?.h || 0);
+
+            return {
+              url,
+              area
+            };
+          })
+          .filter(item => item.url);
+
+        candidates.sort(
+          (a, b) => b.area - a.area
+        );
+
+        return candidates[0]?.url || null;
+      }
+
+      if (typeof value === "object") {
+        if (Array.isArray(value.sizes)) {
+          return pickImageUrl(value.sizes);
+        }
+
+        if (Array.isArray(value.photo?.sizes)) {
+          return pickImageUrl(value.photo.sizes);
+        }
+
+        if (Array.isArray(value.attachments)) {
+          return pickImageUrl(value.attachments);
+        }
+
+        const keys = [
+          "url",
+          "src",
+          "href",
+          "image",
+          "photo",
+          "thumb",
+          "thumbnail",
+          "cover",
+          "preview",
+          "picture"
+        ];
+
+        for (const key of keys) {
+          if (value[key]) {
+            const url = pickImageUrl(value[key]);
+
+            if (url) {
+              return url;
+            }
+          }
+        }
+      }
+
+      return null;
+    }
+
+    function hasKeyword(text, keyword){
+      if (keyword instanceof RegExp) {
+        return keyword.test(text);
+      }
+
+      return text.includes(keyword);
+    }
+
+    function wordRu(pattern){
+      return new RegExp(
+        `(^|[^\\p{L}\\p{N}_])(?:${pattern})(?=$|[^\\p{L}\\p{N}_])`,
+        "iu"
+      );
+    }
+
+    function isAppointmentMaterial(text){
+      const normalizedText =
+        String(text || "").toLowerCase();
+
+      const appointmentAction = [
+        wordRu("назначен(?:а|ы)?"),
+        wordRu("назначили"),
+        wordRu("назначение"),
+        wordRu("возглавил(?:а)?"),
+        wordRu("избран(?:а)?"),
+        wordRu("переизбран(?:а)?"),
+        wordRu("утвержд[её]н(?:а|ы)?"),
+        wordRu("стал(?:а)?"),
+        wordRu("станет"),
+        wordRu("займ[её]т\\s+должность"),
+        wordRu("занял(?:а)?\\s+должность"),
+        wordRu("вступил(?:а)?\\s+в\\s+должность"),
+        wordRu("приступил(?:а)?\\s+к\\s+обязанностям"),
+        wordRu("сменил(?:а)?\\s+на\\s+посту"),
+        wordRu("сменил(?:а)?\\s+в\\s+должности"),
+        wordRu("покинул(?:а)?\\s+пост"),
+        wordRu("уш[её]л\\s+с\\s+поста"),
+        wordRu("ушла\\s+с\\s+поста"),
+        wordRu("переш[её]л\\s+на\\s+должность"),
+        wordRu("перешла\\s+на\\s+должность"),
+
+        /смен[аи]л[ао]сь\s+руководств[ооа]/iu,
+        /смена\s+руководств[ао]/iu,
+        /нов(?:ым|ой|ого|ая)?\s+[^.]{0,80}?\s+стал(?:а)?/iu,
+        /кадров(?:ые|ая|ое|ых)\s+назначени[ея]/iu
+      ];
+
+      const roleContext = [
+        "генеральный директор",
+        "генеральным директором",
+        "генерального директора",
+        "новый генеральный директор",
+        "новым генеральным директором",
+        "гендиректор",
+        "гендиректором",
+        "исполнительный директор",
+        "исполнительным директором",
+        "коммерческий директор",
+        "коммерческим директором",
+        "финансовый директор",
+        "финансовым директором",
+        "технический директор",
+        "техническим директором",
+        "операционный директор",
+        "операционным директором",
+        "директор по",
+        "директором по",
+        "управляющий директор",
+        "управляющим директором",
+        "директор завода",
+        "директором завода",
+        "директор предприятия",
+        "директором предприятия",
+        "руководитель",
+        "руководителем",
+        "руководство",
+        "руководства",
+        "глава компании",
+        "главой компании",
+        "глава предприятия",
+        "главой предприятия",
+        "глава завода",
+        "главой завода",
+        "председатель",
+        "председателем",
+        "председатель совета директоров",
+        "член совета директоров",
+        "совет директоров",
+        "правление",
+        "наблюдательный совет",
+        "заместитель",
+        "заместителем",
+        "вице-президент",
+        "вице-президентом",
+        "президент компании",
+        "президентом компании",
+        "топ-менеджер",
+        "топ-менеджером",
+        "советник генерального директора",
+        "ceo",
+        "cfo",
+        "cto",
+        "coo"
+      ];
+
+      const companyContext = [
+        "компания",
+        "компании",
+        "предприятие",
+        "предприятия",
+        "предприятием",
+        "завод",
+        "завода",
+        "заводе",
+        "холдинг",
+        "холдинга",
+        "группа",
+        "группы",
+        "корпорация",
+        "корпорации",
+        "концерн",
+        "концерна",
+        "производитель",
+        "производителя",
+        "оператор",
+        "оператора",
+        "поставщик",
+        "поставщика",
+        "дивизион",
+        "дивизиона",
+        "филиал",
+        "филиала",
+        "департамент",
+        "департамента",
+        "совет директоров",
+        "правление",
+        "оао",
+        "пао",
+        "ао",
+        "ооо",
+        "зао",
+        "гк",
+        "хк"
+      ];
+
+      const hasAction = appointmentAction.some(
+        pattern => pattern.test(normalizedText)
+      );
+
+      const hasRole = roleContext.some(
+        word => normalizedText.includes(word)
+      );
+
+      const hasCompany = companyContext.some(
+        word => normalizedText.includes(word)
+      );
+
+      return hasAction && hasRole && hasCompany;
+    }
+
+    const CATEGORY_RULES = [
+      {
+        tab: "market",
+        rubric: "Рынок",
+        keywords: [
+          "рынок",
+          "экспорт",
+          "импорт",
+          "цена",
+          "цены",
+          "подорожание",
+          "снижение цен",
+          "контракт",
+          "госконтракт",
+          "договор",
+          "тендер",
+          "закупка",
+          "поставка",
+          "отгрузка",
+          "логистика",
+          "транспортировка",
+          "продажи",
+          "выручка",
+          "прибыль",
+          "убыток",
+          "маржа",
+          "инвестиции",
+          "инвестпроект",
+          "финансирование",
+          "кредит",
+          "заем",
+          "сделка",
+          "партнерство",
+          "спрос",
+          "предложение",
+          "заказ",
+          "портфель заказов",
+          "млрд",
+          "млн",
+          "рубл",
+          "доллар",
+          "евро",
+          "банкротство",
+          "акции",
+          "дивиденды",
+          "субсидия",
+          "льгота",
+          "налог",
+          "таможня",
+          "пошлина",
+          "импортер",
+          "экспортер",
+          "поставщик",
+          "потребитель",
+          "дистрибьютор"
+        ]
+      },
+      {
+        tab: "technologies",
+        rubric: "Технологии",
+        keywords: [
+          "технолог",
+          "робот",
+          "роботизация",
+          "автоматизация",
+          "цифровизация",
+          "цифровой двойник",
+          "станок",
+          "чпу",
+          "оборудование",
+          "разработка",
+          "инновация",
+          "инновационный",
+          /\bии\b/u,
+          /\bai\b/i,
+          "искусственный интеллект",
+          "нейросет",
+          "машинное зрение",
+          "компьютерное зрение",
+          "платформа",
+          "система",
+          "софт",
+          "программное обеспечение",
+          "модернизация",
+          "датчик",
+          "сенсор",
+          "беспилот",
+          "дрон",
+          "аддитив",
+          "3d-печать",
+          "3d печать",
+          "композит",
+          "испытания",
+          "лаборатория",
+          "патент",
+          "инжиниринг",
+          "асу тп",
+          "erp",
+          "mes",
+          "scada",
+          "промышленный интернет вещей",
+          "iiot",
+          "энергоэффективность",
+          "накопитель энергии",
+          "водород",
+          "электролизер",
+          "микроэлектроника",
+          "полупроводник",
+          "датасет",
+          "алгоритм",
+          "модель",
+          "прототип",
+          "опытный образец",
+          "серийное производство"
+        ]
+      }
+    ];
+
+    function detectCategory(text){
+      const normalizedText =
+        String(text || "").toLowerCase();
+
+      if (isAppointmentMaterial(normalizedText)) {
+        return {
+          tab: "appointments",
+          rubric: "Назначения"
+        };
+      }
+
+      for (const rule of CATEGORY_RULES) {
+        if (
+          rule.keywords.some(
+            keyword => hasKeyword(normalizedText, keyword)
+          )
+        ) {
+          return {
+            tab: rule.tab,
+            rubric: rule.rubric
+          };
+        }
+      }
+
+      return {
+        tab: "events",
+        rubric: "События"
+      };
+    }
+
+    function normalizeCategory(tab, rubric, text){
+      const rawTab =
+        String(tab || "").trim().toLowerCase();
+
+      const rawRubric =
+        String(rubric || "").trim().toLowerCase();
+
+      const aliases = {
+        market: {
+          tab: "market",
+          rubric: "Рынок"
+        },
+        рынок: {
+          tab: "market",
+          rubric: "Рынок"
+        },
+        tech: {
+          tab: "technologies",
+          rubric: "Технологии"
+        },
+        тех: {
+          tab: "technologies",
+          rubric: "Технологии"
+        },
+        technology: {
+          tab: "technologies",
+          rubric: "Технологии"
+        },
+        technologies: {
+          tab: "technologies",
+          rubric: "Технологии"
+        },
+        технологии: {
+          tab: "technologies",
+          rubric: "Технологии"
+        },
+        events: {
+          tab: "events",
+          rubric: "События"
+        },
+        event: {
+          tab: "events",
+          rubric: "События"
+        },
+        события: {
+          tab: "events",
+          rubric: "События"
+        },
+        событие: {
+          tab: "events",
+          rubric: "События"
+        }
+      };
+
+      const wantsAppointments =
+        rawTab === "people" ||
+        rawTab === "appointments" ||
+        rawRubric === "люди" ||
+        rawRubric === "назначения" ||
+        rawRubric === "назначение";
+
+      if (wantsAppointments) {
+        return isAppointmentMaterial(text)
+          ? {
+              tab: "appointments",
+              rubric: "Назначения"
+            }
+          : detectCategory(text);
+      }
+
+      if (
+        rawTab === "opinion" ||
+        rawRubric === "колонка"
+      ) {
+        return detectCategory(text);
+      }
+
+      return (
+        aliases[rawTab] ||
+        aliases[rawRubric] ||
+        detectCategory(text)
+      );
+    }
+
+    function matchesFilter(article){
+      const tabMatches =
+        state.tab === "all" ||
+        article.tab === state.tab;
+
+      const liveMatches =
+        !state.liveOnly ||
+        article.live;
+
+      const query =
+        state.query.trim().toLowerCase();
+
+      const queryMatches =
+        !query ||
+        (article.title || "")
+          .toLowerCase()
+          .includes(query) ||
+        (article.lead || "")
+          .toLowerCase()
+          .includes(query) ||
+        (article.rubric || "")
+          .toLowerCase()
+          .includes(query) ||
+        (
+          Array.isArray(article.body) &&
+          article.body
+            .join(" ")
+            .toLowerCase()
+            .includes(query)
+        );
+
+      return (
+        tabMatches &&
+        liveMatches &&
+        queryMatches
+      );
+    }
+
+    function relatedFor(article){
+      const sameTab = ARTICLES.filter(
+        item =>
+          item.id !== article.id &&
+          item.tab === article.tab
+      );
+
+      const fallback = ARTICLES.filter(
+        item =>
+          item.id !== article.id &&
+          item.tab !== article.tab
+      );
+
+      return [
+        ...sameTab,
+        ...fallback
+      ].slice(0, 4);
+    }
+
+    /*
+     * Исправленная сборка новостей.
+     *
+     * В исходной версии использовался reverse(), поэтому
+     * порядок зависел от того, в каком порядке сервер
+     * формировал JSON.
+     *
+     * Теперь новости всегда сортируются по date:
+     * самые свежие находятся сверху.
+     *
+     * Также больше не отбрасываются публикации,
+     * содержащие видеовложения.
+     */
+    function buildFromFeed(posts){
+      const sourcePosts =
+        Array.isArray(posts)
+          ? posts
+          : [];
+
+      const sorted = sourcePosts
+        .slice()
+        .sort((a, b) => {
+          const dateA =
+            Number(a?.date || 0);
+
+          const dateB =
+            Number(b?.date || 0);
+
+          if (dateA !== dateB) {
+            return dateB - dateA;
+          }
+
+          const idA =
+            Number(a?.id || a?.post_id || 0);
+
+          const idB =
+            Number(b?.id || b?.post_id || 0);
+
+          return idB - idA;
+        });
+
+      ARTICLES = sorted.map((post, index) => {
+        const text =
+          String(
+            post?.text ||
+            post?.title ||
+            ""
+          );
+
+        const parts = text
+          .split(/\n\s*\n/)
+          .map(item => item.trim())
+          .filter(Boolean);
+
+        const title = (
+          parts[0] ||
+          post?.title ||
+          text ||
+          "Новость"
+        ).slice(0, 120);
+
+        const lead = (
+          parts[1] ||
+          post?.description ||
+          parts[0] ||
+          ""
+        ).slice(0, 220);
+
+        const category = normalizeCategory(
+          post?.tab,
+          post?.rubric,
+          text
+        );
+
+        const bodyParts =
+          parts.length > 1
+            ? parts.slice(1)
+            : [text].filter(Boolean);
+
+        const timestamp =
+          Number(post?.date || 0) || null;
+
+        const generatedId =
+          `${timestamp || Date.now()}-${index}`;
+
+        return {
+          id: String(
+            post?.id ??
+            post?.post_id ??
+            generatedId
+          ),
+
+          tab: category.tab,
+          rubric: category.rubric,
+
+          thumb:
+            pickImageUrl(post?.photo) ||
+            pickImageUrl(post?.thumb) ||
+            pickImageUrl(post?.image) ||
+            pickImageUrl(post?.cover) ||
+            pickImageUrl(post?.preview) ||
+            pickImageUrl(post?.attachments) ||
+            null,
+
+          when:
+            timestamp
+              ? formatDate(timestamp)
+              : "",
+
+          age:
+            timestamp
+              ? relTime(timestamp)
+              : "",
+
+          live:
+            Boolean(post?.live),
+
+          title,
+          lead,
+
+          tags: [],
+
+          author:
+            post?.author ||
+            "ВКонтакте",
+
+          updated:
+            timestamp
+              ? formatDateTime(timestamp)
+              : "",
+
+          caption:
+            "Источник: сообщество ВКонтакте",
+
+          body:
+            bodyParts.length
+              ? bodyParts
+              : [lead || title],
+
+          ts: timestamp
+        };
+      });
+
+      feedItems = ARTICLES.map(article => ({
+        id: article.id,
+
+        time:
+          article.ts
+            ? formatTime(article.ts)
+            : "",
+
+        rubric: article.rubric,
+        title: article.title,
+        live: article.live
+      }));
+    }
+
+    function renderList(){
+      const items =
+        ARTICLES.filter(matchesFilter);
+
+      pageTitle.textContent =
+        state.selectedId
+          ? "Статья"
+          : "Новости";
+
+      leftHint.textContent =
+        state.selectedId
+          ? "Полная статья"
+          : `Большие материалы · ${items.length} шт.`;
+
+      if (state.selectedId) {
+        listView.style.display = "none";
+        articleView.style.display = "block";
+        renderArticle(state.selectedId);
+        return;
+      }
+
+      articleView.style.display = "none";
+      listView.style.display = "flex";
+
+      if (items.length === 0) {
+        listView.innerHTML = `
+          <div class="bigcard">
+            <h3>Пока нет новостей</h3>
+          </div>
+        `;
+
+        return;
+      }
+
+      listView.innerHTML = items
+        .map(article => {
+          const thumb =
+            normalizeMediaUrl(article.thumb);
+
+          const thumbHtml = thumb
+            ? `
+              <div
+                class="thumb"
+                aria-hidden="true"
+              >
+                <img
+                  src="${escapeHtml(thumb)}"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  onerror="
+                    const row = this.closest('.bigrow');
+                    row?.classList.add('no-thumb');
+                    this.closest('.thumb')?.remove();
+                  "
+                />
+              </div>
+            `
+            : "";
+
+          const rowClass =
+            thumb
+              ? "bigrow"
+              : "bigrow no-thumb";
+
+          return `
+            <a
+              class="bigcard"
+              href="#${encodeURIComponent(article.id)}"
+              data-open="${escapeHtml(article.id)}"
+              aria-label="Открыть материал: ${escapeHtml(article.title)}"
+            >
+              <div class="${rowClass}">
+                ${thumbHtml}
+
+                <div>
+                  <div class="top">
+                    <span class="rubric">
+                      ${escapeHtml(article.rubric)}
+                    </span>
+
+                    <span>
+                      ${escapeHtml(article.when || "")}
+                    </span>
+
+                    ${
+                      article.live
+                        ? `<span class="live">LIVE</span>`
+                        : ""
+                    }
+                  </div>
+
+                  <h3>
+                    ${escapeHtml(article.title)}
+                  </h3>
+
+                  <p class="desc">
+                    ${escapeHtml(article.lead || "")}
+                  </p>
+
+                  <div class="chips">
+                    <span class="chip hot">
+                      ${
+                        escapeHtml(
+                          article.ts
+                            ? formatDate(article.ts)
+                            : "Лента"
+                        )
+                      }
+                    </span>
+
+                    <span class="chip">
+                      ${
+                        article.thumb
+                          ? "Фото"
+                          : "Материал"
+                      }
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          `;
+        })
+        .join("");
+
+      listView
+        .querySelectorAll("[data-open]")
+        .forEach(element => {
+          element.addEventListener(
+            "click",
+            event => {
+              event.preventDefault();
+              openArticle(element.dataset.open);
+            }
+          );
+        });
+    }
+
+    function renderArticle(id){
+      const article = ARTICLES.find(
+        item => item.id === id
+      );
+
+      if (!article) {
+        state.selectedId = null;
+        renderList();
+        return;
+      }
+
+      const related =
+        relatedFor(article);
+
+      const thumb =
+        normalizeMediaUrl(article.thumb);
+
+      articleView.innerHTML = `
+        <h1 class="articleTitle">
+          ${escapeHtml(article.title)}
+        </h1>
+
+        <div class="articleMeta">
+          <span>
+            ${escapeHtml(article.rubric || "События")}
+          </span>
+
+          ${
+            article.updated
+              ? `<span>${escapeHtml(article.updated)}</span>`
+              : ""
+          }
+
+          ${
+            article.author
+              ? `<span>${escapeHtml(article.author)}</span>`
+              : ""
+          }
+        </div>
+
+        ${
+          thumb
+            ? `
+              <div class="media">
+                <img
+                  src="${escapeHtml(thumb)}"
+                  alt=""
+                  decoding="async"
+                  onerror="
+                    const media = this.closest('.media');
+                    const caption = media?.nextElementSibling;
+
+                    if (
+                      caption?.classList.contains('caption')
+                    ) {
+                      caption.remove();
+                    }
+
+                    media?.remove();
+                  "
+                />
+              </div>
+            `
+            : ""
+        }
+
+        ${
+          thumb && article.caption
+            ? `
+              <div class="caption">
+                ${escapeHtml(article.caption)}
+              </div>
+            `
+            : ""
+        }
+
+        <div class="body">
+          ${
+            article.body
+              .map(
+                paragraph => `
+                  <p>${escapeHtml(paragraph)}</p>
+                `
+              )
+              .join("")
+          }
+        </div>
+
+        <div class="toolbar">
+          <button
+            class="more"
+            id="backBtn"
+            type="button"
+          >
+            ← К списку
+          </button>
+        </div>
+
+        ${
+          related.length
+            ? `
+              <div class="related">
+                <div class="relatedHead">
+                  <div>
+                    <h2>Ещё по теме</h2>
+                    <p>Похожие материалы из ленты</p>
+                  </div>
+                </div>
+
+                <div class="relGrid">
+                  ${
+                    related
+                      .map(
+                        item => `
+                          <a
+                            class="relCard"
+                            href="#${encodeURIComponent(item.id)}"
+                            data-open-related="${escapeHtml(item.id)}"
+                          >
+                            <div class="top">
+                              <span class="rubric">
+                                ${escapeHtml(item.rubric)}
+                              </span>
+
+                              <span>
+                                ${escapeHtml(item.when || "")}
+                              </span>
+                            </div>
+
+                            <h3>
+                              ${escapeHtml(item.title)}
+                            </h3>
+
+                            <p class="desc">
+                              ${escapeHtml(item.lead || "")}
+                            </p>
+                          </a>
+                        `
+                      )
+                      .join("")
+                  }
+                </div>
+              </div>
+            `
+            : ""
+        }
+      `;
+
+      articleView
+        .querySelector("#backBtn")
+        ?.addEventListener(
+          "click",
+          () => {
+            state.selectedId = null;
+
+            history.replaceState(
+              null,
+              "",
+              "news.html"
+            );
+
+            renderList();
+
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+        );
+
+      articleView
+        .querySelectorAll("[data-open-related]")
+        .forEach(element => {
+          element.addEventListener(
+            "click",
+            event => {
+              event.preventDefault();
+
+              openArticle(
+                element.dataset.openRelated
+              );
+            }
+          );
+        });
+    }
+
+    function openArticle(id){
+      state.selectedId = id;
+
+      history.replaceState(
+        null,
+        "",
+        `news.html#${encodeURIComponent(id)}`
+      );
+
+      renderList();
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    function renderFeed(){
+      const query =
+        state.query.trim().toLowerCase();
+
+      const items = (
+        state.liveOnly
+          ? feedItems.filter(item => item.live)
+          : feedItems
+      ).filter(
+        item =>
+          !query ||
+          (item.title || "")
+            .toLowerCase()
+            .includes(query)
+      );
+
+      if (items.length === 0) {
+        feedList.innerHTML = `
+          <div class="feed-item">
+            <div class="t-time"></div>
+
+            <div class="t-main">
+              <div class="t-title">
+                Пока нет новостей
+              </div>
+            </div>
+          </div>
+        `;
+
+        return;
+      }
+
+      feedList.innerHTML = items
+        .map(
+          item => `
+            <div
+              class="feed-item"
+              data-open="${escapeHtml(item.id)}"
+            >
+              <div class="t-time">
+                ${escapeHtml(item.time || "")}
+              </div>
+
+              <div class="t-main">
+                <div class="t-top">
+                  <span class="t-dot"></span>
+
+                  <span class="t-rubric">
+                    ${escapeHtml(item.rubric)}
+                  </span>
+
+                  ${
+                    item.live
+                      ? `<span class="t-live">LIVE</span>`
+                      : ""
+                  }
+                </div>
+
+                <div class="t-title">
+                  ${escapeHtml(item.title)}
+                </div>
+              </div>
+            </div>
+          `
+        )
+        .join("");
+
+      feedList
+        .querySelectorAll("[data-open]")
+        .forEach(element => {
+          element.addEventListener(
+            "click",
+            () => {
+              openArticle(element.dataset.open);
+            }
+          );
+        });
+    }
+
+    document
+      .querySelectorAll(".tab")
+      .forEach(element => {
+        element.addEventListener(
+          "click",
+          event => {
+            event.preventDefault();
+
+            document
+              .querySelectorAll(".tab")
+              .forEach(tab => {
+                tab.classList.remove("active");
+              });
+
+            element.classList.add("active");
+
+            state.tab =
+              element.dataset.tab;
+
+            state.selectedId = null;
+
+            history.replaceState(
+              null,
+              "",
+              "news.html"
+            );
+
+            renderList();
+            renderFeed();
+          }
+        );
+      });
+
+    liveToggle.addEventListener(
+      "click",
+      event => {
+        event.preventDefault();
+
+        state.liveOnly =
+          !state.liveOnly;
+
+        liveToggle.textContent =
+          state.liveOnly
+            ? "Все"
+            : "Только LIVE";
+
+        renderFeed();
+
+        if (!state.selectedId) {
+          renderList();
+        }
+      }
+    );
+
+    headerSearch.addEventListener(
+      "input",
+      event => {
+        state.query =
+          event.target.value || "";
+
+        if (!state.selectedId) {
+          renderList();
+        }
+
+        renderFeed();
+      }
+    );
+
+    function openFromHash(){
+      const raw = window.location.hash
+        .replace(/^#/, "")
+        .trim();
+
+      if (!raw) {
+        state.selectedId = null;
+        renderList();
+        renderFeed();
+        return;
+      }
+
+      let id = raw;
+
+      try {
+        id = decodeURIComponent(raw);
+      } catch (error) {
+        console.warn(
+          "Некорректный идентификатор в адресе:",
+          error
+        );
+      }
+
+      const exists = ARTICLES.some(
+        article => article.id === id
+      );
+
+      state.selectedId =
+        exists
+          ? id
+          : null;
+
       renderList();
       renderFeed();
     }
-  }
 
-  async function initNews(){
-    await refreshNewsContent(false);
+    /*
+     * Добавляет уникальный параметр к каждому запросу.
+     * Это помогает обходить кеш браузера и CDN.
+     */
+    function cacheBust(url){
+      const requestUrl = new URL(
+        url,
+        window.location.href
+      );
 
-    if(refreshTimer) clearInterval(refreshTimer);
-    refreshTimer = setInterval(() => refreshNewsContent(true), CONTENT_REFRESH_MS);
+      requestUrl.searchParams.set(
+        "_",
+        `${Date.now()}-${Math.random()
+          .toString(36)
+          .slice(2)}`
+      );
 
-    if(!visibilityRefreshBound){
-      visibilityRefreshBound = true;
-      document.addEventListener("visibilitychange", () => {
-        if(!document.hidden) refreshNewsContent(true);
-      });
+      return requestUrl.href;
     }
-  }
 
-  initNews();
-  window.addEventListener("hashchange", openFromHash);
-</script>
+    /*
+     * Загрузка JSON с отключенным кешированием.
+     */
+    async function loadJson(url){
+      const response = await fetch(
+        cacheBust(url),
+        {
+          method: "GET",
+          cache: "no-store",
+          credentials: "same-origin",
+
+          headers: {
+            "Accept": "application/json",
+            "Cache-Control":
+              "no-cache, no-store, max-age=0",
+            "Pragma": "no-cache"
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `Не удалось загрузить ${url}: HTTP ${response.status}`
+        );
+      }
+
+      return response.json();
+    }
+
+    /*
+     * Поддерживаемые варианты feed.json:
+     *
+     * 1. Обычный массив:
+     *    [ {...}, {...} ]
+     *
+     * 2. Объект:
+     *    { "items": [...] }
+     *
+     * 3. Объект:
+     *    { "posts": [...] }
+     *
+     * 4. Ответ, похожий на VK API:
+     *    { "response": { "items": [...] } }
+     */
+    function extractPosts(data){
+      if (Array.isArray(data)) {
+        return data;
+      }
+
+      if (Array.isArray(data?.items)) {
+        return data.items;
+      }
+
+      if (Array.isArray(data?.posts)) {
+        return data.posts;
+      }
+
+      if (
+        Array.isArray(
+          data?.response?.items
+        )
+      ) {
+        return data.response.items;
+      }
+
+      console.warn(
+        "Неизвестный формат feed.json:",
+        data
+      );
+
+      return [];
+    }
+
+    /*
+     * Обновление новостной ленты.
+     *
+     * refreshInProgress защищает от нескольких
+     * одновременных запросов при focus,
+     * visibilitychange и работе таймера.
+     */
+    async function refreshNewsContent(silent = false){
+      if (refreshInProgress) {
+        return;
+      }
+
+      refreshInProgress = true;
+
+      try {
+        if (!silent) {
+          feedStatus.textContent =
+            "обновляется";
+        }
+
+        /*
+         * Загружаем только новостной JSON.
+         *
+         * В исходном коде обновление новостей ожидало
+         * загрузки дополнительных TV-файлов.
+         * Теперь медленные TV-запросы не задерживают ленту.
+         */
+        const data = await loadJson(
+          "content/news/feed.json"
+        );
+
+        const posts =
+          extractPosts(data);
+
+        buildFromFeed(posts);
+        openFromHash();
+
+        const stamp =
+          new Date().toLocaleTimeString(
+            "ru-RU",
+            {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit"
+            }
+          );
+
+        feedStatus.textContent =
+          `обновлено ${stamp}`;
+
+        console.info(
+          `[Новости] Загружено публикаций: ${posts.length}. Обновлено: ${stamp}`
+        );
+      } catch (error) {
+        console.error(
+          "Ошибка загрузки новостной ленты:",
+          error
+        );
+
+        feedStatus.textContent =
+          ARTICLES.length
+            ? "не удалось обновить"
+            : "ошибка загрузки";
+
+        renderList();
+        renderFeed();
+      } finally {
+        refreshInProgress = false;
+      }
+    }
+
+    async function initNews(){
+      await refreshNewsContent(false);
+
+      if (refreshTimer) {
+        clearInterval(refreshTimer);
+      }
+
+      refreshTimer = setInterval(
+        () => {
+          refreshNewsContent(true);
+        },
+        CONTENT_REFRESH_MS
+      );
+
+      if (!visibilityRefreshBound) {
+        visibilityRefreshBound = true;
+
+        document.addEventListener(
+          "visibilitychange",
+          () => {
+            if (!document.hidden) {
+              refreshNewsContent(true);
+            }
+          }
+        );
+
+        window.addEventListener(
+          "focus",
+          () => {
+            refreshNewsContent(true);
+          }
+        );
+
+        window.addEventListener(
+          "pageshow",
+          () => {
+            refreshNewsContent(true);
+          }
+        );
+
+        window.addEventListener(
+          "online",
+          () => {
+            refreshNewsContent(true);
+          }
+        );
+      }
+    }
+
+    initNews();
+
+    window.addEventListener(
+      "hashchange",
+      openFromHash
+    );
+  </script>
 
   <script>
     (function(){
-      const d = document.querySelector('.nav-mobile');
-      if(!d) return;
+      const details =
+        document.querySelector(".nav-mobile");
 
-      d.querySelectorAll('a').forEach(a=>{
-        a.addEventListener('click', ()=> d.removeAttribute('open'));
-      });
+      if (!details) {
+        return;
+      }
 
-      document.addEventListener('click', (e)=>{
-        if(d.hasAttribute('open') && !d.contains(e.target)){
-          d.removeAttribute('open');
+      details
+        .querySelectorAll("a")
+        .forEach(link => {
+          link.addEventListener(
+            "click",
+            () => {
+              details.removeAttribute("open");
+            }
+          );
+        });
+
+      document.addEventListener(
+        "click",
+        event => {
+          if (
+            details.hasAttribute("open") &&
+            !details.contains(event.target)
+          ) {
+            details.removeAttribute("open");
+          }
         }
-      });
+      );
 
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape') d.removeAttribute('open');
-      });
+      document.addEventListener(
+        "keydown",
+        event => {
+          if (event.key === "Escape") {
+            details.removeAttribute("open");
+          }
+        }
+      );
     })();
   </script>
 
   <script>
     (function () {
       const KEY = "theme";
-      const root = document.documentElement;
-      const toggles = Array.from(document.querySelectorAll("[data-theme-toggle]"));
 
-      const ICON_MOON = `<path fill="currentColor" d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"/>`;
-      const ICON_SUN = `<path fill="currentColor" d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0Z"/>`;
+      const root =
+        document.documentElement;
 
-      function currentTheme() {
-        return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+      const toggles = Array.from(
+        document.querySelectorAll(
+          "[data-theme-toggle]"
+        )
+      );
+
+      const ICON_MOON = `
+        <path
+          fill="currentColor"
+          d="M21.4 13.1a8.9 8.9 0 0 1-10.5-10.5A9.6 9.6 0 1 0 21.4 13.1Z"
+        />
+      `;
+
+      const ICON_SUN = `
+        <path
+          fill="currentColor"
+          d="M12 18.2a6.2 6.2 0 1 1 0-12.4a6.2 6.2 0 0 1 0 12.4Zm0-14.9a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0V4.3a1 1 0 0 1 1-1Zm0 16.2a1 1 0 0 1 1 1v1.2a1 1 0 1 1-2 0v-1.2a1 1 0 0 1 1-1ZM4.3 11a1 1 0 1 1 0 2H3.1a1 1 0 1 1 0-2h1.2Zm17.8 0a1 1 0 1 1 0 2h-1.2a1 1 0 1 1 0-2h1.2ZM6 5.6a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4Zm11.2 11.2a1 1 0 0 1 1.4 0l.8.8a1 1 0 1 1-1.4 1.4l-.8-.8a1 1 0 0 1 0-1.4ZM18.4 5.6a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0ZM7.8 16.2a1 1 0 0 1 0 1.4l-.8.8a1 1 0 1 1-1.4-1.4l.8-.8a1 1 0 0 1 1.4 0Z"
+        />
+      `;
+
+      function currentTheme(){
+        return (
+          root.getAttribute("data-theme") === "dark"
+            ? "dark"
+            : "light"
+        );
       }
 
-      function setIconAndLabel(btn, theme){
-        const svg = btn.querySelector("svg");
-        if (!svg) return;
+      function setIconAndLabel(button, theme){
+        const svg =
+          button.querySelector("svg");
 
-        const isDark = theme === "dark";
-        svg.innerHTML = isDark ? ICON_SUN : ICON_MOON;
-        btn.setAttribute("aria-label", isDark ? "Включить светлую тему" : "Включить тёмную тему");
+        if (!svg) {
+          return;
+        }
 
-        const label = btn.querySelector(".themeLabel");
-        if(label){
-          label.textContent = isDark ? "Свет" : "Тема";
+        const isDark =
+          theme === "dark";
+
+        svg.innerHTML =
+          isDark
+            ? ICON_SUN
+            : ICON_MOON;
+
+        button.setAttribute(
+          "aria-label",
+          isDark
+            ? "Включить светлую тему"
+            : "Включить тёмную тему"
+        );
+
+        const label =
+          button.querySelector(".themeLabel");
+
+        if (label) {
+          label.textContent =
+            isDark
+              ? "Свет"
+              : "Тема";
         }
       }
 
-      function apply(theme) {
-        if (theme === "dark") root.setAttribute("data-theme", "dark");
-        else root.removeAttribute("data-theme");
+      function apply(theme){
+        if (theme === "dark") {
+          root.setAttribute(
+            "data-theme",
+            "dark"
+          );
+        } else {
+          root.removeAttribute(
+            "data-theme"
+          );
+        }
 
-        toggles.forEach(btn => {
-          const isDark = theme === "dark";
-          btn.setAttribute("aria-pressed", isDark ? "true" : "false");
-          setIconAndLabel(btn, theme);
+        toggles.forEach(button => {
+          const isDark =
+            theme === "dark";
+
+          button.setAttribute(
+            "aria-pressed",
+            isDark
+              ? "true"
+              : "false"
+          );
+
+          setIconAndLabel(
+            button,
+            theme
+          );
         });
       }
 
-      toggles.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const next = currentTheme() === "dark" ? "light" : "dark";
-          localStorage.setItem(KEY, next);
-          apply(next);
-        });
+      toggles.forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            const next =
+              currentTheme() === "dark"
+                ? "light"
+                : "dark";
+
+            localStorage.setItem(
+              KEY,
+              next
+            );
+
+            apply(next);
+          }
+        );
       });
 
-      apply(localStorage.getItem(KEY) || currentTheme());
+      apply(
+        localStorage.getItem(KEY) ||
+        currentTheme()
+      );
     })();
   </script>
 </body>
