@@ -742,7 +742,7 @@
     .card{
       grid-column:span 4;
 
-      min-height:260px;
+      min-height:220px;
       padding:14px;
 
       display:flex;
@@ -820,12 +820,6 @@
       line-height:1.25;
     }
 
-    .card .desc{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.55;
-    }
 
     .chips{
       margin-top:auto;
@@ -853,82 +847,246 @@
       font-weight:800;
     }
 
-    .video{
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:14px;
-      align-items:stretch;
-    }
 
-    .player{
+
+    .production-showcase{
       position:relative;
       overflow:hidden;
 
-      width:100%;
-      aspect-ratio:16/9;
-      padding:0;
+      padding:24px;
 
       display:grid;
-      place-items:center;
-
-      color:inherit;
-      font:inherit;
+      grid-template-columns:minmax(0, 1.25fr) minmax(280px, .75fr);
+      gap:20px;
+      align-items:stretch;
 
       border-radius:var(--r);
-      border:1px solid var(--line);
-      box-shadow:var(--shadow2);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:var(--shadow);
 
       background:
         radial-gradient(
-          560px 220px at 20% 15%,
-          rgba(240,32,0,.14),
-          transparent 60%
+          760px 340px at 12% 2%,
+          rgba(240,32,0,.38),
+          transparent 58%
         ),
         linear-gradient(
-          180deg,
-          rgba(11,11,12,.05),
-          rgba(11,11,12,.015)
+          135deg,
+          #0b0b0c,
+          #17191d
         );
 
-      background-size:cover;
-      background-position:center;
-      cursor:pointer;
+      color:var(--panelText);
     }
 
-    .player::before{
+    .production-showcase::before{
       content:"";
       position:absolute;
       inset:0;
-      background:rgba(0,0,0,.16);
+      pointer-events:none;
+
+      background:
+        linear-gradient(
+          to right,
+          rgba(255,255,255,.055) 1px,
+          transparent 1px
+        ) 0 0 / 64px 64px,
+        linear-gradient(
+          to bottom,
+          rgba(255,255,255,.045) 1px,
+          transparent 1px
+        ) 0 0 / 64px 64px;
+
+      mask-image:linear-gradient(
+        to bottom,
+        rgba(0,0,0,.76),
+        transparent 88%
+      );
     }
 
-    .play{
+    .production-showcase > *{
       position:relative;
       z-index:1;
+      min-width:0;
+    }
 
-      width:74px;
-      height:74px;
+    .production-main{
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap:13px;
+    }
 
-      display:grid;
-      place-items:center;
+    .portal-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      width:fit-content;
 
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,.35);
-      background:rgba(240,32,0,.28);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:1.3px;
+      text-transform:uppercase;
+    }
+
+    .portal-kicker::before{
+      content:"";
+      width:9px;
+      height:9px;
+      border-radius:3px;
+      background:var(--red);
+    }
+
+    .production-showcase h3{
+      max-width:760px;
+      margin:0;
+
+      font-size:clamp(25px, 4vw, 42px);
+      line-height:1.05;
+      letter-spacing:-.4px;
+    }
+
+    .production-showcase p{
+      max-width:760px;
+      margin:0;
+
+      color:var(--panelMuted);
+      font-size:14px;
+      line-height:1.68;
+    }
+
+    .production-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+
+    .production-tags span{
+      padding:7px 10px;
+
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:999px;
+      background:rgba(0,0,0,.18);
+
+      color:rgba(247,247,248,.84);
+      font-size:11px;
+      font-weight:800;
+    }
+
+    .production-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+      margin-top:2px;
+    }
+
+    .production-link{
+      width:fit-content;
+      min-height:40px;
+      padding:10px 14px;
+
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.24);
+      background:rgba(240,32,0,.36);
+
+      color:#fff;
+      font-size:13px;
+      font-weight:900;
+    }
+
+    .production-link:hover{
+      background:rgba(240,32,0,.52);
+      transform:translateY(-1px);
+    }
+
+    .production-link.secondary{
+      background:rgba(255,255,255,.06);
+      color:rgba(247,247,248,.86);
+    }
+
+    .production-link.secondary:hover{
+      background:rgba(255,255,255,.12);
       color:#fff;
     }
 
-    .play svg{
-      width:32px;
-      height:32px;
-    }
-
-    .vside{
+    .production-process{
       padding:14px;
 
       display:flex;
       flex-direction:column;
+      justify-content:center;
       gap:10px;
+
+      border:1px solid rgba(255,255,255,.13);
+      border-radius:14px;
+      background:rgba(255,255,255,.055);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+
+    .production-process-title{
+      margin:0 0 2px;
+      color:rgba(247,247,248,.62);
+
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:1.25px;
+      text-transform:uppercase;
+    }
+
+    .production-step{
+      min-height:62px;
+      padding:11px;
+
+      display:grid;
+      grid-template-columns:34px 1fr;
+      gap:10px;
+      align-items:center;
+
+      border:1px solid rgba(255,255,255,.11);
+      border-radius:12px;
+      background:rgba(0,0,0,.16);
+    }
+
+    .production-step b{
+      width:32px;
+      height:32px;
+
+      display:grid;
+      place-items:center;
+
+      border-radius:11px;
+      background:rgba(240,32,0,.22);
+      color:#fff;
+
+      font-size:11px;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .production-step span{
+      color:rgba(247,247,248,.88);
+      font-size:12px;
+      font-weight:750;
+      line-height:1.4;
+    }
+
+    .editorial-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      align-items:stretch;
+    }
+
+    .editorial-card{
+      padding:18px;
+
+      display:flex;
+      flex-direction:column;
+      gap:12px;
 
       background:var(--paper);
       border:1px solid var(--line);
@@ -936,48 +1094,92 @@
       box-shadow:var(--shadow2);
     }
 
-    .vside b{
+    .editorial-card h3{
+      margin:0;
       font-size:18px;
       line-height:1.25;
     }
 
-    .vside p{
+    .editorial-card p{
       margin:0;
       color:var(--muted);
       font-size:13px;
-      line-height:1.6;
+      line-height:1.65;
     }
 
-    .video-link{
+    .editorial-contact{
       margin-top:auto;
-      width:fit-content;
-    }
+      min-height:64px;
+      padding:12px 14px;
 
-    .teasers{
-      display:grid;
-      grid-template-columns:1fr 1fr;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       gap:14px;
+
+      border:1px solid var(--line2);
+      border-radius:12px;
+      background:var(--soft);
     }
 
-    .teaser{
-      padding:14px;
-
-      background:var(--paper);
-      border:1px solid var(--line);
-      border-radius:var(--r);
-      box-shadow:var(--shadow2);
-    }
-
-    .teaser h3{
-      margin:10px 0 8px;
-      font-size:15px;
-    }
-
-    .teaser p{
-      margin:0;
+    .editorial-contact span{
       color:var(--muted);
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:1px;
+      text-transform:uppercase;
+    }
+
+    .editorial-contact a{
       font-size:13px;
-      line-height:1.6;
+      font-weight:900;
+    }
+
+    .editorial-contact a:hover{
+      color:var(--red);
+    }
+
+    .editorial-actions{
+      margin-top:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:9px;
+    }
+
+    .editorial-action{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+
+      padding:9px 12px;
+      border-radius:999px;
+      border:1px solid var(--line2);
+      background:var(--soft);
+
+      color:var(--muted);
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .editorial-action:hover{
+      color:var(--ink);
+      border-color:rgba(240,32,0,.24);
+      background:rgba(240,32,0,.05);
+      transform:translateY(-1px);
+    }
+
+    .editorial-action.primary{
+      color:var(--ink);
+      border-color:rgba(240,32,0,.24);
+      background:rgba(240,32,0,.06);
+    }
+
+    .editorial-action svg{
+      width:16px;
+      height:16px;
+      display:block;
+      flex:0 0 auto;
     }
 
     footer{
@@ -1105,11 +1307,11 @@
         grid-column:span 6;
       }
 
-      .video{
+      .production-showcase{
         grid-template-columns:1fr;
       }
 
-      .teasers{
+      .editorial-grid{
         grid-template-columns:1fr;
       }
 
@@ -1147,8 +1349,35 @@
         grid-column:span 12;
       }
 
-      .vside{
-        display:none;
+      .production-showcase{
+        padding:18px;
+      }
+
+      .production-actions{
+        display:grid;
+        grid-template-columns:1fr;
+      }
+
+      .production-link{
+        width:100%;
+      }
+
+      .production-process{
+        padding:11px;
+      }
+
+      .editorial-contact{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .editorial-actions{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+      }
+
+      .editorial-action.primary{
+        grid-column:1 / -1;
       }
 
       .panel,
@@ -1310,57 +1539,169 @@
       <div class="cards" id="todayCards"></div>
     </section>
 
-    <section class="section" aria-label="Видео дня">
+
+
+    <section class="section" aria-label="Продакшн">
       <div class="section-head">
-        <h2>Видео дня</h2>
-        <a class="more" href="tv.html">Все видео →</a>
+        <h2>Продакшн</h2>
+        <a class="more" href="production.html">Подробнее →</a>
       </div>
 
-      <div class="video">
-        <button
-          class="player"
-          id="dayPlayer"
-          type="button"
-          aria-label="Смотреть видео дня"
-        >
-          <span class="play" aria-hidden="true">
-            <svg viewBox="0 0 24 24">
-              <path
-                fill="currentColor"
-                d="M8 5.5v13l10-6.5-10-6.5Z"
-              />
-            </svg>
-          </span>
-        </button>
+      <article class="production-showcase">
+        <div class="production-main">
+          <span class="portal-kicker">Промышленный видеопродакшн</span>
 
-        <div class="vside">
-          <span class="rubric">TV</span>
+          <h3>
+            Видеоматериалы под ключ — от сценария до монтажа
+          </h3>
 
-          <b id="dayTitle">
-            Видео промышленности
-          </b>
-
-          <p id="dayDescription">
-            Репортажи, интервью и материалы о производстве и технологиях.
+          <p>
+            Работаем с промышленной фактурой: разбираемся в продукте,
+            пишем сценарий, снимаем производство, монтируем и готовим
+            версии под нужные площадки.
           </p>
 
-          <button
-            class="more video-link"
-            id="dayLink"
-            type="button"
-          >
-            Смотреть →
-          </button>
+          <div class="production-tags" aria-label="Услуги продакшна">
+            <span>Сценарий</span>
+            <span>Съёмка</span>
+            <span>Монтаж</span>
+            <span>Графика</span>
+            <span>Адаптации</span>
+          </div>
+
+          <div class="production-actions">
+            <a
+              class="production-link"
+              href="production.html#cta"
+            >
+              Обсудить проект →
+            </a>
+
+            <a
+              class="production-link secondary"
+              href="production.html#vertical-videos"
+            >
+              Смотреть кейсы
+            </a>
+          </div>
         </div>
-      </div>
+
+        <div class="production-process" aria-label="Как мы работаем">
+          <p class="production-process-title">Как мы работаем</p>
+
+          <div class="production-step">
+            <b>01</b>
+            <span>Досконально изучаем ваш продукт</span>
+          </div>
+
+          <div class="production-step">
+            <b>02</b>
+            <span>Пишем сценарий и выезжаем на съёмки</span>
+          </div>
+
+          <div class="production-step">
+            <b>03</b>
+            <span>Монтируем, согласовываем и публикуем</span>
+          </div>
+        </div>
+      </article>
     </section>
 
-    <section class="section" aria-label="Последние материалы">
+    <section class="section" aria-label="Редакция">
       <div class="section-head">
-        <h2>Последние материалы</h2>
+        <h2>Редакция</h2>
+        <a class="more" href="editorial.html">Все контакты →</a>
       </div>
 
-      <div class="teasers" id="teasers"></div>
+      <div class="editorial-grid">
+        <article class="editorial-card">
+          <span class="portal-kicker">Связаться</span>
+
+          <h3>Есть тема, цифры или хороший кейс?</h3>
+
+          <p>
+            Присылайте темы, фактуру, комментарии и уточнения
+            по материалам. Мы читаем входящие и отвечаем по делу.
+          </p>
+
+          <div class="editorial-contact">
+            <span>Почта</span>
+            <a href="mailto:info@promrep.ru">info@promrep.ru</a>
+          </div>
+        </article>
+
+        <article class="editorial-card">
+          <span class="portal-kicker">Социальные сети</span>
+
+          <h3>Оперативные обновления и видео</h3>
+
+          <p>
+            Новости редакции, промышленные репортажи и новые выпуски —
+            на площадках «Промышленного репортёра».
+          </p>
+
+          <div class="editorial-actions">
+            <a
+              class="editorial-action primary"
+              href="editorial.html"
+            >
+              Контакты редакции →
+            </a>
+
+            <a
+              class="editorial-action"
+              href="https://t.me/promreporter"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Telegram"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M20.5 4.6 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.1c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.2-2.1 4.6 3.4c.8.4 1.4.2 1.6-.8l3-14c.2-1.2-.4-1.7-1.5-1.2Z"
+                />
+              </svg>
+              Telegram
+            </a>
+
+            <a
+              class="editorial-action"
+              href="https://vk.com/promrep"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="VK"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M12.6 18.7h1.5s.5-.1.8-.4c.2-.2.2-.6.2-.6s0-1.8.8-2c.8-.2 1.8 1.7 2.9 2.5.8.6 1.4.5 1.4.5h2.8s1.5-.1.8-1.3c-.1-.1-.6-1.2-2.9-3.4-2.4-2.3-2.1-2 .8-6.1.2-.3.3-.5.2-.7-.1-.3-.6-.2-.6-.2h-3.1s-.2 0-.4.1c-.2.1-.3.3-.3.3s-.5 1.2-1.2 2.3c-1.4 2.4-2 2.5-2.2 2.4-.5-.3-.4-1.4-.4-2.1 0-2.3.3-3.2-.7-3.5-.3-.1-.5-.1-1.3-.2-.9-.1-3.3 0-4.2.4-.6.3-1 .9-.7 1 0 0 .5.1.7.5.3.5.3 1.7.3 1.7s.2 2.7-.5 3c-.5.2-1.2-.2-2.6-2.5-.7-1.1-1.2-2.4-1.2-2.4s-.1-.2-.3-.3c-.2-.1-.5-.2-.5-.2H2s-.4 0-.6.2c-.2.2 0 .5 0 .5s2.1 5 4.6 7.5c2.3 2.4 5 2.2 5 2.2Z"
+                />
+              </svg>
+              VK
+            </a>
+
+            <a
+              class="editorial-action"
+              href="https://www.youtube.com/@Promrep"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="YouTube"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M21.6 7.1c.2.8.3 2.2.3 4.9s-.1 4.1-.3 4.9c-.2.9-.9 1.6-1.8 1.8-1.6.4-7.8.4-7.8.4s-6.2 0-7.8-.4c-.9-.2-1.6-.9-1.8-1.8C2.2 16.1 2.1 14.7 2.1 12s.1-4.1.3-4.9c.2-.9.9-1.6 1.8-1.8C5.8 4.9 12 4.9 12 4.9s6.2 0 7.8.4c.9.2 1.6.9 1.8 1.8Z"
+                />
+                <path
+                  fill="var(--paper)"
+                  d="M10.2 15.2V8.8L15.8 12l-5.6 3.2Z"
+                />
+              </svg>
+              YouTube
+            </a>
+          </div>
+        </article>
+      </div>
     </section>
 
     <footer>
@@ -1441,9 +1782,6 @@
     const todayCards =
       document.getElementById("todayCards");
 
-    const teasers =
-      document.getElementById("teasers");
-
     const headerSearch =
       document.getElementById("headerSearch");
 
@@ -1452,18 +1790,6 @@
 
     const heroLink =
       document.getElementById("heroLink");
-
-    const dayPlayer =
-      document.getElementById("dayPlayer");
-
-    const dayTitle =
-      document.getElementById("dayTitle");
-
-    const dayDescription =
-      document.getElementById("dayDescription");
-
-    const dayLink =
-      document.getElementById("dayLink");
 
     const videoModal =
       document.getElementById("videoModal");
@@ -1654,25 +1980,6 @@
       }
     );
 
-    dayPlayer.addEventListener(
-      "click",
-      () => {
-        openVideo(
-          getCurrentVideo(),
-          dayPlayer
-        );
-      }
-    );
-
-    dayLink.addEventListener(
-      "click",
-      () => {
-        openVideo(
-          getCurrentVideo(),
-          dayLink
-        );
-      }
-    );
 
     function normalizeMediaUrl(url){
       if(!url){
@@ -2203,13 +2510,6 @@
           "Новость"
         ).slice(0, 120);
 
-        const lead = (
-          parts[1] ||
-          post?.description ||
-          parts[0] ||
-          ""
-        ).slice(0, 220);
-
         const category =
           normalizeCategory(
             post?.tab,
@@ -2228,7 +2528,6 @@
           ),
 
           title,
-          lead,
 
           tab:category.tab,
           rubric:category.rubric,
@@ -2284,7 +2583,6 @@
 
       return [
         article.title,
-        article.lead,
         article.rubric
       ]
         .join(" ")
@@ -2353,10 +2651,6 @@
         todayCards.innerHTML = `
           <article class="card">
             <h3>Пока нет новостей</h3>
-
-            <p class="desc">
-              Новые материалы появятся после обновления ленты.
-            </p>
           </article>
         `;
 
@@ -2407,10 +2701,6 @@
                 ${escapeHtml(article.title)}
               </h3>
 
-              <p class="desc">
-                ${escapeHtml(article.lead)}
-              </p>
-
               <div class="chips">
                 <span class="chip hot">
                   ${
@@ -2427,49 +2717,6 @@
             </a>
           `;
         })
-        .join("");
-    }
-
-    function renderTeasers(){
-      const items = ARTICLES
-        .filter(matchesSearch)
-        .slice(6, 10);
-
-      if(items.length === 0){
-        teasers.innerHTML = `
-          <article class="teaser">
-            <span class="rubric">Редакция</span>
-
-            <h3>Следите за обновлениями</h3>
-
-            <p>
-              Свежие материалы автоматически появятся на главной странице.
-            </p>
-          </article>
-        `;
-
-        return;
-      }
-
-      teasers.innerHTML = items
-        .map(article => `
-          <a
-            class="teaser"
-            href="${articleUrl(article)}"
-          >
-            <span class="rubric">
-              ${escapeHtml(article.rubric)}
-            </span>
-
-            <h3>
-              ${escapeHtml(article.title)}
-            </h3>
-
-            <p>
-              ${escapeHtml(article.lead)}
-            </p>
-          </a>
-        `)
         .join("");
     }
 
@@ -2531,66 +2778,9 @@
       }
     }
 
-    function renderVideoOfDay(){
-      const video =
-        getCurrentVideo();
-
-      if(!video){
-        dayPlayer.disabled = true;
-        dayPlayer.style.backgroundImage = "";
-
-        dayTitle.textContent =
-          "Видео промышленности";
-
-        dayDescription.textContent =
-          "Репортажи, интервью и материалы о производстве и технологиях.";
-
-        dayLink.disabled = true;
-        return;
-      }
-
-      const cover =
-        pickImageUrl(video?.cover) ||
-        pickImageUrl(video?.preview) ||
-        pickImageUrl(video?.thumb) ||
-        pickImageUrl(video?.image) ||
-        pickImageUrl(video?.poster) ||
-        null;
-
-      dayPlayer.disabled = false;
-      dayLink.disabled = false;
-
-      dayTitle.textContent =
-        String(
-          video?.title ||
-          video?.name ||
-          video?.headline ||
-          "Видео дня"
-        );
-
-      dayDescription.textContent =
-        String(
-          video?.description ||
-          video?.lead ||
-          video?.text ||
-          "Новый материал Промышленного репортёра."
-        );
-
-      dayPlayer.style.backgroundImage = cover
-        ? `
-          linear-gradient(
-            rgba(0,0,0,.08),
-            rgba(0,0,0,.35)
-          ),
-          url("${cssUrl(cover)}")
-        `
-        : "";
-    }
-
     function renderNewsBlocks(){
       renderFeed();
       renderTodayCards();
-      renderTeasers();
     }
 
     function cacheBust(url){
@@ -2765,7 +2955,6 @@
           null;
 
         renderHero();
-        renderVideoOfDay();
       }catch(error){
         console.error(
           "Ошибка загрузки медиаматериалов:",
@@ -2773,7 +2962,6 @@
         );
 
         renderHero();
-        renderVideoOfDay();
       }finally{
         mediaRefreshInProgress = false;
       }
