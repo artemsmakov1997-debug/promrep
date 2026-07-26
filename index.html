@@ -785,6 +785,7 @@
     .card{
       grid-column:span 4;
 
+      min-width:0;
       min-height:220px;
       padding:14px;
 
@@ -865,13 +866,25 @@
       object-fit:cover;
     }
 
+    /*
+     * Защита от стены текста:
+     * даже некорректный входной заголовок
+     * займёт не более трёх строк.
+     */
     .card h3{
       margin:0 0 10px;
 
+      overflow:hidden;
+      overflow-wrap:anywhere;
+
+      display:-webkit-box;
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:3;
+
+      max-height:3.75em;
+
       font-size:16px;
       line-height:1.25;
-
-      overflow-wrap:anywhere;
     }
 
     .chips{
@@ -1761,13 +1774,6 @@
               rel="noopener noreferrer"
               aria-label="Telegram"
             >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  fill="currentColor"
-                  d="M20.5 4.6 2.9 11.4c-1.2.5-1.2 1.2-.2 1.5l4.5 1.4 1.7 5.1c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.2-2.1 4.6 3.4c.8.4 1.4.2 1.6-.8l3-14c.2-1.2-.4-1.7-1.5-1.2Z"
-                ></path>
-              </svg>
-
               Telegram
             </a>
 
@@ -1778,13 +1784,6 @@
               rel="noopener noreferrer"
               aria-label="VK"
             >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  fill="currentColor"
-                  d="M12.6 18.7h1.5s.5-.1.8-.4c.2-.2.2-.6.2-.6s0-1.8.8-2c.8-.2 1.8 1.7 2.9 2.5.8.6 1.4.5 1.4.5h2.8s1.5-.1.8-1.3c-.1-.1-.6-1.2-2.9-3.4-2.4-2.3-2.1-2 .8-6.1.2-.3.3-.5.2-.7-.1-.3-.6-.2-.6-.2h-3.1s-.2 0-.4.1c-.2.1-.3.3-.3.3s-.5 1.2-1.2 2.3c-1.4 2.4-2 2.5-2.2 2.4-.5-.3-.4-1.4-.4-2.1 0-2.3.3-3.2-.7-3.5-.3-.1-.5-.1-1.3-.2-.9-.1-3.3 0-4.2.4-.6.3-1 .9-.7 1 0 0 .5.1.7.5.3.5.3 1.7.3 1.7s.2 2.7-.5 3c-.5.2-1.2-.2-2.6-2.5-.7-1.1-1.2-2.4-1.2-2.4s-.1-.2-.3-.3c-.2-.1-.5-.2-.5-.2H2s-.4 0-.6.2c-.2.2 0 .5 0 .5s2.1 5 4.6 7.5c2.3 2.4 5 2.2 5 2.2Z"
-                ></path>
-              </svg>
-
               VK
             </a>
 
@@ -1795,18 +1794,6 @@
               rel="noopener noreferrer"
               aria-label="YouTube"
             >
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  fill="currentColor"
-                  d="M21.6 7.1c.2.8.3 2.2.3 4.9s-.1 4.1-.3 4.9c-.2.9-.9 1.6-1.8 1.8-1.6.4-7.8.4-7.8.4s-6.2 0-7.8-.4c-.9-.2-1.6-.9-1.8-1.8C2.2 16.1 2.1 14.7 2.1 12s.1-4.1.3-4.9c.2-.9.9-1.6 1.8-1.8C5.8 4.9 12 4.9s6.2 0 7.8.4c.9.2 1.6.9 1.8 1.8Z"
-                ></path>
-
-                <path
-                  fill="var(--paper)"
-                  d="M10.2 15.2V8.8L15.8 12l-5.6 3.2Z"
-                ></path>
-              </svg>
-
               YouTube
             </a>
           </div>
@@ -1858,11 +1845,9 @@
   <script>
     "use strict";
 
-    /*
-     * Новости обновляются независимо от TV-файлов.
-     */
     const CONTENT_REFRESH_MS = 30 * 1000;
     const MEDIA_REFRESH_MS = 5 * 60 * 1000;
+    const TITLE_MAX_LENGTH = 120;
 
     let ARTICLES = [];
     let feedItems = [];
@@ -1876,8 +1861,8 @@
 
     let newsRefreshInProgress = false;
     let mediaRefreshInProgress = false;
-
     let listenersInstalled = false;
+    let modalReturnFocus = null;
 
     const state = {
       query:""
@@ -1913,8 +1898,6 @@
     const videoModalClose =
       document.getElementById("videoModalClose");
 
-    let modalReturnFocus = null;
-
     document.getElementById("year").textContent =
       new Date().getFullYear();
 
@@ -1929,6 +1912,132 @@
 
     function escapeAttribute(value){
       return escapeHtml(value);
+    }
+
+    function normalizeWhitespace(value){
+      return String(value ?? "")
+        .replace(/\u00a0/g, " ")
+        .replace(/[ \t]+/g, " ")
+        .replace(/\s+\n/g, "\n")
+        .replace(/\n\s+/g, "\n")
+        .trim();
+    }
+
+    /*
+     * Укорачивает строку по границе слова.
+     * В середине слова заголовок не обрывается.
+     */
+    function shortenTitle(value, maxLength = TITLE_MAX_LENGTH){
+      const text = normalizeWhitespace(value)
+        .replace(/\s+/g, " ")
+        .trim();
+
+      if(!text){
+        return "Новость";
+      }
+
+      if(text.length <= maxLength){
+        return text;
+      }
+
+      const fragment =
+        text.slice(0, maxLength + 1);
+
+      const sentenceStops = [
+        fragment.lastIndexOf(". "),
+        fragment.lastIndexOf("! "),
+        fragment.lastIndexOf("? "),
+        fragment.lastIndexOf("… ")
+      ];
+
+      const sentenceEnd =
+        Math.max(...sentenceStops);
+
+      /*
+       * Если в подходящем месте уже закончилось предложение,
+       * используем его целиком.
+       */
+      if(sentenceEnd >= Math.floor(maxLength * 0.55)){
+        return fragment
+          .slice(0, sentenceEnd + 1)
+          .trim();
+      }
+
+      const wordEnd =
+        fragment.lastIndexOf(" ");
+
+      const cutPosition =
+        wordEnd >= Math.floor(maxLength * 0.55)
+          ? wordEnd
+          : maxLength;
+
+      return (
+        fragment
+          .slice(0, cutPosition)
+          .replace(/[\s,;:–—-]+$/u, "")
+          .trim() +
+        "…"
+      );
+    }
+
+    /*
+     * Главное исправление.
+     *
+     * Приоритет:
+     * 1. Отдельное поле title/headline/name.
+     * 2. Первая непустая строка публикации.
+     * 3. Первое предложение.
+     * 4. Безопасное ограничение до 120 символов.
+     */
+    function extractShortTitle(post, cleanText){
+      const explicitTitleCandidates = [
+        post?.title,
+        post?.headline,
+        post?.name,
+        post?.subject
+      ];
+
+      for(const candidate of explicitTitleCandidates){
+        const value =
+          normalizeWhitespace(candidate);
+
+        if(value){
+          return shortenTitle(value);
+        }
+      }
+
+      const normalizedText =
+        String(cleanText || "")
+          .replace(/\r\n?/g, "\n")
+          .trim();
+
+      const lines = normalizedText
+        .split(/\n+/)
+        .map(line => normalizeWhitespace(line))
+        .filter(Boolean);
+
+      /*
+       * Одинарный перенос строки теперь тоже считается
+       * разделителем заголовка и основного текста.
+       */
+      if(lines.length > 1){
+        return shortenTitle(lines[0]);
+      }
+
+      const oneLineText =
+        lines[0] ||
+        normalizeWhitespace(normalizedText);
+
+      const firstSentence =
+        oneLineText.match(
+          /^(.{20,160}?[.!?…])(?:\s|$)/u
+        );
+
+      if(firstSentence?.[1]){
+        return shortenTitle(firstSentence[1]);
+      }
+
+      return shortenTitle(oneLineText);
     }
 
     function pickEmbedUrl(item){
@@ -2095,7 +2204,8 @@
         return null;
       }
 
-      let value = String(url).trim();
+      let value =
+        String(url).trim();
 
       if(!value){
         return null;
@@ -2281,7 +2391,7 @@
           /(^|\s)#(?:тема_?дня|темадня)(?=\s|$)/giu,
           " "
         )
-        .replace(/\s+/g, " ")
+        .replace(/[ \t]+/g, " ")
         .trim();
     }
 
@@ -2490,6 +2600,7 @@
         const originalText =
           String(
             post?.text ||
+            post?.description ||
             post?.title ||
             ""
           );
@@ -2500,21 +2611,15 @@
         const cleanText =
           stripTopicOfDayHashtag(originalText);
 
-        const parts = cleanText
-          .split(/\n\s*\n/)
-          .map(item => item.trim())
-          .filter(Boolean);
-
         /*
-         * Исправление:
-         * заголовок больше не обрезается до 120 символов.
+         * Здесь больше не используется parts[0]
+         * после разделения только по пустой строке.
          */
-        const title = (
-          parts[0] ||
-          post?.title ||
-          cleanText ||
-          "Новость"
-        ).trim();
+        const title =
+          extractShortTitle(
+            post,
+            cleanText
+          );
 
         const category =
           normalizeCategory(
@@ -2674,6 +2779,7 @@
             <a
               class="card"
               href="${articleUrl(article)}"
+              aria-label="Открыть новость: ${escapeAttribute(article.title)}"
             >
               <div class="top">
                 <span class="rubric">
@@ -2694,7 +2800,7 @@
                   ? `
                     <div class="card-thumb">
                       <img
-                        src="${escapeHtml(image)}"
+                        src="${escapeAttribute(image)}"
                         alt=""
                         loading="lazy"
                         decoding="async"
@@ -2705,7 +2811,7 @@
                   : ""
               }
 
-              <h3>
+              <h3 title="${escapeAttribute(article.title)}">
                 ${escapeHtml(article.title)}
               </h3>
 
@@ -3140,14 +3246,7 @@
       installListeners();
       updateThemeButtons();
 
-      /*
-       * Сначала загружаются новости.
-       */
       await refreshNewsContent(false);
-
-      /*
-       * Медиа загружаются независимо.
-       */
       refreshMediaContent();
 
       if(refreshTimer){
