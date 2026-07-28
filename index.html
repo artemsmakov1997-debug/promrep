@@ -1845,7 +1845,7 @@
   <script>
     "use strict";
 
-    const CONTENT_REFRESH_MS = 30 * 1000;
+    const CONTENT_REFRESH_MS = 5 * 60 * 1000;
     const MEDIA_REFRESH_MS = 5 * 60 * 1000;
     const TITLE_MAX_LENGTH = 120;
 
@@ -1858,6 +1858,11 @@
 
     let refreshTimer = null;
     let mediaRefreshTimer = null;
+
+    let lastNewsRefreshAt = 0;
+    let lastMediaRefreshAt = 0;
+
+    const rejectedNewsImages = new Set();
 
     let newsRefreshInProgress = false;
     let mediaRefreshInProgress = false;
@@ -2325,6 +2330,70 @@
       return null;
     }
 
+    function pickNewsImage(post){
+      const directCandidates = [
+        post?.photo,
+        post?.thumb,
+        post?.thumbnail,
+        post?.image,
+        post?.cover,
+        post?.preview,
+        post?.picture
+      ];
+
+      for(const candidate of directCandidates){
+        const image = pickImageUrl(candidate);
+
+        if(image){
+          return image;
+        }
+      }
+
+      const attachments = Array.isArray(post?.attachments)
+        ? post.attachments
+        : [];
+
+      for(const attachment of attachments){
+        const type = String(attachment?.type || "")
+          .trim()
+          .toLowerCase();
+
+        if(
+          type &&
+          !["photo", "image", "picture"].includes(type)
+        ){
+          continue;
+        }
+
+        const explicitAttachmentImage =
+          attachment?.photo ||
+          attachment?.image ||
+          attachment?.picture ||
+          attachment?.preview ||
+          attachment?.thumb ||
+          attachment?.thumbnail ||
+          attachment?.cover ||
+          null;
+
+        const imageSource =
+          explicitAttachmentImage ||
+          (
+            ["photo", "image", "picture"].includes(type) ||
+            Array.isArray(attachment?.sizes)
+              ? attachment
+              : null
+          );
+
+        const image = pickImageUrl(imageSource);
+
+        if(image){
+          return image;
+        }
+      }
+
+      return null;
+    }
+
     function formatDate(timestamp){
       if(!timestamp){
         return "";
@@ -2596,7 +2665,7 @@
           return idB - idA;
         });
 
-      ARTICLES = sorted.map((post, index) => {
+      const articles = sorted.map((post, index) => {
         const originalText =
           String(
             post?.text ||
@@ -2643,14 +2712,7 @@
           tab:category.tab,
           rubric:category.rubric,
 
-          thumb:
-            pickImageUrl(post?.photo) ||
-            pickImageUrl(post?.thumb) ||
-            pickImageUrl(post?.image) ||
-            pickImageUrl(post?.cover) ||
-            pickImageUrl(post?.preview) ||
-            pickImageUrl(post?.attachments) ||
-            null,
+          thumb:pickNewsImage(post),
 
           ts:timestamp,
 
@@ -2669,6 +2731,11 @@
           )
         };
       });
+
+      ARTICLES = articles.filter(article => (
+        article.thumb &&
+        !rejectedNewsImages.has(article.thumb)
+      ));
 
       feedItems = ARTICLES.map(article => ({
         id:article.id,
@@ -2755,6 +2822,42 @@
         .join("");
     }
 
+    function rejectBrokenNewsImage(articleId){
+      const article = ARTICLES.find(
+        item => item.id === articleId
+      );
+
+      if(article?.thumb){
+        rejectedNewsImages.add(article.thumb);
+      }
+
+      ARTICLES = ARTICLES.filter(
+        item => item.id !== articleId
+      );
+
+      feedItems = feedItems.filter(
+        item => item.id !== articleId
+      );
+
+      renderNewsBlocks();
+    }
+
+    function installNewsImageGuards(){
+      todayCards
+        .querySelectorAll("img[data-article-id]")
+        .forEach(image => {
+          image.addEventListener(
+            "error",
+            () => {
+              rejectBrokenNewsImage(
+                String(image.dataset.articleId || "")
+              );
+            },
+            {once:true}
+          );
+        });
+    }
+
     function renderTodayCards(){
       const items = ARTICLES
         .filter(matchesSearch)
@@ -2802,9 +2905,9 @@
                       <img
                         src="${escapeAttribute(image)}"
                         alt=""
-                        loading="lazy"
+                        loading="eager"
                         decoding="async"
-                        onerror="this.closest('.card-thumb')?.remove()"
+                        data-article-id="${escapeAttribute(article.id)}"
                       >
                     </div>
                   `
@@ -2832,6 +2935,8 @@
           `;
         })
         .join("");
+
+      installNewsImageGuards();
     }
 
     function getCurrentVideo(){
@@ -2969,6 +3074,7 @@
       }
 
       newsRefreshInProgress = true;
+      lastNewsRefreshAt = Date.now();
 
       try{
         if(!silent){
@@ -3023,6 +3129,7 @@
       }
 
       mediaRefreshInProgress = true;
+      lastMediaRefreshAt = Date.now();
 
       try{
         const [
@@ -3082,6 +3189,22 @@
         renderHero();
       }finally{
         mediaRefreshInProgress = false;
+      }
+    }
+
+    function refreshContentIfDue(){
+      const now = Date.now();
+
+      if(
+        now - lastNewsRefreshAt >= CONTENT_REFRESH_MS
+      ){
+        refreshNewsContent(true);
+      }
+
+      if(
+        now - lastMediaRefreshAt >= MEDIA_REFRESH_MS
+      ){
+        refreshMediaContent();
       }
     }
 
@@ -3213,17 +3336,14 @@
         "visibilitychange",
         () => {
           if(!document.hidden){
-            refreshNewsContent(true);
-            refreshMediaContent();
+            refreshContentIfDue();
           }
         }
       );
 
       window.addEventListener(
         "focus",
-        () => {
-          refreshNewsContent(true);
-        }
+        refreshContentIfDue
       );
 
       document.addEventListener(
