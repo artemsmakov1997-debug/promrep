@@ -1219,15 +1219,15 @@
     };
 
     /*
-     * Исправление:
-     * раньше обновление выполнялось каждые пять минут.
-     * Теперь файл ленты проверяется каждые 30 секунд.
+     * Новости проверяются не чаще одного раза в пять минут.
+     * Первая загрузка выполняется сразу при открытии страницы.
      */
-    const CONTENT_REFRESH_MS = 30 * 1000;
+    const CONTENT_REFRESH_MS = 5 * 60 * 1000;
 
     let refreshTimer = null;
     let visibilityRefreshBound = false;
     let refreshInProgress = false;
+    let lastRefreshAt = 0;
 
     document.getElementById("y").textContent =
       new Date().getFullYear();
@@ -1451,6 +1451,106 @@
               return url;
             }
           }
+        }
+      }
+
+      return null;
+    }
+
+    /*
+     * Отсекает очевидные ссылки на видео, документы и архивы.
+     * CDN-ссылки без расширения не блокируются: они часто ведут
+     * на корректные изображения.
+     */
+    function isExplicitNonImageUrl(url){
+      const value =
+        String(url || "")
+          .split("#")[0]
+          .split("?")[0]
+          .toLowerCase();
+
+      return /\.(?:mp4|webm|mov|avi|mkv|m3u8|pdf|docx?|xlsx?|pptx?|zip|rar|7z)$/i
+        .test(value);
+    }
+
+    /*
+     * Извлекает только настоящее изображение новости.
+     *
+     * Вложения video, link, doc и другие типы больше не могут
+     * случайно использоваться как превью через поле href/url.
+     */
+    function pickNewsImage(post){
+      const directCandidates = [
+        post?.photo,
+        post?.thumb,
+        post?.thumbnail,
+        post?.image,
+        post?.cover,
+        post?.preview,
+        post?.picture
+      ];
+
+      for (const candidate of directCandidates) {
+        const image = pickImageUrl(candidate);
+
+        if (
+          image &&
+          !isExplicitNonImageUrl(image)
+        ) {
+          return image;
+        }
+      }
+
+      const attachments =
+        Array.isArray(post?.attachments)
+          ? post.attachments
+          : [];
+
+      const allowedTypes = new Set([
+        "photo",
+        "image",
+        "picture"
+      ]);
+
+      for (const attachment of attachments) {
+        const type =
+          String(attachment?.type || "")
+            .trim()
+            .toLowerCase();
+
+        if (
+          type &&
+          !allowedTypes.has(type)
+        ) {
+          continue;
+        }
+
+        const explicitImage =
+          attachment?.photo ||
+          attachment?.image ||
+          attachment?.picture ||
+          attachment?.preview ||
+          attachment?.thumb ||
+          attachment?.thumbnail ||
+          attachment?.cover ||
+          null;
+
+        const source =
+          explicitImage ||
+          (
+            allowedTypes.has(type) ||
+            Array.isArray(attachment?.sizes)
+              ? attachment
+              : null
+          );
+
+        const image = pickImageUrl(source);
+
+        if (
+          image &&
+          !isExplicitNonImageUrl(image)
+        ) {
+          return image;
         }
       }
 
@@ -1947,107 +2047,113 @@
           return idB - idA;
         });
 
-      ARTICLES = sorted.map((post, index) => {
-        const text =
-          String(
-            post?.text ||
+      ARTICLES = sorted
+        .map((post, index) => {
+          const text =
+            String(
+              post?.text ||
+              post?.title ||
+              ""
+            );
+
+          const parts = text
+            .split(/\n\s*\n/)
+            .map(item => item.trim())
+            .filter(Boolean);
+
+          const title = (
+            parts[0] ||
             post?.title ||
+            text ||
+            "Новость"
+          ).slice(0, 120);
+
+          const lead = (
+            parts[1] ||
+            post?.description ||
+            parts[0] ||
             ""
+          ).slice(0, 220);
+
+          const category = normalizeCategory(
+            post?.tab,
+            post?.rubric,
+            text
           );
 
-        const parts = text
-          .split(/\n\s*\n/)
-          .map(item => item.trim())
-          .filter(Boolean);
+          const bodyParts =
+            parts.length > 1
+              ? parts.slice(1)
+              : [text].filter(Boolean);
 
-        const title = (
-          parts[0] ||
-          post?.title ||
-          text ||
-          "Новость"
-        ).slice(0, 120);
+          const timestamp =
+            Number(post?.date || 0) || null;
 
-        const lead = (
-          parts[1] ||
-          post?.description ||
-          parts[0] ||
-          ""
-        ).slice(0, 220);
+          const generatedId =
+            `${timestamp || Date.now()}-${index}`;
 
-        const category = normalizeCategory(
-          post?.tab,
-          post?.rubric,
-          text
-        );
+          const thumb =
+            pickNewsImage(post);
 
-        const bodyParts =
-          parts.length > 1
-            ? parts.slice(1)
-            : [text].filter(Boolean);
+          /*
+           * Новость без превью не попадает ни в список,
+           * ни в боковую ленту, ни в связанные материалы.
+           */
+          if (!thumb) {
+            return null;
+          }
 
-        const timestamp =
-          Number(post?.date || 0) || null;
+          return {
+            id: String(
+              post?.id ??
+              post?.post_id ??
+              generatedId
+            ),
 
-        const generatedId =
-          `${timestamp || Date.now()}-${index}`;
+            tab: category.tab,
+            rubric: category.rubric,
 
-        return {
-          id: String(
-            post?.id ??
-            post?.post_id ??
-            generatedId
-          ),
+            thumb,
 
-          tab: category.tab,
-          rubric: category.rubric,
+            when:
+              timestamp
+                ? formatDate(timestamp)
+                : "",
 
-          thumb:
-            pickImageUrl(post?.photo) ||
-            pickImageUrl(post?.thumb) ||
-            pickImageUrl(post?.image) ||
-            pickImageUrl(post?.cover) ||
-            pickImageUrl(post?.preview) ||
-            pickImageUrl(post?.attachments) ||
-            null,
+            age:
+              timestamp
+                ? relTime(timestamp)
+                : "",
 
-          when:
-            timestamp
-              ? formatDate(timestamp)
-              : "",
+            live:
+              Boolean(post?.live),
 
-          age:
-            timestamp
-              ? relTime(timestamp)
-              : "",
+            title,
+            lead,
 
-          live:
-            Boolean(post?.live),
+            tags: [],
 
-          title,
-          lead,
+            author:
+              post?.author ||
+              "ВКонтакте",
 
-          tags: [],
+            updated:
+              timestamp
+                ? formatDateTime(timestamp)
+                : "",
 
-          author:
-            post?.author ||
-            "ВКонтакте",
+            caption:
+              "Источник: сообщество ВКонтакте",
 
-          updated:
-            timestamp
-              ? formatDateTime(timestamp)
-              : "",
+            body:
+              bodyParts.length
+                ? bodyParts
+                : [lead || title],
 
-          caption:
-            "Источник: сообщество ВКонтакте",
-
-          body:
-            bodyParts.length
-              ? bodyParts
-              : [lead || title],
-
-          ts: timestamp
-        };
-      });
+            ts: timestamp
+          };
+        })
+        .filter(Boolean);
 
       feedItems = ARTICLES.map(article => ({
         id: article.id,
@@ -2063,9 +2169,71 @@
       }));
     }
 
+    /*
+     * Даже при наличии URL файл изображения может быть удалён
+     * или недоступен. В этом случае удаляем всю публикацию,
+     * а не оставляем карточку с пустым местом.
+     */
+    function removeArticleWithoutPreview(id){
+      const articleId =
+        String(id || "");
+
+      if (
+        !articleId ||
+        !ARTICLES.some(
+          article => article.id === articleId
+        )
+      ) {
+        return;
+      }
+
+      ARTICLES = ARTICLES.filter(
+        article => article.id !== articleId
+      );
+
+      feedItems = feedItems.filter(
+        item => item.id !== articleId
+      );
+
+      if (state.selectedId === articleId) {
+        state.selectedId = null;
+
+        history.replaceState(
+          null,
+          "",
+          "news.html"
+        );
+      }
+
+      renderList();
+      renderFeed();
+    }
+
+    function bindPreviewErrorHandlers(root){
+      root
+        ?.querySelectorAll("img[data-preview-id]")
+        .forEach(image => {
+          image.addEventListener(
+            "error",
+            () => {
+              removeArticleWithoutPreview(
+                image.dataset.previewId
+              );
+            },
+            {
+              once: true
+            }
+          );
+        });
+    }
+
     function renderList(){
       const items =
-        ARTICLES.filter(matchesFilter);
+        ARTICLES.filter(
+          article =>
+            Boolean(article.thumb) &&
+            matchesFilter(article)
+        );
 
       pageTitle.textContent =
         state.selectedId
@@ -2113,11 +2281,7 @@
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  onerror="
-                    const row = this.closest('.bigrow');
-                    row?.classList.add('no-thumb');
-                    this.closest('.thumb')?.remove();
-                  "
+                  data-preview-id="${escapeHtml(article.id)}"
                 />
               </div>
             `
@@ -2189,6 +2353,8 @@
         })
         .join("");
 
+      bindPreviewErrorHandlers(listView);
+
       listView
         .querySelectorAll("[data-open]")
         .forEach(element => {
@@ -2250,18 +2416,7 @@
                   src="${escapeHtml(thumb)}"
                   alt=""
                   decoding="async"
-                  onerror="
-                    const media = this.closest('.media');
-                    const caption = media?.nextElementSibling;
-
-                    if (
-                      caption?.classList.contains('caption')
-                    ) {
-                      caption.remove();
-                    }
-
-                    media?.remove();
-                  "
+                  data-preview-id="${escapeHtml(article.id)}"
                 />
               </div>
             `
@@ -2349,6 +2504,8 @@
             : ""
         }
       `;
+
+      bindPreviewErrorHandlers(articleView);
 
       articleView
         .querySelector("#backBtn")
@@ -2685,8 +2842,8 @@
      * Обновление новостной ленты.
      *
      * refreshInProgress защищает от нескольких
-     * одновременных запросов при focus,
-     * visibilitychange и работе таймера.
+     * одновременных запросов. Дополнительные события окна
+     * учитывают пятиминутный интервал и не создают лишних проверок.
      */
     async function refreshNewsContent(silent = false){
       if (refreshInProgress) {
@@ -2694,6 +2851,7 @@
       }
 
       refreshInProgress = true;
+      lastRefreshAt = Date.now();
 
       try {
         if (!silent) {
@@ -2732,7 +2890,7 @@
           `обновлено ${stamp}`;
 
         console.info(
-          `[Новости] Загружено публикаций: ${posts.length}. Обновлено: ${stamp}`
+          `[Новости] Получено: ${posts.length}; с превью: ${ARTICLES.length}. Обновлено: ${stamp}`
         );
       } catch (error) {
         console.error(
@@ -2752,6 +2910,15 @@
       }
     }
 
+    function refreshNewsIfDue(){
+      if (
+        Date.now() - lastRefreshAt >=
+        CONTENT_REFRESH_MS
+      ) {
+        refreshNewsContent(true);
+      }
+    }
+
     async function initNews(){
       await refreshNewsContent(false);
 
@@ -2760,9 +2927,7 @@
       }
 
       refreshTimer = setInterval(
-        () => {
-          refreshNewsContent(true);
-        },
+        refreshNewsIfDue,
         CONTENT_REFRESH_MS
       );
 
@@ -2773,30 +2938,24 @@
           "visibilitychange",
           () => {
             if (!document.hidden) {
-              refreshNewsContent(true);
+              refreshNewsIfDue();
             }
           }
         );
 
         window.addEventListener(
           "focus",
-          () => {
-            refreshNewsContent(true);
-          }
+          refreshNewsIfDue
         );
 
         window.addEventListener(
           "pageshow",
-          () => {
-            refreshNewsContent(true);
-          }
+          refreshNewsIfDue
         );
 
         window.addEventListener(
           "online",
-          () => {
-            refreshNewsContent(true);
-          }
+          refreshNewsIfDue
         );
       }
     }
