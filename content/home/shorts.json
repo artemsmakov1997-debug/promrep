@@ -1,13 +1,25 @@
 {
-  "updatedAt": "2026-08-05T11:34:39.505Z",
+  "updatedAt": "2026-08-05T13:39:31.943Z",
   "items": [
+    {
+      "title": "Clip by @promrep",
+      "href": "https://vk.com/video-234602001_456240241",
+      "thumb": "https://iv.okcdn.ru/getVideoPreview?id=17986381679288&idx=0&type=39&tkn=gxbv5SjzPW6V4NIMCs3NkDTOHLA&fn=vid_u",
+      "duration": "0:26",
+      "date": 1785888000,
+      "views": 105,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456240241,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456240241"
+    },
     {
       "title": "Clip by @promrep",
       "href": "https://vk.com/video-234602001_456240236",
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=17228621023853&idx=7&type=39&tkn=5O0Oo_h8PjdZLmIyeGEjKb3COs8&fn=vid_u&scl=4",
       "duration": "0:26",
       "date": 1785542400,
-      "views": 818,
+      "views": 825,
       "description": "",
       "ownerId": -234602001,
       "id": 456240236,
@@ -535,7 +547,7 @@
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=14322528488171&idx=0&type=39&tkn=nDXYJqA_JLD19UNsSz78TzS6vcU&fn=vid_u",
       "duration": "0:14",
       "date": 1776643200,
-      "views": 1425,
+      "views": 1426,
       "description": "",
       "ownerId": -234602001,
       "id": 456239816,
