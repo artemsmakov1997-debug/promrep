@@ -3,7 +3,7 @@ name: Update content from VK
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/30 * * * *"  # каждые 30 минут
+    - cron: "17,47 * * * *"  # каждые 30 минут
 
 permissions:
   contents: write
