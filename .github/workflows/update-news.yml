@@ -3,7 +3,7 @@ name: Update news from VK
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"  # каждые 15 минут
+    - cron: "7,22,37,52 * * * *"  # каждые 15 минут
 
 permissions:
   contents: write
