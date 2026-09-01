@@ -28,7 +28,7 @@
   >
   <meta
     property="og:description"
-    content="Новости промышленности, производства, технологий, рынка и назначений в российских компаниях."
+    content="Новости промышленности, производства, технологий и рынка в российских компаниях."
   >
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://promrep.ru/">
@@ -43,7 +43,7 @@
   >
   <meta
     name="twitter:description"
-    content="Новости промышленности, производства, технологий, рынка и назначений."
+    content="Новости промышленности, производства, технологий и рынка."
   >
   <meta name="twitter:image" content="https://promrep.ru/log.png">
 
@@ -2473,18 +2473,6 @@
       const normalized =
         String(text || "").toLowerCase();
 
-      const appointments = [
-        "назначен",
-        "назначена",
-        "назначили",
-        "возглавил",
-        "возглавила",
-        "генеральный директор",
-        "гендиректор",
-        "руководитель",
-        "председатель"
-      ];
-
       const technologies = [
         "технолог",
         "робот",
@@ -2516,17 +2504,6 @@
         "млн",
         "рубл"
       ];
-
-      if(
-        appointments.some(
-          marker => normalized.includes(marker)
-        )
-      ){
-        return {
-          tab:"appointments",
-          rubric:"Назначения"
-        };
-      }
 
       if(
         technologies.some(
@@ -2597,16 +2574,6 @@
         события:{
           tab:"events",
           rubric:"События"
-        },
-
-        appointments:{
-          tab:"appointments",
-          rubric:"Назначения"
-        },
-
-        назначения:{
-          tab:"appointments",
-          rubric:"Назначения"
         }
       };
 
