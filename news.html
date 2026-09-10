@@ -508,6 +508,51 @@
       gap:14px;
     }
 
+    .loadMoreWrap{
+      margin-top:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .loadMoreWrap[hidden]{
+      display:none;
+    }
+
+    .loadMoreBtn{
+      border:1px solid rgba(240,32,0,.24);
+      background:var(--paper);
+      color:var(--red);
+      border-radius:999px;
+      padding:11px 16px;
+      font-size:13px;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:var(--shadow2);
+      transition:.14s ease;
+    }
+
+    .loadMoreBtn:hover:not(:disabled){
+      transform:translateY(-1px);
+      background:rgba(240,32,0,.06);
+    }
+
+    .loadMoreBtn:disabled{
+      cursor:wait;
+      opacity:.58;
+    }
+
+    .loadMoreBtn[hidden]{
+      display:none;
+    }
+
+    .loadMoreStatus{
+      font-size:12px;
+      color:var(--muted);
+    }
+
     .bigcard{
       background:var(--paper);
       border:1px solid var(--line);
@@ -1152,7 +1197,6 @@
             <a class="tab" href="#" data-tab="technologies">
               Технологии
             </a>
-
           </div>
 
           <div class="hint" id="leftHint">
@@ -1165,6 +1209,26 @@
           class="biglist"
           aria-label="Список материалов"
         ></div>
+
+        <div
+          id="loadMoreWrap"
+          class="loadMoreWrap"
+          hidden
+        >
+          <button
+            id="loadMoreBtn"
+            class="loadMoreBtn"
+            type="button"
+          >
+            Показать ещё
+          </button>
+
+          <span
+            id="loadMoreStatus"
+            class="loadMoreStatus"
+            aria-live="polite"
+          ></span>
+        </div>
 
         <article
           id="articleView"
@@ -1207,6 +1271,18 @@
 
     let ARTICLES = [];
     let feedItems = [];
+    let rawPosts = [];
+
+    const brokenPreviewIds = new Set();
+
+    const archiveState = {
+      pages: [],
+      nextPageIndex: 0,
+      total: 0,
+      complete: false,
+      loading: false,
+      observer: null
+    };
 
     let state = {
       tab: "all",
@@ -1252,6 +1328,15 @@
 
     const headerSearch =
       document.getElementById("headerSearch");
+
+    const loadMoreWrap =
+      document.getElementById("loadMoreWrap");
+
+    const loadMoreBtn =
+      document.getElementById("loadMoreBtn");
+
+    const loadMoreStatus =
+      document.getElementById("loadMoreStatus");
 
     function formatTime(ts){
       if (!ts) {
@@ -1829,25 +1914,62 @@
     }
 
     /*
-     * Исправленная сборка новостей.
-     *
-     * В исходной версии использовался reverse(), поэтому
-     * порядок зависел от того, в каком порядке сервер
-     * формировал JSON.
-     *
-     * Теперь новости всегда сортируются по date:
-     * самые свежие находятся сверху.
-     *
-     * Также больше не отбрасываются публикации,
-     * содержащие видеовложения.
+     * Нормализует загруженные страницы архива и объединяет их
+     * без дублей. Старые страницы добавляются к уже загруженным,
+     * а обновление первой страницы не стирает открытый архив.
      */
-    function buildFromFeed(posts){
+    function postIdentity(post, index = 0){
+      const id =
+        post?.id ??
+        post?.post_id;
+
+      if (
+        id !== undefined &&
+        id !== null &&
+        String(id) !== ""
+      ) {
+        return `id:${id}`;
+      }
+
+      return [
+        "fallback",
+        Number(post?.date || 0),
+        String(post?.text || post?.title || "")
+          .slice(0, 160),
+        index
+      ].join(":");
+    }
+
+    function buildFromFeed(posts, options = {}){
       const sourcePosts =
         Array.isArray(posts)
           ? posts
           : [];
 
-      const sorted = sourcePosts
+      const append =
+        Boolean(options.append);
+
+      if (!append) {
+        rawPosts = sourcePosts.slice();
+      } else {
+        const merged = new Map(
+          rawPosts.map((post, index) => [
+            postIdentity(post, index),
+            post
+          ])
+        );
+
+        sourcePosts.forEach((post, index) => {
+          merged.set(
+            postIdentity(post, index),
+            post
+          );
+        });
+
+        rawPosts = Array.from(merged.values());
+      }
+
+      const sorted = rawPosts
         .slice()
         .sort((a, b) => {
           const dateA =
@@ -1869,113 +1991,104 @@
           return idB - idA;
         });
 
-      ARTICLES = sorted
-        .map((post, index) => {
-          const text =
-            String(
-              post?.text ||
-              post?.title ||
-              ""
-            );
-
-          const parts = text
-            .split(/\n\s*\n/)
-            .map(item => item.trim())
-            .filter(Boolean);
-
-          const title = (
-            parts[0] ||
+      ARTICLES = sorted.map((post, index) => {
+        const text =
+          String(
+            post?.text ||
             post?.title ||
-            text ||
-            "Новость"
-          ).slice(0, 120);
-
-          const lead = (
-            parts[1] ||
-            post?.description ||
-            parts[0] ||
             ""
-          ).slice(0, 220);
-
-          const category = normalizeCategory(
-            post?.tab,
-            post?.rubric,
-            text
           );
 
-          const bodyParts =
-            parts.length > 1
-              ? parts.slice(1)
-              : [text].filter(Boolean);
+        const parts = text
+          .split(/\n\s*\n/)
+          .map(item => item.trim())
+          .filter(Boolean);
 
-          const timestamp =
-            Number(post?.date || 0) || null;
+        const title = (
+          parts[0] ||
+          post?.title ||
+          text ||
+          "Новость"
+        ).slice(0, 120);
 
-          const generatedId =
-            `${timestamp || Date.now()}-${index}`;
+        const lead = (
+          parts[1] ||
+          post?.description ||
+          parts[0] ||
+          ""
+        ).slice(0, 220);
 
-          const thumb =
-            pickNewsImage(post);
+        const category = normalizeCategory(
+          post?.tab,
+          post?.rubric,
+          text
+        );
 
-          /*
-           * Новость без превью не попадает ни в список,
-           * ни в боковую ленту, ни в связанные материалы.
-           */
-          if (!thumb) {
-            return null;
-          }
+        const bodyParts =
+          parts.length > 1
+            ? parts.slice(1)
+            : [text].filter(Boolean);
 
-          return {
-            id: String(
-              post?.id ??
-              post?.post_id ??
-              generatedId
-            ),
+        const timestamp =
+          Number(post?.date || 0) || null;
 
-            tab: category.tab,
-            rubric: category.rubric,
+        const generatedId =
+          `${timestamp || Date.now()}-${index}`;
 
-            thumb,
+        const id = String(
+          post?.id ??
+          post?.post_id ??
+          generatedId
+        );
 
-            when:
-              timestamp
-                ? formatDate(timestamp)
-                : "",
+        const thumb =
+          brokenPreviewIds.has(id)
+            ? null
+            : pickNewsImage(post);
 
-            age:
-              timestamp
-                ? relTime(timestamp)
-                : "",
+        return {
+          id,
+          tab: category.tab,
+          rubric: category.rubric,
+          thumb,
 
-            live:
-              Boolean(post?.live),
+          when:
+            timestamp
+              ? formatDate(timestamp)
+              : "",
 
-            title,
-            lead,
+          age:
+            timestamp
+              ? relTime(timestamp)
+              : "",
 
-            tags: [],
+          live:
+            Boolean(post?.live),
 
-            author:
-              post?.author ||
-              "ВКонтакте",
+          title,
+          lead,
+          tags: [],
 
-            updated:
-              timestamp
-                ? formatDateTime(timestamp)
-                : "",
+          author:
+            post?.author ||
+            "ВКонтакте",
 
-            caption:
-              "Источник: сообщество ВКонтакте",
+          updated:
+            timestamp
+              ? formatDateTime(timestamp)
+              : "",
 
-            body:
-              bodyParts.length
-                ? bodyParts
-                : [lead || title],
+          caption:
+            "Источник: сообщество ВКонтакте",
 
-            ts: timestamp
-          };
-        })
-        .filter(Boolean);
+          body:
+            bodyParts.length
+              ? bodyParts
+              : [lead || title],
+
+          ts: timestamp
+        };
+      });
 
       feedItems = ARTICLES.map(article => ({
         id: article.id,
@@ -1992,43 +2105,28 @@
     }
 
     /*
-     * Даже при наличии URL файл изображения может быть удалён
-     * или недоступен. В этом случае удаляем всю публикацию,
-     * а не оставляем карточку с пустым местом.
+     * Сломанная или удалённая картинка больше не удаляет новость.
+     * Карточка просто переключается в текстовый вариант.
      */
-    function removeArticleWithoutPreview(id){
+    function markPreviewUnavailable(id){
       const articleId =
         String(id || "");
 
-      if (
-        !articleId ||
-        !ARTICLES.some(
-          article => article.id === articleId
-        )
-      ) {
+      if (!articleId) {
         return;
       }
 
-      ARTICLES = ARTICLES.filter(
-        article => article.id !== articleId
+      brokenPreviewIds.add(articleId);
+
+      const article = ARTICLES.find(
+        item => item.id === articleId
       );
 
-      feedItems = feedItems.filter(
-        item => item.id !== articleId
-      );
-
-      if (state.selectedId === articleId) {
-        state.selectedId = null;
-
-        history.replaceState(
-          null,
-          "",
-          "news.html"
-        );
+      if (article) {
+        article.thumb = null;
       }
 
       renderList();
-      renderFeed();
     }
 
     function bindPreviewErrorHandlers(root){
@@ -2038,7 +2136,7 @@
           image.addEventListener(
             "error",
             () => {
-              removeArticleWithoutPreview(
+              markPreviewUnavailable(
                 image.dataset.previewId
               );
             },
@@ -2049,23 +2147,70 @@
         });
     }
 
+    function updateLoadMoreUi(){
+      const hasMore =
+        archiveState.nextPageIndex <
+        archiveState.pages.length;
+
+      const loaded = ARTICLES.length;
+      const total = Math.max(
+        Number(archiveState.total || 0),
+        loaded
+      );
+
+      loadMoreBtn.hidden = !hasMore;
+
+      loadMoreBtn.disabled =
+        archiveState.loading;
+
+      loadMoreBtn.textContent =
+        archiveState.loading
+          ? "Загрузка…"
+          : "Показать ещё";
+
+      if (archiveState.loading) {
+        loadMoreStatus.textContent =
+          `Загружено ${loaded} из ${total}`;
+      } else if (hasMore) {
+        loadMoreStatus.textContent =
+          `Загружено ${loaded} из ${total}`;
+      } else if (loaded) {
+        loadMoreStatus.textContent =
+          archiveState.complete
+            ? `Архив загружен полностью · ${loaded} шт.`
+            : `Загружено ${loaded}`;
+      } else {
+        loadMoreStatus.textContent = "";
+      }
+
+      loadMoreWrap.hidden =
+        Boolean(state.selectedId) ||
+        (!hasMore && !loaded);
+    }
+
     function renderList(){
       const items =
-        ARTICLES.filter(
-          article =>
-            Boolean(article.thumb) &&
-            matchesFilter(article)
-        );
+        ARTICLES.filter(matchesFilter);
 
       pageTitle.textContent =
         state.selectedId
           ? "Статья"
           : "Новости";
 
+      const totalLoaded = ARTICLES.length;
+      const totalAvailable = Math.max(
+        Number(archiveState.total || 0),
+        totalLoaded
+      );
+
       leftHint.textContent =
         state.selectedId
           ? "Полная статья"
-          : `Большие материалы · ${items.length} шт.`;
+          : state.query || state.tab !== "all" || state.liveOnly
+            ? `Найдено ${items.length} · загружено ${totalLoaded} из ${totalAvailable}`
+            : `Загружено ${totalLoaded} из ${totalAvailable}`;
+
+      updateLoadMoreUi();
 
       if (state.selectedId) {
         listView.style.display = "none";
@@ -2517,6 +2662,13 @@
       }
     );
 
+    loadMoreBtn.addEventListener(
+      "click",
+      () => {
+        loadNextNewsPage();
+      }
+    );
+
     headerSearch.addEventListener(
       "input",
       event => {
@@ -2531,7 +2683,7 @@
       }
     );
 
-    function openFromHash(){
+    async function openFromHash(){
       const raw = window.location.hash
         .replace(/^#/, "")
         .trim();
@@ -2554,9 +2706,26 @@
         );
       }
 
-      const exists = ARTICLES.some(
+      let exists = ARTICLES.some(
         article => article.id === id
       );
+
+      // Прямая ссылка на старую новость должна работать даже если
+      // соответствующая архивная страница ещё не была подгружена.
+      while (
+        !exists &&
+        archiveState.nextPageIndex < archiveState.pages.length
+      ) {
+        const loaded = await loadNextNewsPage();
+
+        if (!loaded) {
+          break;
+        }
+
+        exists = ARTICLES.some(
+          article => article.id === id
+        );
+      }
 
       state.selectedId =
         exists
@@ -2660,6 +2829,132 @@
       return [];
     }
 
+    function newsPageUrl(file){
+      const clean = String(file || "feed.json")
+        .replace(/^\/+/, "")
+        .replace(/^content\/news\//, "");
+
+      return `content/news/${clean}`;
+    }
+
+    async function loadNewsIndex(){
+      try {
+        const data = await loadJson(
+          "content/news/index.json"
+        );
+
+        const pages = Array.isArray(data?.pages)
+          ? data.pages.filter(page => page?.file)
+          : [];
+
+        if (!pages.length) {
+          throw new Error("В index.json нет страниц архива");
+        }
+
+        return {
+          pages,
+          total: Number(data?.total || 0),
+          complete: data?.complete === true,
+          updatedAt: data?.updatedAt || ""
+        };
+      } catch (error) {
+        console.info(
+          "Индекс архива недоступен, используется feed.json:",
+          error.message
+        );
+
+        return {
+          pages: [
+            {
+              file: "feed.json"
+            }
+          ],
+          total: 0,
+          complete: false,
+          updatedAt: ""
+        };
+      }
+    }
+
+    async function loadNextNewsPage(){
+      if (
+        archiveState.loading ||
+        archiveState.nextPageIndex >= archiveState.pages.length
+      ) {
+        updateLoadMoreUi();
+        return false;
+      }
+
+      const page =
+        archiveState.pages[
+          archiveState.nextPageIndex
+        ];
+
+      archiveState.loading = true;
+      updateLoadMoreUi();
+
+      try {
+        const data = await loadJson(
+          newsPageUrl(page.file)
+        );
+
+        const posts = extractPosts(data);
+
+        buildFromFeed(
+          posts,
+          {
+            append: true
+          }
+        );
+
+        archiveState.nextPageIndex += 1;
+
+        renderList();
+        renderFeed();
+        return true;
+      } catch (error) {
+        console.error(
+          "Ошибка загрузки страницы архива:",
+          error
+        );
+
+        loadMoreStatus.textContent =
+          "Не удалось загрузить. Нажмите ещё раз.";
+        return false;
+      } finally {
+        archiveState.loading = false;
+        updateLoadMoreUi();
+      }
+    }
+
+    function setupArchiveAutoload(){
+      if (
+        archiveState.observer ||
+        !("IntersectionObserver" in window)
+      ) {
+        return;
+      }
+
+      archiveState.observer =
+        new IntersectionObserver(
+          entries => {
+            if (
+              entries.some(entry => entry.isIntersecting) &&
+              !state.selectedId
+            ) {
+              loadNextNewsPage();
+            }
+          },
+          {
+            rootMargin: "700px 0px"
+          }
+        );
+
+      archiveState.observer.observe(
+        loadMoreWrap
+      );
+    }
+
     /*
      * Обновление новостной ленты.
      *
@@ -2681,22 +2976,54 @@
             "обновляется";
         }
 
-        /*
-         * Загружаем только новостной JSON.
-         *
-         * В исходном коде обновление новостей ожидало
-         * загрузки дополнительных TV-файлов.
-         * Теперь медленные TV-запросы не задерживают ленту.
-         */
+        const previousNextPageIndex =
+          archiveState.nextPageIndex;
+
+        const index =
+          await loadNewsIndex();
+
+        archiveState.pages = index.pages;
+        archiveState.total = index.total;
+        archiveState.complete = index.complete;
+
+        const firstPage =
+          archiveState.pages[0] ||
+          { file: "feed.json" };
+
         const data = await loadJson(
-          "content/news/feed.json"
+          newsPageUrl(firstPage.file)
         );
 
         const posts =
           extractPosts(data);
 
-        buildFromFeed(posts);
-        openFromHash();
+        const alreadyLoaded =
+          rawPosts.length > 0;
+
+        buildFromFeed(
+          posts,
+          {
+            append: alreadyLoaded
+          }
+        );
+
+        if (!alreadyLoaded) {
+          archiveState.nextPageIndex =
+            Math.min(
+              1,
+              archiveState.pages.length
+            );
+        } else {
+          archiveState.nextPageIndex =
+            Math.min(
+              Math.max(previousNextPageIndex, 1),
+              archiveState.pages.length
+            );
+        }
+
+        await openFromHash();
+        setupArchiveAutoload();
+        updateLoadMoreUi();
 
         const stamp =
           new Date().toLocaleTimeString(
@@ -2712,7 +3039,7 @@
           `обновлено ${stamp}`;
 
         console.info(
-          `[Новости] Получено: ${posts.length}; с превью: ${ARTICLES.length}. Обновлено: ${stamp}`
+          `[Новости] Загружено на страницу: ${ARTICLES.length}; в архиве: ${archiveState.total || ARTICLES.length}. Обновлено: ${stamp}`
         );
       } catch (error) {
         console.error(
@@ -2727,6 +3054,7 @@
 
         renderList();
         renderFeed();
+        updateLoadMoreUi();
       } finally {
         refreshInProgress = false;
       }
