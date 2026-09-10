@@ -1,76 +1,16 @@
 {
   "version": 2,
-  "updatedAt": "2026-09-10T07:01:47.342Z",
-  "total": 2383,
-  "feedSize": 30,
-  "archiveGrouping": "month",
-  "complete": true,
+  "updatedAt": "2026-09-10T06:43:15.359569Z",
+  "total": 27,
+  "complete": false,
   "pages": [
     {
       "file": "feed.json",
-      "count": 30,
-      "newestDate": 1789023601,
-      "oldestDate": 1788780720
-    },
-    {
-      "file": "archive/2026-09.json",
-      "count": 100,
-      "newestDate": 1789023601,
-      "oldestDate": 1788242401
-    },
-    {
-      "file": "archive/2026-08.json",
-      "count": 334,
-      "newestDate": 1788192000,
-      "oldestDate": 1785564001
-    },
-    {
-      "file": "archive/2026-07.json",
-      "count": 337,
-      "newestDate": 1785513600,
-      "oldestDate": 1782885601
-    },
-    {
-      "file": "archive/2026-06.json",
-      "count": 319,
-      "newestDate": 1782835200,
-      "oldestDate": 1780293602
-    },
-    {
-      "file": "archive/2026-05.json",
-      "count": 322,
-      "newestDate": 1780239600,
-      "oldestDate": 1777615201
-    },
-    {
-      "file": "archive/2026-04.json",
-      "count": 326,
-      "newestDate": 1777557601,
-      "oldestDate": 1775023201
-    },
-    {
-      "file": "archive/2026-03.json",
-      "count": 269,
-      "newestDate": 1774982390,
-      "oldestDate": 1772347004
-    },
-    {
-      "file": "archive/2026-02.json",
-      "count": 181,
-      "newestDate": 1772292412,
-      "oldestDate": 1769928774
-    },
-    {
-      "file": "archive/2026-01.json",
-      "count": 131,
-      "newestDate": 1769874177,
-      "oldestDate": 1767348913
-    },
-    {
-      "file": "archive/2025-12.json",
-      "count": 64,
-      "newestDate": 1767182817,
-      "oldestDate": 1765707069
+      "count": 27,
+      "newestDate": 1789020000,
+      "oldestDate": 1788786000
     }
-  ]
+  ],
+  "feedSize": 30,
+  "archiveGrouping": "month"
 }
