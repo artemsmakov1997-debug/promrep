@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-13T10:08:10.017Z",
+  "updatedAt": "2026-09-13T10:38:09.295Z",
   "items": [
     {
       "title": "Clip by @promrep",
@@ -7,7 +7,7 @@
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=17949331753581&idx=0&type=39&tkn=u2cI6S1AM0v541QBaOYXvl4OsxY&fn=vid_u&scl=4",
       "duration": "0:22",
       "date": 1788912000,
-      "views": 762,
+      "views": 763,
       "description": "",
       "ownerId": -234602001,
       "id": 456240376,
@@ -99,18 +99,6 @@
     },
     {
       "title": "Clip by @promrep",
-      "href": "https://vk.com/video-234602001_456240074",
-      "thumb": "https://iv.okcdn.ru/getVideoPreview?id=16591898872374&idx=0&type=39&tkn=_VCNFd-YeXSFvuNGHA5QjnHGJTc&fn=vid_u",
-      "duration": "0:25",
-      "date": 1782518400,
-      "views": 798,
-      "description": "",
-      "ownerId": -234602001,
-      "id": 456240074,
-      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456240074"
-    },
-    {
-      "title": "Clip by @promrep",
       "href": "https://vk.com/video-234602001_456240065",
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=18134276704770&idx=2&type=39&tkn=f_Aw0x60shnfkHVLfQWyGas0PXY&fn=vid_u",
       "duration": "0:32",
@@ -120,18 +108,6 @@
       "ownerId": -234602001,
       "id": 456240065,
       "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456240065"
-    },
-    {
-      "title": "Clip by @promrep",
-      "href": "https://vk.com/video-234602001_456240063",
-      "thumb": "https://iv.okcdn.ru/getVideoPreview?id=16408166599277&idx=12&type=39&tkn=X47gim2l2WXk9RXtiAYmiPH7zHo&fn=vid_u",
-      "duration": "0:25",
-      "date": 1782345600,
-      "views": 679,
-      "description": "",
-      "ownerId": -234602001,
-      "id": 456240063,
-      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456240063"
     },
     {
       "title": "Clip by @promrep",
@@ -763,7 +739,7 @@
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=13358549371501&idx=9&type=39&tkn=2tB9Yx99rM5eEqtaRJRXJ4KyZVI&fn=vid_u",
       "duration": "0:34",
       "date": 1775692800,
-      "views": 2131,
+      "views": 2132,
       "description": "",
       "ownerId": -234602001,
       "id": 456239762,
