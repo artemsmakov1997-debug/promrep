@@ -1,13 +1,25 @@
 {
-  "updatedAt": "2026-09-18T11:53:22.044Z",
+  "updatedAt": "2026-09-18T12:08:08.882Z",
   "items": [
+    {
+      "title": "Clip by @promrep",
+      "href": "https://vk.com/video-234602001_456240409",
+      "thumb": "https://iv.okcdn.ru/getVideoPreview?id=18108810463917&idx=0&type=39&tkn=FPBtHuPHwZubbea7eUl4dRuHLCo&fn=vid_u",
+      "duration": "0:25",
+      "date": 1789689600,
+      "views": 3,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456240409,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456240409"
+    },
     {
       "title": "Clip by @promrep",
       "href": "https://vk.com/video-234602001_456240408",
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=18121609448045&idx=0&type=39&tkn=XMoxGV22DtU_OuGhcyHCheaSe0Y&fn=vid_u",
       "duration": "0:36",
       "date": 1789689600,
-      "views": 84,
+      "views": 90,
       "description": "",
       "ownerId": -234602001,
       "id": 456240408,
