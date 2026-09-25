@@ -2828,7 +2828,7 @@
     function renderTodayCards(){
       const items = ARTICLES
         .filter(matchesSearch)
-        .slice(0, 6);
+        .slice(0, 9);
 
       if(items.length === 0){
         todayCards.innerHTML = `
