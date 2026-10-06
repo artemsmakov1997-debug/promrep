@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-06T17:08:16.733Z",
+  "updatedAt": "2026-10-06T17:38:19.798Z",
   "items": [
     {
       "title": "Clip by @promrep",
@@ -7,7 +7,7 @@
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=19536630123112&idx=0&type=39&tkn=SMpKJbsF2khlU-EM3p6M8z-_e_o&fn=vid_u&scl=4",
       "duration": "0:33",
       "date": 1791158400,
-      "views": 544,
+      "views": 556,
       "description": "",
       "ownerId": -234602001,
       "id": 456240459,
@@ -19,7 +19,7 @@
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=18421018135252&idx=0&type=39&tkn=8qwlDrnSjCGPslg9XG3AiQErdas&fn=vid_u&scl=4",
       "duration": "0:47",
       "date": 1791158400,
-      "views": 54,
+      "views": 55,
       "description": "",
       "ownerId": -234602001,
       "id": 456240458,
@@ -147,18 +147,6 @@
     },
     {
       "title": "Clip by @promrep",
-      "href": "https://vk.com/video-234602001_456240074",
-      "thumb": "https://iv.okcdn.ru/getVideoPreview?id=16591898872374&idx=0&type=39&tkn=_VCNFd-YeXSFvuNGHA5QjnHGJTc&fn=vid_u",
-      "duration": "0:25",
-      "date": 1782518400,
-      "views": 817,
-      "description": "",
-      "ownerId": -234602001,
-      "id": 456240074,
-      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456240074"
-    },
-    {
-      "title": "Clip by @promrep",
       "href": "https://vk.com/video-234602001_456240065",
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=18134276704770&idx=2&type=39&tkn=f_Aw0x60shnfkHVLfQWyGas0PXY&fn=vid_u",
       "duration": "0:32",
@@ -168,18 +156,6 @@
       "ownerId": -234602001,
       "id": 456240065,
       "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456240065"
-    },
-    {
-      "title": "Clip by @promrep",
-      "href": "https://vk.com/video-234602001_456240063",
-      "thumb": "https://iv.okcdn.ru/getVideoPreview?id=16408166599277&idx=12&type=39&tkn=X47gim2l2WXk9RXtiAYmiPH7zHo&fn=vid_u",
-      "duration": "0:25",
-      "date": 1782345600,
-      "views": 679,
-      "description": "",
-      "ownerId": -234602001,
-      "id": 456240063,
-      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456240063"
     },
     {
       "title": "Clip by @promrep",
