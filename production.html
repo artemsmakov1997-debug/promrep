@@ -1286,7 +1286,7 @@
     }
 
     /* =========================
-       ФОРМА
+       КОНТАКТЫ
        ========================= */
 
     .cta{
@@ -1352,71 +1352,49 @@
       line-height:1.65;
     }
 
-    .form{
-      padding:12px;
-
+    .contactCard{
+      padding:20px;
+      min-height:170px;
       display:flex;
       flex-direction:column;
-      gap:10px;
-
+      justify-content:center;
+      gap:12px;
       background:rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.12);
       border-radius:var(--r);
     }
 
-    .field{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
+    .contactCardLabel{
+      color:rgba(247,247,248,.68);
+      font-size:12px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
     }
 
-    .input,
-    textarea{
-      width:100%;
-
-      border:
-        1px solid var(--panelFieldLine);
-
-      background:var(--panelFieldBg);
-      color:var(--panelText);
-
-      border-radius:12px;
-      padding:10px 12px;
-
-      font-size:13px;
-      outline:none;
-
-      transition:.14s ease;
+    .contactEmail{
+      display:inline-block;
+      width:fit-content;
+      max-width:100%;
+      padding-bottom:4px;
+      border-bottom:1px solid rgba(247,247,248,.5);
+      font-size:clamp(19px,2.2vw,27px);
+      font-weight:750;
+      letter-spacing:-.02em;
+      line-height:1.25;
+      overflow-wrap:anywhere;
+      transition:color .2s ease,border-color .2s ease;
     }
 
-    .input::placeholder,
-    textarea::placeholder{
-      color:rgba(247,247,248,.55);
+    .contactEmail:hover,
+    .contactEmail:focus-visible{
+      color:#ff775e;
+      border-color:#ff775e;
     }
 
-    .input:focus,
-    textarea:focus{
-      border-color:
-        rgba(240,32,0,.45);
-
-      box-shadow:
-        0 0 0 4px rgba(240,32,0,.12);
-    }
-
-    textarea{
-      min-height:110px;
-      resize:vertical;
-    }
-
-    .ctaActions{
-      margin-top:2px;
-
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      flex-wrap:wrap;
-
-      gap:10px;
+    .contactCard .contactHint{
+      margin:0;
+      color:rgba(247,247,248,.62);
+      font-size:12px;
     }
 
     /* =========================
@@ -1962,72 +1940,18 @@
               Референсы можно прикрепить ссылками в тексте.
             </p>
 
-            <p style="margin-top:10px;">
-              Почта:
-
-              <a
-                href="mailto:info@promrep.ru"
-                style="
-                  text-decoration:underline;
-                  text-underline-offset:3px;
-                "
-              >
-                info@promrep.ru
-              </a>
-            </p>
           </div>
 
-          <form
-            class="form"
-            id="prodForm"
-          >
-            <div class="field">
-              <input
-                class="input"
-                id="name"
-                placeholder="Имя"
-                autocomplete="name"
-              />
-            </div>
-
-            <div
-              class="field"
-              style="
-                display:grid;
-                grid-template-columns:1fr 1fr;
-                gap:10px;
-              "
-            >
-              <input
-                class="input"
-                id="company"
-                placeholder="Компания"
-                autocomplete="organization"
-              />
-
-              <input
-                class="input"
-                id="email"
-                placeholder="Контакт"
-                autocomplete="email"
-                inputmode="email"
-              />
-            </div>
-
-            <textarea
-              id="brief"
-              placeholder="Коротко о задаче: формат, тема, целевая аудитория, сроки и ограничения"
-            ></textarea>
-
-            <div class="ctaActions">
-              <button
-                class="btn primary"
-                type="submit"
-              >
-                Отправить
-              </button>
-            </div>
-          </form>
+          <div class="contactCard">
+            <span class="contactCardLabel">Почта для проектов</span>
+            <a
+              class="contactEmail"
+              href="mailto:info@promrep.ru?subject=%D0%92%D0%B8%D0%B4%D0%B5%D0%BE%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%20%E2%80%94%20%D0%BE%D0%B1%D1%81%D1%83%D0%B6%D0%B4%D0%B5%D0%BD%D0%B8%D0%B5"
+            >info@promrep.ru</a>
+            <p class="contactHint">
+              Нажмите на адрес, чтобы написать нам письмо.
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -2091,74 +2015,6 @@
         );
       });
 
-    const form =
-      document.getElementById("prodForm");
-
-    form.addEventListener(
-      "submit",
-      event => {
-        event.preventDefault();
-
-        const name =
-          (
-            document
-              .getElementById("name")
-              .value || ""
-          ).trim();
-
-        const company =
-          (
-            document
-              .getElementById("company")
-              .value || ""
-          ).trim();
-
-        const email =
-          (
-            document
-              .getElementById("email")
-              .value || ""
-          ).trim();
-
-        const brief =
-          (
-            document
-              .getElementById("brief")
-              .value || ""
-          ).trim();
-
-        const subject =
-          encodeURIComponent(
-            "Запрос на продакшн (Промышленный репортёр)"
-          );
-
-        const body =
-          encodeURIComponent(
-`Здравствуйте!
-
-Хочу обсудить видеопроект.
-
-Имя: ${name || "—"}
-Компания: ${company || "—"}
-Почта: ${email || "—"}
-
-Задача / тема:
-${brief || "—"}
-
-Желаемые сроки:
-—
-
-Площадки:
-—
-
-Ограничения:
-—`
-          );
-
-        window.location.href =
-          `mailto:info@promrep.ru?subject=${subject}&body=${body}`;
-      }
-    );
   </script>
 
   <script>
