@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "updatedAt": "2026-10-17T17:45:33.206Z",
-  "total": 2793,
+  "updatedAt": "2026-10-17T18:00:58.764Z",
+  "total": 2797,
   "feedSize": 30,
   "archiveGrouping": "month",
   "complete": true,
@@ -9,13 +9,13 @@
     {
       "file": "feed.json",
       "count": 30,
-      "newestDate": 1792238402,
-      "oldestDate": 1791995400
+      "newestDate": 1792259472,
+      "oldestDate": 1792054801
     },
     {
       "file": "archive/2026-10.json",
-      "count": 184,
-      "newestDate": 1792238402,
+      "count": 188,
+      "newestDate": 1792259472,
       "oldestDate": 1790834401
     },
     {
