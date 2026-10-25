@@ -4,7 +4,27 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Продакшн — Промышленный репортёр</title>
+    <script>
+    // Preserve older .html links while displaying clean addresses.
+    (function () {
+      const path = window.location.pathname;
+      const clean = path === "/index.html"
+        ? "/"
+        : /^\/(?:news|tv|production|editorial)\.html$/.test(path)
+          ? path.slice(0, -5)
+          : null;
+
+      if (clean && window.history.replaceState) {
+        window.history.replaceState(
+          window.history.state,
+          "",
+          clean + window.location.search + window.location.hash
+        );
+      }
+    })();
+  </script>
+
+<title>Продакшн — Промышленный репортёр</title>
 
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -23,7 +43,7 @@
 
   <link
     rel="canonical"
-    href="https://promrep.ru/production.html"
+    href="https://promrep.ru/production"
   >
 
   <meta
@@ -40,7 +60,7 @@
 
   <meta
     property="og:url"
-    content="https://promrep.ru/production.html"
+    content="https://promrep.ru/production"
   >
 
   <meta
@@ -78,7 +98,7 @@
     "@type": "Service",
     "name": "Промышленный видеопродакшн",
     "description": "Видеоматериалы под ключ для промышленных компаний: сценарий, съёмка, звук, графика, монтаж и адаптации под площадки.",
-    "url": "https://promrep.ru/production.html",
+    "url": "https://promrep.ru/production",
     "provider": {
       "@type": "NewsMediaOrganization",
       "name": "Промышленный репортёр",
@@ -1545,7 +1565,7 @@
       <div class="topbar">
         <a
           class="brand"
-          href="index.html"
+          href="/"
         >
           <span class="logoPlate">
             <img
@@ -1567,35 +1587,35 @@
         >
           <a
             class="navlink"
-            href="index.html"
+            href="/"
           >
             Главная
           </a>
 
           <a
             class="navlink"
-            href="news.html"
+            href="/news"
           >
             Новости
           </a>
 
           <a
             class="navlink"
-            href="tv.html"
+            href="/tv"
           >
             TV
           </a>
 
           <a
             class="navlink active"
-            href="production.html"
+            href="/production"
           >
             Продакшн
           </a>
 
           <a
             class="navlink"
-            href="editorial.html"
+            href="/editorial"
           >
             Редакция
           </a>
@@ -1617,35 +1637,35 @@
           >
             <a
               class="navlink"
-              href="index.html"
+              href="/"
             >
               Главная
             </a>
 
             <a
               class="navlink"
-              href="news.html"
+              href="/news"
             >
               Новости
             </a>
 
             <a
               class="navlink"
-              href="tv.html"
+              href="/tv"
             >
               TV
             </a>
 
             <a
               class="navlink active"
-              href="production.html"
+              href="/production"
             >
               Продакшн
             </a>
 
             <a
               class="navlink"
-              href="editorial.html"
+              href="/editorial"
             >
               Редакция
             </a>

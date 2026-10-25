@@ -4,7 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Промышленный репортёр — новости промышленности, производства и технологий</title>
+    <script>
+    // Preserve older .html links while displaying clean addresses.
+    (function () {
+      const path = window.location.pathname;
+      const clean = path === "/index.html"
+        ? "/"
+        : /^\/(?:news|tv|production|editorial)\.html$/.test(path)
+          ? path.slice(0, -5)
+          : null;
+
+      if (clean && window.history.replaceState) {
+        window.history.replaceState(
+          window.history.state,
+          "",
+          clean + window.location.search + window.location.hash
+        );
+      }
+    })();
+  </script>
+
+<title>Промышленный репортёр — новости промышленности, производства и технологий</title>
 
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -1508,7 +1528,7 @@
   <header>
     <div class="container">
       <div class="topbar">
-        <a class="brand" href="index.html">
+        <a class="brand" href="/">
           <span class="logoPlate">
             <img src="log.png" alt="Промышленный репортёр">
           </span>
@@ -1519,11 +1539,11 @@
         </a>
 
         <nav class="nav-desktop" aria-label="Основное меню">
-          <a class="navlink active" href="index.html">Главная</a>
-          <a class="navlink" href="news.html">Новости</a>
-          <a class="navlink" href="tv.html">TV</a>
-          <a class="navlink" href="production.html">Продакшн</a>
-          <a class="navlink" href="editorial.html">Редакция</a>
+          <a class="navlink active" href="/">Главная</a>
+          <a class="navlink" href="/news">Новости</a>
+          <a class="navlink" href="/tv">TV</a>
+          <a class="navlink" href="/production">Продакшн</a>
+          <a class="navlink" href="/editorial">Редакция</a>
         </nav>
 
         <details class="nav-mobile">
@@ -1532,11 +1552,11 @@
           </summary>
 
           <nav class="nav-panel" aria-label="Мобильное меню">
-            <a class="navlink active" href="index.html">Главная</a>
-            <a class="navlink" href="news.html">Новости</a>
-            <a class="navlink" href="tv.html">TV</a>
-            <a class="navlink" href="production.html">Продакшн</a>
-            <a class="navlink" href="editorial.html">Редакция</a>
+            <a class="navlink active" href="/">Главная</a>
+            <a class="navlink" href="/news">Новости</a>
+            <a class="navlink" href="/tv">TV</a>
+            <a class="navlink" href="/production">Продакшн</a>
+            <a class="navlink" href="/editorial">Редакция</a>
 
             <button
               class="btn themeBtn"
@@ -1644,7 +1664,7 @@
     <section class="section" aria-label="Новости сегодня">
       <div class="section-head">
         <h2>Сегодня</h2>
-        <a class="more" href="news.html">Все новости →</a>
+        <a class="more" href="/news">Все новости →</a>
       </div>
 
       <div class="cards" id="todayCards"></div>
@@ -1653,7 +1673,7 @@
     <section class="section" aria-label="Продакшн">
       <div class="section-head">
         <h2>Продакшн</h2>
-        <a class="more" href="production.html">Подробнее →</a>
+        <a class="more" href="/production">Подробнее →</a>
       </div>
 
       <article class="production-showcase">
@@ -1686,14 +1706,14 @@
           <div class="production-actions">
             <a
               class="production-link"
-              href="production.html#cta"
+              href="/production#cta"
             >
               Обсудить проект →
             </a>
 
             <a
               class="production-link secondary"
-              href="production.html#vertical-videos"
+              href="/production#vertical-videos"
             >
               Смотреть кейсы
             </a>
@@ -1729,7 +1749,7 @@
     <section class="section" aria-label="Редакция">
       <div class="section-head">
         <h2>Редакция</h2>
-        <a class="more" href="editorial.html">Все контакты →</a>
+        <a class="more" href="/editorial">Все контакты →</a>
       </div>
 
       <div class="editorial-grid">
@@ -1762,7 +1782,7 @@
           <div class="editorial-actions">
             <a
               class="editorial-action primary"
-              href="editorial.html"
+              href="/editorial"
             >
               Контакты редакции →
             </a>
@@ -2717,7 +2737,7 @@
     }
 
     function articleUrl(article){
-      return `news.html#${encodeURIComponent(article.id)}`;
+      return `/news#${encodeURIComponent(article.id)}`;
     }
 
     function matchesSearch(article){
@@ -2765,7 +2785,7 @@
         .map(item => `
           <a
             class="feed-item"
-            href="news.html#${encodeURIComponent(item.id)}"
+            href="/news#${encodeURIComponent(item.id)}"
           >
             <div class="t-time">
               ${escapeHtml(item.time)}
