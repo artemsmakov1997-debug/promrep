@@ -1786,8 +1786,8 @@
       >
         <div class="videoEmbed">
           <iframe
-            src="https://vkvideo.ru/video_ext.php?oid=-234602001&id=456239555&hash=8338bbed914f53e4&hd=3"
-            allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
+            src="https://vkvideo.ru/video_ext.php?oid=-234602001&id=456239555&hash=8338bbed914f53e4&hd=3&autoplay=0&muted=1&mute=1&volume=0&playsinline=1&js_api=1"
+            allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
             frameborder="0"
             allowfullscreen
             loading="lazy"
@@ -1813,9 +1813,9 @@
           <article class="shortCard">
             <div class="shortFrame">
               <iframe
-                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239816&autoplay=1&muted=1&mute=1&volume=0&playsinline=1"
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239816&autoplay=0&muted=1&mute=1&volume=0&playsinline=1&js_api=1"
                 data-muted-video
-                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
+                allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
                 frameborder="0"
                 allowfullscreen
                 scrolling="no"
@@ -1829,9 +1829,9 @@
           <article class="shortCard">
             <div class="shortFrame">
               <iframe
-                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239576&autoplay=1&muted=1&mute=1&volume=0&playsinline=1"
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239576&autoplay=0&muted=1&mute=1&volume=0&playsinline=1&js_api=1"
                 data-muted-video
-                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
+                allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
                 frameborder="0"
                 allowfullscreen
                 scrolling="no"
@@ -1845,9 +1845,9 @@
           <article class="shortCard">
             <div class="shortFrame">
               <iframe
-                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239179&autoplay=1&muted=1&mute=1&volume=0&playsinline=1"
+                src="https://vk.ru/clip_ext.php?oid=-234602001&id=456239179&autoplay=0&muted=1&mute=1&volume=0&playsinline=1&js_api=1"
                 data-muted-video
-                allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
+                allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
                 frameborder="0"
                 allowfullscreen
                 scrolling="no"
@@ -2037,179 +2037,31 @@
 
   </script>
 
+  <script src="https://vk.com/js/api/videoplayer.js" defer></script>
   <script>
-    /*
-     * Принудительная подготовка вертикальных VK-видео
-     * к беззвучному воспроизведению.
-     *
-     * Добавляются все распространённые параметры:
-     * muted=1, mute=1, volume=0 и playsinline=1.
-     */
-    (function () {
-      "use strict";
-
-      const MUTED_PARAMETERS = {
-        autoplay:"1",
-        muted:"1",
-        mute:"1",
-        volume:"0",
-        playsinline:"1"
-      };
-
-      function createMutedUrl(rawUrl){
-        const url =
-          new URL(
-            rawUrl,
-            window.location.href
-          );
-
-        Object
-          .entries(MUTED_PARAMETERS)
-          .forEach(([name, value]) => {
-            url.searchParams.set(
-              name,
-              value
-            );
-          });
-
-        return url.href;
+    // VK iframe flags can behave differently across browsers.
+    // Autoplay is disabled; the official API additionally sets the initial mute state.
+    document.addEventListener("DOMContentLoaded", () => {
+      if (!window.VK || typeof window.VK.VideoPlayer !== "function") {
+        return;
       }
 
-      function enforceMutedFrame(frame){
-        const rawSource =
-          frame.getAttribute("src") ||
-          frame.dataset.src;
+      document
+        .querySelectorAll(".videoEmbed iframe, #vertical-videos iframe")
+        .forEach(frame => {
+          try {
+            const player = window.VK.VideoPlayer(frame);
 
-        if (!rawSource) {
-          return;
-        }
+            player.on("inited", () => {
+              player.mute();
+            });
 
-        try {
-          const mutedSource =
-            createMutedUrl(rawSource);
-
-          frame.dataset.src =
-            mutedSource;
-
-          /*
-           * Меняем src только тогда, когда он
-           * действительно отличается, чтобы
-           * не перезагружать iframe бесконечно.
-           */
-          if (frame.src !== mutedSource) {
-            frame.src = mutedSource;
+            player.mute();
+          } catch (error) {
+            console.warn("VK player mute API unavailable:", error);
           }
-
-          frame.setAttribute(
-            "data-muted-on-load",
-            "true"
-          );
-
-          frame.setAttribute(
-            "playsinline",
-            ""
-          );
-
-          frame.setAttribute(
-            "allowfullscreen",
-            ""
-          );
-
-          frame.setAttribute(
-            "allow",
-            "autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock"
-          );
-        } catch (error) {
-          console.warn(
-            "Не удалось подготовить вертикальное видео:",
-            error
-          );
-        }
-      }
-
-      function enforceAllVerticalVideos(){
-        document
-          .querySelectorAll(
-            "#vertical-videos iframe[data-muted-video]"
-          )
-          .forEach(enforceMutedFrame);
-      }
-
-      enforceAllVerticalVideos();
-
-      document.addEventListener(
-        "DOMContentLoaded",
-        enforceAllVerticalVideos
-      );
-
-      window.addEventListener(
-        "pageshow",
-        enforceAllVerticalVideos
-      );
-
-      window.addEventListener(
-        "focus",
-        enforceAllVerticalVideos
-      );
-
-      const observer =
-        new MutationObserver(
-          mutations => {
-            mutations.forEach(
-              mutation => {
-                if (
-                  mutation.type === "attributes" &&
-                  mutation.target.matches?.(
-                    "#vertical-videos iframe[data-muted-video]"
-                  )
-                ) {
-                  enforceMutedFrame(
-                    mutation.target
-                  );
-
-                  return;
-                }
-
-                mutation.addedNodes.forEach(
-                  node => {
-                    if (
-                      !(node instanceof Element)
-                    ) {
-                      return;
-                    }
-
-                    if (
-                      node.matches?.(
-                        "#vertical-videos iframe[data-muted-video]"
-                      )
-                    ) {
-                      enforceMutedFrame(node);
-                    }
-
-                    node
-                      .querySelectorAll?.(
-                        "#vertical-videos iframe[data-muted-video]"
-                      )
-                      .forEach(
-                        enforceMutedFrame
-                      );
-                  }
-                );
-              }
-            );
-          }
-        );
-
-      observer.observe(
-        document.documentElement,
-        {
-          childList:true,
-          subtree:true,
-          attributes:true,
-          attributeFilter:["src"]
-        }
-      );
-    })();
+        });
+    });
   </script>
 
   <script>
