@@ -1,13 +1,25 @@
 {
-  "updatedAt": "2026-11-23T16:38:30.839Z",
+  "updatedAt": "2026-11-23T17:08:31.821Z",
   "items": [
+    {
+      "title": "Clip by @promrep",
+      "href": "https://vk.com/video-234602001_456240519",
+      "thumb": "https://sun9-68.userapi.com/impg/3J_8SEZRUaCKXnXwjas1cnBYbPK-TemZlyC7rQ/_sULQNLK3TQ.jpg?quality=90&proxy=1&sign=c290774d270b1c537b9bbb178d633e31&c_uniq_tag=gDXwmlWce8NJ-SHDirUgArbmw_76uH7GfeMO8RO1VP0&type=video_thumb",
+      "duration": "0:22",
+      "date": 1795392000,
+      "views": 4,
+      "description": "",
+      "ownerId": -234602001,
+      "id": 456240519,
+      "embedUrl": "https://vk.com/video_ext.php?oid=-234602001&id=456240519"
+    },
     {
       "title": "Clip by @promrep",
       "href": "https://vk.com/video-234602001_456240516",
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=18986165602831&idx=0&type=39&tkn=VhIbK2Kvq5Do44HXt5AUzaWFSuk&fn=vid_u&scl=4",
       "duration": "0:18",
       "date": 1795392000,
-      "views": 372,
+      "views": 398,
       "description": "",
       "ownerId": -234602001,
       "id": 456240516,
@@ -535,7 +547,7 @@
       "thumb": "https://iv.okcdn.ru/getVideoPreview?id=15273239906925&idx=4&type=39&tkn=EOLs4XVUs0A4lbdVxV3GjLJ2lE0&fn=vid_u",
       "duration": "0:38",
       "date": 1778976000,
-      "views": 1,
+      "views": 74,
       "description": "",
       "ownerId": -234602001,
       "id": 456239921,
